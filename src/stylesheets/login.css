@@ -1,14 +1,44 @@
 body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #fff;
-    height: 100vh;
+}
+
+/* Toàn màn hình, căn giữa */
+.page-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh; /* Chiều cao toàn màn hình */
 }
 
+/* --- Bọc toàn bộ phần logo + form --- */
+.login-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    max-width: 1100px;
+    gap: 60px;
+}
+
+/* --- Logo bên trái --- */
+.logo-section {
+    flex: 1;
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+}
+
+.logo-section .mascot {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+}
+
+/* --- Form đăng nhập --- */
 .login-container {
-    width: 100%;
+    flex: 1;
     max-width: 420px;
     background: #fff;
     padding: 40px 35px;
