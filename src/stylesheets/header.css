@@ -1,199 +1,144 @@
+/* RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: "Poppins", "Segoe UI", sans-serif;
 }
 
 /* ==== WRAPPER ==== */
 .header-wrapper {
-    width: 70%;
-    margin: 0 auto; /* căn giữa nội dung */
-}
-
-/* ==== NỀN FULL CHIỀU RỘNG ==== */
-.header-bg {
-    background-color: #141155; /* xanh đậm */
-    color: white;
-    width: 100%;
-    padding: 10px 0;
-}
-
-/* ==== MENU FULL WIDTH ==== */
-.menu-bg {
-    background-color: #ffffff;
-    width: 100%;
-    padding: 6px 0; /* tăng chiều cao bên trong */
-    margin-top: 1px; /* tạo khoảng cách với tầng trên */
-}
-
-/* Khung bao nội dung chỉ 70% */
-.menu-bg .header-wrapper {
-    width: 70%;
+    width: 80%;
     margin: 0 auto;
-    border: 1px solid #0b0b64; /* Chỉ bao quanh nội dung */
-    padding: 10px 0; /* tạo không gian đẹp hơn */
-    border-radius: 4px; /* tăng thẩm mỹ */
 }
 
 /* ==== HEADER TRÊN ==== */
+.header-bg {
+    background: linear-gradient(180deg, #0051c6, #0073ff);
+    color: white;
+    width: 100%;
+    padding: 12px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
 .top-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
+    gap: 20px;
 }
 
+/* ==== LOGO ==== */
 .logo {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-
 .logo img {
-    width: 60px;
-    height: 60px;
-    background-color: white;
-    border-radius: 2px;
-    padding: 1px;
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+}
+.logo h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
 }
 
+/* ==== THANH TÌM KIẾM ==== */
 .search-bar {
+    flex: 1;
     display: flex;
     align-items: center;
     background: white;
-    border: 1px solid #cfcfd3;
-    border-radius: 8px;
-    padding: 6px 10px;
-    flex: 1;
-    max-width: 450px;
+    border-radius: 14px;
+    padding: 10px 15px;
+    max-width: 550px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
-
 .search-bar i {
-    color: #555;
+    color: #0073ff;
     font-size: 18px;
-    margin-right: 8px;
+    margin-right: 10px;
 }
-
 .search-bar input {
     border: none;
     outline: none;
     width: 100%;
     font-size: 15px;
-    color: #555;
+    color: #333;
+}
+
+/* ==== HÀNH ĐỘNG ==== */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
 }
 
 .support {
     display: flex;
     align-items: center;
-    background-color: #141155;
-    border: 2px solid #ffffff;
-    border-radius: 5px;
-    padding: 4px 8px;
-    color: #ffffff;
+    background-color: #0a2675;
+    border-radius: 10px;
+    padding: 6px 12px;
     font-size: 13px;
-    font-weight: bold;
+    transition: background 0.3s ease;
 }
-
+.support:hover {
+    background-color: #031652;
+}
 .support i {
-    font-size: 18px;
-    margin-right: 5px;
+    font-size: 20px;
+    margin-right: 8px;
 }
 
-/* ==== BUTTONS ==== */
-/* Nút GIỎ HÀNG – nút chính */
-.btn-cart {
-    background-color: #141155; /* Gold sang trọng */
-    color: #ffffff;
-    /*border: 2px solid #141155;*/
-    padding: 10px 16px;
-    border-radius: 8px;
+/* ==== NÚT ICON ==== */
+.icon-btn {
+    background-color: #0a2675;
+    color: #fff;
+    padding: 10px 12px;
+    border-radius: 10px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
-.btn-cart:hover {
-    /*border: 2px solid #ffffff;*/
-    background-color: #02010e; /* Gold sang trọng */
-}
-
-/* THÔNG BÁO – nền trong suốt có viền gold */
-.btn-notify {
-    background: transparent;
-    color: #ffffff;
-    /*border: 2px solid #141155;*/
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-.btn-notify:hover {
-    /*background: rgba(212, 175, 55, 0.15);*/
-    /*border: 2px solid #ffffff;*/
-    background-color: #02010e; /* Gold sang trọng */
-}
-
-/* ĐĂNG NHẬP – trắng tinh gọn */
-.btn-login {
-    background: #141155;
-    color: #ffffff;
-    /*border: 2px solid #141155;*/
-    padding: 10px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-.btn-login:hover {
-    /*background: #f1f1f1;*/
-    /*border: 2px solid #ffffff;*/
-    background-color: #02010e; /* Gold sang trọng */
-}
-/*===================*/
-
-
-.btn-red {
-    background-color: #e53935;
-    color: white;
-    padding: 10px 14px;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.btn-yellow {
-    background-color: #fdd835;
-    color: black;
-    padding: 10px 14px;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.btn-white {
-    background-color: white;
-    color: black;
-    border: 2px solid #aaa;
-    padding: 10px 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
+.icon-btn:hover {
+    background: linear-gradient(135deg, #0051c6, #0073ff);
+    transform: scale(1.12);
 }
 
 /* ==== MENU DƯỚI ==== */
+.menu-bg {
+    background-color: #ffffff;
+    width: 100%;
+    padding: 10px 0;
+    border-top: 2px solid #e5e5e5;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
 .main-nav {
     display: flex;
-    align-items: center;
     justify-content: center;
     gap: 25px;
 }
 
-/* ==== HOVER ==== */
-.btn-red:hover {
-    background-color: #ff5a4d;
+.nav-item {
+    background-color: white;
+    color: #0046b5;
+    border: 2px solid #0073ff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.25s ease;
 }
-
-.btn-yellow:hover {
-    background-color: #ffeb3b;
+.nav-item:hover {
+    background: linear-gradient(135deg, #0051c6, #0073ff);
+    color: white;
+    transform: translateY(-2px);
 }
-
-.btn-white:hover {
-    background-color: #f5f5f5;
+.nav-item.active {
+    background: linear-gradient(135deg, #0051c6, #0073ff);
+    color: white;
 }
