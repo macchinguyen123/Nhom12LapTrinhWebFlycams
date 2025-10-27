@@ -1,0 +1,159 @@
+body {
+    font-family: Inter, Inter Fallback, Arial, sans-serif;
+    background-color: #fff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* === Sản phẩm nổi bật === */
+.phan-san-pham {
+    background-color: #f8f8f8;
+    padding: 60px 10%;
+}
+
+.khung-san-pham {
+    display: grid; /* dùng grid để canh đều 4 cột */
+    grid-template-columns: repeat(4, 1fr); /* 4 cột bằng nhau */
+    gap: 25px; /* khoảng cách giữa các sản phẩm */
+    justify-items: center;
+}
+
+.san-pham {
+    background: #fff;
+    padding: 18px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 100%; /* chiếm toàn bộ cột */
+    max-width: 230px; /* kiểm soát kích thước tối đa */
+    text-align: left;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.san-pham:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.san-pham img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.ten-san-pham {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111;
+    margin: 10px 0;
+}
+
+.gia, .gia-san-pham {
+    color: red;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.so-luong {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.danh-gia-sao {
+    color: #ffb400;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+/* === Nút mua ngay === */
+.nut-xem-them {
+    display: block;
+    margin: 0 auto;
+    background-color: #0051c6;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.nut-xem-them:hover {
+    background-color: #003c94;
+    transform: scale(1.05);
+}
+
+/* === Responsive: tự xuống hàng khi màn nhỏ === */
+@media (max-width: 1200px) {
+    .khung-san-pham {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 900px) {
+    .khung-san-pham {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 600px) {
+    .khung-san-pham {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+/* === Tiêu đề chung === */
+.tieu-de-muc {
+    font-size: 1.8rem;
+    position: relative;
+    display: inline-block;
+}
+
+.tieu-de-muc::after {
+    content: "";
+    display: block;
+    width: 50%;
+    height: 3px;
+    background-color: #0051c6;
+    margin: 10px auto 0;
+}
+.toan-bo-noi-dung {
+    width: 80%;           /* chiếm 80% chiều rộng trang */
+    margin: 0 auto;        /* căn giữa toàn bộ nội dung */
+    box-sizing: border-box;
+    max-width: 1400px;     /* (tùy chọn) giới hạn tối đa để không bị quá rộng */
+}
+
+/* === Bộ sắp xếp sản phẩm === */
+.bo-sap-xep {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 20px 0 40px 0;
+    gap: 10px;
+    font-size: 1rem;
+}
+
+.lua-chon-sap-xep {
+    padding: 8px 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.3s;
+}
+
+.lua-chon-sap-xep:focus {
+    border-color: #0051c6;
+}
+.gia{
+    color:red;
+}
