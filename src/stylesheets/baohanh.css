@@ -34,14 +34,18 @@ body {
 
 /* Tiêu đề chính */
 .warranty h1 {
+    font-family: sans-serif;
     text-align: center;
     color: #004aad;
     font-size: 28px;
-    font-weight: 800;
+    font-weight: 1;
     margin-bottom: 30px;
     letter-spacing: 0.5px;
 }
-
+.mascot {
+    width: 430px;
+    margin: 0px auto;
+}
 /* Danh sách nội dung */
 .warranty ul {
     list-style: none;
