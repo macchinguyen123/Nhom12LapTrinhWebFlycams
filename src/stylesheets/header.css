@@ -17,7 +17,7 @@
     background: linear-gradient(180deg, #0051c6, #0073ff);
     color: white;
     width: 100%;
-    padding: 12px 0;
+    padding: 14px 0;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
@@ -35,15 +35,15 @@
     gap: 10px;
 }
 .logo img {
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
     border-radius: 12px;
 }
 .logo h2 {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 700;
     letter-spacing: 1px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
 
 /* ==== THANH TÌM KIẾM ==== */
@@ -54,7 +54,7 @@
     background: white;
     border-radius: 14px;
     padding: 10px 15px;
-    max-width: 550px;
+    max-width: 600px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 .search-bar i {
@@ -70,47 +70,45 @@
     color: #333;
 }
 
-/* ==== HÀNH ĐỘNG ==== */
+/* ==== HÀNH ĐỘNG HEADER ==== */
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 18px;
 }
 
-.support {
+/* ==== ICON BUTTON ==== */
+.icon-btn {
     display: flex;
     align-items: center;
-    background-color: #0a2675;
-    border-radius: 10px;
-    padding: 6px 12px;
-    font-size: 13px;
-    transition: background 0.3s ease;
-}
-.support:hover {
-    background-color: #031652;
-}
-.support i {
-    font-size: 20px;
-    margin-right: 8px;
-}
-
-/* ==== NÚT ICON ==== */
-.icon-btn {
-    background-color: #0a2675;
+    justify-content: center;
+    gap: 8px; /* khoảng cách giữa icon và chữ */
+    background-color: rgba(255,255,255,0.25);
     color: #fff;
-    padding: 10px 12px;
+    padding: 10px 14px;
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-weight: 500;
 }
+
+.icon-btn i {
+    font-size: 20px;
+}
+
+.icon-btn span {
+    font-size: 15px;
+}
+
 .icon-btn:hover {
     background: linear-gradient(135deg, #0051c6, #0073ff);
-    transform: scale(1.12);
+    transform: scale(1.08);
 }
 
 /* ==== MENU DƯỚI ==== */
 .menu-bg {
-    background-color: #ffffff;
+    background-color: #ffffffcc; /* trắng trong suốt nhẹ */
+    backdrop-filter: blur(6px);
     width: 100%;
     padding: 10px 0;
     border-top: 2px solid #e5e5e5;
@@ -120,7 +118,8 @@
 .main-nav {
     display: flex;
     justify-content: center;
-    gap: 25px;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .nav-item {
@@ -131,7 +130,11 @@
     border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
+    font-size: 15px;
     transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 .nav-item:hover {
     background: linear-gradient(135deg, #0051c6, #0073ff);
@@ -141,4 +144,10 @@
 .nav-item.active {
     background: linear-gradient(135deg, #0051c6, #0073ff);
     color: white;
+}
+
+/* ==== ICON SIZE ==== */
+.bi {
+    font-size: 18px;
+    vertical-align: middle;
 }

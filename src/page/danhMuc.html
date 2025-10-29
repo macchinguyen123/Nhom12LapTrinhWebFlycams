@@ -12,12 +12,30 @@
     <!-- MENU TRÁI -->
     <div class="menu-left">
         <ul>
-            <li><span>📱</span>Drone quay phim chuyên nghiệp</li>
-            <li><span>💻</span>Drone du lịch / vlog</li>
-            <li><span>🎧</span>Drone thể thao tốc độ cao</li>
-            <li><span>📷</span>Drone nông nghiệp</li>
-            <li><span>🏠</span>Drone giám sát / an ninh </li>
-            <li><span>🔌</span>Drone mini / cỡ nhỏ</li>
+            <li>
+                <img src="../image/logoDanhMucQuayPhim.png" alt="Drone quay phim" class="menu-icon">
+                Drone quay phim chuyên nghiệp
+            </li>
+            <li>
+                <img src="../image/logoDanhMucDuLich.png" alt="Drone du lịch, vlog" class="menu-icon">
+                Drone du lịch, vlog
+            </li>
+            <li>
+                <img src="../image/logoDanhMucTheThao.png" alt="Drone thể thao tốc độ cao" class="menu-icon">
+                Drone thể thao tốc độ cao
+            </li>
+            <li>
+                <img src="../image/logoDanhMuc/logoDanhMucNongNghiep.png" alt="Drone nông nghiệp" class="menu-icon">
+                Drone nông nghiệp
+            </li>
+            <li>
+                <img src="../image/logoDanhMuc/logoDanhMucAnNinh.png" alt="Drone an ninh" class="menu-icon">
+                Drone giám sát, an ninh
+            </li>
+            <li>
+                <img src="../image/logoDanhMuc/logoDanhMucMini.png" alt="Drone mini" class="menu-icon">
+                Drone mini, cỡ nhỏ
+            </li>
         </ul>
     </div>
 
@@ -36,6 +54,61 @@
     </div>
 </div>
 
-<script src="../javascript/danhMuc.js"></script>
+<!-- GỘP JAVASCRIPT NGAY DƯỚI -->
+<script>
+    const slider = document.querySelector('.slider');
+    const slides = document.querySelectorAll('.slide');
+    const dotsContainer = document.querySelector('.dots');
+    let currentIndex = 0;
+    let autoSlide;
+
+    // Tạo dots
+    function createDots() {
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        });
+    }
+
+    function updateDots() {
+        document.querySelectorAll('.dot').forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentIndex);
+        });
+    }
+
+    function goToSlide(i) {
+        currentIndex = (i + slides.length) % slides.length;
+        slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+        updateDots();
+    }
+
+    // Mũi tên chuyển ảnh
+    document.querySelector('.arrow.left').addEventListener('click', () => {
+        goToSlide(currentIndex - 1);
+    });
+    document.querySelector('.arrow.right').addEventListener('click', () => {
+        goToSlide(currentIndex + 1);
+    });
+
+    // Auto slide
+    function startSlide() {
+        autoSlide = setInterval(() => {
+            goToSlide(currentIndex + 1);
+        }, 3000);
+    }
+    function stopSlide() {
+        clearInterval(autoSlide);
+    }
+
+    document.querySelector('.banner-right').addEventListener('mouseenter', stopSlide);
+    document.querySelector('.banner-right').addEventListener('mouseleave', startSlide);
+
+    createDots();
+    startSlide();
+</script>
+
 </body>
 </html>
