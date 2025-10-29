@@ -1,87 +1,154 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cửa hàng FlyCam - Trang chủ</title>
-    <link rel="stylesheet" href="../stylesheets/listitems.css">
+    <meta charset="UTF-8">
+    <title>Flycam Store - Chuyên Flycam Chính Hãng</title>
 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- CSS Riêng -->
+    <link rel="stylesheet" href="../stylesheets/content.css">
 </head>
 <body>
 
-<main class="bo-cuc">
-    <!-- PHẦN GIỚI THIỆU -->
-    <section class="gioi-thieu">
-        <div class="noi-dung-gioi-thieu">
-            <h1>Khám phá bầu trời với FlyCam Pro X</h1>
-            <p class="doan-mo-dau">
-                Flycam chất lượng cao, dễ điều khiển, quay 4K siêu nét – dành cho mọi đam mê sáng tạo!
-            </p>
-            <div class="hang-nut">
-                <button class="nut">Mua ngay</button>
-                <button class="nut trong-suot">Xem thêm</button>
+<!-- Sản phẩm nổi bật -->
+<section class="phan-san-pham">
+    <h2 class="tieu-de-muc">Sản Phẩm Nổi Bật</h2>
+
+    <!-- 🔽 Phần sắp xếp -->
+    <div class="bo-sap-xep">
+        <label for="lua-chon-sap-xep">Sắp xếp theo:</label>
+        <select id="lua-chon-sap-xep" class="lua-chon-sap-xep">
+            <option value="mac-dinh">Mặc định</option>
+            <option value="gia-tang">Giá: Thấp đến Cao</option>
+            <option value="gia-giam">Giá: Cao đến Thấp</option>
+            <option value="ten-a-z">Tên: A → Z</option>
+            <option value="ten-z-a">Tên: Z → A</option>
+        </select>
+    </div>
+
+    <div class="khung-san-pham">
+
+        <!-- === SẢN PHẨM 1 === -->
+        <div class="san-pham">
+            <img src="../image/Flycam DJl Air 3.png" alt="FlycamDJlAir3">
+
+            <h3 class="ten-san-pham">Flycam DJI Air 3</h3>
+            <div class="gia"><b>25.000.000 ₫</b>
+                <span class="gia-goc">29.990.000 ₫</span>
             </div>
+
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <i class="bi bi-heart tim-yeu-thich"></i>
+            </div>
+
+            <div class="so-danh-gia">(120 đánh giá)</div>
+
+            <button class="nut-xem-them">Mua Ngay</button>
         </div>
 
-        <div class="anh-gioi-thieu">
-            <img src="../image/Flycam chung.png" alt="Flycamchung" class="flycam0" />
+        <!-- === SẢN PHẨM 2 === -->
+        <div class="san-pham">
+            <img src="../image/Flycam DJl Inspire 3.png" alt="FlycamDJlInspire3">
+            <h3 class="ten-san-pham">Flycam DJl Inspire 3</h3>
+            <div class="gia"><b>9.990.000 ₫</b>
+                <span class="gia-goc">12.500.000 ₫</span>
+            </div>
+
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <i class="bi bi-heart tim-yeu-thich"></i>
+            </div>
+
+            <div class="so-danh-gia">(98 đánh giá)</div>
+
+            <button class="nut-xem-them">Mua Ngay</button>
         </div>
-    </section>
 
-    <!-- PHẦN SẢN PHẨM -->
-    <section class="san-pham">
-        <div class="tieu-de-san-pham">
-            <h2>Sản phẩm nổi bật</h2>
-            <div class="sap-xep">
-                <label for="lua-chon-sap-xep">Sắp xếp theo:</label>
-                <select id="lua-chon-sap-xep">
-                    <option value="mac-dinh">Mặc định</option>
-                    <option value="ten">Tên (A-Z)</option>
-                    <option value="gia-tang">Giá tăng dần</option>
-                    <option value="gia-giam">Giá giảm dần</option>
-                    <option value="so-luong">Số lượng còn lại</option>
-                </select>
+        <!-- === SẢN PHẨM 3 === -->
+        <div class="san-pham">
+            <img src="../image/DJI Mavic 3 Pro With DJI RC Remote.png" alt="DJIMavic3ProWithDJIRCRemote">
+            <h3 class="ten-san-pham">DJI Mavic 3 Pro With DJI RC Remote</h3>
+            <div class="gia"><b>49.990.000 ₫</b>
+                <span class="gia-goc">55.000.000 ₫</span>
             </div>
+
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <i class="bi bi-heart tim-yeu-thich"></i>
+            </div>
+
+            <div class="so-danh-gia">(80 đánh giá)</div>
+
+            <button class="nut-xem-them">Mua Ngay</button>
         </div>
 
-        <div class="luoi-san-pham" id="danh-sach-san-pham">
-            <div class="the-san-pham" data-ten="FlyCam Pro X" data-gia="18990000" data-so-luong="12">
-                <img src="../image/Flycam DJl Air 3.png" alt="FlycamDJlAir3" class="flycam1">
-                <h3 class="ten-san-pham">Flycam DJI Air 3</h3>
-                <br>
-                <div class="gia">Giá: 25.000.000 ₫</div>
-                <div class="so-luong">Số lượng còn: 12</div>
-                <button class="nut nho">Thêm vào giỏ</button>
+        <!-- === SẢN PHẨM 4 === -->
+        <div class="san-pham">
+            <img src="../image/DJI Mavic 3 Pro With DJI RC Remote.png" alt="DJIMavic3ProWithDJIRCRemote">
+            <h3 class="ten-san-pham">DJI Mavic 3 Pro With DJI RC Remote</h3>
+            <div class="gia"><b>49.990.000 ₫</b>
+                <span class="gia-goc">52.000.000 ₫</span>
             </div>
 
-            <div class="the-san-pham" data-ten="FlyCam Air 2" data-gia="9990000" data-so-luong="8">
-                <img src="../image/Flycam DJl Inspire 3.png" alt="FlycamDJlInspire3" class="flycam2">
-                <h3 class="ten-san-pham">Flycam DJl Inspire 3</h3>
-                <br>
-                <div class="gia">Giá: 9.990.000₫</div>
-                <div class="so-luong">Số lượng còn: 8</div>
-                <button class="nut nho">Thêm vào giỏ</button>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
 
-            <div class="the-san-pham" data-ten="FlyCam Mini" data-gia="3490000" data-so-luong="25">
-                <img src="../image/DJI Mavic 3 Pro With DJI RC Remote.png" alt="DJIMavic3ProWithDJIRCRemote" class="flycam3">
-                <h3 class="ten-san-pham">DJI Mavic 3 Pro With DJI RC Remote</h3>
-                <div class="gia">Giá: 49.990.000 ₫</div>
-                <div class="so-luong">Số lượng còn: 10</div>
-                <button class="nut nho">Thêm vào giỏ</button>
-            </div>
+            <div class="so-danh-gia">(65 đánh giá)</div>
 
-            <div class="the-san-pham" data-ten="FlyCam 8K Studio" data-gia="45990000" data-so-luong="5">
-                <img src="../image/Flycam DJI Mavic Mini SE Combo.png" alt="FlycamDJIMavicMiniSECombo" class="flycam4">
-                <h3 class="ten-san-pham">Flycam DJI Mavic Mini SE Combo</h3>
-                <div class="gia">Giá: 9.990.000 ₫</div>
-                <div class="so-luong">Số lượng còn: 5</div>
-                <button class="nut nho">Thêm vào giỏ</button>
-            </div>
+            <button class="nut-xem-them">Mua Ngay</button>
         </div>
-    </section>
-</main>
 
+    </div>
+</section>
+
+<!-- 🔹 JS: tim rỗng -> tim đỏ đầy -->
+<script>
+    document.querySelectorAll('.tim-yeu-thich').forEach(tim => {
+        tim.addEventListener('click', () => {
+            if (tim.classList.contains('bi-heart')) {
+                // đổi sang tim đầy màu đỏ
+                tim.classList.remove('bi-heart');
+                tim.classList.add('bi-heart-fill', 'yeu-thich');
+            } else {
+                // đổi ngược lại tim rỗng
+                tim.classList.remove('bi-heart-fill', 'yeu-thich');
+                tim.classList.add('bi-heart');
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
