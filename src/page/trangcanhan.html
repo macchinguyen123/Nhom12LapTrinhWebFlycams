@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ Sơ Của Tôi</title>
+    <link rel="stylesheet" href="../stylesheets/trangcanhan.css">
+</head>
+<body>
+
+<div class="container">
+    <aside class="sidebar">
+        <div class="user-info">
+            <div class="avatar"></div>
+            <p class="username">phclhu632</p>
+            <a href="#" class="edit-profile">Sửa Hồ Sơ</a>
+        </div>
+
+        <nav class="menu">
+            <ul>
+                <li class="active"><a href="#">Tài Khoản Của Tôi</a></li>
+                <ul class="submenu"></ul>
+                <li><a href="#">Đơn Mua</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="profile-section">
+        <h2>Hồ Sơ Của Tôi</h2>
+        <p class="desc">Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
+
+        <form class="profile-form">
+            <div class="form-left">
+                <div class="form-group">
+                    <label>Tên đăng nhập</label>
+                    <input type="text" value="phclhu632" readonly>
+                    <small>Tên đăng nhập chỉ có thể thay đổi một lần.</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Tên</label>
+                    <input type="text" value="Phước">
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" value="23******@st.hcmuaf.edu.vn" readonly>
+                    <a href="#" class="change">Thay Đổi</a>
+                </div>
+
+                <div class="form-group">
+                    <label>Số điện thoại</label>
+                    <a href="#" class="add">Thêm</a>
+                </div>
+
+                <!-- GIỚI TÍNH -->
+                <div class="form-group">
+                    <label>Giới tính</label>
+                    <select name="gender" required>
+                        <option value="" disabled selected>Chọn giới tính</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                        <option value="Khác">Khác</option>
+                    </select>
+                </div>
+
+                <!-- NGÀY SINH -->
+                <div class="form-group birthday">
+                    <label>Ngày sinh</label>
+                    <div class="date-select">
+                        <select name="day" required>
+                            <option value="" disabled selected>Ngày</option>
+                            <!-- Tạo 1-31 -->
+                            <script>
+                                for (let i = 1; i <= 31; i++) {
+                                    document.write(`<option value="${i}">${i}</option>`);
+                                }
+                            </script>
+                        </select>
+
+                        <select name="month" required>
+                            <option value="" disabled selected>Tháng</option>
+                            <script>
+                                for (let i = 1; i <= 12; i++) {
+                                    document.write(`<option value="${i}">${i}</option>`);
+                                }
+                            </script>
+                        </select>
+
+                        <select name="year" required>
+                            <option value="" disabled selected>Năm</option>
+                            <script>
+                                const year = new Date().getFullYear();
+                                for (let i = year; i >= 1950; i--) {
+                                    document.write(`<option value="${i}">${i}</option>`);
+                                }
+                            </script>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="save-btn">Lưu</button>
+            </div>
+
+            <div class="form-right">
+                <div class="avatar-preview">
+                    <div class="circle"></div>
+                    <button class="upload-btn">Chọn Ảnh</button>
+                </div>
+            </div>
+        </form>
+    </main>
+</div>
+</body>
+</html>
