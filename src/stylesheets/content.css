@@ -11,20 +11,23 @@ body {
 .phan-san-pham {
     background-color: #f8f8f8;
     padding: 60px 10%;
+
 }
 
 .khung-san-pham {
     display: grid; /* dùng grid để canh đều 4 cột */
     grid-template-columns: repeat(4, 1fr); /* 4 cột bằng nhau */
-    gap: 10px; /* khoảng cách giữa các sản phẩm */
+    gap: 30px 15px; /* 30px hàng, 15px cột */
     justify-items: center;
+    margin-top: 20px; /* hoặc 40px nếu muốn thoáng hơn */
 }
+
 .san-pham {
 background: #fff;
 border-radius: 10px;
 box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 width: 100%;
-max-width: 230px;
+max-width: 240px;
 overflow: hidden;
 display: flex;
 flex-direction: column;
@@ -45,15 +48,6 @@ transition: transform 0.3s, box-shadow 0.3s;
     border-radius: 20px 20px 0 0;
 }
 
-/* --- Vùng nội dung chiếm 30% còn lại --- */
-.san-pham .noi-dung-san-pham {
-    flex: 1;
-    padding: 40px 20px 55px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    position: relative; /* để đặt nút tuyệt đối bên trong */
-}
 
 /* --- Căn trái nội dung --- */
 .ten-san-pham {
@@ -97,20 +91,17 @@ transition: transform 0.3s, box-shadow 0.3s;
     align-items: center;
     justify-content: space-between;
     gap: 6px;
-    margin: 4px 0px 0 8px;
     line-height: 1.0;
 }
-.noi-dung-san-pham {
-    padding: 10px 15px 16px 15px; /* 🔹 đồng nhất lề trái/phải */
-    display: flex;
-    flex-direction: column;}
+
+
 /* --- Trái tim --- */
 .tim-yeu-thich {
     font-size: 1.3rem;
     color: #bbb;
     cursor: pointer;
     transition: color 0.3s;
-    margin-right: 15px;
+    margin-right: 20px;
     font-size: 1rem;
 }
 
@@ -124,7 +115,7 @@ transition: transform 0.3s, box-shadow 0.3s;
     margin-left: 15px;
 }
 /* --- Nút mua ngay --- */
-.nut-xem-them {
+.nut-mua-ngay {
     background-color: #0051c6;
     color: white;
     border: none;
@@ -138,7 +129,7 @@ transition: transform 0.3s, box-shadow 0.3s;
     transition: background-color 0.3s, transform 0.2s;
 }
 
-.nut-xem-them:hover {
+.nut-mua-ngay:hover {
     background-color: #003c94;
     transform: scale(1.05);
 }
@@ -189,21 +180,7 @@ transition: transform 0.3s, box-shadow 0.3s;
 .lua-chon-sap-xep:focus {
     border-color: #0051c6;
 }
-.gia{
-    color: red;
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin: 5px 0;
-}
 
-.gia-goc {
-    color: #888;
-    font-size: 0.9rem;
-    text-decoration: line-through; /* chỉ gạch phần giá gốc */
-    margin-left: 2px;
-    font-weight: normal;
-    line-height: 1.2;
-}
 
 /* --- Căn lề trái gọn gàng --- */
 .ten-san-pham,
@@ -214,5 +191,76 @@ transition: transform 0.3s, box-shadow 0.3s;
     margin-right: 15px;
     line-height: 1.2;
 }
+
+
+/* Tổng thể */
+.sap-xep-theo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: Arial, sans-serif;
+}
+
+.label {
+    font-size: 14px;
+    color: black;
+    margin-right: 5px;
+}
+
+/* Item chung */
+.item {
+    position: relative;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 3px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.item:hover {
+    background-color: #f5f5f5;
+}
+
+/* Trạng thái được chọn (Nổi bật) */
+.item.active {
+    background-color: #0051c6;
+    color: #fff;
+
+}
+
+/* Menu con của Giá */
+.sub {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    width: 180px;
+    z-index: 100;
+}
+
+/* Hover vào Giá để hiện menu con */
+.item:hover .sub {
+    display: block;
+}
+
+/* Các lựa chọn trong menu con */
+.sub-item {
+    padding: 10px 14px;
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+}
+
+.sub-item:hover {
+    background-color: #f5f5f5;
+}
+
 
 
