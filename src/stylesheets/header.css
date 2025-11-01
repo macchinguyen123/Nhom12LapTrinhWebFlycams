@@ -17,7 +17,7 @@
     background: linear-gradient(180deg, #0051c6, #0073ff);
     color: white;
     width: 100%;
-    padding: 14px 0;
+    padding: 8px 0; /* giảm chiều cao tổng thể */
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
@@ -25,7 +25,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    gap: 16px; /* giảm khoảng cách giữa các phần */
 }
 
 /* ==== LOGO ==== */
@@ -35,12 +35,12 @@
     gap: 10px;
 }
 .logo img {
-    width: 65px;
-    height: 65px;
-    border-radius: 12px;
+    width: 50px; /* giảm kích thước logo */
+    height: 50px;
+    border-radius: 10px;
 }
 .logo h2 {
-    font-size: 26px;
+    font-size: 22px; /* giảm kích thước chữ */
     font-weight: 700;
     letter-spacing: 1px;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
@@ -52,21 +52,21 @@
     display: flex;
     align-items: center;
     background: white;
-    border-radius: 14px;
-    padding: 10px 15px;
-    max-width: 600px;
+    border-radius: 12px;
+    padding: 6px 12px; /* giảm padding để thanh tìm kiếm thấp hơn */
+    max-width: 500px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 .search-bar i {
     color: #0073ff;
-    font-size: 18px;
-    margin-right: 10px;
+    font-size: 16px;
+    margin-right: 8px;
 }
 .search-bar input {
     border: none;
     outline: none;
     width: 100%;
-    font-size: 15px;
+    font-size: 14px;
     color: #333;
 }
 
@@ -74,7 +74,7 @@
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 16px;
 }
 
 /* ==== ICON BUTTON ==== */
@@ -82,24 +82,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* khoảng cách giữa icon và chữ */
+    gap: 6px; /* khoảng cách giữa icon và chữ */
     background-color: rgba(255,255,255,0.25);
     color: #fff;
-    padding: 10px 14px;
-    border-radius: 10px;
+    padding: 8px 12px; /* giảm chiều cao nút */
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
 }
-
 .icon-btn i {
-    font-size: 20px;
+    font-size: 18px;
 }
-
 .icon-btn span {
-    font-size: 15px;
+    font-size: 14px;
 }
-
 .icon-btn:hover {
     background: linear-gradient(135deg, #0051c6, #0073ff);
     transform: scale(1.08);
@@ -110,7 +107,7 @@
     background-color: #ffffffcc; /* trắng trong suốt nhẹ */
     backdrop-filter: blur(6px);
     width: 100%;
-    padding: 10px 0;
+    padding: 6px 0; /* giảm từ 10px xuống 6px */
     border-top: 2px solid #e5e5e5;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
@@ -119,18 +116,18 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 16px; /* giảm nhẹ khoảng cách */
 }
 
 .nav-item {
     background-color: white;
     color: #0046b5;
     border: 2px solid #0073ff;
-    padding: 10px 20px;
+    padding: 8px 16px; /* giảm từ 10px 20px xuống 8px 16px */
     border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 14px;
     transition: all 0.25s ease;
     display: flex;
     align-items: center;
