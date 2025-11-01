@@ -23,15 +23,16 @@ body {
 }
 
 .san-pham {
-background: #fff;
-border-radius: 10px;
-box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-width: 100%;
-max-width: 240px;
-overflow: hidden;
-display: flex;
-flex-direction: column;
-transition: transform 0.3s, box-shadow 0.3s;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 240px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: transform 0.3s, box-shadow 0.3s;
 
 }
 
@@ -56,6 +57,9 @@ transition: transform 0.3s, box-shadow 0.3s;
     font-weight: 600;
     color: #111;
     margin: 6px 0;
+    min-height: 48px; /* 👈 chỉnh theo độ cao mong muốn */
+    display: flex;
+    align-items: flex-start; /* căn đều từ trên xuống */
 }
 
 /* --- Giá chính --- */
@@ -189,7 +193,7 @@ transition: transform 0.3s, box-shadow 0.3s;
     text-align: left;
     margin-left: 15px; /* ✅ không dính mép */
     margin-right: 15px;
-    line-height: 1.2;
+
 }
 
 
