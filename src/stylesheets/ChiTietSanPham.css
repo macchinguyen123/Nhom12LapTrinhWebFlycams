@@ -1,0 +1,502 @@
+/* === NỀN VÀ FONT CHUNG === */
+body {
+    background-color: #f7f7f7;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* === GIỚI HẠN CHIỀU RỘNG CHUNG === */
+.main-wrapper {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* === CONTAINER CHÍNH (CHI TIẾT SẢN PHẨM) === */
+.container {
+    width: 100%;
+}
+
+/* ẢNH CHÍNH */
+#mainImage {
+    position: relative;
+    text-align: center; /* căn giữa ảnh */
+}
+
+#mainImage img {
+    width: 70%;          /* giảm kích thước ảnh, ví dụ 70% khung */
+    max-width: 500px;    /* không vượt quá 500px */
+    height: auto;
+    object-fit: contain; /* tránh bị crop */
+    border-radius: 6px;
+    display: inline-block;
+}
+
+
+/* Thumbnail */
+.thumb {
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: 0.2s;
+}
+
+.thumb.active,
+.thumb:hover {
+    border-color: #0051c6;
+}
+
+/* Icon chia sẻ */
+.share-icons {
+    font-size: 1.3rem;
+}
+
+.share-icons i {
+    margin: 0 6px;
+    cursor: pointer;
+    transition: 0.2s;
+    color: #555;
+}
+
+.share-icons i.bi-messenger { color: #0084FF; }
+.share-icons i.bi-facebook  { color: #1877F2; }
+.share-icons i.bi-pinterest { color: #E60023; }
+.share-icons i.bi-twitter-x { color: #000; }
+
+.share-icons i.bi-heart {
+    color: #999;
+    transition: 0.3s;
+    cursor: pointer;
+    font-size: 1.4rem;
+}
+
+.share-icons i.bi-heart:hover {
+    color: #e53935;
+}
+
+.share-icons i.liked {
+    color: #e53935 !important;
+}
+
+/* Chính sách */
+.policy {
+    background: #f1f3f6;
+    border-left: 4px solid #198754;
+}
+
+/* Số lượng */
+/* Sửa lỗi căn chỉnh thanh số lượng */
+.quantity {
+    align-items: center;
+}
+
+.quantity-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 140px;
+}
+
+.quantity-box button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: #f1f3f5;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.quantity-box button:hover {
+    background-color: #e0e0e0;
+}
+
+.quantity-box input {
+    width: 60px;
+    text-align: center;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background: #fff;
+}
+
+.quantity-box button:first-child {
+    border-right: 1px solid #ced4da;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.quantity-box button:last-child {
+    border-left: 1px solid #ced4da;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+
+/* --- Container 2 nút --- */
+.buy-buttons {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+/* --- Nút thêm giỏ hàng --- */
+.btn-add-cart {
+    flex: 1;
+    background: #fff;
+    border: 2px solid #0051c6;
+    color: #0051c6;
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 14px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.btn-add-cart:hover {
+    background: linear-gradient(135deg, #0051c6, #0073ff);
+    color: #fff;
+}
+
+/* --- Nút mua ngay --- */
+.btn-buy-now {
+    flex: 1;
+    background: #0051c6;
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 14px 0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.btn-buy-now:hover {
+    background: #003f9a;
+}
+
+/* --- Icon --- */
+.btn-add-cart i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+    vertical-align: middle;
+}
+
+
+/* Nút chuyển ảnh */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.7);
+    border: none;
+    font-size: 1.5rem;
+    padding: 5px 12px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+
+/* Đánh giá sao (trong sản phẩm) */
+.rating i {
+    color: #ffb400;
+    font-size: 1.4rem;
+}
+
+/* Giá */
+.price .fs-1 {
+    font-size: 2.3rem !important;
+}
+
+/* Nút lớn */
+.big-btn {
+    font-size: 1.1rem;
+    padding: 14px 0;
+    font-weight: 600;
+}
+
+/* Tabs */
+.tab-buttons {
+    gap: 10px;
+}
+
+.tab-btn {
+    border: 2px solid #ddd;
+    background: #fff;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    color: #333;
+    transition: 0.2s;
+}
+
+.tab-btn.active,
+.tab-btn:hover {
+    background-color: #0a58ca;
+    color: #fff;
+    border-color: #0a58ca;
+}
+
+/* Nội dung tab */
+.tab-content {
+    line-height: 1.7;
+    font-size: 1rem;
+}
+
+.tab-content ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.tab-content li {
+    margin-bottom: 6px;
+}
+
+/* Bảng thông số kỹ thuật */
+.table {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 15px;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.table td,
+.table th {
+    padding: 12px;
+    vertical-align: middle;
+}
+
+.table-bordered td,
+.table-bordered th {
+    border: 1px solid #dee2e6;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+#infoTab {
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: #333;
+}
+
+#infoTab h6 {
+    color: #0a2675;
+}
+
+#infoTab ul {
+    margin-left: 20px;
+}
+
+#infoTab li {
+    margin-bottom: 6px;
+}
+
+/* === ĐÁNH GIÁ SẢN PHẨM === */
+.review-section {
+    background: #fff;
+    padding: 25px;
+    margin-top: 40px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    width: 100%;
+}
+
+.review-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    color: #333;
+}
+
+/* --- KHỐI TỔNG ĐIỂM & LỌC --- */
+.rating-overview {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    background: rgba(0, 81, 198, 0.3);
+    border: 1px solid #f1e1df;
+    border-radius: 8px;
+    padding: 20px 30px;
+    gap: 25px;
+}
+
+.rating-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+}
+
+.rating-score .bi-star-fill {
+    color: #ffc107;
+    font-size: 36px;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+.rating-score .score {
+    font-size: 60px;
+    font-weight: 700;
+    color: #333;
+}
+
+.rating-score small {
+    font-size: 18px;
+    color: #666;
+}
+
+.rating-score p {
+    font-size: 14px;
+    color: #777;
+    margin-top: 5px;
+}
+
+/* --- NÚT LỌC --- */
+.rating-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    flex: 1;
+}
+
+.filter-btn {
+    border: 1px solid #ddd;
+    background: #fff;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #333;
+}
+
+.filter-btn:hover {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.filter-btn.active {
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    background: #fff5f5;
+}
+
+/* --- DANH SÁCH ĐÁNH GIÁ --- */
+.review {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.review-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #ddd;
+}
+
+.review-content {
+    flex: 1;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.review-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 15px;
+}
+
+.review-stars {
+    color: #ffc107;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.review-stars i {
+    color: #ffd400;
+    font-size: 18px;
+    margin-right: 2px;
+}
+
+.review-date {
+    font-size: 13px;
+    color: #999;
+    margin: 5px 0;
+}
+
+.review-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* --- PHÂN TRANG --- */
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    border: 1px solid #ddd;
+    background: #fff;
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin: 0 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pagination button:hover {
+    border-color: #0051c6;
+    color: #007bff;
+}
+
+.pagination button.active {
+    background: #0051c6;
+    color: #fff;
+    border-color: #007bff;
+}
+
+/* --- NÚT VIẾT ĐÁNH GIÁ --- */
+.write-review-btn {
+    display: block;
+    margin: 25px auto 0;
+    background: #0051c6;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.write-review-btn:hover {
+    background: #0056b3;
+}
