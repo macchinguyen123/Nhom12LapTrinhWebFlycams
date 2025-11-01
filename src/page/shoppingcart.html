@@ -14,7 +14,10 @@
 
 <div id="header"></div>
 
-<div class="container py-4">
+<!-- Bao toàn bộ phần giỏ hàng -->
+<div class="gio-hang-noi-dung">
+    <div class="container py-4">
+        <!-- nội dung giỏ hàng -->
 
     <!-- 🔹 Nút quay lại trang chủ -->
     <div class="mb-3">
@@ -118,8 +121,27 @@
         </div>
     </div>
 </div>
+</div>
 
 <!-- 🎯 JavaScript -->
+<!-- JS nạp header -->
+<script>
+    async function includeHTML(id, filePath) {
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) throw new Error("Không tải được " + filePath);
+            const html = await response.text();
+            document.getElementById(id).innerHTML = html;
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    includeHTML("header", "../page/header.html");
+
+</script>
+
+
 <script>
     const chonTatCa = document.getElementById("chon_tat_ca");
     const nutXoaDaChon = document.querySelector(".nut_xoa_da_chon");
@@ -192,22 +214,7 @@
         alert("🎉 Thanh toán ngay nào!\n" + tongTien);
     });
 </script>
-<!-- JS nạp header -->
-<script>
-    async function includeHTML(id, filePath) {
-        try {
-            const response = await fetch(filePath);
-            if (!response.ok) throw new Error("Không tải được " + filePath);
-            const html = await response.text();
-            document.getElementById(id).innerHTML = html;
-        } catch (err) {
-            console.error(err);
-        }
-    }
 
-    includeHTML("header", "../page/header.html");
-
-</script>
 
 
 </body>

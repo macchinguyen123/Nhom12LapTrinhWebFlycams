@@ -1,18 +1,48 @@
 .container {
-    max-width: 900px;   /* 🔹 Giới hạn chiều rộng nội dung */
+    max-width: 80px;   /* 🔹 Giới hạn chiều rộng nội dung */
     margin: 0 auto;     /* 🔹 Căn giữa theo chiều ngang */
     background-color: #fff; /* Tùy chọn: nền trắng */
     border-radius: 8px;     /* Bo góc nhẹ cho đẹp */
     padding: 20px 30px;     /* 🔹 Tạo khoảng cách bên trong */
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05); /* Bóng nhẹ */
+
+
 }
+
+#header {
+    width: 100vw;               /* chiếm toàn màn hình */
+    margin: 0;
+    padding: 0;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    transform: translateX(-50%); /* tránh Bootstrap giới hạn chiều rộng */
+}
+
+/* Nếu header.html có dùng container của Bootstrap, ép full width */
+#header .container {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
 
 body {
     background-color: #f7f8fa;
     font-family: 'Inter', sans-serif;
     margin: 0;
-    padding: 0;  /* 🔹 Chừa khoảng trống trên dưới */
+    padding: 0 10%;
+
+
 }
+.gio-hang-noi-dung {
+    width: 100%;          /* 👈 lùi vào hai bên, chiếm 80% màn hình */
+    max-width: 1200px;   /* 👈 không vượt quá 1200px */
+    margin: 0 auto;      /* 👈 căn giữa */
+    box-sizing: border-box;
+    padding: 0 20px;     /* 👈 tạo khoảng trống thêm nếu muốn */
+}
+
 
 .san-pham {
     border: 1px solid #0051c6;

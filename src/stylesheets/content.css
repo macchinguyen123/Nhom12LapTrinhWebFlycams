@@ -10,7 +10,7 @@ body {
 /* === Sản phẩm nổi bật === */
 .phan-san-pham {
     background-color: #f8f8f8;
-    padding: 60px 10%;
+    padding: 20px 10%;
 
 }
 
@@ -19,7 +19,7 @@ body {
     grid-template-columns: repeat(4, 1fr); /* 4 cột bằng nhau */
     gap: 30px 15px; /* 30px hàng, 15px cột */
     justify-items: center;
-    margin-top: 20px; /* hoặc 40px nếu muốn thoáng hơn */
+    margin-top: 15px;
 }
 
 .san-pham {
@@ -27,7 +27,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     width: 100%;
-    max-width: 240px;
+    max-width: 270px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -156,10 +156,11 @@ body {
     margin: 10px auto 0;
 }
 .toan-bo-noi-dung {
-    width: 80%;           /* chiếm 80% chiều rộng trang */
-    margin: 0 auto;        /* căn giữa toàn bộ nội dung */
+    width: 70%;           /* 👈 chiếm 70% chiều rộng màn hình */
+    max-width: 1400px;    /* 👈 giới hạn tối đa */
+    margin: 0 auto;       /* 👈 căn giữa */
+    padding: 0 20px;      /* 👈 chừa khoảng trống hai bên */
     box-sizing: border-box;
-    max-width: 1400px;     /* (tùy chọn) giới hạn tối đa để không bị quá rộng */
 }
 
 /* === Bộ sắp xếp sản phẩm === */
