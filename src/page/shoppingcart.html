@@ -11,6 +11,9 @@
 </head>
 
 <body>
+
+<div id="header"></div>
+
 <div class="container py-4">
 
     <!-- 🔹 Nút quay lại trang chủ -->
@@ -18,9 +21,9 @@
         <a href="index.html" class="btn btn-outline-secondary">
             ← Trang chủ
         </a>
+        <h3 class="text-center mb-4 fw-bold text-primary">Giỏ hàng của bạn</h3>
     </div>
 
-    <h3 class="text-center mb-4 fw-bold text-primary">Giỏ hàng Flycam</h3>
 
     <!-- Thanh công cụ -->
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -189,6 +192,23 @@
         alert("🎉 Thanh toán ngay nào!\n" + tongTien);
     });
 </script>
+<!-- JS nạp header -->
+<script>
+    async function includeHTML(id, filePath) {
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) throw new Error("Không tải được " + filePath);
+            const html = await response.text();
+            document.getElementById(id).innerHTML = html;
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    includeHTML("header", "../page/header.html");
+
+</script>
+
 
 </body>
 </html>

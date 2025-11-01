@@ -11,16 +11,16 @@ body {
     background-color: #f7f8fa;
     font-family: 'Inter', sans-serif;
     margin: 0;
-    padding: 40px 0;  /* 🔹 Chừa khoảng trống trên dưới */
+    padding: 0;  /* 🔹 Chừa khoảng trống trên dưới */
 }
 
 .san-pham {
-    border: 1px solid #eee;
+    border: 1px solid #0051c6;
     transition: box-shadow 0.3s;
 }
 
 .san-pham:hover {
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 10px #0051c6;
 }
 
 .ten-san-pham {
@@ -37,7 +37,7 @@ body {
 }
 
 .o-so-luong {
-    border: 1px solid #ccc;
+    border: 1px solid #0051c6;
 }
 
 .card {
