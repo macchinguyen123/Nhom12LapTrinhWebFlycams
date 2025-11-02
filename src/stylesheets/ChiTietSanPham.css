@@ -261,6 +261,7 @@ body {
     margin-bottom: 6px;
 }
 
+
 /* Bảng thông số kỹ thuật */
 .table {
     border: 1px solid #dee2e6;
@@ -500,3 +501,189 @@ body {
 .write-review-btn:hover {
     background: #0056b3;
 }
+/* === KHUNG CHỨA TOÀN BỘ CAROUSEL === */
+.khung-san-pham-wrapper {
+    position: relative;
+    width: 80%;              /* ✅ chỉ chiếm 80% màn hình */
+    margin: 20px auto;
+}
+
+/* === KHUNG CHỨA CÁC SẢN PHẨM (CUỘN NGANG) === */
+.khung-san-pham {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px;
+    scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
+}
+
+.khung-san-pham::-webkit-scrollbar {
+    display: none; /* Ẩn thanh cuộn trên Chrome/Safari */
+}
+
+/* === KHỐI SẢN PHẨM === */
+.san-pham {
+    flex: 0 0 auto; /* Không co giãn, cuộn ngang */
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 270px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.san-pham:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* === ẢNH SẢN PHẨM === */
+.san-pham img {
+    width: 100%;
+    height: 70%;
+    display: block;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+/* === TÊN SẢN PHẨM === */
+.ten-san-pham {
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111;
+    margin: 8px 12px 4px 12px;
+    min-height: 48px;
+    display: flex;
+    align-items: flex-start;
+}
+
+/* === GIÁ === */
+.gia {
+    color: red;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0 12px;
+    text-align: left;
+    line-height: 1.2;
+}
+
+/* === GIÁ GỐC === */
+.gia-goc {
+    display: block;
+    color: #888;
+    font-size: 0.9rem;
+    text-decoration: line-through;
+    margin-top: 2px;
+    font-weight: normal;
+}
+
+/* === ĐÁNH GIÁ SAO === */
+.hang-danh-gia {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 4px 12px;
+}
+
+.danh-gia-sao {
+    color: #ffb400;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    line-height: 1.2;
+}
+
+/* === TIM YÊU THÍCH === */
+.tim-yeu-thich {
+    font-size: 1.1rem;
+    color: #bbb;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.tim-yeu-thich.yeu-thich {
+    color: #ff4d4d;
+}
+
+/* === SỐ ĐÁNH GIÁ === */
+.so-danh-gia {
+    font-size: 0.85rem;
+    color: #777;
+    margin: 0 0 10px 15px;
+}
+
+/* === NÚT MUA NGAY === */
+.nut-mua-ngay {
+    background-color: #0051c6;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: auto;
+    margin-bottom: 10px;
+    align-self: center;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.nut-mua-ngay:hover {
+    background-color: #003c94;
+    transform: scale(1.05);
+}
+
+/* === NÚT CHUYỂN TRÁI / PHẢI === */
+.nut-chuyen {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    z-index: 10;
+    padding: 8px 12px;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: background 0.3s;
+}
+
+.nut-chuyen:hover {
+    background: #f0f0f0;
+}
+
+.nut-chuyen.prev {
+    left: -10px;
+}
+
+.nut-chuyen.next {
+    right: -10px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 992px) {
+    .khung-san-pham-wrapper {
+        width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .san-pham {
+        width: 220px;
+    }
+}
+
+@media (max-width: 500px) {
+    .san-pham {
+        width: 180px;
+    }
+
+    .nut-chuyen {
+        display: none; /* Ẩn nút < > trên điện thoại, dùng vuốt tay */
+    }
+}
+
