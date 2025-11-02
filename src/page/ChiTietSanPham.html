@@ -430,6 +430,146 @@
 </script>
 
 </div>
+<div class="khung-san-pham-wrapper">
+    <button class="nut-chuyen prev"><i class="bi bi-chevron-left"></i></button>
+<div class="khung-san-pham">
+    <!-- === SẢN PHẨM 1 === -->
+    <div class="san-pham">
+        <img src="../image/Flycam%20DJI%20Air%203.png" alt="FlycamDJlAir3">
+
+        <h3 class="ten-san-pham">Flycam DJI Air 3</h3>
+        <div class="gia"><b>25.000.000 ₫</b>
+            <span class="gia-goc">29.990.000 ₫</span>
+        </div>
+
+        <div class="hang-danh-gia">
+            <div class="danh-gia-sao">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+            </div>
+            <i class="bi bi-heart tim-yeu-thich"></i>
+        </div>
+
+        <div class="so-danh-gia">(120 đánh giá)</div>
+
+        <button class="nut-mua-ngay">Mua Ngay</button>
+    </div>
+    <!-- === SẢN PHẨM 2 === -->
+    <div class="san-pham">
+        <img src="../image/Flycam DJl Inspire 3.png" alt="FlycamDJlInspire3">
+        <h3 class="ten-san-pham">Flycam DJl Inspire 3</h3>
+        <div class="gia"><b>9.990.000 ₫</b>
+            <span class="gia-goc">12.500.000 ₫</span>
+        </div>
+
+        <div class="hang-danh-gia">
+            <div class="danh-gia-sao">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star"></i>
+            </div>
+            <i class="bi bi-heart tim-yeu-thich"></i>
+        </div>
+
+        <div class="so-danh-gia">(98 đánh giá)</div>
+
+        <button class="nut-mua-ngay">Mua Ngay</button>
+    </div>
+    <!-- === SẢN PHẨM 3 === -->
+    <div class="san-pham">
+        <img src="../image/DJI Mavic 3 Pro With DJI RC Remote.png" alt="DJIMavic3ProWithDJIRCRemote">
+        <h3 class="ten-san-pham">DJI Mavic 3 Pro With DJI RC Remote</h3>
+        <div class="gia"><b>49.990.000 ₫</b>
+            <span class="gia-goc">55.000.000 ₫</span>
+        </div>
+
+        <div class="hang-danh-gia">
+            <div class="danh-gia-sao">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star"></i>
+            </div>
+            <i class="bi bi-heart tim-yeu-thich"></i>
+        </div>
+
+        <div class="so-danh-gia">(80 đánh giá)</div>
+
+        <button class="nut-mua-ngay">Mua Ngay</button>
+    </div>
+
+    <!-- === SẢN PHẨM 4 === -->
+    <div class="san-pham">
+        <img src="../image/Flycam DJI Mavic Mini SE Combo.png" alt="FlycamDJIMavicMiniSECombo">
+        <h3 class="ten-san-pham">Flycam DJI Mavic Mini SE Combo</h3>
+        <div class="gia"><b>29.290.000 ₫</b>
+            <span class="gia-goc">31.000.000 ₫</span>
+        </div>
+
+        <div class="hang-danh-gia">
+            <div class="danh-gia-sao">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star"></i>
+            </div>
+            <i class="bi bi-heart tim-yeu-thich"></i>
+        </div>
+
+        <div class="so-danh-gia">(65 đánh giá)</div>
+
+        <button class="nut-mua-ngay">Mua Ngay</button>
+    </div>
+    <!-- === SẢN PHẨM 5 === -->
+    <div class="san-pham">
+        <img src="../image/DJI Mini 3.png" alt="DJlMini3">
+
+        <h3 class="ten-san-pham">DJl Mini 3</h3>
+        <div class="gia"><b>8.990.000 ₫</b>
+            <span class="gia-goc">10.900.000 ₫</span>
+        </div>
+
+        <div class="hang-danh-gia">
+            <div class="danh-gia-sao">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+            </div>
+            <i class="bi bi-heart tim-yeu-thich"></i>
+        </div>
+
+        <div class="so-danh-gia">(79 đánh giá)</div>
+
+        <button class="nut-mua-ngay">Mua Ngay</button>
+    </div>
+
+</div>
+    <button class="nut-chuyen next"><i class="bi bi-chevron-right"></i></button>
+</div>
+<script>
+    const khung = document.querySelector('.khung-san-pham');
+    const prevBtn = document.querySelector('.nut-chuyen.prev');
+    const nextBtn = document.querySelector('.nut-chuyen.next');
+
+    nextBtn.addEventListener('click', () => {
+        khung.scrollBy({ left: 300, behavior: 'smooth' });
+    });
+
+    prevBtn.addEventListener('click', () => {
+        khung.scrollBy({ left: -300, behavior: 'smooth' });
+    });
+</script>
+
+
 <!-- FOOTER sẽ tự động chèn ở đây -->
 <div id="footer"></div>
 </body>
