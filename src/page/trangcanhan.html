@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../stylesheets/trangcanhan.css">
 </head>
 <body>
-
+<div id="header"></div>
 <div class="container">
     <aside class="sidebar">
         <div class="user-info">
@@ -18,98 +18,257 @@
 
         <nav class="menu">
             <ul>
-                <li class="active"><a href="#">Tài Khoản Của Tôi</a></li>
-                <ul class="submenu"></ul>
-                <li><a href="#">Đơn Mua</a></li>
+                <li class="active" data-section="profile"><a href="#">Tài Khoản Của Tôi</a></li>
+                <li data-section="orders"><a href="#">Đơn Mua</a></li>
+                <li data-section="addresses"><a href="#">Địa Chỉ Nhận Hàng</a></li>
             </ul>
         </nav>
+
+        <!-- 🧾 Nút đăng xuất -->
+        <div class="logout-section">
+            <button id="logoutBtn">Đăng Xuất</button>
+        </div>
     </aside>
 
-    <main class="profile-section">
-        <h2>Hồ Sơ Của Tôi</h2>
-        <p class="desc">Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
+    <main class="content">
+        <!-- === Tài khoản của tôi === -->
+        <section id="profile-section" class="section active">
+            <h2>Hồ Sơ Của Tôi</h2>
+            <p class="desc">Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
 
-        <form class="profile-form">
-            <div class="form-left">
-                <div class="form-group">
-                    <label>Tên đăng nhập</label>
-                    <input type="text" value="phclhu632" readonly>
-                    <small>Tên đăng nhập chỉ có thể thay đổi một lần.</small>
+            <form class="profile-form">
+                <div class="form-left">
+                    <div class="form-group">
+                        <label>Tên đăng nhập</label>
+                        <input type="text" value="phclhu632" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tên</label>
+                        <input type="text" value="Phước">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" value="23******@st.hcmuaf.edu.vn" readonly>
+                        <a href="#" class="change">Thay Đổi</a>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input type="tel" value="0901234567" maxlength="10">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Giới tính</label>
+                        <select name="gender">
+                            <option value="" disabled selected>Chọn giới tính</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group birthday">
+                        <label>Ngày sinh</label>
+                        <div class="date-select">
+                            <select name="day">
+                                <option value="" disabled selected>Ngày</option>
+                                <script>
+                                    for (let i = 1; i <= 31; i++) document.write(`<option value="${i}">${i}</option>`);
+                                </script>
+                            </select>
+                            <select name="month">
+                                <option value="" disabled selected>Tháng</option>
+                                <script>
+                                    for (let i = 1; i <= 12; i++) document.write(`<option value="${i}">${i}</option>`);
+                                </script>
+                            </select>
+                            <select name="year">
+                                <option value="" disabled selected>Năm</option>
+                                <script>
+                                    const year = new Date().getFullYear();
+                                    for (let i = year; i >= 1950; i--) document.write(`<option value="${i}">${i}</option>`);
+                                </script>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="save-btn" type="button">Lưu</button>
                 </div>
 
-                <div class="form-group">
-                    <label>Tên</label>
-                    <input type="text" value="Phước">
+                <div class="form-right">
+                    <div class="avatar-preview">
+                        <div class="circle"></div>
+                        <button class="upload-btn">Chọn Ảnh</button>
+                    </div>
                 </div>
+            </form>
+        </section>
 
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" value="23******@st.hcmuaf.edu.vn" readonly>
-                    <a href="#" class="change">Thay Đổi</a>
-                </div>
+        <!-- === Đơn mua === -->
+        <section id="orders-section" class="section">
+            <h2>Đơn Mua</h2>
+            <p>Danh sách đơn hàng của bạn sẽ hiển thị ở đây.</p>
+        </section>
 
-                <div class="form-group">
-                    <label>Số điện thoại</label>
-                    <a href="#" class="add">Thêm</a>
-                </div>
+        <!-- === Địa chỉ nhận hàng === -->
+        <section id="addresses-section" class="section">
+            <h2>Địa Chỉ Nhận Hàng</h2>
+            <div class="address-header">
+                <button type="button" id="addAddressBtn">+ Thêm địa chỉ mới</button>
+            </div>
 
-                <!-- GIỚI TÍNH -->
-                <div class="form-group">
-                    <label>Giới tính</label>
-                    <select name="gender" required>
-                        <option value="" disabled selected>Chọn giới tính</option>
-                        <option value="Nam">Nam</option>
-                        <option value="Nữ">Nữ</option>
-                        <option value="Khác">Khác</option>
+            <div class="address-list" id="addressList"></div>
+
+            <div class="address-form" id="addressForm">
+                <input type="text" id="nameInput" placeholder="Họ và tên người nhận">
+                <input type="text" id="phoneInput" placeholder="Số điện thoại">
+                <div class="address-select-group">
+                    <select id="province">
+                        <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                    </select>
+                    <select id="district">
+                        <option value="">-- Chọn Quận/Huyện --</option>
+                    </select>
+                    <select id="ward">
+                        <option value="">-- Chọn Phường/Xã --</option>
                     </select>
                 </div>
 
-                <!-- NGÀY SINH -->
-                <div class="form-group birthday">
-                    <label>Ngày sinh</label>
-                    <div class="date-select">
-                        <select name="day" required>
-                            <option value="" disabled selected>Ngày</option>
-                            <!-- Tạo 1-31 -->
-                            <script>
-                                for (let i = 1; i <= 31; i++) {
-                                    document.write(`<option value="${i}">${i}</option>`);
-                                }
-                            </script>
-                        </select>
+                <input type="text" id="detailAddress" placeholder="Số nhà, tên đường...">
 
-                        <select name="month" required>
-                            <option value="" disabled selected>Tháng</option>
-                            <script>
-                                for (let i = 1; i <= 12; i++) {
-                                    document.write(`<option value="${i}">${i}</option>`);
-                                }
-                            </script>
-                        </select>
-
-                        <select name="year" required>
-                            <option value="" disabled selected>Năm</option>
-                            <script>
-                                const year = new Date().getFullYear();
-                                for (let i = year; i >= 1950; i--) {
-                                    document.write(`<option value="${i}">${i}</option>`);
-                                }
-                            </script>
-                        </select>
-                    </div>
-                </div>
-
-                <button class="save-btn">Lưu</button>
-            </div>
-
-            <div class="form-right">
-                <div class="avatar-preview">
-                    <div class="circle"></div>
-                    <button class="upload-btn">Chọn Ảnh</button>
+                <div>
+                    <button type="button" class="save-address" id="saveAddressBtn">Lưu</button>
+                    <button type="button" class="cancel-address" id="cancelAddressBtn">Hủy</button>
                 </div>
             </div>
-        </form>
+        </section>
     </main>
 </div>
+
+<!-- ====== Script xử lý ====== -->
+<script>
+    // === Chuyển tab ===
+    const menuItems = document.querySelectorAll(".menu li");
+    const sections = document.querySelectorAll(".section");
+
+    menuItems.forEach(item => {
+        item.addEventListener("click", () => {
+            menuItems.forEach(i => i.classList.remove("active"));
+            item.classList.add("active");
+
+            const sectionId = item.getAttribute("data-section") + "-section";
+            sections.forEach(sec => sec.classList.remove("active"));
+            document.getElementById(sectionId).classList.add("active");
+        });
+    });
+
+    // === Xử lý địa chỉ ===
+    const addBtn = document.getElementById("addAddressBtn");
+    const form = document.getElementById("addressForm");
+    const cancelBtn = document.getElementById("cancelAddressBtn");
+    const saveBtn = document.getElementById("saveAddressBtn");
+    const list = document.getElementById("addressList");
+
+    let addresses = [];
+    let editIndex = null;
+
+    addBtn.addEventListener("click", () => {
+        form.style.display = "block";
+        addBtn.style.display = "none";
+    });
+
+    cancelBtn.addEventListener("click", resetForm);
+
+    saveBtn.addEventListener("click", () => {
+        const name = nameInput.value.trim();
+        const phone = phoneInput.value.trim();
+        const address = addressInput.value.trim();
+
+        if (!name || !phone || !address) return alert("Vui lòng nhập đầy đủ thông tin!");
+
+        if (editIndex !== null) {
+            addresses[editIndex] = { name, phone, address };
+            editIndex = null;
+        } else {
+            addresses.push({ name, phone, address });
+        }
+
+        renderAddresses();
+        resetForm();
+    });
+
+    function renderAddresses() {
+        list.innerHTML = "";
+        addresses.forEach((a, i) => {
+            const div = document.createElement("div");
+            div.className = "address-item";
+            div.innerHTML = `
+                <p><strong>${a.name}</strong> | ${a.phone}</p>
+                <p>${a.address}</p>
+                <div class="address-actions">
+                    <button onclick="editAddress(${i})">Sửa</button>
+                    <button onclick="deleteAddress(${i})">Xóa</button>
+                </div>`;
+            list.appendChild(div);
+        });
+    }
+
+    function editAddress(i) {
+        const a = addresses[i];
+        nameInput.value = a.name;
+        phoneInput.value = a.phone;
+        addressInput.value = a.address;
+        editIndex = i;
+        form.style.display = "block";
+        addBtn.style.display = "none";
+    }
+
+    function deleteAddress(i) {
+        if (confirm("Bạn có chắc muốn xóa địa chỉ này?")) {
+            addresses.splice(i, 1);
+            renderAddresses();
+        }
+    }
+
+    function resetForm() {
+        nameInput.value = phoneInput.value = addressInput.value = "";
+        form.style.display = "none";
+        addBtn.style.display = "inline-block";
+        editIndex = null;
+    }
+
+    // === Đăng xuất ===
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+        if (confirm("Bạn có chắc muốn đăng xuất không?")) {
+            window.location.href = "src/page/homepage.html";
+        }
+    });
+
+    // === Gọi header/footer ===
+    async function includeHTML(id, filePath) {
+        try {
+            const response = await fetch(filePath);
+            if (!response.ok) throw new Error("Không tải được " + filePath);
+            document.getElementById(id).innerHTML = await response.text();
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    includeHTML("header", "../page/header.html");
+    includeHTML("footer", "../page/footer.html");
+</script>
+
+<div id="footer"></div>
+
+<style>
+    .section { display: none; }
+    .section.active { display: block; }
+    .menu li.active a { font-weight: bold; color: #ffffff; }
+</style>
+
+
 </body>
 </html>
