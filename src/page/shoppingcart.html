@@ -12,7 +12,59 @@
 
 <body>
 
-<div id="header"></div>
+
+<!-- ==== HEADER TRÊN ==== -->
+<div class="header-bg">
+    <div class="header-wrapper">
+        <header class="top-header">
+            <!-- LOGO -->
+            <div class="logo">
+                <img src="../image/logoo2.png" alt="Logo">
+                <h2>SkyDrone</h2>
+            </div>
+
+            <!-- THANH TÌM KIẾM -->
+            <div class="search-bar">
+                <i class="bi bi-search"></i>
+                <input type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện...">
+            </div>
+
+            <!-- HÀNH ĐỘNG HEADER -->
+            <div class="header-actions">
+                <div class="icon-btn" title="Yêu thích">
+                    <i class="bi bi-heart"></i>
+                    <span>Yêu thích</span>
+                </div>
+
+                <div class="icon-btn" title="Giỏ hàng">
+                    <i class="bi bi-cart3"></i>
+                    <span>Giỏ hàng</span>
+                </div>
+
+                <div class="icon-btn" title="Tài khoản">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Tài khoản</span>
+                </div>
+            </div>
+        </header>
+    </div>
+</div>
+
+<!-- ==== MENU DƯỚI ==== -->
+<div class="menu-bg">
+    <div class="header-wrapper">
+        <nav class="main-nav">
+            <button class="nav-item active"><i class="bi bi-house-door"></i>Trang chủ</button>
+            <button class="nav-item"><i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i></button>
+            <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
+            <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
+            <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
+            <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
+        </nav>
+    </div>
+</div>
+
+
 
 <!-- Bao toàn bộ phần giỏ hàng -->
 <div class="gio-hang-noi-dung">
@@ -124,22 +176,7 @@
 </div>
 
 <!-- 🎯 JavaScript -->
-<!-- JS nạp header -->
-<script>
-    async function includeHTML(id, filePath) {
-        try {
-            const response = await fetch(filePath);
-            if (!response.ok) throw new Error("Không tải được " + filePath);
-            const html = await response.text();
-            document.getElementById(id).innerHTML = html;
-        } catch (err) {
-            console.error(err);
-        }
-    }
 
-    includeHTML("header", "../page/header.html");
-
-</script>
 
 
 <script>
