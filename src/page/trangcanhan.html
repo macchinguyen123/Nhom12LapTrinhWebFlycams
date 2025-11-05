@@ -2,7 +2,6 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hồ Sơ Của Tôi</title>
     <link rel="stylesheet" href="../stylesheets/trangcanhan.css">
 </head>
@@ -106,10 +105,88 @@
             </form>
         </section>
 
-        <!-- === Đơn mua === -->
+        <!-- === Đơn Mua === -->
         <section id="orders-section" class="section">
             <h2>Đơn Mua</h2>
-            <p>Danh sách đơn hàng của bạn sẽ hiển thị ở đây.</p>
+
+            <!-- 🔹 BẢNG DANH SÁCH HÓA ĐƠN -->
+            <div id="order-list" class="order-table">
+                <h3>Hóa đơn gần đây</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Mã hóa đơn</th>
+                        <th>Thời gian cập nhật</th>
+                        <th>Trạng thái</th>
+                        <th>Tổng giá trị</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr>
+                        <td>51</td>
+                        <td>2024-01-03 23:21:41</td>
+                        <td class="delivered">Đang giao</td>
+                        <td>70.999.990 ₫
+                            <a href="#" class="detail-link" onclick="showOrderDetail(51)">Chi tiết</a></td>
+                    </tr>
+                    <tr>
+                        <td>50</td>
+                        <td>2024-01-02 22:24:02</td>
+                        <td class="delivered">Đang giao</td>
+                        <td>1.422.000 ₫
+                            <a href="#" class="detail-link" onclick="showOrderDetail(50)">Chi tiết</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 🔹 CHI TIẾT ĐƠN HÀNG (ẩn mặc định) -->
+            <div id="order-detail" class="order-card" style="display: none;">
+                <button class="back-btn" onclick="showOrderList()">← Quay lại danh sách</button>
+                <p class="order-date">Vận chuyển ngày <strong>03 tháng 11 năm 2025</strong></p>
+
+                <div class="order-progress">
+                    <div class="step active">ĐANG XỬ LÝ</div>
+                    <div class="step">ĐANG VẬN CHUYỂN</div>
+                    <div class="step">ĐÃ GIAO</div>
+                </div>
+
+                <div class="order-item">
+                    <img src="../image/Flycam DJI Air 3.png" alt="Flycam DJI Air 3">
+                    <div class="item-info">
+                        <h4>Flycam DJI Air 3</h4>
+                        <p>Số lượng: 1</p>
+                        <p>Giá: <strong>31.000.000 ₫</strong></p>
+                    </div>
+                </div>
+
+                <div class="order-item">
+                    <img src="../image/Flycam DJl Inspire 3.png" alt="Flycam DJl Inspire 3">
+                    <div class="item-info">
+                        <h4>Flycam DJl Inspire 3</h4>
+                        <p>Số lượng: 1</p>
+                        <p>Giá: <strong>39.999.990 ₫</strong></p>
+                    </div>
+                </div>
+
+                <div class="order-summary-box">
+                    <div class="summary-left">
+                        <h4>Địa chỉ giao hàng</h4>
+                        <p><strong>Chí Nguyên</strong></p>
+                        <p>Tòa B, Ký túc xá Khu B</p>
+                        <p>033332234</p>
+                    </div>
+
+                    <div class="summary-right">
+                        <p>Tổng phụ thu: <strong>70.999.990 ₫</strong></p>
+                        <p>Phí vận chuyển: <strong>0 ₫</strong></p>
+                        <hr>
+                        <p><strong>Tổng: 70.999.990 ₫</strong></p>
+                        <p class="payment-note">Thanh toán bằng tiền mặt khi giao hàng</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- === Địa chỉ nhận hàng === -->
@@ -127,9 +204,6 @@
                 <div class="address-select-group">
                     <select id="province">
                         <option value="">-- Chọn Tỉnh/Thành phố --</option>
-                    </select>
-                    <select id="district">
-                        <option value="">-- Chọn Quận/Huyện --</option>
                     </select>
                     <select id="ward">
                         <option value="">-- Chọn Phường/Xã --</option>
@@ -246,7 +320,19 @@
         }
     });
 
-    // === Gọi header/footer ===
+    function showOrderDetail(id) {
+        document.getElementById("order-list").style.display = "none";
+        document.getElementById("order-detail").style.display = "block";
+        // Nếu có nhiều đơn, có thể load chi tiết khác dựa theo id (sau này fetch API)
+    }
+
+    function showOrderList() {
+        document.getElementById("order-detail").style.display = "none";
+        document.getElementById("order-list").style.display = "block";
+    }
+
+
+// === Gọi header/footer ===
     async function includeHTML(id, filePath) {
         try {
             const response = await fetch(filePath);
@@ -256,6 +342,7 @@
             console.error(err);
         }
     }
+
 
     includeHTML("header", "../page/header.html");
     includeHTML("footer", "../page/footer.html");
