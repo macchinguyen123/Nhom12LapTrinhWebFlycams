@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Nhập mã OTP</title>
+    <link rel="stylesheet" href="../stylesheets/otp.css">
+
+</head>
+<body>
+
+<div class="khung">
+    <img src="../image/logoo.png" alt="SKYDRONE Logo" class="mascot">
+
+    <h1>Tạo mật khẩu mới</h1>
+    <p class="huong_dan">
+        Vui lòng nhập mã OTP vừa được gửi qua email của bạn<br>
+    </p>
+
+    <div class="otp_khung">
+        <input type="text" maxlength="1" class="otp-nhap">
+        <input type="text" maxlength="1" class="otp-nhap">
+        <input type="text" maxlength="1" class="otp-nhap">
+        <input type="text" maxlength="1" class="otp-nhap">
+    </div>
+
+    <div class="nut_nhom">
+        <button class="nut nut_quay_lai" onclick="quayLai()">⬅ Quay lại</button>
+        <button class="nut nut_xac_nhan" onclick="xacNhan()">Xác nhận</button>
+    </div>
+</div>
+
+<script>
+    const otpInputs = document.querySelectorAll('.otp-nhap');
+    otpInputs.forEach((input, index) => {
+        input.addEventListener('input', () => {
+            if (input.value.length === 1 && index < otpInputs.length - 1) {
+                otpInputs[index + 1].focus();
+            }
+        });
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && index > 0 && input.value === '') {
+                otpInputs[index - 1].focus();
+            }
+        });
+    });
+
+    function xacNhan() {
+        let otp = '';
+        otpInputs.forEach(input => otp += input.value);
+        if (otp.length < 4) {
+            alert('Vui lòng nhập đúng mã OTP!');
+            otpInputs[0].focus();
+        } else {
+            alert('OTP hợp lệ!');
+            window.location.href = 'create-new-password.html'
+        }
+    }
+
+    function quayLai() {
+        alert('Quay lại trang tạo mật khẩu mới');
+        window.location.href = 'forgot-password.html';
+    }
+</script>
+</body>
+</html>
