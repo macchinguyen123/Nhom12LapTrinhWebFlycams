@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Trị - SkyDrone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <style>
+        /* === RESET === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            /*color: #ffffff;*/
+        }
+
+        /* === HEADER === */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(180deg, #0051c6, #0073ff);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 25px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .main-header .logo {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logout-btn {
+            background-color: #facc15;
+            border: none;
+            color: #0f172a;
+            font-size: 18px;
+            padding: 6px 9px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #eab308;
+            transform: scale(1.05);
+        }
+
+        /* === LAYOUT === */
+        .layout {
+            display: flex;
+            margin-top: 60px;
+        }
+
+        /* === SIDEBAR === */
+        .sidebar {
+            width: 270px;
+            background: linear-gradient(180deg, #0051c6, #0073ff);
+            color: #ffffff;
+            height: calc(100vh - 60px);
+            position: fixed;
+            top: 60px;
+            left: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* ✅ Căn toàn bộ sang trái */
+            padding: 20px 0;
+            border-top-right-radius: 12px;
+        }
+
+        /* === USER INFO === */
+        .user-info {
+            width: 100%;
+            text-align: center; /* ✅ Căn chữ sang trái */
+        }
+
+        .user-info img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #38bdf8;
+            object-fit: cover;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+            display: block;
+            margin: 0 auto; /* ✅ căn giữa ảnh */
+        }
+
+
+        .user-info h3 {
+            margin-top: 10px;
+            font-size: 16px;
+            color: white;
+        }
+
+        .user-info p {
+            font-size: 13px;
+            color: #ffffff;
+            margin-top: 3px;
+        }
+
+        /* === MENU === */
+        .menu {
+            list-style: none;
+            width: 100%;
+            padding-left: 0; /* ✅ bỏ thụt */
+        }
+
+        .menu li {
+            width: calc(100% - 20px); /* ✅ Full width trừ khoảng lề hai bên */
+            padding: 12px 18px;       /* ✅ Trái = Phải */
+            margin: 4px 10px;         /* ✅ Khoảng cách đều */
+            border-radius: 8px;
+            display: flex;
+            align-items: center;      /* ✅ Icon + chữ thẳng hàng */
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            justify-content: flex-start;
+        }
+
+        .menu li i {
+            font-size: 18px;
+            min-width: 20px; /* giữ icon thẳng hàng */
+        }
+
+        .menu li span {
+            text-align: left;
+        }
+
+        .menu li:hover,
+        .menu li.active {
+            background-color: rgba(255,255,255,0.25);
+            transform: translateX(3px);
+        }
+
+        /* === SUBMENU === */
+        .has-submenu {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 0;
+        }
+
+        .has-submenu .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 8px;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            padding-left: 0px;
+        }
+
+        .has-submenu .menu-item i:first-child {
+            margin-right: 10px;
+        }
+
+        .has-submenu .menu-item span {
+            flex: 1;
+            text-align: left;
+        }
+
+        .has-submenu .arrow {
+            margin-left: 20px;
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .has-submenu.open .arrow {
+            transform: rotate(90deg);
+        }
+
+        .submenu {
+            list-style: none;
+            margin-left: 15px;
+            margin-top: 5px;
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .submenu li {
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .submenu li:hover {
+            background-color: rgba(255,255,255,0.25);
+            transform: translateX(3px);
+        }
+
+        .has-submenu.open .submenu {
+            display: flex;
+        }
+
+        /* === MAIN CONTENT === */
+        .main-content {
+            margin-left: 270px;
+            flex: 1;
+            background-color: #f9fafb;
+            color: #0f172a;
+            min-height: calc(100vh - 60px);
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+
+        /* Modal Styles */
+        .modal-content {
+            border: none;
+            border-radius: 16px;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #0051c6, #0073ff);
+            color: white;
+            border-radius: 16px 16px 0 0;
+            padding: 20px 24px;
+        }
+
+        .modal-body {
+            background: #f8f9fa;
+            padding: 24px;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .info-card h6 {
+            color: #0051c6;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .info-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #64748b;
+            min-width: 140px;
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            color: #1e293b;
+            flex: 1;
+        }
+
+        .product-table {
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .product-table thead {
+            background: #f1f5f9;
+        }
+
+        .product-table th,
+        .product-table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .total-row {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 2px solid #0051c6;
+            text-align: right;
+            font-weight: 600;
+            font-size: 16px;
+            color: #0051c6;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 6px;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            padding: 10px 12px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #0051c6;
+            box-shadow: 0 0 0 3px rgba(0, 81, 198, 0.1);
+        }
+
+        .modal-footer {
+            background: #f8f9fa;
+            border-radius: 0 0 16px 16px;
+            padding: 16px 24px;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+<!-- HEADER -->
+<header class="main-header">
+    <div class="logo">SkyDrone Admin</div>
+    <div class="header-right">
+        <button class="logout-btn" title="Đăng xuất"><i class="bi bi-box-arrow-right"></i></button>
+    </div>
+</header>
+
+<!-- LAYOUT -->
+<div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="user-info">
+            <img src="https://i.pravatar.cc/80" alt="Avatar">
+            <h3>Mạc Nguyên</h3>
+            <p>Chào mừng bạn trở lại 👋</p>
+        </div>
+
+        <ul class="menu">
+            <li><i class="bi bi-speedometer2"></i> Bảng Điều Khiển</li>
+            <li><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li>
+            <li><i class="bi bi-box-seam"></i> Quản Lý Sản Phẩm</li>
+            <li><i class="bi bi-tags"></i> Quản Lý Danh Mục</li>
+
+            <li class="has-submenu open">
+                <div class="menu-item">
+                    <div><i class="bi bi-truck"></i> Quản Lý Đơn Hàng</div>
+                    <i class="bi bi-chevron-right arrow"></i>
+                </div>
+                <ul class="submenu">
+                    <li>Chưa Xác Nhận</li>
+                    <li class="active">Đã Xác Nhận</li>
+                </ul>
+            </li>
+
+            <li><i class="bi bi-megaphone"></i> Quản Lý Khuyến Mãi</li>
+            <li><i class="bi bi-bar-chart"></i> Báo Cáo & Thống Kê</li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content container-fluid p-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+            <h4 class="text-primary fw-bold mb-0"><i class="bi bi-truck"></i> Danh Sách Giao Hàng</h4>
+
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 w-100">
+
+                <!-- Lọc bên trái -->
+                <div class="btn-group shadow-sm" role="group">
+                    <button class="btn btn-outline-secondary active filter" data-status="all">Tất cả</button>
+                    <button class="btn btn-outline-warning filter" data-status="Đang xử lý">🕒 Chờ xử lý</button>
+                    <button class="btn btn-outline-primary filter" data-status="Đang giao hàng">🚚 Đang giao</button>
+                    <button class="btn btn-outline-success filter" data-status="Giao thành công">✅ Thành công</button>
+                    <button class="btn btn-outline-danger filter" data-status="Giao thất bại">❌ Thất bại</button>
+                </div>
+
+                <!-- Tìm kiếm bên phải -->
+                <div class="input-group shadow-sm" style="max-width: 300px;">
+                    <span class="input-group-text bg-primary text-white"><i class="bi bi-search"></i></span>
+                    <input id="search" type="search" class="form-control" placeholder="Tìm kiếm đơn hàng...">
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- TABLE -->
+        <table id="tblDonHang" class="table table-striped table-bordered align-middle">
+            <thead class="table-primary text-center">
+            <tr>
+                <th>Mã VC</th>
+                <th>Mã ĐH</th>
+                <th>Mã KH</th>
+                <th>Địa Chỉ</th>
+                <th>Ngày Nhận</th>
+                <th>Trạng Thái</th>
+                <th>Thao Tác</th>
+            </tr>
+            </thead>
+            <tbody class="text-center" id="orderTableBody">
+            </tbody>
+        </table>
+    </main>
+</div>
+
+<!-- MODAL -->
+<div class="modal fade" id="modalDonHang" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-clipboard-check"></i> Chi Tiết & Cập Nhật Đơn Hàng</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="formDonHang">
+                    <div class="row g-3">
+                        <!-- CỘT TRÁI -->
+                        <div class="col-lg-6">
+                            <!-- Thông tin hóa đơn -->
+                            <div class="info-card">
+                                <h6>🧾 Thông Tin Hóa Đơn</h6>
+                                <div class="info-row">
+                                    <div class="info-label">Mã Hóa Đơn:</div>
+                                    <div class="info-value" id="dh-mahd">-</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">Mã Khách Hàng:</div>
+                                    <div class="info-value" id="dh-makh">-</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">Tên Khách Hàng:</div>
+                                    <div class="info-value" id="dh-tenkh">-</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">Số Điện Thoại:</div>
+                                    <div class="info-value" id="dh-sdt">-</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">Email:</div>
+                                    <div class="info-value" id="dh-email">-</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">Ngày Lập:</div>
+                                    <div class="info-value" id="dh-ngaylap">-</div>
+                                </div>
+                            </div>
+
+                            <!-- Thông tin giao hàng -->
+                            <div class="info-card">
+                                <h6>🚚 Thông Tin Giao Hàng</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">Địa Chỉ Giao Hàng</label>
+                                    <input type="text" class="form-control" id="dh-diachi" placeholder="Nhập địa chỉ">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Đơn Vị Vận Chuyển</label>
+                                    <select class="form-select" id="dh-donvi">
+                                        <option value="">-- Chọn đơn vị --</option>
+                                        <option>Giao Hàng Nhanh</option>
+                                        <option>Giao Hàng Tiết Kiệm</option>
+                                        <option>VNPost</option>
+                                        <option>J&T Express</option>
+                                    </select>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">Mã Vận Chuyển:</div>
+                                    <div class="info-value" id="dh-mavc">-</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Ngày Nhận Dự Kiến</label>
+                                    <input type="date" class="form-control" id="dh-ngaynhan">
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">Phí Vận Chuyển:</div>
+                                    <div class="info-value" id="dh-phivc">-</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CỘT PHẢI -->
+                        <div class="col-lg-6">
+                            <!-- Danh sách sản phẩm -->
+                            <div class="info-card">
+                                <h6>📦 Danh Sách Sản Phẩm</h6>
+                                <table class="product-table table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 50%">Tên Sản Phẩm</th>
+                                        <th style="width: 15%">SL</th>
+                                        <th style="width: 35%">Đơn Giá</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="dh-sanpham">
+                                    </tbody>
+                                </table>
+                                <div class="total-row">
+                                    Tổng Tiền: <span id="dh-tong">0₫</span>
+                                </div>
+                            </div>
+
+                            <!-- Thông tin thanh toán -->
+                            <div class="info-card">
+                                <h6>💳 Thông Tin Thanh Toán & Vận Chuyển</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">Hình Thức Thanh Toán</label>
+                                    <input type="text" class="form-control" id="dh-httt" readonly>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">Trạng Thái Thanh Toán:</div>
+                                    <div class="info-value" id="dh-tttt">-</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Trạng Thái Vận Chuyển</label>
+                                    <select class="form-select" id="dh-ttvc">
+                                        <option value="">-- Chọn trạng thái --</option>
+                                        <option value="Đang xử lý">🕒 Đang xử lý</option>
+                                        <option value="Đang giao hàng">🚚 Đang giao hàng</option>
+                                        <option value="Giao thành công">✅ Giao thành công</option>
+                                        <option value="Giao thất bại">❌ Giao thất bại</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Ghi Chú</label>
+                                    <textarea class="form-control" id="dh-note" rows="3" placeholder="Nhập ghi chú..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle"></i> Đóng
+                </button>
+                <button type="submit" form="formDonHang" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i> Lưu Thay Đổi
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    // Dữ liệu mẫu - Trong thực tế sẽ load từ API
+    const ordersData = [
+        {
+            mavc: "GHN123",
+            mahd: "HD001",
+            makh: "KH001",
+            tenkh: "Nguyễn Văn A",
+            sdt: "0905123123",
+            email: "nguyenvana@gmail.com",
+            diachi: "123 Nguyễn Trãi, Q.1, TP.HCM",
+            ngaylap: "08/11/2025",
+            ngaynhan: "2025-11-09",
+            trangthai: "Đang xử lý",
+            donvi: "Giao Hàng Nhanh",
+            httt: "COD",
+            tttt: "Chưa thanh toán",
+            phivc: "30.000₫",
+            note: "",
+            sanpham: [
+                { ten: "Flycam DJI Mini 3 Pro", sl: 1, gia: "3.500.000₫" }
+            ],
+            tong: "3.530.000₫"
+        },
+        {
+            mavc: "GHTK456",
+            mahd: "HD002",
+            makh: "KH002",
+            tenkh: "Trần Thị B",
+            sdt: "0908111222",
+            email: "tranthib@gmail.com",
+            diachi: "45 Lê Lợi, TP. Huế",
+            ngaylap: "07/11/2025",
+            ngaynhan: "2025-11-10",
+            trangthai: "Đang giao hàng",
+            donvi: "Giao Hàng Tiết Kiệm",
+            httt: "Chuyển khoản",
+            tttt: "Đã thanh toán",
+            phivc: "25.000₫",
+            note: "Giao giờ hành chính",
+            sanpham: [
+                { ten: "Flycam DJI Air 2S", sl: 1, gia: "5.200.000₫" }
+            ],
+            tong: "5.225.000₫"
+        },
+        {
+            mavc: "VNP789",
+            mahd: "HD003",
+            makh: "KH003",
+            tenkh: "Lê Văn C",
+            sdt: "0912345678",
+            email: "levanc@gmail.com",
+            diachi: "78 Trần Hưng Đạo, Q.5, TP.HCM",
+            ngaylap: "06/11/2025",
+            ngaynhan: "2025-11-11",
+            trangthai: "Giao thành công",
+            donvi: "VNPost",
+            httt: "COD",
+            tttt: "Đã thanh toán",
+            phivc: "20.000₫",
+            note: "Đã giao thành công",
+            sanpham: [
+                { ten: "Pin DJI", sl: 2, gia: "500.000₫" }
+            ],
+            tong: "1.020.000₫"
+        }
+    ];
+
+    // Khởi tạo bảng
+    let table;
+
+    $(function() {
+        // Load dữ liệu vào bảng
+        loadTableData(ordersData);
+
+        // Khởi tạo DataTable
+        table = $('#tblDonHang').DataTable({
+            language: {
+                search: "🔍 Tìm:",
+                lengthMenu: "Hiển thị _MENU_",
+                info: "_START_-_END_ / _TOTAL_",
+                paginate: {
+                    previous: "Trước",
+                    next: "Sau"
+                },
+                emptyTable: "Không có dữ liệu"
+            },
+            dom: 'lrtip',
+            order: [[4, 'desc']]
+        });
+
+        // Tìm kiếm
+        $('#search').on('keyup', function() {
+            table.search($(this).val()).draw();
+        });
+
+        // Lọc trạng thái
+        $('.filter').on('click', function() {
+            $('.filter').removeClass('active');
+            $(this).addClass('active');
+            const status = $(this).data('status');
+
+            if (status === 'all') {
+                table.search('').draw();
+            } else {
+                table.search(status).draw();
+            }
+        });
+
+        // Xem chi tiết đơn hàng
+        $(document).on('click', '.view', function() {
+            const mahd = $(this).data('id');
+            const order = ordersData.find(o => o.mahd === mahd);
+
+            if (order) {
+                showOrderDetail(order);
+            }
+        });
+
+        // Submit form
+        $('#formDonHang').on('submit', function(e) {
+            e.preventDefault();
+
+            const mahd = $('#dh-mahd').text();
+            const updatedData = {
+                diachi: $('#dh-diachi').val(),
+                donvi: $('#dh-donvi').val(),
+                ngaynhan: $('#dh-ngaynhan').val(),
+                ttvc: $('#dh-ttvc').val(),
+                note: $('#dh-note').val()
+            };
+
+            // Cập nhật dữ liệu
+            const orderIndex = ordersData.findIndex(o => o.mahd === mahd);
+            if (orderIndex !== -1) {
+                ordersData[orderIndex] = { ...ordersData[orderIndex], ...updatedData };
+                ordersData[orderIndex].trangthai = updatedData.ttvc;
+
+                // Reload bảng
+                loadTableData(ordersData);
+                table.clear().destroy();
+                table = $('#tblDonHang').DataTable({
+                    language: {
+                        search: "🔍 Tìm:",
+                        lengthMenu: "Hiển thị _MENU_",
+                        info: "_START_-_END_ / _TOTAL_",
+                        paginate: {
+                            previous: "Trước",
+                            next: "Sau"
+                        }
+                    },
+                    dom: 'lrtip',
+                    order: [[4, 'desc']]
+                });
+
+                $('#modalDonHang').modal('hide');
+
+                // Thông báo thành công
+                alert('Cập nhật đơn hàng thành công!');
+            }
+        });
+
+        // Toggle submenu
+        $('.has-submenu .menu-item').on('click', function() {
+            $(this).parent().toggleClass('open');
+        });
+    });
+
+    // Hàm load dữ liệu vào bảng
+    function loadTableData(data) {
+        const tbody = $('#orderTableBody');
+        tbody.empty();
+
+        data.forEach(order => {
+            const badgeClass = getBadgeClass(order.trangthai);
+            const row = `
+                <tr>
+                    <td>${order.mavc}</td>
+                    <td>${order.mahd}</td>
+                    <td>${order.makh}</td>
+                    <td>${order.diachi}</td>
+                    <td>${order.ngaylap}</td>
+                    <td><span class="badge ${badgeClass}">${order.trangthai}</span></td>
+                    <td>
+                        <button class="btn btn-primary btn-sm view" data-id="${order.mahd}">
+                            <i class="bi bi-eye"></i> Xem / Cập Nhật
+                        </button>
+                    </td>
+                </tr>
+            `;
+            tbody.append(row);
+        });
+    }
+
+    // Hàm lấy class badge theo trạng thái
+    function getBadgeClass(status) {
+        const badges = {
+            'Đang xử lý': 'bg-warning text-dark',
+            'Đang giao hàng': 'bg-primary',
+            'Giao thành công': 'bg-success',
+            'Giao thất bại': 'bg-danger'
+        };
+        return badges[status] || 'bg-secondary';
+    }
+
+    // Hàm hiển thị chi tiết đơn hàng
+    function showOrderDetail(order) {
+        // Thông tin hóa đơn
+        $('#dh-mahd').text(order.mahd);
+        $('#dh-makh').text(order.makh);
+        $('#dh-tenkh').text(order.tenkh);
+        $('#dh-sdt').text(order.sdt);
+        $('#dh-email').text(order.email);
+        $('#dh-ngaylap').text(order.ngaylap);
+
+        // Thông tin giao hàng
+        $('#dh-diachi').val(order.diachi);
+        $('#dh-donvi').val(order.donvi);
+        $('#dh-mavc').text(order.mavc);
+        $('#dh-ngaynhan').val(order.ngaynhan);
+        $('#dh-phivc').text(order.phivc);
+
+        // Danh sách sản phẩm
+        const productRows = order.sanpham.map(sp => `
+            <tr>
+                <td style="text-align: left; padding-left: 12px;">${sp.ten}</td>
+                <td>${sp.sl}</td>
+                <td>${sp.gia}</td>
+            </tr>
+        `).join('');
+        $('#dh-sanpham').html(productRows);
+        $('#dh-tong').text(order.tong);
+
+        // Thông tin thanh toán
+        $('#dh-httt').val(order.httt);
+        $('#dh-tttt').text(order.tttt);
+        $('#dh-ttvc').val(order.trangthai);
+        $('#dh-note').val(order.note || '');
+
+        // Hiển thị modal
+        $('#modalDonHang').modal('show');
+    }
+</script>
+</body>
+</html>
