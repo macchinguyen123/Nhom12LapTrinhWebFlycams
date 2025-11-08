@@ -55,47 +55,35 @@
     </aside>
 
     <!-- === MAIN CONTENT === -->
+    <!-- === MAIN CONTENT === -->
     <main class="main-content container-fluid p-4">
-        <div class="thongKeTitle">
-            <h4 class="tieude"><i class="bi bi-bar-chart"></i><b> Thống Kê</b></h4>
-        </div>
-            <section class="thongKeTongQuan">
-                <h2>Thống kê tổng quan</h2>
-                <div class="cards-container">
-
-
-                    <div class="card">
-                        <i class="fa fa-chart-bar"></i>
-                        <h3>Doanh thu trong ngày</h3>
-                        <p>0 VND</p>
-                    </div>
-
-                    <div class="card">
-                        <i class="fa fa-line-chart"></i>
-                        <h3>Doanh thu trong tháng</h3>
-                        <p>0 VND</p>
-                    </div>
-
-
-
-                    <div class="card">
-                        <i class="fa fa-times-circle"></i>
-                        <h3>Bán được trong ngày</h3>
-                        <p>0 đơn hàng</p>
-                    </div>
-
-                    <div class="card">
-                        <i class="fa fa-crown"></i>
-                        <h3>Sản phẩm bán chạy nhất</h3>
-                        <p>Flycam DJI Mavic Mini SE Combo (Số lượng: 246)</p>
-                    </div>
-
-                </div>
-            </section>
-
         <!-- === DANH SÁCH ĐƠN TRONG NGÀY === -->
-        <section class="donTrongNgay mt-5">
-            <h2>Danh sách đơn hàng trong ngày</h2>
+        <section class="donTrongNgay mb-5">
+            <h4 class="tieude mb-3"><i class="bi bi-truck"></i><b> Danh Sách Đơn Hàng Trong Ngày</b></h4>
+
+            <!-- Thanh tìm kiếm kiểu đẹp -->
+            <div class="d-flex align-items-center mb-3">
+                <div class="d-flex align-items-center shadow-sm" style="
+                background: #fff;
+                border-radius: 8px;
+                overflow: hidden;
+                border: 1px solid #dee2e6;
+                max-width: 320px;
+            ">
+                    <div class="d-flex align-items-center justify-content-center" style="
+                    background-color: #0d6efd;
+                    color: #fff;
+                    width: 45px;
+                    height: 40px;
+                ">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <input id="searchBox" type="text" class="form-control border-0"
+                           placeholder="Tìm kiếm đơn hàng..."
+                           style="box-shadow: none; height: 40px;">
+                </div>
+            </div>
+
             <div class="table-responsive">
                 <table id="tableDonTrongNgay" class="table table-striped table-bordered align-middle">
                     <thead class="table-primary text-center">
@@ -109,7 +97,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- Dữ liệu mẫu -->
                     <tr>
                         <td>DH001</td>
                         <td>Nguyễn Văn A</td>
@@ -134,11 +121,129 @@
                             </button>
                         </td>
                     </tr>
+                    <tr>
+                        <td>DH003</td>
+                        <td>Trần Thị C</td>
+                        <td>08/11/2025</td>
+                        <td>4.800.000 VND</td>
+                        <td><span class="badge bg-success">Đã giao</span></td>
+                        <td class="text-center">
+                            <button class="btn btn-info btn-sm xemChiTiet">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DH004</td>
+                        <td>Nguyễn Anh Minh</td>
+                        <td>03/11/2025</td>
+                        <td>10.390.000 VND</td>
+                        <td><span class="badge bg-success">Đã giao</span></td>
+                        <td class="text-center">
+                            <button class="btn btn-info btn-sm xemChiTiet">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DH005</td>
+                        <td>Lê Minh</td>
+                        <td>03/11/2025</td>
+                        <td>22.300.000 VND</td>
+                        <td><span class="badge bg-success">Đã giao</span></td>
+                        <td class="text-center">
+                            <button class="btn btn-info btn-sm xemChiTiet">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DH006</td>
+                        <td>Phạm Đình Khang</td>
+                        <td>05/11/2025</td>
+                        <td>12.230.000 VND</td>
+                        <td><span class="badge bg-success">Đã giao</span></td>
+                        <td class="text-center">
+                            <button class="btn btn-info btn-sm xemChiTiet">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DH007</td>
+                        <td>Nguyễn Anh Tuấn</td>
+                        <td>03/11/2025</td>
+                        <td>19.390.000 VND</td>
+                        <td><span class="badge bg-success">Đã giao</span></td>
+                        <td class="text-center">
+                            <button class="btn btn-info btn-sm xemChiTiet">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+                    </tr><tr>
+                        <td>DH008</td>
+                        <td>Lý Chí Huy</td>
+                        <td>03/11/2025</td>
+                        <td>9.090.000 VND</td>
+                        <td><span class="badge bg-success">Đã giao</span></td>
+                        <td class="text-center">
+                            <button class="btn btn-info btn-sm xemChiTiet">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+
+
+
+
                     </tbody>
                 </table>
             </div>
         </section>
+
+        <!-- === THỐNG KÊ TỔNG QUAN === -->
+            <h4 class="tieude mb-3"><i class="bi bi-bar-chart"></i><b> Thống Kê Tổng Quan</b></h4>
+            <div class="cards-container d-flex flex-wrap gap-3">
+                <div class="card flex-fill text-center p-3">
+                    <i class="fa fa-chart-bar fs-2 mb-2"></i>
+                    <h5>Doanh thu trong ngày</h5>
+                    <p>0 VND</p>
+                </div>
+                <div class="card flex-fill text-center p-3">
+                    <i class="fa fa-line-chart fs-2 mb-2"></i>
+                    <h5>Doanh thu trong tháng</h5>
+                    <p>0 VND</p>
+                </div>
+                <div class="card flex-fill text-center p-3">
+                    <i class="fa fa-times-circle fs-2 mb-2"></i>
+                    <h5>Bán được trong ngày</h5>
+                    <p>0 đơn hàng</p>
+                </div>
+                <div class="card flex-fill text-center p-3">
+                    <i class="fa fa-crown fs-2 mb-2"></i>
+                    <h5>Sản phẩm bán chạy nhất</h5>
+                    <p>Flycam DJI Mavic Mini SE Combo (Số lượng: 246)</p>
+                </div>
+            </div>
+
+        <!-- === BIỂU ĐỒ DOANH THU THEO NGÀY === -->
+        <section class="bieudoDoanhThu mt-5">
+            <h4 class="tieude mb-3"><i class="bi bi-graph-up-arrow"></i><b> Biểu Đồ Doanh Thu Theo Ngày</b></h4>
+            <div class="card p-4 shadow-sm" style="width: 100%; height: 420px;">
+                <canvas id="chartDoanhThuNgay" style="width: 100%; height: 100%;"></canvas>
+            </div>
+        </section>
+        <!-- === BIỂU ĐỒ DOANH THU THEO THÁNG === -->
+        <section class="bieudoDoanhThuThang mt-5">
+            <h4 class="tieude mb-3"><i class="bi bi-bar-chart-line"></i><b> Biểu Đồ Doanh Thu Theo Tháng</b></h4>
+            <div class="card p-4 shadow-sm" style="width: 100%; height: 420px;">
+                <canvas id="chartDoanhThuThang" style="width: 100%; height: 100%;"></canvas>
+            </div>
+        </section>
+
+
     </main>
+
 </div>
 <!-- === SCRIPT === -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -157,20 +262,26 @@
     // === KHỞI TẠO DATATABLE CHO ĐƠN TRONG NGÀY ===
     $(document).ready(function () {
         const table = $('#tableDonTrongNgay').DataTable({
-            dom: '<"d-flex justify-content-between align-items-center mb-3"Bf>rtip',
+            dom: '<"d-flex justify-content-between align-items-center mb-3"B>rtip', // ❌ bỏ thanh search mặc định
             buttons: [
                 { extend: 'excel', text: '<i class="bi bi-file-earmark-excel"></i> Xuất Excel', className: 'btn btn-success btn-sm' },
                 { extend: 'pdf', text: '<i class="bi bi-file-earmark-pdf"></i> Xuất PDF', className: 'btn btn-danger btn-sm' },
                 { extend: 'print', text: '<i class="bi bi-printer"></i> In', className: 'btn btn-secondary btn-sm' }
             ],
             order: [[2, 'desc']],
+            pageLength: 5,           // 👈 chỉ hiển thị 5 dòng mỗi trang
+            lengthChange: false,     // ❌ không cho người dùng thay đổi số dòng hiển thị
             language: {
-                search: "🔍 Tìm kiếm:",
                 lengthMenu: "Hiển thị _MENU_ đơn hàng",
                 info: "Hiển thị _START_ - _END_ / _TOTAL_ đơn hàng",
                 paginate: { previous: "Trước", next: "Sau" },
                 zeroRecords: "Không có đơn hàng nào trong ngày hôm nay."
             }
+        });
+
+        // === KẾT NỐI THANH TÌM KIẾM MỚI ===
+        $('#searchBox').on('keyup', function () {
+            table.search(this.value).draw();
         });
 
         // === MODAL XEM CHI TIẾT ĐƠN ===
@@ -219,11 +330,124 @@
             });
         });
     });
-
-
-
-
 </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('chartDoanhThuNgay').getContext('2d');
+
+        const ngay = ["01/11", "02/11", "03/11", "04/11", "05/11", "06/11", "07/11", "08/11"];
+        const doanhThu = [3500000, 4200000, 3900000, 5200000, 6100000, 4800000, 7200000, 8000000];
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ngay,
+                datasets: [{
+                    label: 'Doanh thu (VND)',
+                    data: doanhThu,
+                    borderWidth: 1,
+                    backgroundColor: '#0d6efd',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // 👈 giúp nó full chiều cao div
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' ₫';
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Doanh thu 8 ngày gần nhất',
+                        color: '#333',
+                        font: { size: 16, weight: 'bold' }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString() + ' ₫';
+                            }
+                        },
+                        grid: { color: '#eee' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctxThang = document.getElementById('chartDoanhThuThang').getContext('2d');
+
+        // Dữ liệu mẫu doanh thu theo tháng (VND)
+        const thang = ["01/2025", "02/2025", "03/2025", "04/2025", "05/2025", "06/2025", "07/2025", "08/2025", "09/2025", "10/2025"];
+        const doanhThuThang = [52000000, 64000000, 58000000, 72000000, 83000000, 91000000, 87000000, 95000000, 102000000, 110000000];
+
+        new Chart(ctxThang, {
+            type: 'bar',
+            data: {
+                labels: thang,
+                datasets: [{
+                    label: 'Doanh thu theo tháng (VND)',
+                    data: doanhThuThang,
+                    borderWidth: 1,
+                    backgroundColor: '#0d6efd',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' ₫';
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Doanh thu theo tháng trong năm 2025',
+                        color: '#333',
+                        font: { size: 16, weight: 'bold' }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString() + ' ₫';
+                            }
+                        },
+                        grid: { color: '#eee' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+
 
 </body>
 </html>
