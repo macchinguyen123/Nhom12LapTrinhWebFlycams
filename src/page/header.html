@@ -2,7 +2,6 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SkyDrone Header</title>
 
     <!-- Bootstrap -->
@@ -25,10 +24,16 @@
             </div>
 
             <!-- THANH TÌM KIẾM -->
-            <div class="search-bar">
+            <div class="search-bar position-relative">
                 <i class="bi bi-search"></i>
-                <input type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện...">
+                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện..." autocomplete="off">
+
+                <!-- Danh sách gợi ý xổ xuống -->
+                <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
+                    style="top: 100%; left: 0; z-index: 1000; display: none;">
+                </ul>
             </div>
+
 
             <!-- HÀNH ĐỘNG HEADER -->
             <div class="header-actions">
@@ -67,5 +72,64 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Dữ liệu mẫu (có thể thay bằng danh sách sản phẩm thực tế)
+    const sanPham = [
+        "Flycam DJI Mini 4 Pro",
+        "Flycam DJI Mavic 3 Classic",
+        "Flycam Autel Evo Lite+",
+        "Pin Flycam DJI Mini 3",
+        "Cánh quạt thay thế DJI Mini SE",
+        "Tay cầm điều khiển RC-N1",
+        "Balo đựng drone chống nước",
+        "Camera hành trình GoPro Hero 11",
+        "Thẻ nhớ SanDisk Extreme 128GB",
+        "Bộ sạc nhanh DJI Charger Hub"
+    ];
+
+    const searchInput = document.getElementById("searchInput");
+    const suggestList = document.getElementById("suggestList");
+
+    searchInput.addEventListener("input", function () {
+        const query = this.value.toLowerCase();
+        suggestList.innerHTML = ""; // Xóa danh sách cũ
+
+        if (query.length === 0) {
+            suggestList.style.display = "none";
+            return;
+        }
+
+        // Lọc kết quả gợi ý
+        const filtered = sanPham.filter(sp => sp.toLowerCase().includes(query));
+
+        if (filtered.length === 0) {
+            suggestList.style.display = "none";
+            return;
+        }
+
+        // Tạo danh sách gợi ý
+        filtered.forEach(sp => {
+            const li = document.createElement("li");
+            li.textContent = sp;
+            li.className = "list-group-item list-group-item-action";
+            li.style.cursor = "pointer";
+            li.addEventListener("click", () => {
+                searchInput.value = sp;
+                suggestList.style.display = "none";
+            });
+            suggestList.appendChild(li);
+        });
+
+        suggestList.style.display = "block";
+    });
+
+    // Ẩn danh sách khi click ra ngoài
+    document.addEventListener("click", (e) => {
+        if (!e.target.closest(".search-bar")) {
+            suggestList.style.display = "none";
+        }
+    });
+</script>
+
 </body>
 </html>

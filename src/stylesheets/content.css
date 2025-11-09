@@ -15,12 +15,13 @@ body {
 }
 
 .khung-san-pham {
-    display: grid; /* dùng grid để canh đều 4 cột */
-    grid-template-columns: repeat(4, 1fr); /* 4 cột bằng nhau */
-    gap: 30px 15px; /* 30px hàng, 15px cột */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* ✅ 5 sản phẩm / hàng */
+    gap: 25px 15px; /* giảm nhẹ khoảng cách cho vừa khung */
     justify-items: center;
     margin-top: 15px;
 }
+
 
 .san-pham {
     background: #fff;
