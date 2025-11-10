@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Drone giám sát - an ninh</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../stylesheets/droneMonitor.css">
+
+
+</head>
+<body>
+
+<section class="phan-san-pham">
+    <h2 class="tieu-de-muc">Drone giám sát - an ninh</h2>
+
+    <!-- Sắp xếp và Lọc -->
+    <div class="bo-loc-va-sap-xep">
+        <button class="nut-bo-loc">
+            <i class="bi bi-funnel"></i> Bộ lọc
+        </button>
+
+        <div class="sap-xep-theo">
+            <span class="label">Sắp xếp theo:</span>
+            <button class="btn-sap-xep active">Nổi bật</button>
+            <button class="btn-sap-xep"><i class="bi bi-filter"></i> Giá Thấp - Cao</button>
+            <button class="btn-sap-xep"><i class="bi bi-filter"></i> Giá Cao - Thấp</button>
+        </div>
+    </div>
+
+    <!-- Lưới sản phẩm -->
+    <div class="khung-san-pham">
+
+        <div class="san-pham">
+            <img src="../image/DJI Matrice 300 RTK.png" alt="DJIMatrice300RTK">
+            <h3 class="ten-san-pham">DJI Matrice 300 RTK</h3>
+            <div class="gia"><b>290.500.000 ₫</b><span class="gia-goc">293.990.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i>
+            </div>
+            <div class="so-danh-gia">(85 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham">
+            <img src="../image/DJI Matrice 30 T.png" alt="DJIMatrice30T">
+            <h3 class="ten-san-pham">DJI Matrice 30 T</h3>
+            <div class="gia"><b>156.690.000 ₫</b><span class="gia-goc">157.290.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(56 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham">
+            <img src="../image/DJI Matrice 350 RTK.png" alt="DJIMatrice350RTK">
+            <h3 class="ten-san-pham">DJI Matrice 350 RTK</h3>
+            <div class="gia"><b>558.146.000 ₫</b><span class="gia-goc">560.990.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(82 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham">
+            <img src="../image/DJI Mavic 2 Enterprise Advanced.png" alt="DJIMavic2EnterpriseAdvanced">
+            <h3 class="ten-san-pham">DJI Mavic 2 Enterprise Advanced</h3>
+            <div class="gia"><b>3.750.000 ₫</b><span class="gia-goc">4.490.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(102 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham">
+            <img src="../image/DJI Mavic 3 Enterprise.png" alt="DJIMavic3Enterprise">
+            <h3 class="ten-san-pham">DJI Mavic 3 Enterprise</h3>
+            <div class="gia"><b>18.200.000 ₫</b><span class="gia-goc">19.590.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(53 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <!-- thêm các sản phẩm 6–21 -->
+        <div class="san-pham"><img src="../image/Autel EVO II Dual 640T.png">
+            <h3 class="ten-san-pham">Autel EVO II Dual 640T</h3>
+            <div class="gia"><b>276.500.000 ₫</b><span class="gia-goc">277.290.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(71 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham"><img src="../image/Parrot Anafi USA.png">
+            <h3 class="ten-san-pham">Parrot Anafi USA</h3>
+            <div class="gia"><b>200.536.000 ₫</b><span class="gia-goc">21.890.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(58 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham"><img src="../image/Skydio X10.png">
+            <h3 class="ten-san-pham">Skydio X10</h3>
+            <div class="gia"><b>65.000.000 ₫</b><span class="gia-goc">67.490.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(77 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham"><img src="../image/DJI Phantom 4 RTK.png">
+            <h3 class="ten-san-pham">DJI Phantom 4 RTK</h3>
+            <div class="gia"><b>179.490.000 ₫</b><span class="gia-goc">180.190.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(68 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham"><img src="../image/Teledyne FLIR SIRAS.png">
+            <h3 class="ten-san-pham">Teledyne FLIR SIRAS</h3>
+            <div class="gia"><b>106.860.000 ₫</b><span class="gia-goc">108.290.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(45 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <!-- ... Tương tự cho 11–21 -->
+        <div class="san-pham"><img src="../image/DroneHawk Eye S1.png">
+            <h3 class="ten-san-pham">DroneHawk Eye S1</h3>
+            <div class="gia"><b>44.290.000 ₫</b><span class="gia-goc">45.790.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(92 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham"><img src="../image/Autel Dragonfish.png">
+            <h3 class="ten-san-pham">Autel Dragonfish</h3>
+            <div class="gia"><b>610.890.000 ₫</b><span class="gia-goc">611.990.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(59 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham"><img src="../image/Acecore Noa (Security Variant).png">
+            <h3 class="ten-san-pham">Acecore Noa (Security Variant)</h3>
+            <div class="gia"><b>356.200.000 ₫</b><span class="gia-goc">359.890.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(43 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham"><img src="../image/Nightingale Blackbird Block V.png">
+            <h3 class="ten-san-pham">Nightingale Blackbird Block V</h3>
+            <div class="gia"><b>689.790.000 ₫</b><span class="gia-goc">691.790.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(88 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham"><img src="../image/DeltaQuad Evo Tactical.png">
+            <h3 class="ten-san-pham">DeltaQuad Evo Tactical</h3>
+            <div class="gia"><b>890.590.000 ₫</b><span class="gia-goc">892.390.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(40 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham"><img src="../image/Potensic SAM-S (Security Edition).png">
+            <h3 class="ten-san-pham">Potensic SAM-S (Security Edition)</h3>
+            <div class="gia"><b>10.690.000 ₫</b><span class="gia-goc">12.690.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(29 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham"><img src="../image/Flycam SkyView 4K Security.png">
+            <h3 class="ten-san-pham">Flycam SkyView 4K Security</h3>
+            <div class="gia"><b>7.290.000 ₫</b><span class="gia-goc">8.690.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(99 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham"><img src="../image/C-Fly SmartCam S-Security Kit.png">
+            <h3 class="ten-san-pham">C-Fly SmartCam S-Security Kit</h3>
+            <div class="gia"><b>39.290.000 ₫</b><span class="gia-goc">40.090.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(65 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham"><img src="../image/Flycam T900 Explorer Pro Security.png">
+            <h3 class="ten-san-pham">Flycam T900 Explorer Pro Security</h3>
+            <div class="gia"><b>2.490.000 ₫</b><span class="gia-goc">3.890.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(115 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham"><img src="../image/Holy Stone HS720E Security Drone.png">
+            <h3 class="ten-san-pham">Holy Stone HS720E Security Drone</h3>
+            <div class="gia"><b>6.118.000 ₫</b><span class="gia-goc">7.590.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(84 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+        <div class="san-pham"><img src="../image/Hubsan Zino Mini SE Surveillance Edition.png">
+            <h3 class="ten-san-pham">Hubsan Zino Mini SE Surveillance Edition</h3>
+            <div class="gia"><b>13.990.000 ₫</b><span class="gia-goc">14.890.000 ₫</span></div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i></div>
+                <i class="bi bi-heart tim-yeu-thich"></i></div>
+            <div class="so-danh-gia">(36 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+    </div>
+
+    <!-- Phân trang -->
+    <div class="phan-trang text-center mt-4">
+        <button class="btn btn-outline-primary nut-truoc">« Trang trước</button>
+        <span class="so-trang-hien-tai mx-3">Trang <span id="trang-hien-tai">1</span> / <span
+                id="tong-trang"></span></span>
+        <button class="btn btn-outline-primary nut-sau">Trang sau »</button>
+    </div>
+</section>
+
+<!-- SCRIPT -->
+<script>
+    // ❤️ Nút yêu thích
+    document.querySelectorAll('.tim-yeu-thich').forEach(tim => {
+        tim.addEventListener('click', () => {
+            tim.classList.toggle('bi-heart');
+            tim.classList.toggle('bi-heart-fill');
+            tim.classList.toggle('yeu-thich');
+        });
+    });
+
+    // 🔀 Nút sắp xếp
+    const nutSapXep = document.querySelectorAll('.btn-sap-xep');
+    nutSapXep.forEach(btn => {
+        btn.addEventListener('click', () => {
+            nutSapXep.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+    });
+
+    // 📄 Phân trang
+    const sanPhams = document.querySelectorAll('.san-pham');
+    const spMoiTrang = 20;
+    let trangHienTai = 1;
+    const tongTrang = Math.ceil(sanPhams.length / spMoiTrang);
+    const spanTrang = document.getElementById('trang-hien-tai');
+    const spanTongTrang = document.getElementById('tong-trang');
+    spanTongTrang.textContent = tongTrang;
+
+    function hienThiTrang(trang) {
+        sanPhams.forEach((sp, i) => {
+            sp.style.display = (i >= (trang - 1) * spMoiTrang && i < trang * spMoiTrang) ? '' : 'none';
+        });
+        spanTrang.textContent = trang;
+    }
+
+    document.querySelector('.nut-truoc').addEventListener('click', () => {
+        if (trangHienTai > 1) {
+            trangHienTai--;
+            hienThiTrang(trangHienTai);
+        }
+    });
+
+    document.querySelector('.nut-sau').addEventListener('click', () => {
+        if (trangHienTai < tongTrang) {
+            trangHienTai++;
+            hienThiTrang(trangHienTai);
+        }
+    });
+
+    hienThiTrang(trangHienTai);
+</script>
+
+</body>
+</html>
