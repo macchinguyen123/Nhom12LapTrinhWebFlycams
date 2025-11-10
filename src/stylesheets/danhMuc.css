@@ -123,3 +123,60 @@
     background: #0247AE;
     transform: scale(1.25);
 }
+
+/* --- Khung chính --- */
+.danh-muc {
+    width: 80%;
+    margin: 0 auto; /* ✅ canh giữa toàn bộ khung mà không đụng body */
+    padding: 40px 0;
+}
+
+/* --- Tiêu đề bên trái --- */
+.danh-muc h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+/* --- Danh sách canh đều hai bên --- */
+.danh-muc-list {
+    display: flex;
+    justify-content: space-between; /* 🔥 canh đều 2 bên */
+    flex-wrap: wrap;
+    gap: 40px 20px; /* hàng và cột cách nhau nhẹ */
+}
+
+.item {
+    width: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.item img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+}
+
+.item p {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.4;
+    text-align: center;
+    font-weight: 600; /* 🔹 chữ in đậm */
+}
+
+.item:hover img {
+    transform: scale(1.1);
+}
+
+.item:hover p {
+    color: #007bff;
+}
