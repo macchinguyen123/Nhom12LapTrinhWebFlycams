@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Flycam Store</title>
+    <title>Danh Mục</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,36 +14,30 @@
 <body>
 
 <section class="phan-san-pham">
-    <h2 class="tieu-de-muc">Danh Mục Sản Phẩm</h2>
+    <h2 class="tieu-de-muc">Drone quay phim chuyên nghiệp</h2>
 
+    <!-- Sắp xếp và Lọc -->
+    <div class="bo-loc-va-sap-xep">
+        <!-- Nút Bộ lọc -->
+        <button class="nut-bo-loc">
+            <i class="bi bi-funnel"></i> Bộ lọc
+        </button>
 
-
-    <!-- Danh mục -->
-    <ul class="danh-muc-list">
-        <li data-danhmuc="quay-phim" class="active">Drone quay phim</li>
-        <li data-danhmuc="du-lich">Drone du lịch</li>
-        <li data-danhmuc="the-thao">Drone thể thao</li>
-        <li data-danhmuc="nong-nghiep">Drone nông nghiệp</li>
-        <li data-danhmuc="an-ninh">Drone an ninh</li>
-        <li data-danhmuc="mini">Drone mini</li>
-    </ul>
-    <div class="bo-loc d-flex flex-wrap gap-3 mb-4">
-        <select class="form-select loc-select" id="locGia">
-            <option value="">-- Lọc theo giá --</option>
-            <option value="thapdenao">Dưới 10 triệu</option>
-            <option value="10-30">10 - 30 triệu</option>
-            <option value="tren30">Trên 30 triệu</option>
-        </select>
-
-        <select class="form-select loc-select" id="locThuongHieu">
-            <option value="">-- Thương hiệu --</option>
-            <option value="DJI">DJI</option>
-            <option value="Autel">Autel</option>
-            <option value="Skydio">Skydio</option>
-        </select>
-
-        <button class="btn btn-primary" id="btnApDung">Áp dụng</button>
+        <!-- Nhóm sắp xếp -->
+        <div class="sap-xep-theo">
+            <span class="label">Sắp xếp theo:</span>
+            <button class="btn-sap-xep active">Nổi bật</button>
+            <button class="btn-sap-xep">
+                <i class="bi bi-filter"></i> Giá Thấp - Cao
+            </button>
+            <button class="btn-sap-xep">
+                <i class="bi bi-filter"></i> Giá Cao - Thấp
+            </button>
+        </div>
     </div>
+
+
+
     <!-- Lưới sản phẩm -->
     <div class="khung-san-pham">
         <!-- SP mẫu -->
@@ -237,7 +231,300 @@
 
             <button class="nut-mua-ngay">Mua Ngay</button>
         </div>
+        <!-- === SẢN PHẨM 9 === -->
+        <div class="san-pham">
+            <img src="../image/p14pro.png" alt="DJlMini4K">
 
+            <h3 class="ten-san-pham">Flycam P14 Pro</h3>
+            <div class="gia"><b>10.607.000 ₫</b>
+                <span class="gia-goc">11.990.000 ₫</span>
+            </div>
+
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <i class="bi bi-heart tim-yeu-thich"></i>
+            </div>
+
+            <div class="so-danh-gia">(33 đánh giá)</div>
+
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+        <!-- === SẢN PHẨM 10 === -->
+        <div class="san-pham">
+            <img src="../image/DJI SPARK.png" alt="DJlMini4K">
+
+            <h3 class="ten-san-pham">DJI Spark</h3>
+            <div class="gia"><b>22.990.000 ₫</b>
+                <span class="gia-goc">24.990.000 ₫</span>
+            </div>
+
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <i class="bi bi-heart tim-yeu-thich"></i>
+            </div>
+
+            <div class="so-danh-gia">(13 đánh giá)</div>
+
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+        <!-- === SẢN PHẨM 11 === -->
+        <div class="san-pham">
+            <img src="../image/Mavic 3.png" alt="DJlMini4K">
+
+            <h3 class="ten-san-pham">DJI Mavic 3 Classic</h3>
+            <div class="gia"><b>42.990.000 ₫</b>
+                <span class="gia-goc">44.990.000 ₫</span>
+            </div>
+
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <i class="bi bi-heart tim-yeu-thich"></i>
+            </div>
+
+            <div class="so-danh-gia">(10 đánh giá)</div>
+
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+        <!-- === SẢN PHẨM 12 === -->
+        <div class="san-pham">
+            <img src="../image/Flycam DJI Mini 3 With DJI RC Remote Controller.png" alt="FlycamDJIMini3WithDJIRCRemoteController">
+
+            <h3 class="ten-san-pham">Flycam DJI Mini 3 With DJI RC Remote Controller</h3>
+            <div class="gia"><b>14.290.000 ₫</b>
+                <span class="gia-goc">15.990.000 ₫</span>
+            </div>
+
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <i class="bi bi-heart tim-yeu-thich"></i>
+            </div>
+
+            <div class="so-danh-gia">(87 đánh giá)</div>
+
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+
+        <!-- === SẢN PHẨM 13 === -->
+        <div class="san-pham">
+            <img src="../image/Flycam DJI O4 Air Unit.png" alt="FlycamDJIO4AirUnit">
+
+            <h3 class="ten-san-pham">Flycam DJI O4 Air Unit</h3>
+            <div class="gia"><b>2.505.000 ₫</b>
+                <span class="gia-goc">3.600.000 ₫</span>
+            </div>
+
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star"></i>
+                </div>
+                <i class="bi bi-heart tim-yeu-thich"></i>
+            </div>
+
+            <div class="so-danh-gia">(71 đánh giá)</div>
+
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+            <div class="san-pham">
+                <img src="../image/fantompro4.png" alt="DJI Phantom 4 Pro">
+                <h3 class="ten-san-pham">DJI Phantom 4 Pro</h3>
+                <div class="gia"><b>32.990.000 ₫</b>
+                    <span class="gia-goc">36.000.000 ₫</span>
+                </div>
+                <div class="hang-danh-gia">
+                    <div class="danh-gia-sao">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star"></i>
+                    </div>
+                    <i class="bi bi-heart tim-yeu-thich"></i>
+                </div>
+                <div class="so-danh-gia">(102 đánh giá)</div>
+                <button class="nut-mua-ngay">Mua Ngay</button>
+            </div>
+
+            <!-- === SẢN PHẨM 15 === -->
+            <div class="san-pham">
+                <img src="../image/e88pro.png" alt="Flycam E88 Pro Max">
+                <h3 class="ten-san-pham">Flycam E88 Pro Max</h3>
+                <div class="gia"><b>2.390.000 ₫</b>
+                    <span class="gia-goc">3.290.000 ₫</span>
+                </div>
+                <div class="hang-danh-gia">
+                    <div class="danh-gia-sao">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star"></i>
+                        <i class="bi bi-star"></i>
+                    </div>
+                    <i class="bi bi-heart tim-yeu-thich"></i>
+                </div>
+                <div class="so-danh-gia">(58 đánh giá)</div>
+                <button class="nut-mua-ngay">Mua Ngay</button>
+            </div>
+
+            <!-- === SẢN PHẨM 16 === -->
+            <div class="san-pham">
+                <img src="../image/f114k.png" alt="Flycam SJRC F11 4K Pro">
+                <h3 class="ten-san-pham">Flycam SJRC F11 4K Pro</h3>
+                <div class="gia"><b>6.490.000 ₫</b>
+                    <span class="gia-goc">7.200.000 ₫</span>
+                </div>
+                <div class="hang-danh-gia">
+                    <div class="danh-gia-sao">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star"></i>
+                    </div>
+                    <i class="bi bi-heart tim-yeu-thich"></i>
+                </div>
+                <div class="so-danh-gia">(85 đánh giá)</div>
+                <button class="nut-mua-ngay">Mua Ngay</button>
+            </div>
+
+            <!-- === SẢN PHẨM 17 === -->
+            <div class="san-pham">
+                <img src="../image/zinomini.png" alt="Flycam Hubsan Zino Mini SE">
+                <h3 class="ten-san-pham">Flycam Hubsan Zino Mini SE</h3>
+                <div class="gia"><b>11.990.000 ₫</b>
+                    <span class="gia-goc">13.000.000 ₫</span>
+                </div>
+                <div class="hang-danh-gia">
+                    <div class="danh-gia-sao">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star"></i>
+                        <i class="bi bi-star"></i>
+                    </div>
+                    <i class="bi bi-heart tim-yeu-thich"></i>
+                </div>
+                <div class="so-danh-gia">(41 đánh giá)</div>
+                <button class="nut-mua-ngay">Mua Ngay</button>
+            </div>
+
+            <!-- === SẢN PHẨM 18 === -->
+            <div class="san-pham">
+                <img src="../image/bugs20.png" alt="Flycam MJX Bugs 20 EIS">
+                <h3 class="ten-san-pham">Flycam MJX Bugs 20 EIS</h3>
+                <div class="gia"><b>5.290.000 ₫</b>
+                    <span class="gia-goc">6.000.000 ₫</span>
+                </div>
+                <div class="hang-danh-gia">
+                    <div class="danh-gia-sao">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star"></i>
+                    </div>
+                    <i class="bi bi-heart tim-yeu-thich"></i>
+                </div>
+                <div class="so-danh-gia">(76 đánh giá)</div>
+                <button class="nut-mua-ngay">Mua Ngay</button>
+            </div>
+
+            <!-- === SẢN PHẨM 19 === -->
+            <div class="san-pham">
+                <img src="../image/faith2s.png" alt="Flycam C-Fly Faith 2S">
+                <h3 class="ten-san-pham">Flycam C-Fly Faith 2S</h3>
+                <div class="gia"><b>8.490.000 ₫</b>
+                    <span class="gia-goc">9.990.000 ₫</span>
+                </div>
+                <div class="hang-danh-gia">
+                    <div class="danh-gia-sao">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star"></i>
+                        <i class="bi bi-star"></i>
+                    </div>
+                    <i class="bi bi-heart tim-yeu-thich"></i>
+                </div>
+                <div class="so-danh-gia">(69 đánh giá)</div>
+                <button class="nut-mua-ngay">Mua Ngay</button>
+            </div>
+
+            <!-- === SẢN PHẨM 20 === -->
+            <div class="san-pham">
+                <img src="../image/avatafpv.png" alt="DJI Avata FPV Combo">
+                <h3 class="ten-san-pham">DJI Avata FPV Combo</h3>
+                <div class="gia"><b>26.490.000 ₫</b>
+                    <span class="gia-goc">28.000.000 ₫</span>
+                </div>
+                <div class="hang-danh-gia">
+                    <div class="danh-gia-sao">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                    </div>
+                    <i class="bi bi-heart tim-yeu-thich"></i>
+                </div>
+                <div class="so-danh-gia">(122 đánh giá)</div>
+                <button class="nut-mua-ngay">Mua Ngay</button>
+            </div>
+
+        <div class="san-pham">
+            <img src="../image/z908.png" alt="DJI Avata FPV Combo">
+            <h3 class="ten-san-pham">Flycam Z908 Pro</h3>
+            <div class="gia"><b>26.490.000 ₫</b>
+                <span class="gia-goc">28.000.000 ₫</span>
+            </div>
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <i class="bi bi-heart tim-yeu-thich"></i>
+            </div>
+            <div class="so-danh-gia">(122 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
+        </div>
+
+    </div>
+    <!-- PHÂN TRANG -->
+    <div class="phan-trang text-center mt-4">
+        <button class="btn btn-outline-primary nut-truoc">« Trang trước</button>
+        <span class="so-trang-hien-tai mx-3">Trang <span id="trang-hien-tai">1</span> / <span id="tong-trang"></span></span>
+        <button class="btn btn-outline-primary nut-sau">Trang sau »</button>
     </div>
 
 
@@ -246,232 +533,74 @@
 <script>
     document.querySelectorAll('.tim-yeu-thich').forEach(tim => {
         tim.addEventListener('click', () => {
+            if (tim.classList.contains('bi-heart')) {
+                // đổi sang tim đầy màu đỏ
+                tim.classList.remove('bi-heart');
+                tim.classList.add('bi-heart-fill', 'yeu-thich');
+            } else {
+                // đổi ngược lại tim rỗng
+                tim.classList.remove('bi-heart-fill', 'yeu-thich');
+                tim.classList.add('bi-heart');
+            }
+        });
+    });
+
+    // === Nút yêu thích (giữ nguyên) ===
+    document.querySelectorAll('.tim-yeu-thich').forEach(tim => {
+        tim.addEventListener('click', () => {
+            tim.classList.toggle('bi-heart');
             tim.classList.toggle('bi-heart-fill');
             tim.classList.toggle('yeu-thich');
         });
     });
-    btnApDung.addEventListener("click", () => {
-        const gia = document.getElementById("locGia").value;
-        const thuongHieu = document.getElementById("locThuongHieu").value;
-
-        let danhSach = sanPhamTheoDanhMuc["quay-phim"];
-
-        if (thuongHieu)
-            danhSach = danhSach.filter(sp => sp.thuongHieu === thuongHieu);
-
-        if (gia === "thapdenao")
-            danhSach = danhSach.filter(sp => sp.giaTri < 10);
-        else if (gia === "10-30")
-            danhSach = danhSach.filter(sp => sp.giaTri >= 10 && sp.giaTri <= 30);
-        else if (gia === "tren30")
-            danhSach = danhSach.filter(sp => sp.giaTri > 30);
-
-        hienThiSanPham(danhSach);
+    // === Chọn nút sắp xếp ===
+    const nutSapXep = document.querySelectorAll('.btn-sap-xep');
+    nutSapXep.forEach(btn => {
+        btn.addEventListener('click', () => {
+            nutSapXep.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            console.log("🔹 Đã chọn:", btn.textContent.trim());
+        });
     });
-        const sanPhamTheoDanhMuc = {
-        "quay-phim": [
-            {
-                ten: "Flycam DJI Air 3",
-                gia: "25.000.000 ₫",
-                anh: "../image/Flycam DJI Air 3.png",
-                danhGiaSao: 5,
-                soDanhGia: 120
-            },
-            {
-                ten: "Flycam DJI Inspire 3",
-                gia: "9.990.000 ₫",
-                anh: "../image/Flycam DJl Inspire 3.png",
-                danhGiaSao: 4,
-                soDanhGia: 98
-            },
-            {
-                ten: "Flycam DJI Air 3",
-                gia: "25.000.000 ₫",
-                anh: "../image/Flycam DJI Air 3.png",
-                danhGiaSao: 5,
-                soDanhGia: 120
-            },
-            {
-                ten: "Flycam DJI Inspire 3",
-                gia: "9.990.000 ₫",
-                anh: "../image/Flycam DJl Inspire 3.png",
-                danhGiaSao: 4,
-                soDanhGia: 98
-            },
-            {
-                ten: "Flycam DJI Air 3",
-                gia: "25.000.000 ₫",
-                anh: "../image/Flycam DJI Air 3.png",
-                danhGiaSao: 5,
-                soDanhGia: 120
-            },
-            {
-                ten: "Flycam DJI Inspire 3",
-                gia: "9.990.000 ₫",
-                anh: "../image/Flycam DJl Inspire 3.png",
-                danhGiaSao: 4,
-                soDanhGia: 98
-            },
-            {
-                ten: "Flycam DJI Air 3",
-                gia: "25.000.000 ₫",
-                anh: "../image/Flycam DJI Air 3.png",
-                danhGiaSao: 5,
-                soDanhGia: 120
-            },
-            {
-                ten: "Flycam DJI Inspire 3",
-                gia: "9.990.000 ₫",
-                anh: "../image/Flycam DJl Inspire 3.png",
-                danhGiaSao: 4,
-                soDanhGia: 98
-            },
-        ],
-        "du-lich": [
-            {
-                ten: "Flycam DJI Air 3",
-                gia: "25.000.000 ₫",
-                anh: "../image/Flycam DJI Air 3.png",
-                danhGiaSao: 3,
-                soDanhGia: 120
-            },
-            {
-                ten: "Flycam DJI Inspire 3",
-                gia: "9.990.000 ₫",
-                anh: "../image/Flycam DJl Inspire 3.png",
-                danhGiaSao: 4,
-                soDanhGia: 98
-            },
-        ],
-        "the-thao": [
-            {
-                ten: "Flycam DJI Air 3",
-                gia: "25.000.000 ₫",
-                anh: "../image/Flycam DJI Air 3.png",
-                danhGiaSao: 5,
-                soDanhGia: 120
-            },
-            {
-                ten: "Flycam DJI Inspire 3",
-                gia: "9.990.000 ₫",
-                anh: "../image/Flycam DJl Inspire 3.png",
-                danhGiaSao: 4,
-                soDanhGia: 98
-            },
-        ],
-        "nong-nghiep": [
-            {
-                ten: "Flycam DJI Air 3",
-                gia: "25.000.000 ₫",
-                anh: "../image/Flycam DJI Air 3.png",
-                danhGiaSao: 5,
-                soDanhGia: 120
-            },
-            {
-                ten: "Flycam DJI Inspire 3",
-                gia: "9.990.000 ₫",
-                anh: "../image/Flycam DJl Inspire 3.png",
-                danhGiaSao: 4,
-                soDanhGia: 98
-            },
-        ],
-        "an-ninh": [
-            {
-                ten: "Flycam DJI Air 3",
-                gia: "25.000.000 ₫",
-                anh: "../image/Flycam DJI Air 3.png",
-                danhGiaSao: 5,
-                soDanhGia: 120
-            },
-            {
-                ten: "Flycam DJI Inspire 3",
-                gia: "9.990.000 ₫",
-                anh: "../image/Flycam DJl Inspire 3.png",
-                danhGiaSao: 4,
-                soDanhGia: 98
-            },
-        ],
-        "mini": [
-            {
-                ten: "Flycam DJI Air 3",
-                gia: "25.000.000 ₫",
-                anh: "../image/Flycam DJI Air 3.png",
-                danhGiaSao: 1,
-                soDanhGia: 120
-            },
-            {
-                ten: "Flycam DJI Inspire 3",
-                gia: "9.990.000 ₫",
-                anh: "../image/Flycam DJl Inspire 3.png",
-                danhGiaSao: 3,
-                soDanhGia: 98
-            },
-        ]
-    };
+        const sanPhams = document.querySelectorAll('.san-pham');
+        const spMoiTrang = 20; // số sản phẩm mỗi trang
+        let trangHienTai = 1;
+        const tongTrang = Math.ceil(sanPhams.length / spMoiTrang);
 
-        // === HÀM HIỂN THỊ SẢN PHẨM ===
-    function hienThiSanPham(danhSach) {
-        const khung = document.querySelector(".khung-san-pham");
-        khung.innerHTML = "";
+        const spanTrang = document.getElementById('trang-hien-tai');
+        const spanTongTrang = document.getElementById('tong-trang');
+        spanTongTrang.textContent = tongTrang;
 
-        danhSach.forEach(sp => {
-            // Tạo chuỗi sao ★ và ☆
-            let stars = "";
-            for (let i = 0; i < 5; i++) {
-                stars += (i < sp.danhGiaSao) ? '<i class="bi bi-star-fill"></i>' : '<i class="bi bi-star"></i>';
+        function hienThiTrang(trang) {
+        sanPhams.forEach((sp, index) => {
+            if (index >= (trang - 1) * spMoiTrang && index < trang * spMoiTrang) {
+                sp.style.display = ''; // giữ nguyên layout gốc (grid/flex)
+                sp.style.visibility = 'visible';
+            } else {
+                sp.style.display = 'none'; // ẩn hẳn phần tử ngoài trang hiện tại
             }
 
-            const sanPham = document.createElement("div");
-            sanPham.className = "san-pham";
-            sanPham.innerHTML = `
-            <img src="${sp.anh}" alt="${sp.ten}">
-            <h3 class="ten-san-pham">${sp.ten}</h3>
-            <div class="gia">
-                <b>${sp.gia}</b>
-            </div>
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">${stars}</div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-            <div class="so-danh-gia">(${sp.soDanhGia} đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        `;
-            khung.appendChild(sanPham);
         });
-
-        // Bắt sự kiện tim
-        document.querySelectorAll('.tim-yeu-thich').forEach(tim => {
-            tim.addEventListener('click', () => {
-                if (tim.classList.contains('bi-heart')) {
-                    // đổi sang tim đầy màu đỏ
-                    tim.classList.remove('bi-heart');
-                    tim.classList.add('bi-heart-fill', 'yeu-thich');
-                } else {
-                    // đổi ngược lại tim rỗng
-                    tim.classList.remove('bi-heart-fill', 'yeu-thich');
-                    tim.classList.add('bi-heart');
-                }
-            });
-        });
+        spanTrang.textContent = trang;
     }
 
-
-    // === GẮN SỰ KIỆN CHO DANH MỤC ===
-        const danhMucItems = document.querySelectorAll(".danh-muc-list li");
-        danhMucItems.forEach(item => {
-        item.addEventListener("click", () => {
-            danhMucItems.forEach(i => i.classList.remove("active"));
-            item.classList.add("active");
-            const loai = item.dataset.danhmuc;
-            hienThiSanPham(sanPhamTheoDanhMuc[loai]);
-        });
+        document.querySelector('.nut-truoc').addEventListener('click', () => {
+        if (trangHienTai > 1) {
+        trangHienTai--;
+        hienThiTrang(trangHienTai);
+    }
     });
 
-        // Hiển thị mặc định danh mục đầu tiên
-        hienThiSanPham(sanPhamTheoDanhMuc["quay-phim"]);
+        document.querySelector('.nut-sau').addEventListener('click', () => {
+        if (trangHienTai < tongTrang) {
+        trangHienTai++;
+        hienThiTrang(trangHienTai);
+    }
+    });
+
+        // Hiển thị trang đầu tiên khi tải trang
+        hienThiTrang(trangHienTai);
+
 </script>
-
-
-
 </body>
 </html>
