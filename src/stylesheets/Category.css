@@ -65,9 +65,9 @@ body {
 }
 
 .khung-san-pham {
-    display: grid; /* dùng grid để canh đều 4 cột */
-    grid-template-columns: repeat(4, 1fr); /* 4 cột bằng nhau */
-    gap: 30px 15px; /* 30px hàng, 15px cột */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* ✅ 5 sản phẩm / hàng */
+    gap: 25px 15px; /* giảm nhẹ khoảng cách cho vừa khung */
     justify-items: center;
     margin-top: 15px;
 }
@@ -215,15 +215,12 @@ body {
 /* === Bộ sắp xếp sản phẩm === */
 .bo-sap-xep {
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center;
-    margin: 20px 0 20px 0;
+    margin: 20px 0 40px 0;
     gap: 10px;
     font-size: 1rem;
-    width: 100%;
 }
-
-
 
 .lua-chon-sap-xep {
     padding: 8px 15px;
@@ -237,6 +234,81 @@ body {
 .lua-chon-sap-xep:focus {
     border-color: #0051c6;
 }
+/* ======== BỘ LỌC + SẮP XẾP ======== */
+.bo-loc-va-sap-xep {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+/* --- Nút Bộ lọc --- */
+.nut-bo-loc {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1.5px solid #c62828;
+    color: #c62828;
+    border-radius: 8px;
+    background-color: transparent;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nut-bo-loc i {
+    font-size: 1.1rem;
+}
+
+.nut-bo-loc:hover {
+    background-color: #c62828;
+    color: #fff;
+}
+
+/* --- Nhóm sắp xếp --- */
+.sap-xep-theo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.label {
+    font-size: 14px;
+    color: #333;
+}
+
+/* --- Nút sắp xếp --- */
+.btn-sap-xep {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #000;
+    border-radius: 50px;
+    padding: 8px 18px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.btn-sap-xep i {
+    font-size: 1rem;
+}
+
+.btn-sap-xep:hover {
+    background-color: #f3f3f3;
+}
+
+.btn-sap-xep.active {
+    background-color: #2b52d6;
+    color: #fff;
+    border-color: #2b52d6;
+}
 
 
 /* --- Căn lề trái gọn gàng --- */
@@ -247,4 +319,9 @@ body {
     margin-left: 15px;
     margin-right: 15px;
 
+}
+
+.phan-trang button {
+    margin: 0 5px;
+    border-radius: 10px;
 }
