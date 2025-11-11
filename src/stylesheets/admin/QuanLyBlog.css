@@ -296,3 +296,45 @@ h4{
     background-color: #198754; /* xanh */
     color: white;
 }
+.add-post-form {
+    max-width: 600px;
+    background: #fff;
+    padding: 25px 30px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    margin: 0 auto 40px auto;
+    animation: fadeIn .4s ease;
+}
+
+.add-post-form .form-title {
+    color: #0051c6;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.add-post-form .form-control {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 10px 12px;
+    transition: all .2s;
+}
+
+.add-post-form .form-control:focus {
+    border-color: #0051c6;
+    box-shadow: 0 0 0 3px rgba(0,81,198,0.1);
+}
+
+.add-post-form button {
+    font-weight: 500;
+    border-radius: 6px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

@@ -51,38 +51,60 @@
 
     <main class="main-content container-fluid p-4">
         <div>
-            <h4 class="tieude"><i class="bi bi-journal-text"></i><b> Quản Lý Blog</b></h4>
+            <!-- Nút mở modal -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="text-primary fw-bold"><i class="bi bi-journal-text"></i> Quản Lý Blog</h4>
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalBlog">
+                    <i class="bi bi-plus-circle"></i> Thêm Bài Viết
+                </button>
+            </div>
 
-            <!-- Nút thêm bài viết -->
-            <button class="btn btn-success mb-3" onclick="showAddForm()">
-                <i class="bi bi-plus-circle"></i> Thêm Bài Viết
-            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="modalBlog" tabindex="-1">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title">
+                                <i class="bi bi-pencil-square"></i> Thêm Bài Viết Mới
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
 
-            <div id="add-blog" style="display:none;">
-                <div class="card p-3 mb-4">
-                    <h5><i class="bi bi-pencil-square"></i> Thêm Bài Viết Mới</h5>
-                    <form id="blogForm" class="mt-3">
-                        <div class="mb-3">
-                            <label class="form-label">Tiêu đề</label>
-                            <input type="text" id="newTitle" class="form-control" required>
+                        <div class="modal-body">
+                            <form id="formBlog" class="row g-3" enctype="multipart/form-data">
+                                <div class="col-md-6">
+                                    <label class="form-label">Tiêu đề</label>
+                                    <input type="text" class="form-control" id="blogTitle" placeholder="Nhập tiêu đề..." required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Mã sản phẩm</label>
+                                    <input type="text" class="form-control" id="blogProduct" placeholder="VD: SP001" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Nội dung</label>
+                                    <textarea class="form-control" id="blogContent" rows="3" placeholder="Nhập nội dung bài viết..." required></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Ảnh minh họa</label>
+                                    <input type="file" class="form-control" id="blogImage" accept="image/*">
+                                    <div class="mt-2 text-center">
+                                        <img id="previewImage" src="" alt="" class="img-thumbnail d-none" style="max-width: 200px;">
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Nội dung</label>
-                            <textarea id="newContent" class="form-control" rows="3" required></textarea>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button class="btn btn-primary" onclick="saveBlog()">Lưu Thay Đổi</button>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Ảnh (URL)</label>
-                            <input type="text" id="newImage" class="form-control" placeholder="https://...">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Mã sản phẩm</label>
-                            <input type="text" id="newProduct" class="form-control" required>
-                        </div>
-                        <button type="button" class="btn btn-primary" onclick="addPost()">Lưu</button>
-                        <button type="button" class="btn btn-secondary" onclick="cancelAdd()">Hủy</button>
-                    </form>
+                    </div>
                 </div>
             </div>
+
+
+
+        </div>
 
             <div id="dsblog" class="users-table mt-4">
 
@@ -247,6 +269,50 @@
             table.draw();
         }
     }
+    // Hiển thị ảnh preview khi chọn file
+    document.getElementById('blogImage').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('previewImage');
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.classList.remove('d-none');
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = '';
+            preview.classList.add('d-none');
+        }
+    });
+
+    function saveBlog() {
+        const title = document.getElementById('blogTitle').value.trim();
+        const content = document.getElementById('blogContent').value.trim();
+        const productId = document.getElementById('blogProduct').value.trim();
+        const imageInput = document.getElementById('blogImage');
+        const date = new Date().toISOString().split('T')[0];
+
+        if (!title || !content || !productId) {
+            alert("Vui lòng nhập đầy đủ thông tin!");
+            return;
+        }
+
+        let imageSrc = "https://via.placeholder.com/100";
+        if (imageInput.files && imageInput.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                imageSrc = e.target.result;
+                appendRow(title, content, imageSrc, productId, date);
+            };
+            reader.readAsDataURL(imageInput.files[0]);
+        } else {
+            appendRow(title, content, imageSrc, productId, date);
+        }
+
+    }
+
+
 </script>
 
 </body>
