@@ -4,40 +4,7 @@
     <meta charset="UTF-8">
     <title>Đăng ký trở thành SMEMBER</title>
     <link rel="stylesheet" href="../stylesheets/register.css">
-    <style>
-        /* Thêm CSS để hiển thị nút Google đẹp hơn */
-        .social-buttons {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
 
-        .btn.social.google {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background-color: #fff;
-            border: 1px solid #dadce0;
-            border-radius: 6px;
-            padding: 10px 16px;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            color: #3c4043;
-            transition: box-shadow 0.2s ease, transform 0.2s ease;
-        }
-
-        .btn.social.google:hover {
-            box-shadow: 0 1px 3px rgba(60,64,67,0.3);
-            transform: translateY(-2px);
-        }
-
-        .btn.social.google img {
-            width: 20px;
-            height: 20px;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
@@ -58,7 +25,11 @@
     <form class="register-form"
           action="https://smember.com.vn/register?action=register&client_id=cps&redirect_uri=https%3A%2F%2Fcellphones.com.vn%2Fcart&response_type=authorization_code&state=PfHa1GJ0FFDVSHVp1gDEJ5pZhgUYek3e2yhVJC8T"
           method="POST">
+        <div class="field">
+            <h2>Tên đăng nhập</h2>
 
+            <input type="text" id="local" name="localname" placeholder="Nhập vào tên đăng nhập" required>
+        </div>
         <h2>Thông tin cá nhân</h2>
         <div class="grid">
             <div class="field">

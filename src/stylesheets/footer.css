@@ -18,8 +18,14 @@ body {
 .footer-column h3 {
     color: #111111;
     margin-bottom: 15px;
-    border-bottom: 1px solid #333;
     padding-bottom: 5px;
+}
+.footer-column h6 {
+    color: #111111;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #333;
+    font-size:1.25rem;
 }
 
 .footer-column h4 {

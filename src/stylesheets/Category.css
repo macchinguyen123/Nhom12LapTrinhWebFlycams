@@ -250,8 +250,8 @@ body {
     align-items: center;
     gap: 6px;
     padding: 8px 16px;
-    border: 1.5px solid #c62828;
-    color: #c62828;
+    border: 1.5px solid #0051c6;
+    color: #0051c6;
     border-radius: 8px;
     background-color: transparent;
     font-weight: 500;
@@ -264,7 +264,7 @@ body {
 }
 
 .nut-bo-loc:hover {
-    background-color: #c62828;
+    background-color: #0051c6;
     color: #fff;
 }
 
@@ -305,9 +305,9 @@ body {
 }
 
 .btn-sap-xep.active {
-    background-color: #2b52d6;
+    background-color: #0051c6;
     color: #fff;
-    border-color: #2b52d6;
+    border-color: #0051c6;
 }
 
 
@@ -325,3 +325,64 @@ body {
     margin: 0 5px;
     border-radius: 10px;
 }
+/* --- Hộp lọc xổ xuống --- */
+.hop-loc {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    width: 260px;
+    z-index: 100;
+    display: none;
+}
+
+.hop-loc h6 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.hop-loc label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.hop-loc input[type="radio"] {
+    margin-right: 6px;
+}
+
+/* Ẩn/hiện */
+.hop-loc.hien {
+    display: block;
+}
+
+/* Ẩn radio mặc định */
+input[type="radio"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #0051c6;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    margin-right: 6px;
+}
+
+/* Khi được chọn */
+input[type="radio"]:checked::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    background-color: #0051c6;
+    border-radius: 50%;
+}
+

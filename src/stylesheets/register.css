@@ -197,4 +197,37 @@ body {
         grid-template-columns: 1fr;
     }
 }
+     /* Thêm CSS để hiển thị nút Google đẹp hơn */
+ .social-buttons {
+     display: flex;
+     justify-content: center;
+     margin-bottom: 20px;
+ }
+
+.btn.social.google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #fff;
+    border: 1px solid #dadce0;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #3c4043;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.btn.social.google:hover {
+    box-shadow: 0 1px 3px rgba(60,64,67,0.3);
+    transform: translateY(-2px);
+}
+
+.btn.social.google img {
+    width: 20px;
+    height: 20px;
+}
+
 
