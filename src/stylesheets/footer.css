@@ -16,6 +16,8 @@ body {
 }
 
 .footer-column h3 {
+    font-size: 20px;
+    font-weight: 600;
     color: #111111;
     margin-bottom: 15px;
     padding-bottom: 5px;
