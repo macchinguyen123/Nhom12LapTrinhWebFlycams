@@ -267,3 +267,15 @@ body {
 .table button {
     margin-right: 5px;
 }
+
+#dsDanhMuc div {
+    margin-bottom: 5px;
+}
+#dsDanhMuc input[type="checkbox"] {
+    margin-right: 8px;
+}
+#maSanPhamRieng {
+    max-width: 400px;
+}
+
+

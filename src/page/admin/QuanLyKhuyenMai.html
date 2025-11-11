@@ -135,11 +135,29 @@
                         <input type="text" class="form-control" id="mucGiam" placeholder="VD: 20% hoặc 200000đ">
                     </div>
 
-                    <div class="col-md-6">
-                        <label class="form-label">Phạm vi áp dụng</label>
-                        <input type="text" class="form-control" id="phamVi"
-                               placeholder="VD: Toàn bộ sản phẩm / 1 danh mục cụ thể">
+                    <div class="col-12">
+                        <label class="form-label fw-bold">Phạm vi áp dụng (Chọn danh mục)</label>
+                        <div id="dsDanhMuc" class="border rounded p-3 bg-light">
+                            <div><input type="checkbox" value="Drone quay phim chuyên nghiệp"> Drone quay phim chuyên nghiệp</div>
+                            <div><input type="checkbox" value="Drone du lịch - vlog"> Drone du lịch - vlog</div>
+                            <div><input type="checkbox" value="Drone thể thao tốc độ cao"> Drone thể thao tốc độ cao</div>
+                            <div><input type="checkbox" value="Drone nông nghiệp"> Drone nông nghiệp</div>
+                            <div><input type="checkbox" value="Drone giám sát - an ninh"> Drone giám sát - an ninh</div>
+                            <div><input type="checkbox" value="Drone mini - cỡ nhỏ"> Drone mini - cỡ nhỏ</div>
+                            <hr>
+                            <div><input type="checkbox" id="apDungTatCa" value="Áp dụng tất cả danh mục"> Áp dụng tất cả danh mục</div>
+                            <div><input type="checkbox" id="khongApDung" value="Không áp dụng danh mục"> Không áp dụng danh mục</div>
+                        </div>
                     </div>
+
+                    <!-- Ô nhập riêng mã sản phẩm -->
+                    <div class="col-12">
+                        <label class="form-label fw-bold mt-2">Mã sản phẩm áp dụng riêng (nếu có)</label>
+                        <input type="text" id="maSanPhamRieng" class="form-control" placeholder="VD: SP001, SP002">
+                    </div>
+
+
+
 
                     <div class="col-md-6">
                         <label class="form-label">Ngày bắt đầu</label>
@@ -177,6 +195,110 @@
                 search: "Tìm kiếm:"
             }
         });
+
+        // ===== NÚT LƯU THAY ĐỔI =====
+        $('.btn-primary').on('click', function () {
+            const maKM = $('#maKhuyenMai').val().trim();
+            const tenCT = $('#tenChuongTrinh').val().trim();
+            const mucGiam = $('#mucGiam').val().trim();
+            const ngayBD = $('#ngayBatDau').val();
+            const ngayKT = $('#ngayKetThuc').val();
+
+            // ✅ Lấy danh mục được chọn
+            let danhMuc = [];
+            $('#dsDanhMuc input[type="checkbox"]:checked').each(function () {
+                danhMuc.push($(this).val());
+            });
+            const phamVi = danhMuc.join(', ') || 'Không có danh mục nào';
+
+            // Lấy mã sản phẩm riêng nếu có
+            const maSanPham = $('#maSanPhamRieng').val().trim() || 'Không áp dụng riêng';
+
+            if (!maKM || !tenCT) {
+                alert("⚠️ Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+
+            //  Kiểm tra xem mã khuyến mãi đã tồn tại chưa
+            let daCo = false;
+            $('#bangKhuyenMai tbody tr').each(function () {
+                if ($(this).find('td:first').text() === maKM) {
+                    $(this).find('td:eq(1)').text(tenCT);
+                    $(this).find('td:eq(2)').text(mucGiam);
+                    $(this).find('td:eq(3)').text(`${ngayBD} - ${ngayKT}`);
+                    $(this).find('td:eq(4)').text(phamVi + (maSanPham !== 'Không áp dụng riêng' ? ` (SP: ${maSanPham})` : ''));
+                    daCo = true;
+                }
+            });
+
+            // Nếu chưa có thì thêm mới
+            if (!daCo) {
+                $('#bangKhuyenMai tbody').append(`
+            <tr>
+                <td>${maKM}</td>
+                <td>${tenCT}</td>
+                <td>${mucGiam}</td>
+                <td>${ngayBD} - ${ngayKT}</td>
+                <td>${phamVi + (maSanPham !== 'Không áp dụng riêng' ? ` (SP: ${maSanPham})` : '')}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm nut-sua"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-danger btn-sm nut-xoa"><i class="bi bi-trash"></i></button>
+                </td>
+            </tr>
+        `);
+            }
+
+            $('#hopThoaiKhuyenMai').modal('hide');
+            $('#bieuMauKhuyenMai')[0].reset();
+            $('#dsDanhMuc input[type="checkbox"]').prop('checked', false);
+            $('#maSanPhamRieng').val('');
+        });
+
+// ===== NÚT SỬA =====
+        $(document).on('click', '.nut-sua', function () {
+            const dong = $(this).closest('tr');
+
+            $('#maKhuyenMai').val(dong.find('td:eq(0)').text());
+            $('#tenChuongTrinh').val(dong.find('td:eq(1)').text());
+            $('#mucGiam').val(dong.find('td:eq(2)').text());
+            const thoigian = dong.find('td:eq(3)').text().split(' - ');
+            $('#ngayBatDau').val(thoigian[0]);
+            $('#ngayKetThuc').val(thoigian[1]);
+
+            // ✅ Xử lý tick danh mục lại
+            const phamViText = dong.find('td:eq(4)').text();
+            const maSPMatch = phamViText.match(/\(SP: (.+)\)/);
+            const maSP = maSPMatch ? maSPMatch[1] : '';
+
+            $('#maSanPhamRieng').val(maSP);
+
+            // Tách danh mục trước phần (SP: ...)
+            const dmText = phamViText.split(' (SP:')[0].trim();
+            const danhMucDaChon = dmText.split(',').map(s => s.trim());
+
+            $('#dsDanhMuc input[type="checkbox"]').each(function () {
+                $(this).prop('checked', danhMucDaChon.includes($(this).val()));
+            });
+
+            new bootstrap.Modal($('#hopThoaiKhuyenMai')).show();
+        });
+
+// ===== Checkbox logic “Áp dụng tất cả” & “Không áp dụng” =====
+        $('#apDungTatCa').on('change', function () {
+            if (this.checked) {
+                $('#dsDanhMuc input[type="checkbox"]').not(this).prop('checked', false);
+            }
+        });
+        $('#khongApDung').on('change', function () {
+            if (this.checked) {
+                $('#dsDanhMuc input[type="checkbox"]').not(this).prop('checked', false);
+            }
+        });
+        $('#dsDanhMuc input[type="checkbox"]').not('#apDungTatCa, #khongApDung').on('change', function () {
+            $('#apDungTatCa, #khongApDung').prop('checked', false);
+        });
+
+
 
 // === Tuỳ chỉnh ô tìm kiếm mặc định của DataTables ===
         $('#bangKhuyenMai_filter input').addClass('form-control shadow-sm');
