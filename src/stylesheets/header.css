@@ -11,6 +11,12 @@
     width: 80%;
     margin: 0 auto;
 }
+a {
+    text-decoration: none;
+    color: inherit;
+    display: contents;
+}
+
 
 /* ==== HEADER TRÊN ==== */
 .header-bg {
@@ -148,3 +154,51 @@
     font-size: 18px;
     vertical-align: middle;
 }
+.menu-left-1 {
+    display: none;
+    position: absolute;
+    top: 145px; /* khoảng cách dưới thanh menu, chỉnh theo chiều cao header */
+    left: 157px; /* canh ngay dưới nút Danh mục (điều chỉnh tuỳ vị trí thật của nút) */
+    z-index: 1000;
+
+    width: 260px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    padding: 0px 0;
+    flex-direction: column;
+    animation: fadeIn 0.25s ease-in-out;
+}
+
+.menu-left-1.show {
+    display: flex;
+}
+
+/* Hiệu ứng hiện mượt mà */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.menu-left-1 li {
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background 0.3s, padding-left 0.3s;
+}
+
+.menu-left-1 li:hover {
+    background: #f0f6ff;
+    padding-left: 22px;
+}
+
+.menu-left-1 .menu-icon {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+}
+
