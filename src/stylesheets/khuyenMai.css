@@ -1,44 +1,32 @@
-/* Reset nhẹ */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
+/* GIỮ NGUYÊN header + mô tả + ribbon SALE như bạn yêu cầu */
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
     font-family: "Poppins", Arial, sans-serif;
-    background: linear-gradient(135deg, #f0f4f8, #ffffff);
+    background: linear-gradient(135deg,#f0f4f8,#ffffff);
     color: #1f2937;
     line-height: 1.5;
     margin: 0;
     padding: 24px 10px;
 }
-
-/* Khung nội dung */
 .khung-noi-dung {
-    max-width: calc(100% - 160px); /* ✅ Lùi vào 80px mỗi bên */
-    margin: 0 auto; /* Căn giữa toàn trang */
+    max-width: calc(100% - 160px);
+    margin: 0 auto;
     background: #0051c6;
     padding: 30px 20px;
     border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.1);
+    box-shadow: 0 6px 18px rgba(15,23,42,0.1);
 }
-
-
-/* Header */
 .khung-tieu-de {
     text-align: center;
     margin-bottom: 30px;
 }
-
 #ten-chuong-trinh {
     color: #0051c6;
     font-size: 2rem;
     letter-spacing: 1px;
     margin-bottom: 8px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-
 .mo-ta-chuong-trinh {
     color: white;
     font-size: 1rem;
@@ -49,8 +37,6 @@ body {
     font-weight: 500;
 }
 
-
-
 /* Lưới sản phẩm */
 .danh-sach-flycam {
     display: grid;
@@ -59,90 +45,23 @@ body {
     justify-items: center;
 }
 
-/* Thẻ sản phẩm */
+/* === Thẻ sản phẩm (theo style "sản phẩm nổi bật") === */
 .the-san-pham {
-    background: #ffffff;
-    border-radius: 14px;
-    padding: 3px;
-    width: 100%;
+    position: relative;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    padding-left: 4px;
-    align-items: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-    position: relative;
+    transition: transform .3s, box-shadow .3s;
 }
-
 .the-san-pham:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15);
+    transform: translateY(-6px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
 }
 
-/* Ảnh sản phẩm với hiệu ứng zoom */
-.anh-san-pham {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 12px;
-    transition: transform 0.3s ease;
-}
-
-.the-san-pham:hover .anh-san-pham {
-    transform: scale(1.05);
-}
-
-.ten-san-pham {
-    font-size: 1.05rem;
-    color: #0f172a;
-    margin-bottom: 6px;
-    font-weight: 600;
-}
-
-.mo-ta-san-pham {
-    font-size: 0.9rem;
-    color: black;
-    margin-bottom: 10px;
-    min-height: 44px;
-}
-
-/* Giá */
-.gia-block {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 5px;
-    margin-bottom: 6px;
-}
-
-.gia-moi {
-    color: #dc2626;
-    font-weight: 700;
-    font-size: 1.15rem;
-
-    padding: 3px 8px;
-    border-radius: 6px;
-}
-
-.gia-cu {
-    color: #6b7280;
-    text-decoration: line-through;
-    font-size: 0.9rem;
-}
-
-/* Ghi chú nhỏ */
-.ghi-chu {
-    font-size: 0.85rem;
-    color: #6b7280;
-    background: #f9fafb;
-    padding: 6px 10px;
-    border-radius: 6px;
-    margin-top: auto;
-}
-
-/* Ribbon SALE */
+/* Ribbon SALE giữ nguyên */
 .the-san-pham::before {
     content: "SALE";
     position: absolute;
@@ -157,36 +76,296 @@ body {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
+/* Ảnh sản phẩm */
+.anh-san-pham {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    transition: transform .3s ease;
+}
+.the-san-pham:hover .anh-san-pham {
+    transform: scale(1.05);
+}
+
+/* Nội dung sản phẩm */
+.noi-dung-san-pham {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.ten-san-pham {
+    font-size: 1rem;
+    color: #0f172a;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 4px;
+}
+.mo-ta-san-pham {
+    font-size: 0.85rem;
+    color: #333;
+    margin-bottom: 8px;
+    min-height: 40px;
+}
+
+/* Giá */
+.gia-block {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+.gia-moi {
+    color: #dc2626;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+.gia-cu {
+    color: #999;
+    text-decoration: line-through;
+    font-size: 0.9rem;
+}
+
+/* Sao + tim */
+.hang-danh-gia {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    align-items: center;
+    margin-top: 6px;
+}
+.danh-gia-sao {
+    color: #ffb400;
+}
+.tim-yeu-thich {
+    font-size: 1.3rem;
+    color: #bbb;
+    cursor: pointer;
+    transition: color .3s;
+}
+.tim-yeu-thich.yeu-thich {
+    color: #ff4d4d;
+}
+
+/* Nút mua ngay */
+.nut-mua-ngay {
+    margin-top: 10px;
+    background-color: #0051c6;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all .3s;
+}
+.nut-mua-ngay:hover {
+    background-color: #003c94;
+    transform: scale(1.05);
+}
+
 /* Responsive */
-@media (max-width: 1200px) {
-    .danh-sach-flycam {
-        grid-template-columns: repeat(3, 1fr);
-    }
+@media (max-width: 1200px){
+    .danh-sach-flycam { grid-template-columns: repeat(3,1fr); }
+}
+@media (max-width: 768px){
+    .danh-sach-flycam { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 480px){
+    .danh-sach-flycam { grid-template-columns: 1fr; }
 }
 
-@media (max-width: 768px) {
-    body {
-        padding: 16px;
-    }
-    #ten-chuong-trinh {
-        font-size: 1.6rem;
-    }
-    .khung-noi-dung {
-        padding: 20px;
-    }
-    .danh-sach-flycam {
+
+/*FOOTER*/
+body {
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+
+}
+
+.footer {
+    background-color: #f1f1f1;
+    padding: 50px 80px;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 50px;
+}
+
+.footer-column h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111111;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+}
+.footer-column h6 {
+    color: #111111;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #333;
+    font-size:1.25rem;
+}
+
+.footer-column h4 {
+    color: #111111;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+.footer-column p,
+.footer-column a,
+.footer-column li {
+    color: #111111;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column a {
+    text-decoration: none;
+    color: #111111;
+}
+
+.footer-column a:hover {
+    color: #141155;
+}
+
+.mascot {
+    width: 130px;
+    margin: 0px auto;
+}
+
+.social-icons a {
+    font-size: 20px;
+    color: #ccc;
+    margin-right: 15px;
+    transition: 0.3s;
+}
+
+.social-icons a:hover {
+    color: #fff;
+}
+
+.hotline {
+    margin-top: 10px;
+    background-color: #0051c6;
+    color: #fff;
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.footer-bottom {
+    border-top: 1px solid #111111;
+    margin-top: 40px;
+    padding-top: 20px;
+    font-size: 13px;
+    color: #111111;
+    text-align: center;
+}
+
+
+.payment-methods {
+    font-family: "Segoe UI", sans-serif;
+    margin: 20px auto;
+}
+
+
+
+/* Grid 3 cột, logo tự xuống hàng sau 3 cái */
+.payment-icons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-content: center;
+    max-width: 360px; /* gọn giữa trang */
+    margin: 0 auto;
+}
+
+/* Logo nhỏ, trong ô bo tròn */
+.payment-icons img {
+    width: 60px;
+    height: 26px;
+    object-fit: contain;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hiệu ứng hover nhẹ */
+.payment-icons img:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive nhỏ màn hình thì 2 logo / dòng */
+@media (max-width: 400px) {
+    .payment-icons {
         grid-template-columns: repeat(2, 1fr);
+        max-width: 280px;
+    }
+
+    .payment-icons img {
+        width: 55px;
+        height: 24px;
     }
 }
 
-@media (max-width: 480px) {
-    .danh-sach-flycam {
+.social-connect {
+    font-family: "Segoe UI", sans-serif;
+    margin: 0px;
+}
+
+
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.social-icons .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 3px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.social-icons .icon img {
+    width: 22px;
+    height: 22px;
+}
+
+.social-icons .icon:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+
+@media (max-width: 900px) {
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-container {
         grid-template-columns: 1fr;
-    }
-    .anh-san-pham {
-        height: 150px;
-    }
-    .gia-moi {
-        font-size: 1rem;
     }
 }
