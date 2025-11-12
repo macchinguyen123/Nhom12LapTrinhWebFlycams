@@ -284,8 +284,8 @@ body {
     align-items: center;
     gap: 6px;
     padding: 8px 16px;
-    border: 1.5px solid #c62828;
-    color: #c62828;
+    border: 1.5px solid #0051c6;
+    color: #0051c6;
     border-radius: 8px;
     background-color: transparent;
     font-weight: 500;
@@ -298,7 +298,7 @@ body {
 }
 
 .nut-bo-loc:hover {
-    background-color: #c62828;
+    background-color: #0051c6;
     color: #fff;
 }
 
@@ -339,9 +339,9 @@ body {
 }
 
 .btn-sap-xep.active {
-    background-color: #2b52d6;
+    background-color: #0051c6;
     color: #fff;
-    border-color: #2b52d6;
+    border-color: #0051c6;
 }
 
 
