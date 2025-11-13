@@ -331,16 +331,6 @@
         });
     });
 
-    // === Chọn nút sắp xếp ===
-    const nutSapXep = document.querySelectorAll('.btn-sap-xep');
-    nutSapXep.forEach(btn => {
-        btn.addEventListener('click', () => {
-            nutSapXep.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            console.log("🔹 Đã chọn:", btn.textContent.trim());
-        });
-    });
-
 </script>
 
 </body>

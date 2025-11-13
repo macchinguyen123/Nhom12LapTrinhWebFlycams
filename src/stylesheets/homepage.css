@@ -17,6 +17,24 @@ body {
     border-radius: 10px;
 }
 
+.phan-san-pham-noi-bat {
+    color: #000000;
+    background-color: #ffffff;
+    width: 80%;
+    margin: 0 auto; /* căn giữa phần đỏ */
+    padding: 20px 0%;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.phan-san-pham-noi-bat h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
 
 .khung-san-pham {
     display: grid;
@@ -170,11 +188,13 @@ body {
     margin-left: 15px; /*không dính mép */
     margin-right: 15px;
 }
+
 a {
     text-decoration: none;
     color: inherit;
     display: contents;
 }
+
 .banner {
     width: 80%;
     height: 120px;
@@ -190,6 +210,7 @@ a {
     display: block;
     border-radius: 6px;
 }
+
 /* === BÀI VIẾT CÙNG CHỦ ĐỀ === */
 .related-articles {
     margin: 50px auto; /* canh giữa */
@@ -202,14 +223,9 @@ a {
 
 
 .related-articles h2 {
-    /*font-size: 22px;*/
-    /*font-weight: bold;*/
-    /*margin-bottom: 20px;*/
-
-
-    font-size: 24px;
-    font-weight: 700;
-    color: rgb(34, 34, 34);
+    font-size: 28px;
+    font-weight: bold;
+    color: #222;
     margin-bottom: 30px;
     text-align: left;
 }
@@ -245,5 +261,5 @@ a {
 
 .related-item:hover {
     transform: translateY(-4px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
