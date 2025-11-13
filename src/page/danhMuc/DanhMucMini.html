@@ -16,12 +16,37 @@
 <section class="phan-san-pham">
     <h2 class="tieu-de-muc">Drone mini, cở nhỏ</h2>
 
-    <!-- Sắp xếp và Lọc -->
-    <div class="bo-loc-va-sap-xep">
+    <div class="bo-loc-va-sap-xep position-relative">
+
         <!-- Nút Bộ lọc -->
-        <button class="nut-bo-loc">
+        <button class="nut-bo-loc btn btn-outline-primary">
             <i class="bi bi-funnel"></i> Bộ lọc
         </button>
+
+        <!-- Cửa sổ xổ xuống -->
+        <div class="hop-loc" id="hop-loc">
+            <h6><i class="bi bi-funnel"></i> Lọc theo giá</h6>
+            <hr class="my-2">
+
+            <!-- Các khoảng giá -->
+            <div class="danh-sach-loc">
+                <label><input type="radio" name="chon-gia" value="tat-ca" checked> Tất cả</label>
+                <label><input type="radio" name="chon-gia" value="duoi-5000000"> Dưới 5.000.000 ₫</label>
+                <label><input type="radio" name="chon-gia" value="5-10"> 5.000.000 ₫ - 10.000.000 ₫</label>
+                <label><input type="radio" name="chon-gia" value="10-20"> 10.000.000 ₫ - 20.000.000 ₫</label>
+                <label><input type="radio" name="chon-gia" value="tren-20"> Trên 20.000.000 ₫</label>
+                <p><b>Nhập vào khoảng giá bạn muốn</b></p>
+                <div class="d-flex align-items-center gap-1">
+                    <input type="number" id="gia-tu" class="form-control form-control-sm" placeholder="Từ ₫" style="width: 100px;">
+                    <span>-</span>
+                    <input type="number" id="gia-den" class="form-control form-control-sm" placeholder="Đến ₫" style="width: 100px;">
+                </div>
+                <button id="btn-ap-dung-gia" class="btn btn-sm btn-primary mt-2">Áp dụng</button>
+            </div>
+
+
+        </div>
+
 
         <!-- Nhóm sắp xếp -->
         <div class="sap-xep-theo">
@@ -137,9 +162,8 @@
         <div class="san-pham">
             <img src="/image/sanPhamMiNi/Flycam Autel Nano Plus.png" alt="DJlMini3">
 
-            <h3 class="ten-san-pham">"Flycam Autel Nano Plus
-                4K gimbal 3 trục 10km – Bản combo –
-                cảm biến va chạm 3 chiều- Bh 12 tháng"</h3>
+            <h3 class="ten-san-pham">Flycam Autel Nano Plus
+                4K</h3>
             <div class="gia"><b>20.500.000 ₫</b>
                 <span class="gia-goc">21.000.000 ₫</span>
             </div>
@@ -310,7 +334,7 @@
         <div class="san-pham">
             <img src="/image/sanPhamMiNi/Potensic A20 Mini Drone.png" alt="FlycamDJIMini3WithDJIRCRemoteController">
 
-            <h3 class="ten-san-pham">Potensic A20 Mini Drone Easy to Fly Drone for Kids and Beginners Gift, RC, Headless Mode</h3>
+            <h3 class="ten-san-pham">Potensic A20 Mini Drone Easy </h3>
             <div class="gia"><b>7.650.000 ₫</b>
                 <span class="gia-goc">9.650.000 ₫</span>
             </div>
@@ -336,7 +360,7 @@
         <div class="san-pham">
             <img src="/image/sanPhamMiNi/Flycam ZLRC SG906 Pro.png" alt="FlycamDJIO4AirUnit">
 
-            <h3 class="ten-san-pham">Flycam ZLRC SG906 Pro GPS Camera WIFI 5G FPV 4K – gimbal 2 trục chống rung</h3>
+            <h3 class="ten-san-pham">Flycam ZLRC SG906 Pro GPS Camera WIFI 5G FPV 4K</h3>
             <div class="gia"><b>3.300.000 ₫</b>
                 <span class="gia-goc">3.830.000 ₫</span>
             </div>
@@ -358,7 +382,7 @@
         </div>
         <div class="san-pham">
             <img src="/image/sanPhamMiNi/Syma X5C 4 Channel .png" alt="DJI Phantom 4 Pro">
-            <h3 class="ten-san-pham">Syma X5C 4 Channel 2.4GHz RC Explorers Quad Copter w/ Camera</h3>
+            <h3 class="ten-san-pham">Syma X5C 4 Channel 2.4GHz RC Explorers </h3>
             <div class="gia"><b>1.404.000 ₫</b>
                 <span class="gia-goc">1.634.000 ₫</span>
             </div>
@@ -379,7 +403,7 @@
         <!-- === SẢN PHẨM 15 === -->
         <div class="san-pham">
             <img src="/image/sanPhamMiNi/COMBO FPV TẬP BAY.png" alt="Flycam E88 Pro Max">
-            <h3 class="ten-san-pham">COMBO FPV TẬP BAY: Bộ Cetus X FPV – CHÍNH HÃNG – FPV BETA</h3>
+            <h3 class="ten-san-pham">COMBO FPV : Cetus X FPV – FPV BETA</h3>
             <div class="gia"><b>6.700.000 ₫</b>
                 <span class="gia-goc">7.000.000 ₫</span>
             </div>
@@ -463,7 +487,7 @@
         <!-- === SẢN PHẨM 19 === -->
         <div class="san-pham">
             <img src="/image/sanPhamMiNi/Tinyhawk 3 RTF Kit.png" alt="Flycam C-Fly Faith 2S">
-            <h3 class="ten-san-pham">Tinyhawk 3 RTF Kit 1s FRSKY FPV Drone for Beginners with Controller and 5.6G Goggles Quadcopter Ready to Fly Kit</h3>
+            <h3 class="ten-san-pham">Tinyhawk 3 RTF Kit 1s FRSKY FPV Drone</h3>
             <div class="gia"><b>8.897.000 ₫</b>
                 <span class="gia-goc">9.123.000 ₫</span>
             </div>
@@ -484,7 +508,7 @@
         <!-- === SẢN PHẨM 20 === -->
         <div class="san-pham">
             <img src="/image/sanPhamMiNi/Betafpv Meteor75 Pro - Sóng Elrs.png" alt="DJI Avata FPV Combo">
-            <h3 class="ten-san-pham">Betafpv Meteor75 Pro - Sóng Elrs</h3>
+            <h3 class="ten-san-pham">Betafpv Meteor75 Pro -Sóng Elrs</h3>
             <div class="gia"><b>2.500.000 ₫</b>
                 <span class="gia-goc">3.500.000 ₫</span>
             </div>
@@ -601,19 +625,30 @@
         }
     });
 
+    // === Hiện / Ẩn cửa sổ bộ lọc ===
+    const nutBoLoc = document.querySelector('.nut-bo-loc');
+    const hopLoc = document.getElementById('hop-loc');
+    const radioLocGia = document.getElementsByName('chon-gia');
+    const nhapGiaDiv = document.getElementById('nhap-gia-tuy-chinh');
+    const btnApDung = document.getElementById('btn-ap-dung-gia');
+    const inputTu = document.getElementById('gia-tu');
+    const inputDen = document.getElementById('gia-den');
+
+    // Toggle cửa sổ khi nhấn nút "Bộ lọc"
+    nutBoLoc.addEventListener('click', () => {
+        hopLoc.classList.toggle('hien');
+    });
+
+    // Ẩn khi click ra ngoài
+    document.addEventListener('click', (e) => {
+        if (!hopLoc.contains(e.target) && !nutBoLoc.contains(e.target)) {
+            hopLoc.classList.remove('hien');
+        }
+    });
     // Hiển thị trang đầu tiên khi tải trang
     hienThiTrang(trangHienTai);
 
-    // document.querySelectorAll('img').forEach(sp => {
-    //     sp.addEventListener('click', () => {
-    //         window.location.href = 'product-details.html';
-    //     });
-    // });
-    // document.querySelectorAll('.nut-mua-ngay').forEach(sp => {
-    //     sp.addEventListener('click', () => {
-    //         window.location.href = 'product-details.html';
-    //     });
-    // });
+
 </script>
 </body>
 </html>

@@ -7,12 +7,14 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #fff;
+    color: #222;
     height: 100vh;
     width: 100vw;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    padding: 50px 10px;
 }
 
 /* KHUNG: tinh chỉnh để trông sang hơn */
@@ -90,35 +92,43 @@ input:focus {
     gap: 1rem;
     width: 100%;
 }
-
-.nut {
-    flex: 1;
-    padding: 0.8rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+/* ---- Style cho các nút liên kết ---- */
+a.nut {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
     font-weight: 600;
+    font-size: 14px;
+    transition: all 0.25s ease;
 }
 
-.nut_quay_lai {
-    background-color: #f1f1f1;
-    color: #333;
-}
-
-.nut_quay_lai:hover {
-    background-color: #e2e2e2;
-}
-
-.nut_tiep_tuc {
-    background-color: #0051c6;
+/* Nút chính (xác nhận / tiếp tục) */
+.nut_tiep_tuc, .nut_xac_nhan {
+    background: #0051c6;
     color: #fff;
+    border: none;
+}
+.nut_tiep_tuc:hover, .nut_xac_nhan:hover {
+    background: #003e99;
 }
 
-.nut_tiep_tuc:hover {
-    background-color: #1d1a7a;
+/* Nút phụ (quay lại) */
+.nut_quay_lai {
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #222;
 }
+.nut_quay_lai:hover {
+    background: #f2f2f2;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    display: contents;
+}
+
+
 
 /* Responsive */
 @media (max-width: 480px) {

@@ -16,26 +16,56 @@
 <section class="phan-san-pham">
     <h2 class="tieu-de-muc">Drone nông nghiệp</h2>
 
-    <!-- Sắp xếp và Lọc -->
-    <div class="bo-loc-va-sap-xep">
-        <button class="nut-bo-loc">
+    <div class="bo-loc-va-sap-xep position-relative">
+
+        <!-- Nút Bộ lọc -->
+        <button class="nut-bo-loc btn btn-outline-primary">
             <i class="bi bi-funnel"></i> Bộ lọc
         </button>
 
+        <!-- Cửa sổ xổ xuống -->
+        <div class="hop-loc" id="hop-loc">
+            <h6><i class="bi bi-funnel"></i> Lọc theo giá</h6>
+            <hr class="my-2">
+
+            <!-- Các khoảng giá -->
+            <div class="danh-sach-loc">
+                <label><input type="radio" name="chon-gia" value="tat-ca" checked> Tất cả</label>
+                <label><input type="radio" name="chon-gia" value="duoi-5000000"> Dưới 5.000.000 ₫</label>
+                <label><input type="radio" name="chon-gia" value="5-10"> 5.000.000 ₫ - 10.000.000 ₫</label>
+                <label><input type="radio" name="chon-gia" value="10-20"> 10.000.000 ₫ - 20.000.000 ₫</label>
+                <label><input type="radio" name="chon-gia" value="tren-20"> Trên 20.000.000 ₫</label>
+                <p><b>Nhập vào khoảng giá bạn muốn</b></p>
+                <div class="d-flex align-items-center gap-1">
+                    <input type="number" id="gia-tu" class="form-control form-control-sm" placeholder="Từ ₫" style="width: 100px;">
+                    <span>-</span>
+                    <input type="number" id="gia-den" class="form-control form-control-sm" placeholder="Đến ₫" style="width: 100px;">
+                </div>
+                <button id="btn-ap-dung-gia" class="btn btn-sm btn-primary mt-2">Áp dụng</button>
+            </div>
+
+
+        </div>
+
+
+        <!-- Nhóm sắp xếp -->
         <div class="sap-xep-theo">
             <span class="label">Sắp xếp theo:</span>
             <button class="btn-sap-xep active">Nổi bật</button>
-            <button class="btn-sap-xep"><i class="bi bi-filter"></i> Giá Thấp - Cao</button>
-            <button class="btn-sap-xep"><i class="bi bi-filter"></i> Giá Cao - Thấp</button>
+            <button class="btn-sap-xep">
+                <i class="bi bi-filter"></i> Giá Thấp - Cao
+            </button>
+            <button class="btn-sap-xep">
+                <i class="bi bi-filter"></i> Giá Cao - Thấp
+            </button>
         </div>
     </div>
-
     <!-- Lưới sản phẩm -->
     <div class="khung-san-pham">
 
         <!-- SẢN PHẨM 1 -->
         <div class="san-pham">
-            <img src="../image/parap04.png" alt="Agricultural P04">
+            <img src="../image/sanPhamNongNghiep/parap04.png" alt="Agricultural P04">
             <h3 class="ten-san-pham">Agricultural P04</h3>
             <div class="gia">
                 <b>95.000.000 ₫</b>
@@ -57,7 +87,7 @@
 
         <!-- SẢN PHẨM 2 -->
         <div class="san-pham">
-            <img src="../image/argasT10.png" alt="Drone Phun Thuốc T10 Pro">
+            <img src="../image/sanPhamNongNghiep/argasT10.png" alt="Drone Phun Thuốc T10 Pro">
             <h3 class="ten-san-pham">Drone Phun Thuốc T10 Pro</h3>
             <div class="gia"><b>79.000.000 ₫</b><span class="gia-goc">88.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -76,7 +106,7 @@
 
         <!-- SẢN PHẨM 3 -->
         <div class="san-pham">
-            <img src="../image/t20p.png" alt="Drone Nông Nghiệp T20P">
+            <img src="../image/sanPhamNongNghiep/t20p.png" alt="Drone Nông Nghiệp T20P">
             <h3 class="ten-san-pham">Drone Nông Nghiệp T20P</h3>
             <div class="gia"><b>120.000.000 ₫</b><span class="gia-goc">135.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -95,7 +125,7 @@
 
         <!-- SẢN PHẨM 4 -->
         <div class="san-pham">
-            <img src="../image/agrast50.png" alt="Dronet50">
+            <img src="../image/sanPhamNongNghiep/agrast50.png" alt="Dronet50">
             <h3 class="ten-san-pham">Agras T50</h3>
             <div class="gia"><b>85.000.000 ₫</b><span class="gia-goc">95.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -114,7 +144,7 @@
 
         <!-- SẢN PHẨM 5 -->
         <div class="san-pham">
-            <img src="../image/agrast40.png" alt="Drone Gieo Hạt SmartAgri S8">
+            <img src="../image/sanPhamNongNghiep/agrasT40.png" alt="Drone Gieo Hạt SmartAgri S8">
             <h3 class="ten-san-pham">Agras T40</h3>
             <div class="gia"><b>68.000.000 ₫</b><span class="gia-goc">75.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -133,7 +163,7 @@
 
         <!-- SẢN PHẨM 6 -->
         <div class="san-pham">
-            <img src="../image/agrast25.png" alt="Drone Nông Nghiệp">
+            <img src="../image/sanPhamNongNghiep/agrast25.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">Agras T25</h3>
             <div class="gia"><b>102.000.000 ₫</b><span class="gia-goc">112.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -152,7 +182,7 @@
 
         <!-- SẢN PHẨM 7 -->
         <div class="san-pham">
-            <img src="../image/parap20.png" alt="Drone Phun Thuốc">
+            <img src="../image/sanPhamNongNghiep/parap20.png" alt="Drone Phun Thuốc">
             <h3 class="ten-san-pham">Para P20</h3>
             <div class="gia"><b>135.000.000 ₫</b><span class="gia-goc">145.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -171,7 +201,7 @@
 
         <!-- SẢN PHẨM 8 -->
         <div class="san-pham">
-            <img src="../image/eftg630.png" alt="Drone Nông Nghiệp">
+            <img src="../image/sanPhamNongNghiep/eftg630.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">EFT G630</h3>
             <div class="gia"><b>160.000.000 ₫</b><span class="gia-goc">175.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -188,7 +218,7 @@
             <button class="nut-mua-ngay">Mua Ngay</button>
         </div>
         <div class="san-pham">
-            <img src="../image/eftg616.png" alt="Drone Nông Nghiệp">
+            <img src="../image/sanPhamNongNghiep/eftg616.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">EFT G616</h3>
             <div class="gia"><b>111.000.000 ₫</b><span class="gia-goc">115.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -205,7 +235,7 @@
             <button class="nut-mua-ngay">Mua Ngay</button>
         </div>
         <div class="san-pham">
-            <img src="../image/THEA 160.png" alt="Drone Nông Nghiệp">
+            <img src="../image/sanPhamNongNghiep/THEA%20160.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">THEA 160</h3>
             <div class="gia"><b>14.000.000 ₫</b><span class="gia-goc">15.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -222,7 +252,7 @@
             <button class="nut-mua-ngay">Mua Ngay</button>
         </div>
         <div class="san-pham">
-            <img src="../image/aq2.png" alt="Drone Nông Nghiệp">
+            <img src="../image/sanPhamNongNghiep/aq2.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">TSV-AQ2</h3>
             <div class="gia"><b>111.000.000 ₫</b><span class="gia-goc">115.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -239,7 +269,7 @@
             <button class="nut-mua-ngay">Mua Ngay</button>
         </div>
         <div class="san-pham">
-            <img src="../image/f16l.png" alt="Drone Nông Nghiệp">
+            <img src="../image/sanPhamNongNghiep/f16l.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">DJI F16L</h3>
             <div class="gia"><b>22.100.000 ₫</b><span class="gia-goc">25.990.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -256,7 +286,7 @@
             <button class="nut-mua-ngay">Mua Ngay</button>
         </div>
         <div class="san-pham">
-            <img src="../image/X4.png" alt="Drone Nông Nghiệp">
+            <img src="../image/sanPhamNongNghiep/X4.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">DJI X4</h3>
             <div class="gia"><b>42.980.000 ₫</b><span class="gia-goc">50.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -273,7 +303,7 @@
             <button class="nut-mua-ngay">Mua Ngay</button>
         </div>
         <div class="san-pham">
-            <img src="../image/g20q.png" alt="Drone Nông Nghiệp">
+            <img src="../image/sanPhamNongNghiep/g20q.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">EFT G20Q</h3>
             <div class="gia"><b>77.770.000 ₫</b><span class="gia-goc">80.120.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -290,7 +320,7 @@
             <button class="nut-mua-ngay">Mua Ngay</button>
         </div>
         <div class="san-pham">
-            <img src="../image/f800.png" alt="Drone Nông Nghiệp">
+            <img src="../image/sanPhamNongNghiep/f800.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">F800</h3>
             <div class="gia"><b>52.000.000 ₫</b><span class="gia-goc">54.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -308,7 +338,7 @@
             <button class="nut-mua-ngay">Mua Ngay</button>
         </div>
         <div class="san-pham">
-            <img src="../image/HRT-C50.png" alt="Drone Nông Nghiệp">
+            <img src="../image/sanPhamNongNghiep/HRT-C50.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">HRT-C50</h3>
             <div class="gia"><b>34.900.000 ₫</b><span class="gia-goc">35.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -325,7 +355,7 @@
             <button class="nut-mua-ngay">Mua Ngay</button>
         </div>
         <div class="san-pham">
-            <img src="../image/TYI6-20C.png" alt="Drone Nông Nghiệp">
+            <img src="../image/sanPhamNongNghiep/TYI6-20C.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">TYI6-20C</h3>
             <div class="gia"><b>13.888.000 ₫</b><span class="gia-goc">20.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -342,7 +372,7 @@
             <button class="nut-mua-ngay">Mua Ngay</button>
         </div>
         <div class="san-pham">
-            <img src="../image/zlion10.png" alt="Drone Nông Nghiệp">
+            <img src="../image/sanPhamNongNghiep/zlion10.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">EFT G616</h3>
             <div class="gia"><b>11.000.000 ₫</b><span class="gia-goc">15.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -359,7 +389,7 @@
             <button class="nut-mua-ngay">Mua Ngay</button>
         </div>
         <div class="san-pham">
-            <img src="../image/a101300.png" alt="Drone Nông Nghiệp">
+            <img src="../image/sanPhamNongNghiep/a101300.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">A10-1300</h3>
             <div class="gia"><b>130.000.000 ₫</b><span class="gia-goc">132.900.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -376,7 +406,7 @@
             <button class="nut-mua-ngay">Mua Ngay</button>
         </div>
         <div class="san-pham">
-            <img src="../image/350rtk.png" alt="Drone Nông Nghiệp">
+            <img src="../image/sanPhamNongNghiep/350rtk.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">Matrice 350-RTK</h3>
             <div class="gia"><b>13.000.000 ₫</b><span class="gia-goc">14.000.000 ₫</span></div>
             <div class="hang-danh-gia">
@@ -393,7 +423,7 @@
             <button class="nut-mua-ngay">Mua Ngay</button>
         </div>
         <div class="san-pham">
-            <img src="../image/m305pro.png" alt="Drone Nông Nghiệp">
+            <img src="../image/sanPhamNongNghiep/m350pro.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">M350-PRO</h3>
             <div class="gia"><b>24.000.000 ₫</b><span class="gia-goc">27.000.000 ₫</span></div>
             <div class="hang-danh-gia">
