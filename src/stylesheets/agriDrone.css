@@ -310,6 +310,67 @@ body {
     border-color: #0051c6;
 }
 
+/* --- Hộp lọc xổ xuống --- */
+.hop-loc {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    width: 260px;
+    z-index: 100;
+    display: none;
+}
+
+.hop-loc h6 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.hop-loc label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.hop-loc input[type="radio"] {
+    margin-right: 6px;
+}
+
+/* Ẩn/hiện */
+.hop-loc.hien {
+    display: block;
+}
+
+/* Ẩn radio mặc định */
+input[type="radio"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #0051c6;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    margin-right: 6px;
+}
+
+/* Khi được chọn */
+input[type="radio"]:checked::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    background-color: #0051c6;
+    border-radius: 50%;
+}
+
 
 
 /* --- Căn lề trái gọn gàng --- */
