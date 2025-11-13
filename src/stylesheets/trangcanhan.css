@@ -29,25 +29,37 @@ body {
     padding: 30px 20px;
     background: #fff;
 }
+
 .address-select-group {
     display: flex;
+    width: 100%;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-top: 8px;
 }
 
-.address-select-group select {
-    flex: 1;
+.address-select-item {
+    flex: 1; /* chia đều 50% */
+}
+
+.address-select-item select {
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 14px;
     transition: border 0.2s;
+    background-color: #fff;
 }
 
-.address-select-group select:focus {
+.address-select-item select:focus {
     border-color: #0051c6;
     outline: none;
 }
+form {
+    width: 100%;
+}
+
+
 
 #detailAddress {
     width: 100%;
