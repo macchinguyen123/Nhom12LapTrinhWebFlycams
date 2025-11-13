@@ -13,6 +13,11 @@ body {
     min-height: 100vh;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+    display: contents;
+}
 .left {
     flex: 7;
     background: #fff;
@@ -118,9 +123,4 @@ body {
 }
 .vnpay-option:hover {
     background: #f6f9ff;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
 }

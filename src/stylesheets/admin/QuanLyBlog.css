@@ -338,3 +338,13 @@ h4{
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+/* Màu thanh tiêu đề bảng blog */
+table#tableBlog > thead.table-dark {
+    background-color: #0051c6 !important;
+}
+
+table#tableBlog > thead.table-dark th {
+    background-color: #0051c6 !important;
+    color: #fff !important;
+    border-color: #0047a3 !important;
+}

@@ -28,7 +28,7 @@
         <h5 class="mb-4 fw-bold">Phương Thức Thanh Toán</h5>
 
         <!-- FORM THANH TOÁN -->
-        <form action="hoantat.html" method="get" onsubmit="return handlePayment(event)">
+        <form id="paymentForm">
             <div class="form-check mb-3">
                 <input class="form-check-input" type="radio" name="payment" id="cod" value="cod" required>
                 <label class="form-check-label" for="cod">
@@ -43,7 +43,8 @@
                 </label>
             </div>
 
-            <button type="submit" id="btnHoanTat" class="btn btn-primary w-100">Hoàn tất đơn hàng</button>
+            <!-- 1 nút duy nhất -->
+            <a href="#" id="btnHoanTat" class="btn btn-primary w-100">Hoàn tất đơn hàng</a>
         </form>
     </div>
 
@@ -83,7 +84,7 @@
 </div>
 
 <!-- POPUP GIẢ LẬP VNPAY -->
-<div class="vnpay-popup" id="vnpayPopup">
+<div class="vnpay-popup" id="vnpayPopup" style="display:none;">
     <div class="vnpay-box">
         <div class="text-center mb-3">
             <img src="https://tse3.mm.bing.net/th/id/OIP.kklIaX3TV97u5KnjU_Kr4wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" height="40" alt="VNPAY logo">
@@ -106,34 +107,38 @@
             <img src="https://sandbox.vnpayment.vn/paymentv2/images/icons/vnpay-wallet.svg" alt="">
         </div>
         <div class="text-center mt-3">
-            <button class="btn btn-success me-2" id="confirmVNPAY">Xác nhận thanh toán</button>
-            <button class="btn btn-outline-secondary" id="cancelVNPAY">Hủy</button>
+            <a href="trangcanhan.html" class="btn btn-success me-2">Xác nhận thanh toán</a>
+            <a href="#" class="btn btn-outline-secondary" id="cancelVNPAY">Hủy</a>
         </div>
     </div>
 </div>
 
-<!-- Script xử lý popup -->
+<!-- Script chỉ để bật/tắt popup -->
 <script>
-    function handlePayment(event) {
-        event.preventDefault();
-        const payment = document.querySelector('input[name="payment"]:checked').value;
-        if (payment === 'vnpay') {
-            document.getElementById('vnpayPopup').style.display = 'flex';
-        } else {
-            alert('Đơn hàng của bạn đã được ghi nhận - Thanh toán khi nhận hàng.');
-            window.location.href = 'hoantat.html';
-        }
-        return false;
-    }
+    const btnHoanTat = document.getElementById('btnHoanTat');
+    const popup = document.getElementById('vnpayPopup');
+    const cancelVNPAY = document.getElementById('cancelVNPAY');
 
-    document.getElementById('cancelVNPAY').addEventListener('click', function() {
-        document.getElementById('vnpayPopup').style.display = 'none';
+    btnHoanTat.addEventListener('click', (e) => {
+        const payment = document.querySelector('input[name="payment"]:checked');
+        if (!payment) {
+            alert('Vui lòng chọn phương thức thanh toán!');
+            e.preventDefault();
+            return;
+        }
+
+        if (payment.value === 'vnpay') {
+            e.preventDefault(); // không chuyển trang
+            popup.style.display = 'flex'; // bật popup
+        } else {
+            // COD: cho phép thẻ <a> hoạt động tự nhiên (chuyển trang)
+            btnHoanTat.setAttribute('href', 'trangcanhan.html');
+        }
     });
 
-    document.getElementById('confirmVNPAY').addEventListener('click', function() {
-        document.getElementById('vnpayPopup').style.display = 'none';
-        alert('Giả lập: Chuyển sang trang thanh toán VNPAY...');
-        // window.location.href = '/create_payment'; // Chuyển thật nếu có backend
+    cancelVNPAY.addEventListener('click', (e) => {
+        e.preventDefault();
+        popup.style.display = 'none';
     });
 </script>
 </body>
