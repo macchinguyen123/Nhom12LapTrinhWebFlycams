@@ -14,56 +14,6 @@ body {
 
 }
 
-
-.tieu-de-muc {
-    font-weight: 700;
-}
-
-.bo-loc .loc-select {
-    width: 220px;
-}
-
-.danh-muc-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    list-style: none;
-    padding: 0;
-    justify-content: flex-start;
-    margin-bottom: 30px;
-}
-
-.danh-muc-list li {
-    padding: 10px 18px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.danh-muc-list li:hover,
-.danh-muc-list li.active {
-    background: #007bff;
-    color: white;
-    border-color: #007bff;
-}
-
-.san-pham-card {
-    background: white;
-    border-radius: 12px;
-    padding: 15px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    text-align: center;
-    position: relative;
-    transition: transform 0.2s;
-}
-
-.san-pham-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-}
-
 .khung-san-pham {
     display: grid;
     grid-template-columns: repeat(5, 1fr); /* ✅ 5 sản phẩm / hàng */
@@ -71,6 +21,7 @@ body {
     justify-items: center;
     margin-top: 15px;
 }
+
 
 .san-pham {
     background: #fff;
@@ -99,15 +50,17 @@ body {
     border-radius: 20px 20px 0 0;
 }
 
+
+/* --- Căn trái nội dung --- */
 .ten-san-pham {
     text-align: left;
     font-size: 1rem;
     font-weight: 600;
     color: #111;
     margin: 6px 0;
-    min-height: 48px;
+    min-height: 48px; /* 👈 chỉnh theo độ cao mong muốn */
     display: flex;
-    align-items: flex-start;
+    align-items: flex-start; /* căn đều từ trên xuống */
 }
 
 /* --- Giá chính --- */
@@ -175,8 +128,8 @@ body {
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.9rem;
-    margin-top: auto;
-    margin-bottom: 10px;
+    margin-top: auto;     /* ✅ luôn đẩy nút xuống đáy */
+    margin-bottom: 10px;  /* ✅ nhích lên khỏi mép dưới một chút */
     align-self: center;
     transition: background-color 0.3s, transform 0.2s;
 }
@@ -198,17 +151,16 @@ body {
 .tieu-de-muc::after {
     content: "";
     display: block;
-    width: 100%;
+    width: 50%;
     height: 3px;
     background-color: #0051c6;
-    margin: 10px auto 0;
+    margin: 2px auto 0;
 }
-/* === Khung tổng sản phẩm === */
 .toan-bo-noi-dung {
-    width: 70%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 20px;
+    width: 70%;           /* 👈 chiếm 70% chiều rộng màn hình */
+    max-width: 1400px;    /* 👈 giới hạn tối đa */
+    margin: 0 auto;       /* 👈 căn giữa */
+    padding: 0 20px;      /* 👈 chừa khoảng trống hai bên */
     box-sizing: border-box;
 }
 
@@ -234,6 +186,88 @@ body {
 .lua-chon-sap-xep:focus {
     border-color: #0051c6;
 }
+
+
+/* --- Căn lề trái gọn gàng --- */
+.ten-san-pham,
+.gia,
+.danh-gia-sao {
+    text-align: left;
+    margin-left: 15px; /* ✅ không dính mép */
+    margin-right: 15px;
+
+}
+
+
+/* Tổng thể */
+.sap-xep-theo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: Arial, sans-serif;
+}
+
+.label {
+    font-size: 14px;
+    color: black;
+    margin-right: 5px;
+}
+
+/* Item chung */
+.item {
+    position: relative;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 3px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.item:hover {
+    background-color: #f5f5f5;
+}
+
+/* Trạng thái được chọn (Nổi bật) */
+.item.active {
+    background-color: #0051c6;
+    color: #fff;
+
+}
+
+/* Menu con của Giá */
+.sub {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    width: 180px;
+    z-index: 100;
+}
+
+/* Hover vào Giá để hiện menu con */
+.item:hover .sub {
+    display: block;
+}
+
+/* Các lựa chọn trong menu con */
+.sub-item {
+    padding: 10px 14px;
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+}
+
+.sub-item:hover {
+    background-color: #f5f5f5;
+}
+
 /* ======== BỘ LỌC + SẮP XẾP ======== */
 .bo-loc-va-sap-xep {
     display: flex;
@@ -369,23 +403,6 @@ input[type="radio"]:checked::after {
     height: 8px;
     background-color: #0051c6;
     border-radius: 50%;
-}
-
-
-
-/* --- Căn lề trái gọn gàng --- */
-.ten-san-pham,
-.gia,
-.danh-gia-sao {
-    text-align: left;
-    margin-left: 15px;
-    margin-right: 15px;
-
-}
-
-.phan-trang button {
-    margin: 0 5px;
-    border-radius: 10px;
 }
 
 

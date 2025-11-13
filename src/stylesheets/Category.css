@@ -310,21 +310,6 @@ body {
     border-color: #0051c6;
 }
 
-
-/* --- Căn lề trái gọn gàng --- */
-.ten-san-pham,
-.gia,
-.danh-gia-sao {
-    text-align: left;
-    margin-left: 15px;
-    margin-right: 15px;
-
-}
-
-.phan-trang button {
-    margin: 0 5px;
-    border-radius: 10px;
-}
 /* --- Hộp lọc xổ xuống --- */
 .hop-loc {
     position: absolute;
@@ -386,3 +371,20 @@ input[type="radio"]:checked::after {
     border-radius: 50%;
 }
 
+
+
+
+/* --- Căn lề trái gọn gàng --- */
+.ten-san-pham,
+.gia,
+.danh-gia-sao {
+    text-align: left;
+    margin-left: 15px;
+    margin-right: 15px;
+
+}
+
+.phan-trang button {
+    margin: 0 5px;
+    border-radius: 10px;
+}
