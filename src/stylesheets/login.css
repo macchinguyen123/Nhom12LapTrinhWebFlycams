@@ -48,7 +48,7 @@ body {
 }
 
 .login-container h2 {
-    color: #141155;
+    color: #0051c6;
     font-weight: 700;
     margin-bottom: 25px;
 }
@@ -59,7 +59,7 @@ body {
 }
 
 .btn-login {
-    background-color: #141155;
+    background-color: #0051c6;
     color: #fff;
     border: none;
     height: 50px;
@@ -127,7 +127,7 @@ body {
 }
 
 .register a {
-    color: #141155;
+    color: #0051c6;
     font-weight: 600;
     text-decoration: none;
 }

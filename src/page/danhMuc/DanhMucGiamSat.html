@@ -16,17 +16,48 @@
 <section class="phan-san-pham">
     <h2 class="tieu-de-muc">Drone giám sát - an ninh</h2>
 
-    <!-- Sắp xếp và Lọc -->
-    <div class="bo-loc-va-sap-xep">
-        <button class="nut-bo-loc">
+    <div class="bo-loc-va-sap-xep position-relative">
+
+        <!-- Nút Bộ lọc -->
+        <button class="nut-bo-loc btn btn-outline-primary">
             <i class="bi bi-funnel"></i> Bộ lọc
         </button>
 
+        <!-- Cửa sổ xổ xuống -->
+        <div class="hop-loc" id="hop-loc">
+            <h6><i class="bi bi-funnel"></i> Lọc theo giá</h6>
+            <hr class="my-2">
+
+            <!-- Các khoảng giá -->
+            <div class="danh-sach-loc">
+                <label><input type="radio" name="chon-gia" value="tat-ca" checked> Tất cả</label>
+                <label><input type="radio" name="chon-gia" value="duoi-5000000"> Dưới 5.000.000 ₫</label>
+                <label><input type="radio" name="chon-gia" value="5-10"> 5.000.000 ₫ - 10.000.000 ₫</label>
+                <label><input type="radio" name="chon-gia" value="10-20"> 10.000.000 ₫ - 20.000.000 ₫</label>
+                <label><input type="radio" name="chon-gia" value="tren-20"> Trên 20.000.000 ₫</label>
+                <p><b>Nhập vào khoảng giá bạn muốn</b></p>
+                <div class="d-flex align-items-center gap-1">
+                    <input type="number" id="gia-tu" class="form-control form-control-sm" placeholder="Từ ₫" style="width: 100px;">
+                    <span>-</span>
+                    <input type="number" id="gia-den" class="form-control form-control-sm" placeholder="Đến ₫" style="width: 100px;">
+                </div>
+                <button id="btn-ap-dung-gia" class="btn btn-sm btn-primary mt-2">Áp dụng</button>
+            </div>
+
+
+        </div>
+
+
+        <!-- Nhóm sắp xếp -->
         <div class="sap-xep-theo">
             <span class="label">Sắp xếp theo:</span>
             <button class="btn-sap-xep active">Nổi bật</button>
-            <button class="btn-sap-xep"><i class="bi bi-filter"></i> Giá Thấp - Cao</button>
-            <button class="btn-sap-xep"><i class="bi bi-filter"></i> Giá Cao - Thấp</button>
+            <button class="btn-sap-xep">
+                <i class="bi bi-filter"></i> Giá Thấp - Cao
+            </button>
+            <button class="btn-sap-xep">
+                <i class="bi bi-filter"></i> Giá Cao - Thấp
+            </button>
         </div>
     </div>
 
@@ -329,6 +360,27 @@
         if (trangHienTai < tongTrang) {
             trangHienTai++;
             hienThiTrang(trangHienTai);
+        }
+    });
+
+    // === Hiện / Ẩn cửa sổ bộ lọc ===
+    const nutBoLoc = document.querySelector('.nut-bo-loc');
+    const hopLoc = document.getElementById('hop-loc');
+    const radioLocGia = document.getElementsByName('chon-gia');
+    const nhapGiaDiv = document.getElementById('nhap-gia-tuy-chinh');
+    const btnApDung = document.getElementById('btn-ap-dung-gia');
+    const inputTu = document.getElementById('gia-tu');
+    const inputDen = document.getElementById('gia-den');
+
+    // Toggle cửa sổ khi nhấn nút "Bộ lọc"
+    nutBoLoc.addEventListener('click', () => {
+        hopLoc.classList.toggle('hien');
+    });
+
+    // Ẩn khi click ra ngoài
+    document.addEventListener('click', (e) => {
+        if (!hopLoc.contains(e.target) && !nutBoLoc.contains(e.target)) {
+            hopLoc.classList.remove('hien');
         }
     });
 
