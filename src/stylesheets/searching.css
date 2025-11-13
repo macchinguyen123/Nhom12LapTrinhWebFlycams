@@ -25,6 +25,163 @@ a {
 
 
 
+.bo-sap-xep {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 20px 0 40px 0;
+    gap: 10px;
+    font-size: 1rem;
+}
+
+.lua-chon-sap-xep {
+    padding: 8px 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.3s;
+}
+
+.lua-chon-sap-xep:focus {
+    border-color: #0051c6;
+}
+/* ======== BỘ LỌC + SẮP XẾP ======== */
+.bo-loc-va-sap-xep {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+/* --- Nút Bộ lọc --- */
+.nut-bo-loc {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border: 1.5px solid #0051c6;
+    color: #0051c6;
+    border-radius: 8px;
+    background-color: transparent;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nut-bo-loc i {
+    font-size: 1.1rem;
+}
+
+.nut-bo-loc:hover {
+    background-color: #0051c6;
+    color: #fff;
+}
+
+/* --- Nhóm sắp xếp --- */
+.sap-xep-theo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.label {
+    font-size: 14px;
+    color: #333;
+}
+
+/* --- Nút sắp xếp --- */
+.btn-sap-xep {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #000;
+    border-radius: 50px;
+    padding: 8px 18px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.btn-sap-xep i {
+    font-size: 1rem;
+}
+
+.btn-sap-xep:hover {
+    background-color: #f3f3f3;
+}
+
+.btn-sap-xep.active {
+    background-color: #0051c6;
+    color: #fff;
+    border-color: #0051c6;
+}
+
+/* --- Hộp lọc xổ xuống --- */
+.hop-loc {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    width: 260px;
+    z-index: 100;
+    display: none;
+}
+
+.hop-loc h6 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.hop-loc label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.hop-loc input[type="radio"] {
+    margin-right: 6px;
+}
+
+/* Ẩn/hiện */
+.hop-loc.hien {
+    display: block;
+}
+
+/* Ẩn radio mặc định */
+input[type="radio"] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #0051c6;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    margin-right: 6px;
+}
+
+/* Khi được chọn */
+input[type="radio"]:checked::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    background-color: #0051c6;
+    border-radius: 50%;
+}
 
 .khung-san-pham {
     display: grid;
