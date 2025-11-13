@@ -12,6 +12,75 @@
 
     <!-- CSS Riêng -->
     <link rel="stylesheet" href="../stylesheets/searching.css">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../stylesheets/header.css">
+    <link rel="stylesheet" href="../stylesheets/footer.css">
+<!-- ==== HEADER TRÊN ==== -->
+<div class="header-bg">
+    <div class="header-wrapper">
+        <header class="top-header">
+            <!-- LOGO -->
+            <a href="homepage.html">
+                <div class="logo">
+                    <img src="../image/logoo2.png" alt="Logo">
+                    <h2>SkyDrone</h2>
+                </div>
+            </a>
+
+            <!-- THANH TÌM KIẾM -->
+            <div class="search-bar position-relative">
+                <i class="bi bi-search"></i>
+                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện..." autocomplete="off">
+
+                <!-- Danh sách gợi ý xổ xuống -->
+                <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
+                    style="top: 100%; left: 0; z-index: 1000; display: none;">
+                </ul>
+            </div>
+
+
+            <!-- HÀNH ĐỘNG HEADER -->
+            <div class="header-actions">
+                <a href="danhSachYeuThich.html">
+                    <div class="icon-btn" title="Yêu thích">
+                        <i class="bi bi-heart"></i>
+                        <span>Yêu thích</span>
+                    </div>
+                </a>
+
+                <a href="shoppingcart.html"><div class="icon-btn" title="Giỏ hàng">
+                    <i class="bi bi-cart3"></i>
+                    <span>Giỏ hàng</span>
+                </div></a>
+
+                <a href="trangcanhan.html"><div class="icon-btn" title="Tài khoản">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Tài khoản</span>
+                </div></a>
+            </div>
+        </header>
+    </div>
+</div>
+
+<!-- ==== MENU DƯỚI ==== -->
+<div class="menu-bg">
+    <div class="header-wrapper">
+        <nav class="main-nav">
+            <a href="homepage.html"><button class="nav-item "><i class="bi bi-house-door"></i>Trang chủ</button></a>
+            <button class="nav-item" id="btnDanhMuc">
+                <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
+            </button>
+            <a href="khuyenMai.html"><button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button></a>
+            <a href="baohanh.html"><button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button></a>
+            <a href="chinhSachThanhToan.html"><button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button></a>
+            <a href="hoTro.html"><button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button></a>
+            <a href="blog.html"><button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button></a>
+        </nav>
+    </div>
+</div>
 </head>
 <body>
 
@@ -19,36 +88,65 @@
 <section class="phan-san-pham">
     <h2 class="tieu-de-muc">Tìm Kiếm</h2>
     <p class="so-luong-tim">Đã tìm được 8 sản phẩm</p>
-    <!-- Sắp xếp -->
-    <div class="sap-xep-theo">
-        <span class="label">Sắp xếp theo</span>
 
-        <div class="item active">Nổi bật</div>
+    <div class="bo-loc-va-sap-xep position-relative">
 
-        <div class="item">Giá ▾
-            <div class="sub">
-                <div class="sub-item">Thấp đến Cao</div>
-                <div class="sub-item">Cao đến Thấp</div>
+        <!-- Nút Bộ lọc -->
+        <button class="nut-bo-loc btn btn-outline-primary">
+            <i class="bi bi-funnel"></i> Bộ lọc
+        </button>
+
+        <!-- Cửa sổ xổ xuống -->
+        <div class="hop-loc" id="hop-loc">
+            <h6><i class="bi bi-funnel"></i> Lọc theo giá</h6>
+            <hr class="my-2">
+
+            <!-- Các khoảng giá -->
+            <div class="danh-sach-loc">
+                <label><input type="radio" name="chon-gia" value="tat-ca" checked> Tất cả</label>
+                <label><input type="radio" name="chon-gia" value="duoi-5000000"> Dưới 5.000.000 ₫</label>
+                <label><input type="radio" name="chon-gia" value="5-10"> 5.000.000 ₫ - 10.000.000 ₫</label>
+                <label><input type="radio" name="chon-gia" value="10-20"> 10.000.000 ₫ - 20.000.000 ₫</label>
+                <label><input type="radio" name="chon-gia" value="tren-20"> Trên 20.000.000 ₫</label>
+                <p><b>Nhập vào khoảng giá bạn muốn</b></p>
+                <div class="d-flex align-items-center gap-1">
+                    <input type="number" id="gia-tu" class="form-control form-control-sm" placeholder="Từ ₫" style="width: 100px;">
+                    <span>-</span>
+                    <input type="number" id="gia-den" class="form-control form-control-sm" placeholder="Đến ₫" style="width: 100px;">
+                </div>
+                <button id="btn-ap-dung-gia" class="btn btn-sm btn-primary mt-2">Áp dụng</button>
             </div>
+
+
+        </div>
+
+
+        <!-- Nhóm sắp xếp -->
+        <div class="sap-xep-theo">
+            <span class="label">Sắp xếp theo:</span>
+            <button class="btn-sap-xep active">Nổi bật</button>
+            <button class="btn-sap-xep">
+                <i class="bi bi-filter"></i> Giá Thấp - Cao
+            </button>
+            <button class="btn-sap-xep">
+                <i class="bi bi-filter"></i> Giá Cao - Thấp
+            </button>
         </div>
     </div>
 
-
-    </div>
-    </div>
-    </div>
 
     <div class="khung-san-pham">
 
         <!-- === SẢN PHẨM 1 === -->
         <div class="san-pham">
+            <a href="product-details.html">
             <img src="../image/content/Flycam%20DJI%20Air%203.png" alt="FlycamDJlAir3">
 
             <h3 class="ten-san-pham">Flycam DJI Air 3</h3>
             <div class="gia"><b>25.000.000 ₫</b>
                 <span class="gia-goc">29.990.000 ₫</span>
             </div>
-
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -61,18 +159,19 @@
             </div>
 
             <div class="so-danh-gia">(120 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
         <!-- === SẢN PHẨM 2 === -->
         <div class="san-pham">
+            <a href="product-details.html">
             <img src="../image/content/Flycam DJl Inspire 3.png" alt="FlycamDJlInspire3">
             <h3 class="ten-san-pham">Flycam DJl Inspire 3</h3>
             <div class="gia"><b>9.990.000 ₫</b>
                 <span class="gia-goc">12.500.000 ₫</span>
             </div>
-
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -85,18 +184,19 @@
             </div>
 
             <div class="so-danh-gia">(98 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
         <!-- === SẢN PHẨM 3 === -->
         <div class="san-pham">
+            <a href="product-details.html">
             <img src="../image/content/DJI Mavic 3 Pro With DJI RC Remote.png" alt="DJIMavic3ProWithDJIRCRemote">
             <h3 class="ten-san-pham">DJI Mavic 3 Pro With DJI RC Remote</h3>
             <div class="gia"><b>49.990.000 ₫</b>
                 <span class="gia-goc">55.000.000 ₫</span>
             </div>
-
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -109,18 +209,19 @@
             </div>
 
             <div class="so-danh-gia">(80 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
         <!-- === SẢN PHẨM 4 === -->
         <div class="san-pham">
+            <a href="product-details.html">
             <img src="../image/content/Flycam DJI Mavic Mini SE Combo.png" alt="FlycamDJIMavicMiniSECombo">
             <h3 class="ten-san-pham">Flycam DJI Mavic Mini SE Combo</h3>
             <div class="gia"><b>29.290.000 ₫</b>
                 <span class="gia-goc">31.000.000 ₫</span>
             </div>
-
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -133,19 +234,20 @@
             </div>
 
             <div class="so-danh-gia">(65 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
         <!-- === SẢN PHẨM 5 === -->
         <div class="san-pham">
+            <a href="product-details.html">
             <img src="../image/content/DJI Mini 3.png" alt="DJlMini3">
 
             <h3 class="ten-san-pham">DJl Mini 3</h3>
             <div class="gia"><b>8.990.000 ₫</b>
                 <span class="gia-goc">10.900.000 ₫</span>
             </div>
-
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -158,19 +260,20 @@
             </div>
 
             <div class="so-danh-gia">(79 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
         <!-- === SẢN PHẨM 6 === -->
         <div class="san-pham">
+            <a href="product-details.html">
             <img src="../image/content/DJI Flip.png" alt="DJlFlip">
 
             <h3 class="ten-san-pham">DJl Flip</h3>
             <div class="gia"><b>10.490.000 ₫</b>
                 <span class="gia-goc">11.000.000 ₫</span>
             </div>
-
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -183,19 +286,21 @@
             </div>
 
             <div class="so-danh-gia">(53 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
         <!-- === SẢN PHẨM 7 === -->
         <div class="san-pham">
+            <a href="product-details.html">
+
             <img src="../image/content/DJI Mini 5 Pro.png" alt="DJlMini5Pro">
 
             <h3 class="ten-san-pham">DJl Mini 5 Pro</h3>
             <div class="gia"><b>18.590.000 ₫</b>
                 <span class="gia-goc">19.590.000 ₫</span>
             </div>
-
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -208,19 +313,20 @@
             </div>
 
             <div class="so-danh-gia">(39 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
         <!-- === SẢN PHẨM 8 === -->
         <div class="san-pham">
+            <a href="product-details.html">
             <img src="../image/content/DJI Mini 4K.png" alt="DJlMini4K">
 
             <h3 class="ten-san-pham">DJI Mini 4K</h3>
             <div class="gia"><b>9.607.000 ₫</b>
                 <span class="gia-goc">7.990.000 ₫</span>
             </div>
-
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -233,12 +339,118 @@
             </div>
 
             <div class="so-danh-gia">(39 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
     </div>
 </section>
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Cột 1 -->
+        <div class="footer-column">
+            <h6>SKYDRONE VIỆT NAM</h6>
+            <img src="../image/dronefooter.png" alt="SKYDRONE Logo" class="mascot">
+            <p><strong>Công ty Cổ phần thương mại SKYDrone Việt Nam</strong></p>
+            <p>Địa chỉ: Số 1 Đường Số 1, Phường Linh Xuân, TP Hồ Chí Minh, Việt Nam</p>
+            <p><strong>Hotline:</strong> 0815.000.060</p>
+            <p>ĐKKD số 0108676636 do Sở KH&ĐT TP. Hồ Chí Minh cấp ngày 10/10/2025</p>
+
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+
+        <!-- Cột 2 -->
+        <div class="footer-column">
+            <h6>SẢN PHẨM</h6>
+            <ul>
+                <li><a href="#">Drone quay phim chuyên nghiệp</a></li>
+                <li><a href="#">Drone du lịch / vlog</a></li>
+                <li><a href="#">Drone thể thao tốc độ cao</a></li>
+                <li><a href="#">Drone nông nghiệp</a></li>
+                <li><a href="#">Drone giám sát / an ninh</a></li>
+                <li><a href="#">Drone mini / cở nhỏ</a></li>
+            </ul>
+
+            <h3>TƯ VẤN MUA HÀNG</h3>
+            <div class="hotline">
+                <i class="fa-solid fa-phone"></i>0813.660.666
+            </div>
+        </div>
+
+        <!-- Cột 3 -->
+        <div class="footer-column">
+            <h6>HỆ THỐNG PHÂN PHỐI</h6>
+            <ul>
+                <li><a href="#">SKYDrone Store</a></li>
+                <li><a href="#">Hà Nội</a></li>
+                <li><a href="#">TP. Hồ Chí Minh</a></li>
+                <li><a href="#">Đà Nẵng</a></li>
+                <li><a href="#">Nghệ An</a></li>
+
+            </ul>
+            <section class="payment-methods">
+                <h6>PHƯƠNG THỨC THANH TOÁN</h6>
+                <div class="payment-icons">
+                    <img src="https://tse3.mm.bing.net/th/id/OIP.kklIaX3TV97u5KnjU_Kr4wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="VNPay">
+                </div>
+            </section>
+        </div>
+        <!-- Cột 4 -->
+        <div class="footer-column">
+            <h6>THÔNG TIN VỀ CHÍNH SÁCH</h6>
+            <ul>
+                <li><a href="#">Mua hàng và thanh toán Online</a></li>
+                <li><a href="#">Chính sách giao hàng</a></li>
+                <li><a href="#">Chính sách đổi trả</a></li>
+                <li><a href="#">Tra thông tin bảo hành</a></li>
+                <li><a href="#">Thông tin hoá đơn mua hàng</a></li>
+            </ul>
+
+            <section class="social-connect">
+                <h6>KẾT NỐI VỚI SKYDRONE</h6>
+                <div class="social-icons">
+                    <a href="https://www.youtube.com/@F8VNOfficial"
+                       class="icon youtube" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+                    </a>
+
+                    <a href="https://www.facebook.com/dhkcntt.nlu"
+                       class="icon facebook" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
+                    </a>
+
+                    <a href="https://www.instagram.com/truyenthongchinhphu/"
+                       class="icon instagram" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+                    </a>
+
+                    <a href="https://www.tiktok.com/@nonglam.university"
+                       class="icon tiktok" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
+                    </a>
+
+                    <a href="https://zalo.me/0966089465"
+                       class="icon zalo" target="_blank" rel="noopener noreferrer">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo">
+                    </a>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+        <p>Copyright © 2025 © <strong>SKYDrone Việt Nam</strong></p>
+        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm cấm.</p>
+    </div>
+</footer>
 
 <!-- 🔹 JS: tim rỗng -> tim đỏ đầy -->
 <script>
@@ -254,6 +466,26 @@
                 tim.classList.add('bi-heart');
             }
         });
+    });
+    // === Hiện / Ẩn cửa sổ bộ lọc ===
+    const nutBoLoc = document.querySelector('.nut-bo-loc');
+    const hopLoc = document.getElementById('hop-loc');
+    const radioLocGia = document.getElementsByName('chon-gia');
+    const nhapGiaDiv = document.getElementById('nhap-gia-tuy-chinh');
+    const btnApDung = document.getElementById('btn-ap-dung-gia');
+    const inputTu = document.getElementById('gia-tu');
+    const inputDen = document.getElementById('gia-den');
+
+    // Toggle cửa sổ khi nhấn nút "Bộ lọc"
+    nutBoLoc.addEventListener('click', () => {
+        hopLoc.classList.toggle('hien');
+    });
+
+    // Ẩn khi click ra ngoài
+    document.addEventListener('click', (e) => {
+        if (!hopLoc.contains(e.target) && !nutBoLoc.contains(e.target)) {
+            hopLoc.classList.remove('hien');
+        }
     });
 </script>
 

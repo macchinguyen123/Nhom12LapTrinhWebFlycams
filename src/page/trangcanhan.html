@@ -4,8 +4,88 @@
     <meta charset="UTF-8">
     <title>Hồ Sơ Của Tôi</title>
     <link rel="stylesheet" href="../stylesheets/trangcanhan.css">
+    <link rel="stylesheet" href="../stylesheets/header.css">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
+<!-- ==== HEADER TRÊN ==== -->
+<div class="header-bg">
+    <div class="header-wrapper">
+        <header class="top-header">
+            <!-- LOGO -->
+            <a href="homepage.html">
+                <div class="logo">
+                    <img src="../image/logoo2.png" alt="Logo">
+                    <h2>SkyDrone</h2>
+                </div>
+            </a>
+
+            <!-- THANH TÌM KIẾM -->
+            <div class="search-bar position-relative">
+                <i class="bi bi-search"></i>
+                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện..." autocomplete="off">
+
+                <!-- Danh sách gợi ý xổ xuống -->
+                <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
+                    style="top: 100%; left: 0; z-index: 1000; display: none;">
+                </ul>
+            </div>
+
+
+            <!-- HÀNH ĐỘNG HEADER -->
+            <div class="header-actions">
+                <a href="danhSachYeuThich.html">
+                    <div class="icon-btn" title="Yêu thích">
+                        <i class="bi bi-heart"></i>
+                        <span>Yêu thích</span>
+                    </div>
+                </a>
+
+                <a href="shoppingcart.html"><div class="icon-btn" title="Giỏ hàng">
+                    <i class="bi bi-cart3"></i>
+                    <span>Giỏ hàng</span>
+                </div></a>
+
+                <a href="trangcanhan.html"><div class="icon-btn active" title="Tài khoản">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Tài khoản</span>
+                </div></a>
+            </div>
+        </header>
+    </div>
+</div>
+
+<!-- ==== MENU DƯỚI ==== -->
+<div class="menu-bg">
+    <div class="header-wrapper">
+        <nav class="main-nav">
+            <a href="homepage.html"><button class="nav-item "><i class="bi bi-house-door"></i>Trang chủ</button></a>
+            <button class="nav-item" id="btnDanhMuc">
+                <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
+            </button>
+            <a href="khuyenMai.html"><button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button></a>
+            <a href="baohanh.html"><button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button></a>
+            <a href="chinhSachThanhToan.html"><button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button></a>
+            <a href="hoTro.html"><button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button></a>
+            <a href="blog.html"><button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button></a>
+        </nav>
+    </div>
+</div>
+<!-- MENU TRÁI ẨN MẶC ĐỊNH -->
+<div class="menu-left-1" id="menuLeft">
+    <ul>
+        <li><img src="../image/logoDanhMuc/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp</li>
+        <li><img src="../image/logoDanhMuc/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog</li>
+        <li><img src="../image/logoDanhMuc/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao</li>
+        <li><img src="../image/logoDanhMuc/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp</li>
+        <li><img src="../image/logoDanhMuc/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh</li>
+        <li><img src="../image/logoDanhMuc/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ</li>
+    </ul>
+</div>
+
 <div id="header"></div>
 <div class="container">
     <aside class="sidebar">
@@ -26,7 +106,9 @@
 
         <!-- 🧾 Nút đăng xuất -->
         <div class="logout-section">
+            <a href="homepage-visitors.html">
             <button id="logoutBtn">Đăng Xuất</button>
+            </a>
         </div>
     </aside>
 
@@ -51,7 +133,6 @@
                     <div class="form-group">
                         <label>Email</label>
                         <input type="email" value="23******@st.hcmuaf.edu.vn" readonly>
-                        <a href="#" class="change">Thay Đổi</a>
                     </div>
 
                     <div class="form-group">
@@ -96,13 +177,6 @@
 
                     <button class="save-btn" type="button">Lưu</button>
                 </div>
-
-<!--                <div class="form-right">-->
-<!--                    <div class="avatar-preview">-->
-<!--                        <div class="circle"></div>-->
-<!--                        <button class="upload-btn">Chọn Ảnh</button>-->
-<!--                    </div>-->
-<!--                </div>-->
             </form>
         </section>
         <!-- === Đổi mật khẩu có OTP === -->
@@ -255,7 +329,8 @@
         </section>
     </main>
 </div>
-
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- ====== Script xử lý ====== -->
 <script>
     // === Chuyển tab ===
@@ -348,12 +423,6 @@
         editIndex = null;
     }
 
-    // === Đăng xuất ===
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-        if (confirm("Bạn có chắc muốn đăng xuất không?")) {
-            window.location.href = "src/page/homepage.html";
-        }
-    });
 
     // === Xử lý đổi mật khẩu có OTP ===
     let generatedOtp = null;
@@ -448,25 +517,22 @@
         document.getElementById("order-detail").style.display = "none";
         document.getElementById("order-list").style.display = "block";
     }
-
-
-// // === Gọi header/footer ===
-//     async function includeHTML(id, filePath) {
-//         try {
-//             const response = await fetch(filePath);
-//             if (!response.ok) throw new Error("Không tải được " + filePath);
-//             document.getElementById(id).innerHTML = await response.text();
-//         } catch (err) {
-//             console.error(err);
-//         }
-//     }
-
-
-    // includeHTML("header", "../page/header.html");
-    // includeHTML("footer", "../page/footer.html");
 </script>
+<script>
+    const btnDanhMuc = document.getElementById('btnDanhMuc');
+    const menuLeft = document.getElementById('menuLeft');
 
-<div id="footer"></div>
+    btnDanhMuc.addEventListener('click', () => {
+        menuLeft.classList.toggle('show');
+    });
+
+    // Ẩn menu khi click ra ngoài
+    document.addEventListener('click', (e) => {
+        if (!menuLeft.contains(e.target) && !btnDanhMuc.contains(e.target)) {
+            menuLeft.classList.remove('show');
+        }
+    });
+</script>
 
 
 
