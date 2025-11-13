@@ -846,6 +846,11 @@ body {
 .submit-btn:hover {
     background: #004bcd;
 }
+a {
+    text-decoration: none;
+    color: inherit;
+    display: contents;
+}
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 480px) {

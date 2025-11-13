@@ -18,15 +18,18 @@
     <div class="header-wrapper">
         <header class="top-header">
             <!-- LOGO -->
-            <div class="logo">
-                <img src="../image/logoo2.png" alt="Logo">
-                <h2>SkyDrone</h2>
-            </div>
+            <a href="header.html">
+                <div class="logo">
+                    <img src="../image/logoo2.png" alt="Logo">
+                    <h2>SkyDrone</h2>
+                </div>
+            </a>
 
             <!-- THANH TÌM KIẾM -->
             <div class="search-bar position-relative">
                 <i class="bi bi-search"></i>
-                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện..." autocomplete="off">
+                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện..."
+                       autocomplete="off">
 
                 <!-- Danh sách gợi ý xổ xuống -->
                 <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
@@ -37,20 +40,26 @@
 
             <!-- HÀNH ĐỘNG HEADER -->
             <div class="header-actions">
-                <div class="icon-btn" title="Yêu thích">
-                    <i class="bi bi-heart"></i>
-                    <span>Yêu thích</span>
-                </div>
+                <a href="danhSachYeuThich.html">
+                    <div class="icon-btn" title="Yêu thích">
+                        <i class="bi bi-heart"></i>
+                        <span>Yêu thích</span>
+                    </div>
+                </a>
 
-                <div class="icon-btn" title="Giỏ hàng">
-                    <i class="bi bi-cart3"></i>
-                    <span>Giỏ hàng</span>
-                </div>
+                <a href="shoppingcart.html">
+                    <div class="icon-btn" title="Giỏ hàng">
+                        <i class="bi bi-cart3"></i>
+                        <span>Giỏ hàng</span>
+                    </div>
+                </a>
 
-                <div class="icon-btn" title="Tài khoản">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Tài khoản</span>
-                </div>
+                <a href="trangcanhan.html">
+                    <div class="icon-btn" title="Tài khoản">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Tài khoản</span>
+                    </div>
+                </a>
             </div>
         </header>
     </div>
@@ -60,15 +69,40 @@
 <div class="menu-bg">
     <div class="header-wrapper">
         <nav class="main-nav">
-            <button class="nav-item active"><i class="bi bi-house-door"></i>Trang chủ</button>
-            <button class="nav-item"><i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i></button>
-            <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
-            <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
-            <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
-            <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
-            <button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button>
+            <a href="homepage.html">
+                <button class="nav-item"><i class="bi bi-house-door"></i>Trang chủ</button>
+            </a>
+            <button class="nav-item" id="btnDanhMuc">
+                <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
+            </button>
+            <a href="khuyenMai.html">
+                <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
+            </a>
+            <a href="baohanh.html">
+                <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
+            </a>
+            <a href="chinhSachThanhToan.html">
+                <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
+            </a>
+            <a href="hoTro.html">
+                <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
+            </a>
+            <a href="blog.html">
+                <button class="nav-item active"><i class="bi bi-journal-text"></i>Bài viết</button>
+            </a>
         </nav>
     </div>
+</div>
+<!-- MENU TRÁI ẨN MẶC ĐỊNH -->
+<div class="menu-left-1" id="menuLeft">
+    <ul>
+        <a href="../page/danhMuc/Category.html"><li><img src="../image/logoDanhMuc/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp</li></a>
+        <a href="../page/danhMuc/DanhMucDuLich.html"><li><img src="../image/logoDanhMuc/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog</li></a>
+        <a href="../page/danhMuc/DanhMucTheThao.html"><li><img src="../image/logoDanhMuc/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao</li></a>
+        <a href="../page/danhMuc/agriDrone.html"><li><img src="../image/logoDanhMuc/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp</li></a>
+        <a href="../page/danhMuc/DanhMucGiamSat.html"><li><img src="../image/logoDanhMuc/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh</li></a>
+        <a href="../page/danhMuc/DanhMucMini.html"><li><img src="../image/logoDanhMuc/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ</li></a>
+    </ul>
 </div>
 
 <article class="article-container">
@@ -225,7 +259,7 @@
         </section>
         <section class="related-articles">
             <h2>Bài viết cùng chủ đề:</h2>
-            <div class="related-grid">
+            <a href="baiViet.html"><div class="related-grid">
                 <div class="related-item">
                     <img src="../image/blog/img_2.png" alt="DJI Air 2 vs Air 2S">
                     <p>DJI Air 2 Vs Air 2s So Sánh Chi Tiết A-Z</p>
@@ -258,7 +292,7 @@
                     <img src="../image/blog/img_9.png" alt="Lắp cánh quạt">
                     <p>Hướng Dẫn Cách Lắp Cánh Quạt Flycam Đúng Chuẩn</p>
                 </div>
-            </div>
+            </div></a>
         </section>
         <!-- Phần bình luận -->
         <section class="comment-section">
@@ -395,5 +429,20 @@
 </footer>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const btnDanhMuc = document.getElementById('btnDanhMuc');
+    const menuLeft = document.getElementById('menuLeft');
+
+    btnDanhMuc.addEventListener('click', () => {
+        menuLeft.classList.toggle('show');
+    });
+
+    // Ẩn menu khi click ra ngoài
+    document.addEventListener('click', (e) => {
+        if (!menuLeft.contains(e.target) && !btnDanhMuc.contains(e.target)) {
+            menuLeft.classList.remove('show');
+        }
+    });
+</script>
 </body>
 </html>

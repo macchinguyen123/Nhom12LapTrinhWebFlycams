@@ -10,9 +10,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <link rel="stylesheet" href="../stylesheets/danhSachYeuThich.css">
-
+    <link rel="stylesheet" href="../stylesheets/header.css">
+    <link rel="stylesheet" href="../stylesheets/footer.css">
 </head>
-
 <body>
 
 <!-- ==== HEADER TRÊN ==== -->
@@ -20,33 +20,48 @@
     <div class="header-wrapper">
         <header class="top-header">
             <!-- LOGO -->
-            <div class="logo">
-                <img src="../image/logoo2.png" alt="Logo">
-                <h2>SkyDrone</h2>
-            </div>
+            <a href="header.html">
+                <div class="logo">
+                    <img src="../image/logoo2.png" alt="Logo">
+                    <h2>SkyDrone</h2>
+                </div>
+            </a>
 
             <!-- THANH TÌM KIẾM -->
-            <div class="search-bar">
+            <div class="search-bar position-relative">
                 <i class="bi bi-search"></i>
-                <input type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện...">
+                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện..."
+                       autocomplete="off">
+
+                <!-- Danh sách gợi ý xổ xuống -->
+                <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
+                    style="top: 100%; left: 0; z-index: 1000; display: none;">
+                </ul>
             </div>
+
 
             <!-- HÀNH ĐỘNG HEADER -->
             <div class="header-actions">
-                <div class="icon-btn" title="Yêu thích">
-                    <i class="bi bi-heart"></i>
-                    <span>Yêu thích</span>
-                </div>
+                <a href="danhSachYeuThich.html">
+                    <div class="icon-btn active" title="Yêu thích">
+                        <i class="bi bi-heart"></i>
+                        <span>Yêu thích</span>
+                    </div>
+                </a>
 
-                <div class="icon-btn" title="Giỏ hàng">
-                    <i class="bi bi-cart3"></i>
-                    <span>Giỏ hàng</span>
-                </div>
+                <a href="shoppingcart.html">
+                    <div class="icon-btn" title="Giỏ hàng">
+                        <i class="bi bi-cart3"></i>
+                        <span>Giỏ hàng</span>
+                    </div>
+                </a>
 
-                <div class="icon-btn" title="Tài khoản">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Tài khoản</span>
-                </div>
+                <a href="trangcanhan.html">
+                    <div class="icon-btn" title="Tài khoản">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Tài khoản</span>
+                    </div>
+                </a>
             </div>
         </header>
     </div>
@@ -56,38 +71,53 @@
 <div class="menu-bg">
     <div class="header-wrapper">
         <nav class="main-nav">
-            <button class="nav-item active"><i class="bi bi-house-door"></i>Trang chủ</button>
-            <button class="nav-item"><i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i></button>
-            <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
-            <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
-            <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
-            <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
+            <a href="homepage.html">
+                <button class="nav-item"><i class="bi bi-house-door"></i>Trang chủ</button>
+            </a>
+            <button class="nav-item" id="btnDanhMuc">
+                <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
+            </button>
+            <a href="khuyenMai.html">
+                <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
+            </a>
+            <a href="baohanh.html">
+                <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
+            </a>
+            <a href="chinhSachThanhToan.html">
+                <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
+            </a>
+            <a href="hoTro.html">
+                <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
+            </a>
+            <a href="blog.html">
+                <button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button>
+            </a>
         </nav>
     </div>
+</div>
+<!-- MENU TRÁI ẨN MẶC ĐỊNH -->
+<div class="menu-left-1" id="menuLeft">
+    <ul>
+        <a href="../page/danhMuc/Category.html"><li><img src="../image/logoDanhMuc/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp</li></a>
+        <a href="../page/danhMuc/DanhMucDuLich.html"><li><img src="../image/logoDanhMuc/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog</li></a>
+        <a href="../page/danhMuc/DanhMucTheThao.html"><li><img src="../image/logoDanhMuc/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao</li></a>
+        <a href="../page/danhMuc/agriDrone.html"><li><img src="../image/logoDanhMuc/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp</li></a>
+        <a href="../page/danhMuc/DanhMucGiamSat.html"><li><img src="../image/logoDanhMuc/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh</li></a>
+        <a href="../page/danhMuc/DanhMucMini.html"><li><img src="../image/logoDanhMuc/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ</li></a>
+    </ul>
 </div>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
-
-
 
 <div class="gio-hang">
     <!-- Bao toàn bộ phần giỏ hàng -->
     <div class="gio-hang-noi-dung">
         <div class="container py-4">
             <!-- nội dung giỏ hàng -->
-
-            <!-- 🔹 Nút quay lại trang chủ -->
             <div class="mb-3">
-                <a href="index.html" class="btn btn-outline-secondary">
-                    ← Trang chủ
-                </a>
                 <h3 class="text-center mb-4 fw-bold text-primary">Danh Sách Sản Phẩm Đã Thích</h3>
             </div>
-
-
             <!-- Thanh công cụ -->
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="form-check">
@@ -101,11 +131,11 @@
 
             <!-- Danh sách sản phẩm -->
             <div id="danh_sach_san_pham">
-                <!-- 🔹 Sản phẩm 1 -->
+                <!-- Sản phẩm 1 -->
                 <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center">
                         <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                        <img src="../image/DJI Mini 3.png" alt="DJI Mini 3" class="anh_san_pham me-3" width="120">
+                        <a href="product-details.html"><img src="../image/sanPhamQuayPhim/avatafpv.png" alt="DJI Mini 3" class="anh_san_pham me-3" width="120"></a>
                         <div>
                             <h5 class="ten_san_pham mb-2">Flycam DJI Mini 3</h5>
                             <div>
@@ -116,9 +146,9 @@
                     </div>
 
                     <div class="d-flex align-items-center gap-2">
-                        <button class="btn btn-primary btn-sm nut_them_vao_gio">
+                        <a href="shoppingcart.html"><button class="btn btn-primary btn-sm nut_them_vao_gio">
                             <i class="bi bi-cart-plus"></i> Thêm vào giỏ hàng
-                        </button>
+                        </button></a>
                         <button class="btn btn-outline-danger btn-sm nut_xoa">
                             <i class="bi bi-trash"></i>
                         </button>
@@ -129,7 +159,7 @@
                 <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center">
                         <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                        <img src="../image/DJI Mini 4K.png" alt="DJI Mini 4K" class="anh_san_pham me-3" width="120">
+                        <a href="product-details.html"><img src="../image/sanPhamQuayPhim/bugs20.png" alt="DJI Mini 4K" class="anh_san_pham me-3" width="120"></a><
                         <div>
                             <h5 class="ten_san_pham mb-2">Flycam DJI Mini 4K</h5>
                             <div>
@@ -140,9 +170,9 @@
                     </div>
 
                     <div class="d-flex align-items-center gap-2">
-                        <button class="btn btn-primary btn-sm nut_them_vao_gio">
+                        <a href="shoppingcart.html"><button class="btn btn-primary btn-sm nut_them_vao_gio">
                             <i class="bi bi-cart-plus"></i> Thêm vào giỏ hàng
-                        </button>
+                        </button></a>
                         <button class="btn btn-outline-danger btn-sm nut_xoa">
                             <i class="bi bi-trash"></i>
                         </button>
@@ -153,7 +183,7 @@
                 <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center">
                         <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                        <img src="../image/Flycam DJI Air 3.png" alt="Flycam DJI Air 3" class="anh_san_pham me-3" width="120">
+                        <a href="product-details.html"><img src="../image/sanPhamQuayPhim/DJI SPARK.png" alt="Flycam DJI Air 3" class="anh_san_pham me-3" width="120"></a>
                         <div>
                             <h5 class="ten_san_pham mb-2">Flycam DJI Air 3</h5>
                             <div>
@@ -164,9 +194,9 @@
                     </div>
 
                     <div class="d-flex align-items-center gap-2">
-                        <button class="btn btn-primary btn-sm nut_them_vao_gio">
+                        <a href="shoppingcart.html"><button class="btn btn-primary btn-sm nut_them_vao_gio">
                             <i class="bi bi-cart-plus"></i> Thêm vào giỏ hàng
-                        </button>
+                        </button></a>
                         <button class="btn btn-outline-danger btn-sm nut_xoa">
                             <i class="bi bi-trash"></i>
                         </button>
@@ -177,7 +207,6 @@
     </div>
 </div>
 
-<!--JavaScript -->
 <footer class="footer">
     <div class="footer-container">
         <!-- Cột 1 -->
@@ -284,38 +313,18 @@
         <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm cấm.</p>
     </div>
 </footer>
-
-
 <script>
     const chonTatCa = document.getElementById("chon_tat_ca");
     const nutXoaDaChon = document.querySelector(".nut_xoa_da_chon");
-    const nutThanhToan = document.querySelector(".nut_thanh_toan");
     const danhSach = document.getElementById("danh_sach_san_pham");
 
-    function dinhDangTien(vnd) {
-        return vnd.toLocaleString("vi-VN") + " ₫";
-    }
-
-    function capNhatTongTien() {
-        let tong = 0;
-        document.querySelectorAll(".khung_san_pham").forEach(sp => {
-            const check = sp.querySelector(".chon_san_pham");
-            if (check.checked) {
-                const giaText = sp.querySelector(".gia_hien_tai").textContent.replace(/[^\d]/g, "");
-                tong += parseInt(giaText);
-            }
-        });
-        document.querySelector(".so_tien").textContent = dinhDangTien(tong);
-        document.querySelector(".tong_cong").textContent = "Tổng cộng: " + dinhDangTien(tong);
-    }
-
-    // ✅ Chọn tất cả
+    // Chọn tất cả
     chonTatCa.addEventListener("change", () => {
         document.querySelectorAll(".chon_san_pham").forEach(cb => cb.checked = chonTatCa.checked);
         capNhatTongTien();
     });
 
-    // ✅ Xử lý click trong danh sách
+    // Xử lý click trong danh sách
     danhSach.addEventListener("click", e => {
         const sp = e.target.closest(".khung_san_pham");
         if (!sp) return;
@@ -333,30 +342,27 @@
             chonTatCa.checked = (tatCa === daChon);
             capNhatTongTien();
         }
-
-        // ✅ Thêm vào giỏ hàng
-        if (e.target.classList.contains("nut_them_vao_gio") || e.target.closest(".nut_them_vao_gio")) {
-            const ten = sp.querySelector(".ten_san_pham").textContent;
-            const gia = sp.querySelector(".gia_hien_tai").textContent;
-            alert(`🛒 Đã thêm "${ten}" (${gia}) vào giỏ hàng!`);
-        }
     });
 
-    // ✅ Xóa các sản phẩm đã chọn
     nutXoaDaChon.addEventListener("click", () => {
         document.querySelectorAll(".chon_san_pham:checked").forEach(cb => cb.closest(".khung_san_pham").remove());
         capNhatTongTien();
     });
+</script>
+<script>
+    const btnDanhMuc = document.getElementById('btnDanhMuc');
+    const menuLeft = document.getElementById('menuLeft');
 
-    // ✅ Nút thanh toán
-    nutThanhToan.addEventListener("click", () => {
-        const tongTien = document.querySelector(".tong_cong").textContent;
-        alert("🎉 Thanh toán ngay nào!\n" + tongTien);
+    btnDanhMuc.addEventListener('click', () => {
+        menuLeft.classList.toggle('show');
+    });
+
+    // Ẩn menu khi click ra ngoài
+    document.addEventListener('click', (e) => {
+        if (!menuLeft.contains(e.target) && !btnDanhMuc.contains(e.target)) {
+            menuLeft.classList.remove('show');
+        }
     });
 </script>
-
-
-
-
 </body>
 </html>

@@ -76,12 +76,16 @@ body {
     align-items: center; /*Căn toàn bộ sang trái */
     padding: 20px 0;
     border-top-right-radius: 12px;
+    /*Cuộn*/
+    overflow-y: auto; /* 🔹 Cho phép trượt */
+    overflow-x: hidden;
+    scrollbar-width: thin; /* Firefox */
 }
 
 /* === USER INFO === */
 .user-info {
     width: 100%;
-    text-align: center; /* ✅ Căn chữ sang trái */
+    text-align: center; /*Căn chữ sang trái */
 }
 
 .user-info img {
@@ -294,3 +298,8 @@ body {
 .bg-shipped { background-color: #dbeafe; color: #1d4ed8; }
 .bg-complete { background-color: #dcfce7; color: #15803d; }
 .bg-cancel { background-color: #fee2e2; color: #b91c1c; }
+a {
+    text-decoration: none;
+    color: inherit;
+    display: contents;
+}

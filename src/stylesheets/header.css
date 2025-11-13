@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", "Segoe UI", sans-serif;
+    font-family: Inter, Inter Fallback, Arial, sans-serif;
 }
 
 /* ==== WRAPPER ==== */
@@ -17,21 +17,22 @@ a {
     display: contents;
 }
 
-
 /* ==== HEADER TRÊN ==== */
 .header-bg {
     background: linear-gradient(180deg, #0051c6, #0073ff);
     color: white;
     width: 100%;
-    padding: 8px 0; /* giảm chiều cao tổng thể */
+    padding: 8px 0;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    position: relative;
+    z-index: 100;
 }
 
 .top-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px; /* giảm khoảng cách giữa các phần */
+    gap: 16px;
 }
 
 /* ==== LOGO ==== */
@@ -41,15 +42,18 @@ a {
     gap: 10px;
 }
 .logo img {
-    width: 50px; /* giảm kích thước logo */
+    width: 50px;
     height: 50px;
     border-radius: 10px;
+    object-fit: cover;
 }
 .logo h2 {
-    font-size: 22px; /* giảm kích thước chữ */
+    font-size: 22px;
     font-weight: 700;
     letter-spacing: 1px;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    white-space: nowrap;
+    color: white;
 }
 
 /* ==== THANH TÌM KIẾM ==== */
@@ -59,9 +63,13 @@ a {
     align-items: center;
     background: white;
     border-radius: 12px;
-    padding: 6px 12px; /* giảm padding để thanh tìm kiếm thấp hơn */
+    padding: 6px 12px;
     max-width: 500px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transition: box-shadow 0.3s ease;
+}
+.search-bar:hover {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
 }
 .search-bar i {
     color: #0073ff;
@@ -74,6 +82,7 @@ a {
     width: 100%;
     font-size: 14px;
     color: #333;
+    background: transparent;
 }
 
 /* ==== HÀNH ĐỘNG HEADER ==== */
@@ -88,14 +97,15 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px; /* khoảng cách giữa icon và chữ */
+    gap: 6px;
     background-color: rgba(255,255,255,0.25);
     color: #fff;
-    padding: 8px 12px; /* giảm chiều cao nút */
+    padding: 8px 12px;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
+    user-select: none;
 }
 .icon-btn i {
     font-size: 18px;
@@ -106,30 +116,34 @@ a {
 .icon-btn:hover {
     background: linear-gradient(135deg, #0051c6, #0073ff);
     transform: scale(1.08);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 /* ==== MENU DƯỚI ==== */
 .menu-bg {
-    background-color: #ffffffcc; /* trắng trong suốt nhẹ */
+    background-color: #ffffffcc;
     backdrop-filter: blur(6px);
     width: 100%;
-    padding: 6px 0; /* giảm từ 10px xuống 6px */
+    padding: 6px 0;
     border-top: 2px solid #e5e5e5;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 99;
 }
 
 .main-nav {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 16px; /* giảm nhẹ khoảng cách */
+    gap: 16px;
 }
 
 .nav-item {
     background-color: white;
     color: #0046b5;
     border: 2px solid #0073ff;
-    padding: 8px 16px; /* giảm từ 10px 20px xuống 8px 16px */
+    padding: 8px 16px;
     border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
@@ -138,11 +152,13 @@ a {
     display: flex;
     align-items: center;
     gap: 6px;
+    white-space: nowrap;
 }
 .nav-item:hover {
     background: linear-gradient(135deg, #0051c6, #0073ff);
     color: white;
     transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 }
 .nav-item.active {
     background: linear-gradient(135deg, #0051c6, #0073ff);
@@ -154,21 +170,24 @@ a {
     font-size: 18px;
     vertical-align: middle;
 }
+
+/* ==== MENU TRÁI CẤP 1 ==== */
 .menu-left-1 {
     display: none;
     position: absolute;
-    top: 145px; /* khoảng cách dưới thanh menu, chỉnh theo chiều cao header */
-    left: 157px; /* canh ngay dưới nút Danh mục (điều chỉnh tuỳ vị trí thật của nút) */
+    top: 145px;
+    left: 157px;
     z-index: 1000;
-
     width: 260px;
     background: #fff;
     border-radius: 12px;
     border: 1px solid #ddd;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-    padding: 0px 0;
     flex-direction: column;
     animation: fadeIn 0.25s ease-in-out;
+    list-style: none;        /* bỏ chấm đầu dòng */
+    margin: 0;               /* xóa khoảng cách mặc định */
+    padding: 0;
 }
 
 .menu-left-1.show {
@@ -182,18 +201,22 @@ a {
 }
 
 .menu-left-1 li {
+    width: 100%;             /* chiếm toàn chiều ngang */
+    box-sizing: border-box;  /* tính luôn border/padding */
     padding: 10px 16px;
     display: flex;
     align-items: center;
     gap: 10px;
     cursor: pointer;
     font-size: 15px;
-    transition: background 0.3s, padding-left 0.3s;
+    transition: background 0.3s;
+    border-radius: 8px;
+    color: black;
 }
 
 .menu-left-1 li:hover {
-    background: #f0f6ff;
-    padding-left: 22px;
+    background: #e7f0ff;     /* nền hover */
+    padding-left: 16px;      /* giữ nguyên để không bị giật */
 }
 
 .menu-left-1 .menu-icon {
@@ -201,4 +224,3 @@ a {
     height: 26px;
     object-fit: contain;
 }
-
