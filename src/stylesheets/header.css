@@ -185,13 +185,14 @@ a {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
     flex-direction: column;
     animation: fadeIn 0.25s ease-in-out;
-    list-style: none;        /* bỏ chấm đầu dòng */
+    list-style: none;
     margin: 0;               /* xóa khoảng cách mặc định */
     padding: 0;
 }
 
 .menu-left-1.show {
     display: flex;
+    list-style: none;
 }
 
 /* Hiệu ứng hiện mượt mà */
@@ -201,9 +202,10 @@ a {
 }
 
 .menu-left-1 li {
+    list-style: none;
     width: 100%;             /* chiếm toàn chiều ngang */
     box-sizing: border-box;  /* tính luôn border/padding */
-    padding: 10px 16px;
+    padding: 15px 18px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -216,11 +218,17 @@ a {
 
 .menu-left-1 li:hover {
     background: #e7f0ff;     /* nền hover */
-    padding-left: 16px;      /* giữ nguyên để không bị giật */
+    padding-left: 24px;      /* giữ nguyên để không bị giật */
+    color: #0051c6;
 }
 
 .menu-left-1 .menu-icon {
     width: 26px;
     height: 26px;
     object-fit: contain;
+}
+ul {
+    list-style: none;     /* bỏ chấm tròn mặc định */
+    padding-left: 0;      /* bỏ thụt lề mặc định */
+    margin: 0;            /* bỏ khoảng cách ngoài */
 }

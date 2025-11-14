@@ -5,9 +5,33 @@
     box-sizing: border-box;
     font-family: "Segoe UI", sans-serif;
 }
-
+a {
+    text-decoration: none;
+    color: inherit;
+    display: contents;
+}
 body {
     background-color: #ffffff;
+}
+/* ==== LOGO ==== */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.logo img {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.logo h2 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    white-space: nowrap;
+    color: white;
 }
 
 /* === HEADER === */
@@ -75,6 +99,10 @@ body {
     align-items: center; /* ✅ Căn toàn bộ sang trái */
     padding: 20px 0;
     border-top-right-radius: 12px;
+    /*Cuộn*/
+    overflow-y: auto; /* 🔹 Cho phép trượt */
+    overflow-x: hidden;
+    scrollbar-width: thin; /* Firefox */
 }
 
 /* === USER INFO === */
@@ -234,3 +262,42 @@ body {
 #modalChiTietDonHang .modal-body {
     background: #f9fafb;
 }
+.logout-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    color: black;
+}
+
+.logout-modal-content {
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 12px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.logout-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.confirm {
+    background: #e53935;
+    color: #ffffff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+

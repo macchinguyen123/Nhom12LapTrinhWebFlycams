@@ -14,11 +14,23 @@
 
 <!-- ===== HEADER ===== -->
 <header class="main-header">
-    <div class="logo">SkyDrone Admin</div>
+    <div class="logo">
+        <img src="/image/logoo2.png" alt="Logo">
+        <h2>SkyDrone Admin</h2>
+    </div>
     <div class="header-right">
-        <button class="logout-btn" title="Đăng xuất">
+        <button class="logout-btn" id="logoutBtn"  title="Đăng xuất">
             <i class="bi bi-box-arrow-right"></i>
         </button>
+    </div>
+    <div class="logout-modal" id="logoutModal">
+        <div class="logout-modal-content">
+            <p>Bạn có chắc muốn đăng xuất không?</p>
+            <div class="logout-actions">
+                <a href="../login.html"><button id="confirmLogout" class="confirm">Có</button></a>
+                <button id="cancelLogout" class="cancel">Không</button>
+            </div>
+        </div>
     </div>
 </header>
 
@@ -33,7 +45,7 @@
         </div>
 
         <ul class="menu">
-            <li class="active"><i class="bi bi-speedometer2"></i> Bảng Điều Khiển</li>
+            <li class="active"><i class="bi bi-speedometer2"></i> Tổng Quan</li>
             <a href="QuanLyKhachHang.html"><li><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li></a>
             <a href="product-management.html"><li><i class="bi bi-box-seam"></i> Quản Lý Sản Phẩm</li></a>
             <a href="QuanLyDanhMuc.html"><li><i class="bi bi-tags"></i> Quản Lý Danh Mục</li></a>
@@ -144,6 +156,7 @@
         </div>
     </main>
 </div>
+
 <!-- ===== SCRIPT BIỂU ĐỒ ===== -->
 <!-- DataTables -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -206,5 +219,23 @@
         });
     });
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const logoutBtn = document.getElementById("logoutBtn");
+        const logoutModal = document.getElementById("logoutModal");
+        const cancelLogout = document.getElementById("cancelLogout");
+
+        // Mở popup
+        logoutBtn.addEventListener("click", function() {
+            logoutModal.style.display = "flex";
+        });
+
+        // Đóng popup
+        cancelLogout.addEventListener("click", function() {
+            logoutModal.style.display = "none";
+        });
+    });
+</script>
 </body>
+
 </html>
