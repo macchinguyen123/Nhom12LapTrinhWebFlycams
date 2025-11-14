@@ -69,7 +69,8 @@ body {
 }
 
 .btn-login:hover {
-    background-color: #0f0d45;
+    background-color: #003a8c;
+    color: #fff;
 }
 
 .forgot-pass {
