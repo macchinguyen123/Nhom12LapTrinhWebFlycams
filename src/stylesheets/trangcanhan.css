@@ -143,6 +143,24 @@ form {
 #logoutBtn:hover {
     background: #003e99;
 }
+#logoutBtn1 {
+    background: #ffffff;
+    color: #0051c6;
+    border-radius: 6px;
+    padding: 10px 0;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+    width: 100%;
+    font-weight: 600;
+    margin-bottom: 10px;
+    border: 2px solid #0051c6;
+}
+
+#logoutBtn1:hover {
+    background: #f8f8f8;
+    color:#003e99
+}
 
 /* MAIN CONTENT */
 .content {
