@@ -102,9 +102,6 @@
 
     <!-- 🔹 Nút quay lại trang chủ -->
     <div class="mb-3">
-        <a href="index.html" class="btn btn-outline-secondary">
-            ← Trang chủ
-        </a>
         <h3 class="text-center mb-4 fw-bold text-primary">Giỏ hàng của bạn</h3>
     </div>
 
@@ -198,14 +195,16 @@
         <hr>
         <div class="d-flex justify-content-between align-items-center">
             <h5 class="tong_cong text-danger m-0">Tổng cộng: 0 ₫</h5>
+            <a href="thanhtoan.html">
             <button class="btn btn-primary nut_thanh_toan">Mua ngay</button>
+                </a>
         </div>
     </div>
 </div>
 </div>
 </div>
 
-<!-- 🎯 JavaScript -->
+
 
 
 
@@ -233,13 +232,13 @@
         document.querySelector(".tong_cong").textContent = "Tổng cộng: " + dinhDangTien(tong);
     }
 
-    // ✅ Chọn tất cả
+    // Chọn tất cả
     chonTatCa.addEventListener("change", () => {
         document.querySelectorAll(".chon_san_pham").forEach(cb => cb.checked = chonTatCa.checked);
         capNhatTongTien();
     });
 
-    // ✅ Sự kiện trên từng sản phẩm
+    // Sự kiện trên từng sản phẩm
     danhSach.addEventListener("click", e => {
         const sp = e.target.closest(".khung_san_pham");
         if (!sp) return;
@@ -275,11 +274,7 @@
         capNhatTongTien();
     });
 
-    // ✅ Nút thanh toán
-    nutThanhToan.addEventListener("click", () => {
-        const tongTien = document.querySelector(".tong_cong").textContent;
-        alert("🎉 Thanh toán ngay nào!\n" + tongTien);
-    });
+
 </script>
 <script>
     const btnDanhMuc = document.getElementById('btnDanhMuc');
