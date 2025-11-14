@@ -11,11 +11,23 @@
 <body>
 
 <header class="main-header">
-    <div class="logo">SkyDrone Admin</div>
+    <div class="logo">
+        <img src="/image/logoo2.png" alt="Logo">
+        <h2>SkyDrone Admin</h2>
+    </div>
     <div class="header-right">
-        <button class="logout-btn" title="Đăng xuất">
+        <button class="logout-btn" id="logoutBtn"  title="Đăng xuất">
             <i class="bi bi-box-arrow-right"></i>
         </button>
+    </div>
+    <div class="logout-modal" id="logoutModal">
+        <div class="logout-modal-content">
+            <p>Bạn có chắc muốn đăng xuất không?</p>
+            <div class="logout-actions">
+                <a href="../login.html"><button id="confirmLogout" class="confirm">Có</button></a>
+                <button id="cancelLogout" class="cancel">Không</button>
+            </div>
+        </div>
     </div>
 </header>
 
@@ -28,10 +40,11 @@
         </div>
 
         <ul class="menu">
-            <li><i class="bi bi-speedometer2"></i> Bảng Điều Khiển</li>
-            <li><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li>
-            <li><i class="bi bi-box-seam"></i> Quản Lý Sản Phẩm</li>
-            <li><i class="bi bi-tags"></i> Quản Lý Danh Mục</li>
+            <a href="dashboard.html"><li><i class="bi bi-speedometer2"></i> Tổng Quan</li></a>
+            <a href="QuanLyKhachHang.html"><li><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li></a>
+            <a href="product-management.html"><li><i class="bi bi-box-seam"></i> Quản Lý Sản Phẩm</li></a>
+            <a href="QuanLyDanhMuc.html"><li><i class="bi bi-tags"></i> Quản Lý Danh Mục</li></a>
+
             <li class="has-submenu">
                 <div class="menu-item">
                     <i class="bi bi-truck"></i>
@@ -39,13 +52,14 @@
                     <i class="bi bi-chevron-right arrow"></i>
                 </div>
                 <ul class="submenu">
-                    <li>Chưa Xác Nhận</li>
-                    <li>Đã Xác Nhận</li>
+                    <a href="QuanLyDonHangChuaXacNhan.html"><li>Chưa Xác Nhận</li></a>
+                    <a href="QuanLyDonHangDaXacNhan.html"><li>Đã Xác Nhận</li></a>
                 </ul>
             </li>
-            <li class="active"><i class="bi bi-journal-text"></i> Quản Lý Blog</li>
-            <li><i class="bi bi-megaphone"></i> Quản Lý Khuyến Mãi</li>
-            <li><i class="bi bi-bar-chart"></i> Báo Cáo & Thống Kê</li>
+
+            <a href="QuanLyBlog.html"><li class ="active"><i class="bi bi-journal-text"></i> Quản Lý Blog</li></a>
+            <a href="QuanLyKhuyenMai.html"><li><i class="bi bi-megaphone"></i> Quản Lý Khuyến Mãi</li></a>
+            <a href="thongKe.html"><li><i class="bi bi-bar-chart"></i> Báo Cáo & Thống Kê</li></a>
         </ul>
     </aside>
 
@@ -311,6 +325,21 @@
         }
 
     }
+    document.addEventListener("DOMContentLoaded", function() {
+        const logoutBtn = document.getElementById("logoutBtn");
+        const logoutModal = document.getElementById("logoutModal");
+        const cancelLogout = document.getElementById("cancelLogout");
+
+        // Mở popup
+        logoutBtn.addEventListener("click", function() {
+            logoutModal.style.display = "flex";
+        });
+
+        // Đóng popup
+        cancelLogout.addEventListener("click", function() {
+            logoutModal.style.display = "none";
+        });
+    });
 </script>
 </body>
 </html>

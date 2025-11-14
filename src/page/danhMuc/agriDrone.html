@@ -8,12 +8,100 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../stylesheets/agriDrone.css">
+    <link rel="stylesheet" href="../../stylesheets/header.css">
+    <link rel="stylesheet" href="../../stylesheets/footer.css">
+
+    <!-- ==== HEADER TRÊN ==== -->
+    <div class="header-bg">
+        <div class="header-wrapper">
+            <header class="top-header">
+                <!-- LOGO -->
+                <a href="../header.html">
+                    <div class="logo">
+                        <img src="/image/logoo2.png" alt="Logo">
+                        <h2>SkyDrone</h2>
+                    </div>
+                </a>
+
+                <!-- THANH TÌM KIẾM -->
+                <div class="search-bar position-relative">
+                    <i class="bi bi-search"></i>
+                    <input id="searchInput" type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện..."
+                           autocomplete="off">
+
+                    <!-- Danh sách gợi ý xổ xuống -->
+                    <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
+                        style="top: 100%; left: 0; z-index: 1000; display: none;">
+                    </ul>
+                </div>
 
 
+                <!-- HÀNH ĐỘNG HEADER -->
+                <div class="header-actions">
+                    <a href="../danhSachYeuThich.html">
+                        <div class="icon-btn" title="Yêu thích">
+                            <i class="bi bi-heart"></i>
+                            <span>Yêu thích</span>
+                        </div>
+                    </a>
 
+                    <a href="../shoppingcart.html">
+                        <div class="icon-btn" title="Giỏ hàng">
+                            <i class="bi bi-cart3"></i>
+                            <span>Giỏ hàng</span>
+                        </div>
+                    </a>
+
+                    <a href="../trangcanhan.html">
+                        <div class="icon-btn" title="Tài khoản">
+                            <i class="bi bi-person-circle"></i>
+                            <span>Tài khoản</span>
+                        </div>
+                    </a>
+                </div>
+            </header>
+        </div>
+    </div>
+    <!-- ==== MENU DƯỚI ==== -->
+    <div class="menu-bg">
+        <div class="header-wrapper">
+            <nav class="main-nav">
+                <a href="../homepage.html">
+                    <button class="nav-item"><i class="bi bi-house-door"></i>Trang chủ</button>
+                </a>
+                <button class="nav-item" id="btnDanhMuc">
+                    <i class="bi bi-grid  active"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
+                </button>
+                <a href="../khuyenMai.html">
+                    <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
+                </a>
+                <a href="../baohanh.html">
+                    <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
+                </a>
+                <a href="../chinhSachThanhToan.html">
+                    <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
+                </a>
+                <a href="../hoTro.html">
+                    <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
+                </a>
+                <a href="../blog.html">
+                    <button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button>
+                </a>
+            </nav>
+        </div>
+    </div>
 </head>
 <body>
-
+<div class="menu-left-1" id="menuLeft">
+    <ul>
+        <a href="../danhMuc/Category.html"><li><img src="/image/logoDanhMuc/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp</li></a>
+        <a href="../danhMuc/DanhMucDuLich.html"><li><img src="/image/logoDanhMuc/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog</li></a>
+        <a href="../danhMuc/DanhMucTheThao.html"><li><img src="/image/logoDanhMuc/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao</li></a>
+        <a href="../danhMuc/agriDrone.html"><li><img src="/image/logoDanhMuc/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp</li></a>
+        <a href="../danhMuc/DanhMucGiamSat.html"><li><img src="/image/logoDanhMuc/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh</li></a>
+        <a href="../danhMuc/DanhMucMini.html"><li><img src="/image/logoDanhMuc/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ</li></a>
+    </ul>
+</div>
 <section class="phan-san-pham">
     <h2 class="tieu-de-muc">Drone nông nghiệp</h2>
 
@@ -66,12 +154,14 @@
 
         <!-- SẢN PHẨM 1 -->
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/parap04.png" alt="Agricultural P04">
             <h3 class="ten-san-pham">Agricultural P04</h3>
             <div class="gia">
                 <b>95.000.000 ₫</b>
                 <span class="gia-goc">105.000.000 ₫</span>
             </div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -83,14 +173,17 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(210 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
         <!-- SẢN PHẨM 2 -->
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/argasT10.png" alt="Drone Phun Thuốc T10 Pro">
             <h3 class="ten-san-pham">Drone Phun Thuốc T10 Pro</h3>
             <div class="gia"><b>79.000.000 ₫</b><span class="gia-goc">88.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -102,14 +195,17 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(156 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
         <!-- SẢN PHẨM 3 -->
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/t20p.png" alt="Drone Nông Nghiệp T20P">
             <h3 class="ten-san-pham">Drone Nông Nghiệp T20P</h3>
             <div class="gia"><b>120.000.000 ₫</b><span class="gia-goc">135.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -121,14 +217,17 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(98 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
         <!-- SẢN PHẨM 4 -->
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/agrast50.png" alt="Dronet50">
             <h3 class="ten-san-pham">Agras T50</h3>
             <div class="gia"><b>85.000.000 ₫</b><span class="gia-goc">95.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -140,14 +239,17 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(64 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
         <!-- SẢN PHẨM 5 -->
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/agrasT40.png" alt="Drone Gieo Hạt SmartAgri S8">
             <h3 class="ten-san-pham">Agras T40</h3>
             <div class="gia"><b>68.000.000 ₫</b><span class="gia-goc">75.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -159,14 +261,17 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(84 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
         <!-- SẢN PHẨM 6 -->
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/agrast25.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">Agras T25</h3>
             <div class="gia"><b>102.000.000 ₫</b><span class="gia-goc">112.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -178,14 +283,17 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(52 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+                    <a href="../product-details.html">
+                        <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
         <!-- SẢN PHẨM 7 -->
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/parap20.png" alt="Drone Phun Thuốc">
             <h3 class="ten-san-pham">Para P20</h3>
             <div class="gia"><b>135.000.000 ₫</b><span class="gia-goc">145.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -197,14 +305,17 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(91 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
         <!-- SẢN PHẨM 8 -->
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/eftg630.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">EFT G630</h3>
             <div class="gia"><b>160.000.000 ₫</b><span class="gia-goc">175.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -216,12 +327,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(47 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/eftg616.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">EFT G616</h3>
             <div class="gia"><b>111.000.000 ₫</b><span class="gia-goc">115.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -233,12 +347,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(73 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/THEA%20160.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">THEA 160</h3>
             <div class="gia"><b>14.000.000 ₫</b><span class="gia-goc">15.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -250,12 +367,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(13 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/aq2.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">TSV-AQ2</h3>
             <div class="gia"><b>111.000.000 ₫</b><span class="gia-goc">115.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -267,12 +387,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(47 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/f16l.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">DJI F16L</h3>
             <div class="gia"><b>22.100.000 ₫</b><span class="gia-goc">25.990.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -284,12 +407,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(42 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/X4.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">DJI X4</h3>
             <div class="gia"><b>42.980.000 ₫</b><span class="gia-goc">50.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -301,12 +427,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(47 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/g20q.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">EFT G20Q</h3>
             <div class="gia"><b>77.770.000 ₫</b><span class="gia-goc">80.120.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -318,12 +447,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(18 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/f800.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">F800</h3>
             <div class="gia"><b>52.000.000 ₫</b><span class="gia-goc">54.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -336,12 +468,15 @@
             </div>
             <div class="so-danh-gia">(19
                 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/HRT-C50.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">HRT-C50</h3>
             <div class="gia"><b>34.900.000 ₫</b><span class="gia-goc">35.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -353,12 +488,16 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(26 đánh giá)</div>
+            <a href="../product-details.html">
             <button class="nut-mua-ngay">Mua Ngay</button>
+            </a>
         </div>
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/TYI6-20C.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">TYI6-20C</h3>
             <div class="gia"><b>13.888.000 ₫</b><span class="gia-goc">20.000.000 ₫</span></div>
+                <a href="../product-details.html">
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -370,12 +509,16 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(41 đánh giá)</div>
+                    <a href="../product-details.html">
             <button class="nut-mua-ngay">Mua Ngay</button>
+                    </a>
         </div>
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/zlion10.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">EFT G616</h3>
             <div class="gia"><b>11.000.000 ₫</b><span class="gia-goc">15.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -387,12 +530,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(111 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/a101300.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">A10-1300</h3>
             <div class="gia"><b>130.000.000 ₫</b><span class="gia-goc">132.900.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -404,12 +550,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(22 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/350rtk.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">Matrice 350-RTK</h3>
             <div class="gia"><b>13.000.000 ₫</b><span class="gia-goc">14.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -421,12 +570,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(66 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
         <div class="san-pham">
+            <a href="../product-details.html">
             <img src="../../image/sanPhamNongNghiep/m350pro.png" alt="Drone Nông Nghiệp">
             <h3 class="ten-san-pham">M350-PRO</h3>
             <div class="gia"><b>24.000.000 ₫</b><span class="gia-goc">27.000.000 ₫</span></div>
+            </a>
             <div class="hang-danh-gia">
                 <div class="danh-gia-sao">
                     <i class="bi bi-star-fill"></i>
@@ -438,7 +590,8 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(41 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
+            <a href="../product-details.html">
+                <button class="nut-mua-ngay">Mua Ngay</button></a>
         </div>
 
     </div>
@@ -450,7 +603,112 @@
         <button class="btn btn-outline-primary nut-sau">Trang sau »</button>
     </div>
 </section>
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Cột 1 -->
+        <div class="footer-column">
+            <h6>SKYDRONE VIỆT NAM</h6>
+            <img src="/image/dronefooter.png" alt="SKYDRONE Logo" class="mascot">
+            <p><strong>Công ty Cổ phần thương mại SKYDrone Việt Nam</strong></p>
+            <p>Địa chỉ: Số 1 Đường Số 1, Phường Linh Xuân, TP Hồ Chí Minh, Việt Nam</p>
+            <p><strong>Hotline:</strong> 0815.000.060</p>
+            <p>ĐKKD số 0108676636 do Sở KH&ĐT TP. Hồ Chí Minh cấp ngày 10/10/2025</p>
 
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+
+        <!-- Cột 2 -->
+        <div class="footer-column">
+            <h6>SẢN PHẨM</h6>
+            <ul>
+                <li><a href="#">Drone quay phim chuyên nghiệp</a></li>
+                <li><a href="#">Drone du lịch / vlog</a></li>
+                <li><a href="#">Drone thể thao tốc độ cao</a></li>
+                <li><a href="#">Drone nông nghiệp</a></li>
+                <li><a href="#">Drone giám sát / an ninh</a></li>
+                <li><a href="#">Drone mini / cở nhỏ</a></li>
+            </ul>
+
+            <h3>TƯ VẤN MUA HÀNG</h3>
+            <div class="hotline">
+                <i class="fa-solid fa-phone"></i>0813.660.666
+            </div>
+        </div>
+
+        <!-- Cột 3 -->
+        <div class="footer-column">
+            <h6>HỆ THỐNG PHÂN PHỐI</h6>
+            <ul>
+                <li><a href="#">SKYDrone Store</a></li>
+                <li><a href="#">Hà Nội</a></li>
+                <li><a href="#">TP. Hồ Chí Minh</a></li>
+                <li><a href="#">Đà Nẵng</a></li>
+                <li><a href="#">Nghệ An</a></li>
+
+            </ul>
+            <section class="payment-methods">
+                <h6>PHƯƠNG THỨC THANH TOÁN</h6>
+                <div class="payment-icons">
+                    <img src="https://tse3.mm.bing.net/th/id/OIP.kklIaX3TV97u5KnjU_Kr4wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="VNPay">
+                </div>
+            </section>
+        </div>
+        <!-- Cột 4 -->
+        <div class="footer-column">
+            <h6>THÔNG TIN VỀ CHÍNH SÁCH</h6>
+            <ul>
+                <li><a href="#">Mua hàng và thanh toán Online</a></li>
+                <li><a href="#">Chính sách giao hàng</a></li>
+                <li><a href="#">Chính sách đổi trả</a></li>
+                <li><a href="#">Tra thông tin bảo hành</a></li>
+                <li><a href="#">Thông tin hoá đơn mua hàng</a></li>
+            </ul>
+
+            <section class="social-connect">
+                <h6>KẾT NỐI VỚI SKYDRONE</h6>
+                <div class="social-icons">
+                    <a href="https://www.youtube.com/@F8VNOfficial"
+                       class="icon youtube" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+                    </a>
+
+                    <a href="https://www.facebook.com/dhkcntt.nlu"
+                       class="icon facebook" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
+                    </a>
+
+                    <a href="https://www.instagram.com/truyenthongchinhphu/"
+                       class="icon instagram" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+                    </a>
+
+                    <a href="https://www.tiktok.com/@nonglam.university"
+                       class="icon tiktok" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
+                    </a>
+
+                    <a href="https://zalo.me/0966089465"
+                       class="icon zalo" target="_blank" rel="noopener noreferrer">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo">
+                    </a>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+        <p>Copyright © 2025 © <strong>SKYDrone Việt Nam</strong></p>
+        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm cấm.</p>
+    </div>
+</footer>
 <script>
     // Hiệu ứng tim yêu thích
     document.querySelectorAll('.tim-yeu-thich').forEach(tim => {
@@ -518,6 +776,21 @@
 
 
 hienThiTrang(trangHienTai);
+</script>
+<script>
+    const btnDanhMuc = document.getElementById('btnDanhMuc');
+    const menuLeft = document.getElementById('menuLeft');
+
+    btnDanhMuc.addEventListener('click', () => {
+        menuLeft.classList.toggle('show');
+    });
+
+    // Ẩn menu khi click ra ngoài
+    document.addEventListener('click', (e) => {
+        if (!menuLeft.contains(e.target) && !btnDanhMuc.contains(e.target)) {
+            menuLeft.classList.remove('show');
+        }
+    });
 </script>
 
 </body>
