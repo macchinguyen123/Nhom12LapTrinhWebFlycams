@@ -30,13 +30,14 @@
 }
 
 .menu-left li {
-    padding: 10px 18px;
+    padding: 15px 18px;
     display: flex;
     align-items: center;
     gap: 8px; /*tạo khoảng cách đều giữa logo - icon - text */
     cursor: pointer;
     font-size: 15px;
     transition: 0.3s;
+    border-radius: 8px;
 }
 
 .menu-left li .menu-icon {
@@ -52,8 +53,9 @@
 }
 
 .menu-left li:hover {
-    background: #f0f6ff;
+    background: #e7f0ff;
     padding-left: 24px;
+    color: #0051c6;
 }
 
 /* SLIDER */

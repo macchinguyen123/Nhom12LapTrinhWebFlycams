@@ -10,6 +10,8 @@
 
     <!-- CSS riêng -->
     <link rel="stylesheet" href="../../stylesheets/Category.css">
+    <link rel="stylesheet" href="../../stylesheets/header.css">
+    <link rel="stylesheet" href="../../stylesheets/footer.css">
 </head>
 <body>
 <!-- ==== HEADER TRÊN ==== -->
@@ -17,7 +19,7 @@
     <div class="header-wrapper">
         <header class="top-header">
             <!-- LOGO -->
-            <a href="../header.html">
+            <a href="../homepage.html">
                 <div class="logo">
                     <img src="/image/logoo2.png" alt="Logo">
                     <h2>SkyDrone</h2>
@@ -25,7 +27,7 @@
             </a>
 
             <!-- THANH TÌM KIẾM -->
-            <div class="search-bar position-relative">
+            <a href="../searching.html"><div class="search-bar position-relative">
                 <i class="bi bi-search"></i>
                 <input id="searchInput" type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện..."
                        autocomplete="off">
@@ -34,7 +36,7 @@
                 <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
                     style="top: 100%; left: 0; z-index: 1000; display: none;">
                 </ul>
-            </div>
+            </div></a>
 
 
             <!-- HÀNH ĐỘNG HEADER -->
@@ -67,25 +69,25 @@
 <div class="menu-bg">
     <div class="header-wrapper">
         <nav class="main-nav">
-            <a href="homepage.html">
-                <button class="nav-item active"><i class="bi bi-house-door"></i>Trang chủ</button>
+            <a href="../homepage.html">
+                <button class="nav-item"><i class="bi bi-house-door"></i>Trang chủ</button>
             </a>
-            <button class="nav-item" id="btnDanhMuc">
+            <button class="nav-item active" id="btnDanhMuc">
                 <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
             </button>
-            <a href="khuyenMai.html">
+            <a href="../khuyenMai.html">
                 <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
             </a>
-            <a href="baohanh.html">
+            <a href="../baohanh.html">
                 <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
             </a>
-            <a href="chinhSachThanhToan.html">
+            <a href="../chinhSachThanhToan.html">
                 <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
             </a>
-            <a href="hoTro.html">
+            <a href="../hoTro.html">
                 <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
             </a>
-            <a href="blog.html">
+            <a href="../blog.html">
                 <button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button>
             </a>
         </nav>
@@ -843,6 +845,21 @@
     hienThiTrang(trangHienTai);
 
 
+</script>
+<script>
+    const btnDanhMuc = document.getElementById('btnDanhMuc');
+    const menuLeft = document.getElementById('menuLeft');
+
+    btnDanhMuc.addEventListener('click', () => {
+        menuLeft.classList.toggle('show');
+    });
+
+    // Ẩn menu khi click ra ngoài
+    document.addEventListener('click', (e) => {
+        if (!menuLeft.contains(e.target) && !btnDanhMuc.contains(e.target)) {
+            menuLeft.classList.remove('show');
+        }
+    });
 </script>
 </body>
 </html>
