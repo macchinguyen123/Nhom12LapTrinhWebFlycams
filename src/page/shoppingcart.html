@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="../stylesheets/shoppingcart.css">
     <link rel="stylesheet" href="../stylesheets/header.css">
+    <link rel="stylesheet" href="../stylesheets/footer.css">
 </head>
 
 <body>
@@ -19,7 +20,7 @@
     <div class="header-wrapper">
         <header class="top-header">
             <!-- LOGO -->
-            <a href="header.html">
+            <a href="homepage.html">
                 <div class="logo">
                     <img src="../image/logoo2.png" alt="Logo">
                     <h2>SkyDrone</h2>
@@ -27,15 +28,16 @@
             </a>
 
             <!-- THANH TÌM KIẾM -->
-            <div class="search-bar position-relative">
+            <a href="searching.html"><div class="search-bar position-relative">
                 <i class="bi bi-search"></i>
-                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện..." autocomplete="off">
+                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, flycam..."
+                       autocomplete="off">
 
                 <!-- Danh sách gợi ý xổ xuống -->
                 <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
                     style="top: 100%; left: 0; z-index: 1000; display: none;">
                 </ul>
-            </div>
+            </div></a>
 
 
             <!-- HÀNH ĐỘNG HEADER -->
@@ -47,7 +49,7 @@
                     </div>
                 </a>
 
-                <a href="shoppingcart.html"><div class="icon-btn" title="Giỏ hàng">
+                <a href="shoppingcart.html"><div class="icon-btn active" title="Giỏ hàng">
                     <i class="bi bi-cart3"></i>
                     <span>Giỏ hàng</span>
                 </div></a>
@@ -119,7 +121,7 @@
     <div class="container py-4">
         <!-- nội dung giỏ hàng -->
 
-    <!-- 🔹 Nút quay lại trang chủ -->
+    <!-- Nút quay lại trang chủ -->
     <div class="mb-3">
         <h3 class="text-center mb-4 fw-bold text-primary">Giỏ hàng của bạn</h3>
     </div>
@@ -138,11 +140,11 @@
 
     <!-- Danh sách sản phẩm -->
     <div id="danh_sach_san_pham">
-        <!-- 🔹 Sản phẩm 1 -->
+        <!-- Sản phẩm 1 -->
         <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
                 <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                <img src="../image/content/DJI Mini 3.png" alt="DJI Mini 3" class="anh_san_pham me-3" width="120">
+                <a href="product-details.html"><img src="../image/content/DJI Mini 3.png" alt="DJI Mini 3" class="anh_san_pham me-3" width="120"></a>
                 <div>
                     <h5 class="ten_san_pham mb-2">Flycam DJI Mini 3</h5>
                     <div>
@@ -160,11 +162,11 @@
             </div>
         </div>
 
-        <!-- 🔹 Sản phẩm 2 -->
+        <!-- Sản phẩm 2 -->
         <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
                 <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                <img src="../image/content/DJI Mini 4K.png" alt="DJI Mini 4K" class="anh_san_pham me-3" width="120">
+                <a href="product-details.html"><img src="../image/content/DJI Mini 4K.png" alt="DJI Mini 4K" class="anh_san_pham me-3" width="120"></a>
                 <div>
                     <h5 class="ten_san_pham mb-2">Flycam DJI Mini 4K</h5>
                     <div>
@@ -182,11 +184,11 @@
             </div>
         </div>
 
-        <!-- 🔹 Sản phẩm 3 -->
+        <!-- Sản phẩm 3 -->
         <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
                 <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                <img src="../image/content/Flycam DJI Air 3.png" alt="Flycam DJI Air 3" class="anh_san_pham me-3" width="120">
+                <a href="product-details.html"><img src="../image/content/Flycam DJI Air 3.png" alt="Flycam DJI Air 3" class="anh_san_pham me-3" width="120"></a>
                 <div>
                     <h5 class="ten_san_pham mb-2">Flycam DJI Air 3</h5>
                     <div>
@@ -222,11 +224,112 @@
 </div>
 </div>
 </div>
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Cột 1 -->
+        <div class="footer-column">
+            <h6>SKYDRONE VIỆT NAM</h6>
+            <img src="../image/dronefooter.png" alt="SKYDRONE Logo" class="mascot">
+            <p><strong>Công ty Cổ phần thương mại SKYDrone Việt Nam</strong></p>
+            <p>Địa chỉ: Số 1 Đường Số 1, Phường Linh Xuân, TP Hồ Chí Minh, Việt Nam</p>
+            <p><strong>Hotline:</strong> 0815.000.060</p>
+            <p>ĐKKD số 0108676636 do Sở KH&ĐT TP. Hồ Chí Minh cấp ngày 10/10/2025</p>
+
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+
+        <!-- Cột 2 -->
+        <div class="footer-column">
+            <h6>SẢN PHẨM</h6>
+            <ul>
+                <li><a href="#">Drone quay phim chuyên nghiệp</a></li>
+                <li><a href="#">Drone du lịch / vlog</a></li>
+                <li><a href="#">Drone thể thao tốc độ cao</a></li>
+                <li><a href="#">Drone nông nghiệp</a></li>
+                <li><a href="#">Drone giám sát / an ninh</a></li>
+                <li><a href="#">Drone mini / cở nhỏ</a></li>
+            </ul>
+
+            <h3>TƯ VẤN MUA HÀNG</h3>
+            <div class="hotline">
+                <i class="fa-solid fa-phone"></i>0813.660.666
+            </div>
+        </div>
+
+        <!-- Cột 3 -->
+        <div class="footer-column">
+            <h6>HỆ THỐNG PHÂN PHỐI</h6>
+            <ul>
+                <li><a href="#">SKYDrone Store</a></li>
+                <li><a href="#">Hà Nội</a></li>
+                <li><a href="#">TP. Hồ Chí Minh</a></li>
+                <li><a href="#">Đà Nẵng</a></li>
+                <li><a href="#">Nghệ An</a></li>
+
+            </ul>
+            <section class="payment-methods">
+                <h6>PHƯƠNG THỨC THANH TOÁN</h6>
+                <div class="payment-icons">
+                    <img src="https://tse3.mm.bing.net/th/id/OIP.kklIaX3TV97u5KnjU_Kr4wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="VNPay">
+                </div>
+            </section>
+        </div>
+        <!-- Cột 4 -->
+        <div class="footer-column">
+            <h6>THÔNG TIN VỀ CHÍNH SÁCH</h6>
+            <ul>
+                <li><a href="#">Mua hàng và thanh toán Online</a></li>
+                <li><a href="#">Chính sách giao hàng</a></li>
+                <li><a href="#">Chính sách đổi trả</a></li>
+                <li><a href="#">Tra thông tin bảo hành</a></li>
+                <li><a href="#">Thông tin hoá đơn mua hàng</a></li>
+            </ul>
+
+            <section class="social-connect">
+                <h6>KẾT NỐI VỚI SKYDRONE</h6>
+                <div class="social-icons">
+                    <a href="https://www.youtube.com/@F8VNOfficial"
+                       class="icon youtube" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+                    </a>
+
+                    <a href="https://www.facebook.com/dhkcntt.nlu"
+                       class="icon facebook" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
+                    </a>
+
+                    <a href="https://www.instagram.com/truyenthongchinhphu/"
+                       class="icon instagram" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+                    </a>
+
+                    <a href="https://www.tiktok.com/@nonglam.university"
+                       class="icon tiktok" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
+                    </a>
+
+                    <a href="https://zalo.me/0966089465"
+                       class="icon zalo" target="_blank" rel="noopener noreferrer">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo">
+                    </a>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
 
 
-
-
-
+    <div class="footer-bottom">
+        <p>Copyright © 2025 © <strong>SKYDrone Việt Nam</strong></p>
+        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm cấm.</p>
+    </div>
+</footer>
 <script>
     const chonTatCa = document.getElementById("chon_tat_ca");
     const nutXoaDaChon = document.querySelector(".nut_xoa_da_chon");
@@ -287,7 +390,7 @@
         }
     });
 
-    // ✅ Xóa các sản phẩm đã chọn
+    // Xóa các sản phẩm đã chọn
     nutXoaDaChon.addEventListener("click", () => {
         document.querySelectorAll(".chon_san_pham:checked").forEach(cb => cb.closest(".khung_san_pham").remove());
         capNhatTongTien();

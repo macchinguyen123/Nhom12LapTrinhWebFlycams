@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Hồ Sơ Của Tôi</title>
-    <link rel="stylesheet" href="../stylesheets/trangcanhan.css">
     <link rel="stylesheet" href="../stylesheets/header.css">
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../stylesheets/footer.css">
+    <link rel="stylesheet" href="../stylesheets/trangcanhan.css">
 </head>
 <body>
 <!-- ==== HEADER TRÊN ==== -->
@@ -25,15 +25,16 @@
             </a>
 
             <!-- THANH TÌM KIẾM -->
-            <div class="search-bar position-relative">
+            <a href="searching.html"><div class="search-bar position-relative">
                 <i class="bi bi-search"></i>
-                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện..." autocomplete="off">
+                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, flycam..."
+                       autocomplete="off">
 
                 <!-- Danh sách gợi ý xổ xuống -->
                 <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
                     style="top: 100%; left: 0; z-index: 1000; display: none;">
                 </ul>
-            </div>
+            </div></a>
 
 
             <!-- HÀNH ĐỘNG HEADER -->
@@ -45,15 +46,19 @@
                     </div>
                 </a>
 
-                <a href="shoppingcart.html"><div class="icon-btn" title="Giỏ hàng">
-                    <i class="bi bi-cart3"></i>
-                    <span>Giỏ hàng</span>
-                </div></a>
+                <a href="shoppingcart.html">
+                    <div class="icon-btn" title="Giỏ hàng">
+                        <i class="bi bi-cart3"></i>
+                        <span>Giỏ hàng</span>
+                    </div>
+                </a>
 
-                <a href="trangcanhan.html"><div class="icon-btn active" title="Tài khoản">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Tài khoản</span>
-                </div></a>
+                <a href="trangcanhan.html">
+                    <div class="icon-btn active" title="Tài khoản">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Tài khoản</span>
+                    </div>
+                </a>
             </div>
         </header>
     </div>
@@ -63,38 +68,71 @@
 <div class="menu-bg">
     <div class="header-wrapper">
         <nav class="main-nav">
-            <a href="homepage.html"><button class="nav-item "><i class="bi bi-house-door"></i>Trang chủ</button></a>
+            <a href="homepage.html">
+                <button class="nav-item active"><i class="bi bi-house-door"></i>Trang chủ</button>
+            </a>
             <button class="nav-item" id="btnDanhMuc">
                 <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
             </button>
-            <a href="khuyenMai.html"><button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button></a>
-            <a href="baohanh.html"><button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button></a>
-            <a href="chinhSachThanhToan.html"><button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button></a>
-            <a href="hoTro.html"><button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button></a>
-            <a href="blog.html"><button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button></a>
+            <a href="khuyenMai.html">
+                <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
+            </a>
+            <a href="baohanh.html">
+                <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
+            </a>
+            <a href="chinhSachThanhToan.html">
+                <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
+            </a>
+            <a href="hoTro.html">
+                <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
+            </a>
+            <a href="blog.html">
+                <button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button>
+            </a>
         </nav>
     </div>
 </div>
 <!-- MENU TRÁI ẨN MẶC ĐỊNH -->
 <div class="menu-left-1" id="menuLeft">
     <ul>
-        <li><img src="../image/logoDanhMuc/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp</li>
-        <li><img src="../image/logoDanhMuc/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog</li>
-        <li><img src="../image/logoDanhMuc/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao</li>
-        <li><img src="../image/logoDanhMuc/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp</li>
-        <li><img src="../image/logoDanhMuc/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh</li>
-        <li><img src="../image/logoDanhMuc/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ</li>
+        <li><a href="danhMuc/Category.html">
+            <img src="../image/logoDanhMuc/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
+        </a>
+        </li>
+
+        <li><a href="danhMuc/DanhMucDuLich.html">
+            <img src="../image/logoDanhMuc/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
+        </a>
+        </li>
+        <li><a href="danhMuc/DanhMucTheThao.html">
+            <img src="../image/logoDanhMuc/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
+        </a>
+        </li>
+        <li><a href="danhMuc/agriDrone.html">
+            <img src="../image/logoDanhMuc/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
+        </a>
+        </li>
+        <li><a href="danhMuc/DanhMucGiamSat.html">
+            <img src="../image/logoDanhMuc/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
+        </a>
+        </li>
+        <li><a href="danhMuc/DanhMucMini.html">
+            <img src="../image/logoDanhMuc/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
+        </a>
+        </li>
     </ul>
 </div>
 
-<div id="header"></div>
 <div class="container">
     <aside class="sidebar">
         <div class="user-info">
-            <div class="avatar"></div>
+            <div class="avatar">
+                <img src="../image/logoTCN.png" alt="Avatar của phclhu632">
+            </div>
             <p class="username">phclhu632</p>
             <a href="#" class="edit-profile">Sửa Hồ Sơ</a>
         </div>
+
 
         <nav class="menu">
             <ul>
@@ -221,9 +259,26 @@
         <!-- === Đơn Mua === -->
         <section id="orders-section" class="section">
             <h2>Đơn Mua</h2>
-
-            <!-- 🔹 BẢNG DANH SÁCH HÓA ĐƠN -->
+            <!-- BẢNG DANH SÁCH HÓA ĐƠN -->
             <div id="order-list" class="order-table">
+                <!-- TABS LỌC TRẠNG THÁI -->
+                <div class="order-tabs">
+                    <button class="order-tab tab-cho active" data-status="cho">
+                        <i class="bi bi-clock-history"></i> Chờ xác nhận
+                    </button>
+
+                    <button class="order-tab tab-dang-giao" data-status="dang-giao">
+                        <i class="bi bi-truck"></i> Đang giao
+                    </button>
+
+                    <button class="order-tab tab-da-giao" data-status="da-giao">
+                        <i class="bi bi-check2-circle"></i> Đã giao
+                    </button>
+
+                    <button class="order-tab tab-da-huy" data-status="da-huy">
+                        <i class="bi bi-x-circle"></i> Đã huỷ
+                    </button>
+                </div>
                 <h3>Hóa đơn gần đây</h3>
                 <table>
                     <thead>
@@ -232,27 +287,61 @@
                         <th>Thời gian cập nhật</th>
                         <th>Trạng thái</th>
                         <th>Tổng giá trị</th>
+                        <th class="text-center">Thao Tác</th>
                     </tr>
                     </thead>
-                    <tbody>
 
+                    <tbody>
                     <tr>
                         <td>51</td>
                         <td>2024-01-03 23:21:41</td>
                         <td class="delivered">Đang giao</td>
-                        <td>70.999.990 ₫
-                            <a href="#" class="detail-link" onclick="showOrderDetail(51)">Chi tiết</a></td>
+                        <td>70.999.990 ₫</td>
+                        <td class="thao-tac-col">
+                            <button class="btn btn-view btn-sm" onclick="showOrderDetail(51)">
+                                <i class="bi bi-eye"></i> Xem chi tiết
+                            </button>
+
+                            <button class="btn btn-cancel btn-sm" onclick="cancelOrder(51)">
+                                <i class="bi bi-trash"></i> Huỷ đơn hàng
+                            </button>
+                        </td>
                     </tr>
+                    <tr>
+                        <td>51</td>
+                        <td>2024-01-03 23:21:41</td>
+                        <td class="delivered">Chờ xác nhận</td>
+                        <td>70.999.990 ₫</td>
+                        <td class="thao-tac-col">
+                            <button class="btn btn-view btn-sm" onclick="showOrderDetail(51)">
+                                <i class="bi bi-eye"></i> Xem chi tiết
+                            </button>
+
+                            <button class="btn btn-cancel btn-sm" onclick="cancelOrder(51)">
+                                <i class="bi bi-trash"></i> Huỷ đơn hàng
+                            </button>
+                        </td>
+                    </tr>
+
                     <tr>
                         <td>50</td>
                         <td>2024-01-02 22:24:02</td>
                         <td class="delivered">Đang giao</td>
-                        <td>1.422.000 ₫
-                            <a href="#" class="detail-link" onclick="showOrderDetail(50)">Chi tiết</a></td>
+                        <td>70.999.990 ₫</td>
+                        <td class="thao-tac-col">
+                            <button class="btn btn-view btn-sm" onclick="showOrderDetail(51)">
+                                <i class="bi bi-eye"></i> Xem chi tiết
+                            </button>
+
+                            <button class="btn btn-cancel btn-sm" onclick="cancelOrder(51)">
+                                <i class="bi bi-trash"></i> Huỷ đơn hàng
+                            </button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
+
 
             <!-- 🔹 CHI TIẾT ĐƠN HÀNG (ẩn mặc định) -->
             <div id="order-detail" class="order-card" style="display: none;">
@@ -314,6 +403,7 @@
             <div class="address-form" id="addressForm">
                 <input type="text" id="nameInput" placeholder="Họ và tên người nhận">
                 <input type="text" id="phoneInput" placeholder="Số điện thoại">
+                <input type="text" id="detailAddress" placeholder="Số nhà, tên đường...">
                 <div class="address-select-group">
                     <select id="province">
                         <option value="">-- Chọn Tỉnh/Thành phố --</option>
@@ -322,9 +412,10 @@
                         <option value="">-- Chọn Phường/Xã --</option>
                     </select>
                 </div>
-
-                <input type="text" id="detailAddress" placeholder="Số nhà, tên đường...">
-
+                <label class="default-check">
+                    <input type="checkbox" id="defaultAddress">
+                    Đặt làm địa chỉ mặc định
+                </label>
                 <div>
                     <button type="button" class="save-address" id="saveAddressBtn">Lưu</button>
                     <button type="button" class="cancel-address" id="cancelAddressBtn">Hủy</button>
@@ -443,6 +534,44 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- ====== Script xử lý ====== -->
 <script>
+
+    document.querySelectorAll(".order-tab").forEach(tab => {
+        tab.addEventListener("click", function () {
+
+            // Bỏ active tab
+            document.querySelectorAll(".order-tab").forEach(t => t.classList.remove("active"));
+            this.classList.add("active");
+
+            const status = this.getAttribute("data-status");
+            const rows = document.querySelectorAll("#order-list tbody tr");
+
+            rows.forEach(row => {
+                const cellStatus = row.querySelector("td:nth-child(3)").textContent.trim();
+
+                // Hiện tất cả
+                if (status === "all") {
+                    row.style.display = "";
+                    return;
+                }
+
+                // Mapping từ tab → text trạng thái
+                const mapStatus = {
+                    "cho": "Chờ xác nhận",
+                    "dang-giao": "Đang giao",
+                    "da-giao": "Đã giao",
+                    "da-huy": "Đã huỷ"
+                };
+
+                // Lọc
+                if (cellStatus === mapStatus[status]) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+    });
+
     // === Chuyển tab ===
     const menuItems = document.querySelectorAll(".menu li");
     const sections = document.querySelectorAll(".section");
@@ -623,6 +752,19 @@
         // Nếu có nhiều đơn, có thể load chi tiết khác dựa theo id (sau này fetch API)
     }
 
+    function cancelOrder(orderId) {
+        if (!confirm("Bạn có chắc muốn huỷ đơn #" + orderId + " không?")) {
+            return;
+        }
+
+        // Xóa dòng khỏi bảng
+        const row = document.querySelector(`button[onclick="cancelOrder(${orderId})"]`).closest("tr");
+        if (row) {
+            row.remove();
+        }
+
+        alert("Đã huỷ đơn hàng #" + orderId);
+    }
     function showOrderList() {
         document.getElementById("order-detail").style.display = "none";
         document.getElementById("order-list").style.display = "block";

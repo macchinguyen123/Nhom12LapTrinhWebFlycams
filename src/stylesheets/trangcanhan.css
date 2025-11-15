@@ -3,11 +3,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+    font-family: Inter, Inter Fallback, Arial, sans-serif;
 }
 
 body {
-    background: #f5f5f5;
+    background: #ffffff;
     color: #333;
 }
 
@@ -79,9 +79,18 @@ form {
     width: 90px;
     height: 90px;
     border-radius: 50%;
-    background: #ddd;
+    overflow: hidden;      /* cắt ảnh tròn */
     margin: 0 auto 10px;
+    background: #ddd;      /* màu nền khi chưa có ảnh */
 }
+
+.user-info .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;     /* ảnh đầy khung, không méo */
+    display: block;
+}
+
 
 .username {
     font-weight: 600;
@@ -813,3 +822,147 @@ form {
     transform: translateY(-4px);
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
+/* Ô checkbox + text nằm cùng hàng đẹp hơn */
+.default-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* Style ô checkbox */
+.default-check input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #0051c6; /* Màu xanh đồng bộ */
+}
+.address-select-group {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+}
+
+.address-select-group select {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fff;
+    transition: border-color 0.2s;
+}
+
+.address-select-group select:focus {
+    border-color: #0051c6;
+}
+/* CỘT THAO TÁC */
+.thao-tac-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    white-space: nowrap;
+}
+
+/* Kích thước nút bằng nhau */
+.thao-tac-col .btn {
+    width: 150px;                /* 👈 2 nút bằng nhau */
+    padding: 8px 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border-radius: 25px;         /* Bo tròn kiểu pill */
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Hover */
+.thao-tac-col .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    opacity: 0.95;
+}
+
+/* Active */
+.thao-tac-col .btn:active {
+    transform: scale(0.95);
+}
+
+/* Nút Xem chi tiết */
+.btn-view {
+    background-color: #0051c6 !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+/* Nút Huỷ đơn hàng */
+.btn-cancel {
+    background-color: #dc3545 !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+
+/* Icon */
+.thao-tac-col .btn i {
+    font-size: 16px;
+    transform: translateY(1px);
+}
+.order-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.order-tab {
+    display: flex;              /* flex để icon + text nằm ngang */
+    align-items: center;        /* căn giữa theo chiều dọc */
+    justify-content: center;    /* căn giữa text */
+    gap: 6px;                   /* khoảng cách icon và text */
+    padding: 10px 16px;         /* padding đều cho tất cả */
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    min-height: 42px;           /* chiều cao đồng nhất */
+    border: 1px solid transparent;
+    transition: 0.25s;
+}
+
+/* Hover */
+.order-tab:hover {
+    opacity: 0.85;
+}
+
+/* Active */
+.order-tab.active {
+    color: #fff;
+}
+
+/* Các màu riêng từng trạng thái */
+.tab-cho.active { background-color: #f0ad4e; border-color: #f0ad4e; }
+.tab-dang-giao.active { background-color: #0051c6; border-color: #0051c6; }
+.tab-da-giao.active { background-color: #28a745; border-color: #28a745; }
+.tab-da-huy.active { background-color: #dc3545; border-color: #dc3545; }
+
+/* Icon màu trắng khi active */
+.order-tab.active i {
+    color: #fff;
+}
+ul {
+    list-style: none;     /* bỏ chấm tròn mặc định */
+    padding-left: 0;      /* bỏ thụt lề mặc định */
+    margin: 0;            /* bỏ khoảng cách ngoài */
+}
+a {
+    text-decoration: none;
+    color: inherit;
+    display: contents;
+}
+

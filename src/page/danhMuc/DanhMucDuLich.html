@@ -19,7 +19,7 @@
     <div class="header-wrapper">
         <header class="top-header">
             <!-- LOGO -->
-            <a href="/page/homepage.html">
+            <a href="../homepage.html">
                 <div class="logo">
                     <img src="/image/logoo2.png" alt="Logo">
                     <h2>SkyDrone</h2>
@@ -27,15 +27,18 @@
             </a>
 
             <!-- THANH TÌM KIẾM -->
-            <div class="search-bar position-relative">
-                <i class="bi bi-search"></i>
-                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện..." autocomplete="off">
+            <a href="../searching.html">
+                <div class="search-bar position-relative">
+                    <i class="bi bi-search"></i>
+                    <input id="searchInput" type="text" placeholder="Tìm kiếm drone, flycam..."
+                           autocomplete="off">
 
-                <!-- Danh sách gợi ý xổ xuống -->
-                <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
-                    style="top: 100%; left: 0; z-index: 1000; display: none;">
-                </ul>
-            </div>
+                    <!-- Danh sách gợi ý xổ xuống -->
+                    <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
+                        style="top: 100%; left: 0; z-index: 1000; display: none;">
+                    </ul>
+                </div>
+            </a>
 
 
             <!-- HÀNH ĐỘNG HEADER -->
@@ -47,15 +50,19 @@
                     </div>
                 </a>
 
-                <a href="../shoppingcart.html"><div class="icon-btn" title="Giỏ hàng">
-                    <i class="bi bi-cart3"></i>
-                    <span>Giỏ hàng</span>
-                </div></a>
+                <a href="../shoppingcart.html">
+                    <div class="icon-btn" title="Giỏ hàng">
+                        <i class="bi bi-cart3"></i>
+                        <span>Giỏ hàng</span>
+                    </div>
+                </a>
 
-                <a href="../trangcanhan.html"><div class="icon-btn" title="Tài khoản">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Tài khoản</span>
-                </div></a>
+                <a href="../trangcanhan.html">
+                    <div class="icon-btn" title="Tài khoản">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Tài khoản</span>
+                    </div>
+                </a>
             </div>
         </header>
     </div>
@@ -92,17 +99,30 @@
 <!-- MENU TRÁI ẨN MẶC ĐỊNH -->
 <div class="menu-left-1" id="menuLeft">
     <ul>
-        <a href="../danhMuc/Category.html"><li><img src="/image/logoDanhMuc/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp</li></a>
-        <a href="../danhMuc/DanhMucDuLich.html"><li><img src="/image/logoDanhMuc/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog</li></a>
-        <a href="../danhMuc/DanhMucTheThao.html"><li><img src="/image/logoDanhMuc/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao</li></a>
-        <a href="../danhMuc/agriDrone.html"><li><img src="/image/logoDanhMuc/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp</li></a>
-        <a href="../danhMuc/DanhMucGiamSat.html"><li><img src="/image/logoDanhMuc/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh</li></a>
-        <a href="../danhMuc/DanhMucMini.html"><li><img src="/image/logoDanhMuc/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ</li></a>
+        <a href="../danhMuc/Category.html">
+            <li><img src="/image/logoDanhMuc/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
+            </li>
+        </a>
+        <a href="../danhMuc/DanhMucDuLich.html">
+            <li><img src="/image/logoDanhMuc/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog</li>
+        </a>
+        <a href="../danhMuc/DanhMucTheThao.html">
+            <li><img src="/image/logoDanhMuc/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao</li>
+        </a>
+        <a href="../danhMuc/agriDrone.html">
+            <li><img src="/image/logoDanhMuc/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp</li>
+        </a>
+        <a href="../danhMuc/DanhMucGiamSat.html">
+            <li><img src="/image/logoDanhMuc/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh</li>
+        </a>
+        <a href="../danhMuc/DanhMucMini.html">
+            <li><img src="/image/logoDanhMuc/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ</li>
+        </a>
     </ul>
 </div>
 
 <section class="phan-san-pham">
-    <h2 class="tieu-de-muc">Drone du lịch -  vlog</h2>
+    <h2 class="tieu-de-muc">Drone du lịch - vlog</h2>
 
     <div class="bo-loc-va-sap-xep position-relative">
 
@@ -125,9 +145,11 @@
                 <label><input type="radio" name="chon-gia" value="tren-20"> Trên 20.000.000 ₫</label>
                 <p><b>Nhập vào khoảng giá bạn muốn</b></p>
                 <div class="d-flex align-items-center gap-1">
-                    <input type="number" id="gia-tu" class="form-control form-control-sm" placeholder="Từ ₫" style="width: 100px;">
+                    <input type="number" id="gia-tu" class="form-control form-control-sm" placeholder="Từ ₫"
+                           style="width: 100px;">
                     <span>-</span>
-                    <input type="number" id="gia-den" class="form-control form-control-sm" placeholder="Đến ₫" style="width: 100px;">
+                    <input type="number" id="gia-den" class="form-control form-control-sm" placeholder="Đến ₫"
+                           style="width: 100px;">
                 </div>
                 <button id="btn-ap-dung-gia" class="btn btn-sm btn-primary mt-2">Áp dụng</button>
             </div>
@@ -451,7 +473,8 @@
             <section class="payment-methods">
                 <h6>PHƯƠNG THỨC THANH TOÁN</h6>
                 <div class="payment-icons">
-                    <img src="https://tse3.mm.bing.net/th/id/OIP.kklIaX3TV97u5KnjU_Kr4wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="VNPay">
+                    <img src="https://tse3.mm.bing.net/th/id/OIP.kklIaX3TV97u5KnjU_Kr4wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
+                         alt="VNPay">
                 </div>
             </section>
         </div>
@@ -503,7 +526,8 @@
 
     <div class="footer-bottom">
         <p>Copyright © 2025 © <strong>SKYDrone Việt Nam</strong></p>
-        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm cấm.</p>
+        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm
+            cấm.</p>
     </div>
 </footer>
 
@@ -579,22 +603,22 @@
     });
 
 
-        const btnDanhMuc = document.getElementById('btnDanhMuc');
-        const menuLeft = document.getElementById('menuLeft');
+    const btnDanhMuc = document.getElementById('btnDanhMuc');
+    const menuLeft = document.getElementById('menuLeft');
 
-        btnDanhMuc.addEventListener('click', () => {
+    btnDanhMuc.addEventListener('click', () => {
         menuLeft.classList.toggle('show');
     });
 
-        // Ẩn menu khi click ra ngoài
-        document.addEventListener('click', (e) => {
+    // Ẩn menu khi click ra ngoài
+    document.addEventListener('click', (e) => {
         if (!menuLeft.contains(e.target) && !btnDanhMuc.contains(e.target)) {
-        menuLeft.classList.remove('show');
-    }
+            menuLeft.classList.remove('show');
+        }
     });
 
 
-hienThiTrang(trangHienTai);
+    hienThiTrang(trangHienTai);
 </script>
 
 </body>
