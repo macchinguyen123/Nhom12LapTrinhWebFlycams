@@ -5,9 +5,9 @@
     <title>Khuyến mãi Flycam</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../stylesheets/khuyenMai.css">
     <link rel="stylesheet" href="../stylesheets/footer.css">
     <link rel="stylesheet" href="../stylesheets/header.css">
+    <link rel="stylesheet" href="../stylesheets/khuyenMai.css">
 </head>
 <body>
 <!-- ==== HEADER TRÊN ==== -->
@@ -15,7 +15,7 @@
     <div class="header-wrapper">
         <header class="top-header">
             <!-- LOGO -->
-            <a href="header.html">
+            <a href="homepage.html">
                 <div class="logo">
                     <img src="../image/logoo2.png" alt="Logo">
                     <h2>SkyDrone</h2>
@@ -23,15 +23,16 @@
             </a>
 
             <!-- THANH TÌM KIẾM -->
-            <div class="search-bar position-relative">
+            <a href="searching.html"><div class="search-bar position-relative">
                 <i class="bi bi-search"></i>
-                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện..." autocomplete="off">
+                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, flycam..."
+                       autocomplete="off">
 
                 <!-- Danh sách gợi ý xổ xuống -->
                 <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
                     style="top: 100%; left: 0; z-index: 1000; display: none;">
                 </ul>
-            </div>
+            </div></a>
 
 
             <!-- HÀNH ĐỘNG HEADER -->
@@ -43,32 +44,49 @@
                     </div>
                 </a>
 
-                <a href="shoppingcart.html"><div class="icon-btn" title="Giỏ hàng">
-                    <i class="bi bi-cart3"></i>
-                    <span>Giỏ hàng</span>
-                </div></a>
+                <a href="shoppingcart.html">
+                    <div class="icon-btn" title="Giỏ hàng">
+                        <i class="bi bi-cart3"></i>
+                        <span>Giỏ hàng</span>
+                    </div>
+                </a>
 
-                <a href="trangcanhan.html"><div class="icon-btn" title="Tài khoản">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Tài khoản</span>
-                </div></a>
+                <a href="trangcanhan.html">
+                    <div class="icon-btn" title="Tài khoản">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Tài khoản</span>
+                    </div>
+                </a>
             </div>
         </header>
     </div>
 </div>
+
 <!-- ==== MENU DƯỚI ==== -->
 <div class="menu-bg">
     <div class="header-wrapper">
         <nav class="main-nav">
-            <a href="homepage.html"><button class="nav-item"><i class="bi bi-house-door"></i>Trang chủ</button></a>
+            <a href="homepage.html">
+                <button class="nav-item active"><i class="bi bi-house-door"></i>Trang chủ</button>
+            </a>
             <button class="nav-item" id="btnDanhMuc">
                 <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
             </button>
-            <a href="khuyenMai.html"><button class="nav-item active"><i class="bi bi-gift"></i>Khuyến mãi</button></a>
-            <a href="baohanh.html"><button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button></a>
-            <a href="chinhSachThanhToan.html"><button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button></a>
-            <a href="hoTro.html"><button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button></a>
-            <a href="blog.html"><button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button></a>
+            <a href="khuyenMai.html">
+                <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
+            </a>
+            <a href="baohanh.html">
+                <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
+            </a>
+            <a href="chinhSachThanhToan.html">
+                <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
+            </a>
+            <a href="hoTro.html">
+                <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
+            </a>
+            <a href="blog.html">
+                <button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button>
+            </a>
         </nav>
     </div>
 </div>
@@ -105,12 +123,12 @@
 
 
 
-<header class="khung-tieu-de">
+<div class="khung-tieu-de">
     <h1 id="ten-chuong-trinh">KHUYẾN MÃI FLYCAM THÁNG NÀY</h1>
     <p class="mo-ta-chuong-trinh">
         Ưu đãi đặc biệt cho dòng flycam chính hãng — giảm giá sập sàn!
     </p>
-</header>
+</div>
 
 <main class="khung-noi-dung">
     <section class="danh-sach-flycam" id="danh-sach-flycam">
