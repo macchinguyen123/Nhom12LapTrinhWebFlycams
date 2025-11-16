@@ -11,6 +11,7 @@
     width: 80%;
     margin: 0 auto;
 }
+
 a {
     text-decoration: none;
     color: inherit;
@@ -23,9 +24,9 @@ a {
     color: white;
     width: 100%;
     padding: 8px 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    position: sticky;   /* <<< chính là dòng này */
-    top: 0;             /* dính lên đầu */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    position: sticky; /* <<< chính là dòng này */
+    top: 0; /* dính lên đầu */
     z-index: 199;
 }
 
@@ -42,17 +43,19 @@ a {
     align-items: center;
     gap: 10px;
 }
+
 .logo img {
     width: 50px;
     height: 50px;
     border-radius: 10px;
     object-fit: cover;
 }
+
 .logo h2 {
     font-size: 22px;
     font-weight: 700;
     letter-spacing: 1px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
     white-space: nowrap;
     color: white;
 }
@@ -66,17 +69,20 @@ a {
     border-radius: 12px;
     padding: 6px 12px;
     max-width: 500px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     transition: box-shadow 0.3s ease;
 }
+
 .search-bar:hover {
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
+
 .search-bar i {
     color: #0073ff;
     font-size: 16px;
     margin-right: 8px;
 }
+
 .search-bar input {
     border: none;
     outline: none;
@@ -99,7 +105,7 @@ a {
     align-items: center;
     justify-content: center;
     gap: 6px;
-    background-color: rgba(255,255,255,0.25);
+    background-color: rgba(255, 255, 255, 0.25);
     color: #fff;
     padding: 8px 12px;
     border-radius: 8px;
@@ -108,21 +114,25 @@ a {
     font-weight: 500;
     user-select: none;
 }
+
 .icon-btn i {
     font-size: 18px;
 }
+
 .icon-btn span {
     font-size: 14px;
 }
+
 .icon-btn:hover {
     background: linear-gradient(135deg, #0051c6, #0073ff);
     transform: scale(1.08);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
 .icon-btn.active {
     background: linear-gradient(135deg, #0051c6, #0073ff);
     transform: scale(1.08);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     border: white solid 1px;
 }
 
@@ -133,10 +143,11 @@ a {
     width: 100%;
     padding: 6px 0;
     border-top: 2px solid #e5e5e5;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 66px;
     z-index: 99;
+
 }
 
 .main-nav {
@@ -161,12 +172,14 @@ a {
     gap: 6px;
     white-space: nowrap;
 }
+
 .nav-item:hover {
     background: linear-gradient(135deg, #0051c6, #0073ff);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
+
 .nav-item.active {
     background: linear-gradient(135deg, #0051c6, #0073ff);
     color: white;
@@ -182,7 +195,7 @@ a {
 .menu-left-1 {
     display: none;
     position: absolute;
-    top: 145px;
+    top: 79px;
     left: 157px;
     z-index: 1000;
     width: 260px;
@@ -193,7 +206,7 @@ a {
     flex-direction: column;
     animation: fadeIn 0.25s ease-in-out;
     list-style: none;
-    margin: 0;               /* xóa khoảng cách mặc định */
+    margin: 0; /* xóa khoảng cách mặc định */
     padding: 0;
 }
 
@@ -204,14 +217,20 @@ a {
 
 /* Hiệu ứng hiện mượt mà */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .menu-left-1 li {
     list-style: none;
-    width: 100%;             /* chiếm toàn chiều ngang */
-    box-sizing: border-box;  /* tính luôn border/padding */
+    width: 100%; /* chiếm toàn chiều ngang */
+    box-sizing: border-box; /* tính luôn border/padding */
     padding: 15px 18px;
     display: flex;
     align-items: center;
@@ -224,8 +243,8 @@ a {
 }
 
 .menu-left-1 li:hover {
-    background: #e7f0ff;     /* nền hover */
-    padding-left: 24px;      /* giữ nguyên để không bị giật */
+    background: #e7f0ff; /* nền hover */
+    padding-left: 24px; /* giữ nguyên để không bị giật */
     color: #0051c6;
 }
 
@@ -234,8 +253,9 @@ a {
     height: 26px;
     object-fit: contain;
 }
+
 ul {
-    list-style: none;     /* bỏ chấm tròn mặc định */
-    padding-left: 0;      /* bỏ thụt lề mặc định */
-    margin: 0;            /* bỏ khoảng cách ngoài */
+    list-style: none; /* bỏ chấm tròn mặc định */
+    padding-left: 0; /* bỏ thụt lề mặc định */
+    margin: 0; /* bỏ khoảng cách ngoài */
 }
