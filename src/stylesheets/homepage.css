@@ -263,3 +263,73 @@ a {
     transform: translateY(-4px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
+/* ==== SLIDER 2 KÍCH THƯỚC MỚI ==== */
+.slider-2 {
+    width: 80%;               /* Rộng 80% màn hình */
+    height: 600px;            /* Tăng chiều cao */
+    margin: 0px auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+/* Bọc ảnh */
+.slider-2-inner {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+/* Ảnh luôn vừa khung, không méo */
+.slider-2 .slide {
+    min-width: 100%;
+    height: 100%;
+}
+
+.slider-2 .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;       /* Fill đầy slider */
+}
+
+/* Mũi tên */
+.slider-2-left,
+.slider-2-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 40px;
+    cursor: pointer;
+    padding: 10px;
+    color: white;
+    text-shadow: 0 0 6px black;
+}
+
+.slider-2-left { left: 15px; }
+.slider-2-right { right: 15px; }
+
+/* Dots */
+.slider-2-dots {
+    text-align: center;
+    margin-top: 10px;
+}
+.slider-2-dots span {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin: 4px;
+    background: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.slider-2-dots .active {
+    background: #555;
+}
+.banner-right video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}

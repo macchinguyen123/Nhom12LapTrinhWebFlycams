@@ -97,37 +97,38 @@
             </a>
         </nav>
     </div>
-</div>
-<!-- MENU TRÁI ẨN MẶC ĐỊNH -->
-<div class="menu-left-1" id="menuLeft">
-    <ul>
-        <li><a href="danhMuc/Category.html">
-            <img src="../image/logoDanhMuc/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
-        </a>
-        </li>
+    <!-- MENU TRÁI ẨN MẶC ĐỊNH -->
+    <div class="menu-left-1" id="menuLeft">
+        <ul>
+            <li><a href="danhMuc/Category.html">
+                <img src="../image/logoDanhMuc/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
+            </a>
+            </li>
 
-        <li><a href="danhMuc/DanhMucDuLich.html">
-            <img src="../image/logoDanhMuc/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
-        </a>
-        </li>
-        <li><a href="danhMuc/DanhMucTheThao.html">
-            <img src="../image/logoDanhMuc/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
-        </a>
-        </li>
-        <li><a href="danhMuc/agriDrone.html">
-            <img src="../image/logoDanhMuc/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
-        </a>
-        </li>
-        <li><a href="danhMuc/DanhMucGiamSat.html">
-            <img src="../image/logoDanhMuc/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
-        </a>
-        </li>
-        <li><a href="danhMuc/DanhMucMini.html">
-            <img src="../image/logoDanhMuc/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
-        </a>
-        </li>
-    </ul>
+            <li><a href="danhMuc/DanhMucDuLich.html">
+                <img src="../image/logoDanhMuc/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
+            </a>
+            </li>
+            <li><a href="danhMuc/DanhMucTheThao.html">
+                <img src="../image/logoDanhMuc/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
+            </a>
+            </li>
+            <li><a href="danhMuc/agriDrone.html">
+                <img src="../image/logoDanhMuc/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
+            </a>
+            </li>
+            <li><a href="danhMuc/DanhMucGiamSat.html">
+                <img src="../image/logoDanhMuc/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
+            </a>
+            </li>
+            <li><a href="danhMuc/DanhMucMini.html">
+                <img src="../image/logoDanhMuc/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
+            </a>
+            </li>
+        </ul>
+    </div>
 </div>
+
 
 <!-- ==== DANH MỤC + SLIDER ==== -->
 <div class="container d-flex">
@@ -164,17 +165,36 @@
 
     <!-- SLIDER PHẢI -->
     <div class="banner-right">
-        <div class="slider">
-            <a href="product-details.html"><div class="slide"><img src="../image/GioiThieu1.png" alt=""></div></a>
-            <a href="product-details.html"><div class="slide"><img src="../image/GioiThieu2.png" alt=""></div></a>
-            <a href="product-details.html"><div class="slide"><img src="../image/GioiThieu3.png" alt=""></div></a>
-        </div>
-
-        <div class="arrow left">&#10094;</div>
-        <div class="arrow right">&#10095;</div>
-        <div class="dots"></div>
+        <a href="product-details.html"><video autoplay loop muted playsinline>
+            <source src="https://res.cloudinary.com/dwnbmfhel/video/upload/v1763279095/9run.ca_-_Introducing_DJI_Mavic_4_Pro_1440p_obst67.mp4" type="video/mp4">
+        </video></a>
     </div>
 </div>
+<!-- SLIDER PHẢI MỚI (SLIDER 2) -->
+<div class="banner-right slider-2">
+    <div class="slider slider-2-inner">
+        <a href="#">
+            <div class="slide">
+                <img src="../image/banner/anh1.png" alt="Slider 2 - Ảnh 1">
+            </div>
+        </a>
+        <a href="#">
+            <div class="slide">
+                <img src="../image/banner/anh2.png" alt="Slider 2 - Ảnh 2">
+            </div>
+        </a>
+        <a href="#">
+            <div class="slide">
+                <img src="../image/GioiThieu3.png" alt="Slider 2 - Ảnh 3">
+            </div>
+        </a>
+    </div>
+
+    <div class="arrow left slider-2-left">&#10094;</div>
+    <div class="arrow right slider-2-right">&#10095;</div>
+    <div class="dots slider-2-dots"></div>
+</div>
+
 
 <div class="banner-wrapper">
     <a href="danhMuc/DanhMucGiamSat.html">
@@ -1177,57 +1197,68 @@
 
 <!-- ==== JAVASCRIPT SLIDER ==== -->
 <script>
-    const slider = document.querySelector('.slider');
-    const slides = document.querySelectorAll('.slide');
-    const dotsContainer = document.querySelector('.dots');
-    let currentIndex = 0;
-    let autoSlide;
+    const slider2 = document.querySelector('.slider-2-inner');
+    const slides2 = document.querySelectorAll('.slider-2-inner .slide');
+    const dotsContainer2 = document.querySelector('.slider-2-dots');
+    const arrowLeft2 = document.querySelector('.slider-2-left');
+    const arrowRight2 = document.querySelector('.slider-2-right');
 
-    function createDots() {
-        slides.forEach((_, i) => {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
+    let index2 = 0;
+    let autoSlide2;
+
+    /* Tạo dots */
+    function createDots2() {
+        slides2.forEach((_, i) => {
+            const dot = document.createElement('span');
+            dot.classList.add('dot2');
             if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide(i));
-            dotsContainer.appendChild(dot);
+            dot.addEventListener('click', () => goToSlide2(i));
+            dotsContainer2.appendChild(dot);
         });
     }
 
-    function updateDots() {
-        document.querySelectorAll('.dot').forEach((dot, i) => {
-            dot.classList.toggle('active', i === currentIndex);
+    /* Cập nhật dots */
+    function updateDots2() {
+        document.querySelectorAll('.dot2').forEach((dot, i) => {
+            dot.classList.toggle('active', i === index2);
         });
     }
 
-    function goToSlide(i) {
-        currentIndex = (i + slides.length) % slides.length;
-        slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-        updateDots();
+    /* Chuyển slide */
+    function goToSlide2(i) {
+        index2 = (i + slides2.length) % slides2.length;
+        slider2.style.transform = `translateX(-${index2 * 100}%)`;
+        updateDots2();
     }
 
-    document.querySelector('.arrow.left').addEventListener('click', () => {
-        goToSlide(currentIndex - 1);
-    });
-    document.querySelector('.arrow.right').addEventListener('click', () => {
-        goToSlide(currentIndex + 1);
+    /* Mũi tên */
+    arrowLeft2.addEventListener('click', () => {
+        goToSlide2(index2 - 1);
     });
 
-    function startSlide() {
-        autoSlide = setInterval(() => {
-            goToSlide(currentIndex + 1);
+    arrowRight2.addEventListener('click', () => {
+        goToSlide2(index2 + 1);
+    });
+
+    /* Auto slide */
+    function startSlide2() {
+        autoSlide2 = setInterval(() => {
+            goToSlide2(index2 + 1);
         }, 3000);
     }
 
-    function stopSlide() {
-        clearInterval(autoSlide);
+    function stopSlide2() {
+        clearInterval(autoSlide2);
     }
 
-    document.querySelector('.banner-right').addEventListener('mouseenter', stopSlide);
-    document.querySelector('.banner-right').addEventListener('mouseleave', startSlide);
+    document.querySelector('.slider-2').addEventListener('mouseenter', stopSlide2);
+    document.querySelector('.slider-2').addEventListener('mouseleave', startSlide2);
 
-    createDots();
-    startSlide();
+    /* Khởi động */
+    createDots2();
+    startSlide2();
 </script>
+
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

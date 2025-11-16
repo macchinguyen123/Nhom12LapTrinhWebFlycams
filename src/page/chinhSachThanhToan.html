@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <title>Chính sách thanh toán</title>
     <link rel="stylesheet" href="../stylesheets/chinhSachThanhToan.css">
     <!-- Bootstrap -->
@@ -25,16 +25,18 @@
             </a>
 
             <!-- THANH TÌM KIẾM -->
-            <a href="searching.html"><div class="search-bar position-relative">
-                <i class="bi bi-search"></i>
-                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, flycam..."
-                       autocomplete="off">
+            <a href="searching.html">
+                <div class="search-bar position-relative">
+                    <i class="bi bi-search"></i>
+                    <input id="searchInput" type="text" placeholder="Tìm kiếm drone, flycam..."
+                           autocomplete="off">
 
-                <!-- Danh sách gợi ý xổ xuống -->
-                <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
-                    style="top: 100%; left: 0; z-index: 1000; display: none;">
-                </ul>
-            </div></a>
+                    <!-- Danh sách gợi ý xổ xuống -->
+                    <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
+                        style="top: 100%; left: 0; z-index: 1000; display: none;">
+                    </ul>
+                </div>
+            </a>
 
 
             <!-- HÀNH ĐỘNG HEADER -->
@@ -46,15 +48,19 @@
                     </div>
                 </a>
 
-                <a href="shoppingcart.html"><div class="icon-btn" title="Giỏ hàng">
-                    <i class="bi bi-cart3"></i>
-                    <span>Giỏ hàng</span>
-                </div></a>
+                <a href="shoppingcart.html">
+                    <div class="icon-btn" title="Giỏ hàng">
+                        <i class="bi bi-cart3"></i>
+                        <span>Giỏ hàng</span>
+                    </div>
+                </a>
 
-                <a href="trangcanhan.html"><div class="icon-btn" title="Tài khoản">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Tài khoản</span>
-                </div></a>
+                <a href="trangcanhan.html">
+                    <div class="icon-btn" title="Tài khoản">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Tài khoản</span>
+                    </div>
+                </a>
             </div>
         </header>
     </div>
@@ -64,46 +70,80 @@
 <div class="menu-bg">
     <div class="header-wrapper">
         <nav class="main-nav">
-            <a href="homepage.html"><button class="nav-item "><i class="bi bi-house-door"></i>Trang chủ</button></a>
+            <a href="homepage.html">
+                <button class="nav-item"><i class="bi bi-house-door"></i>Trang chủ</button>
+            </a>
             <button class="nav-item" id="btnDanhMuc">
                 <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
             </button>
-            <a href="khuyenMai.html"><button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button></a>
-            <a href="baohanh.html"><button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button></a>
-            <a href="chinhSachThanhToan.html"><button class="nav-item active"><i class="bi bi-credit-card"></i>Thanh toán</button></a>
-            <a href="hoTro.html"><button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button></a>
-            <a href="blog.html"><button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button></a>
+            <a href="khuyenMai.html">
+                <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
+            </a>
+            <a href="baohanh.html">
+                <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
+            </a>
+            <a href="chinhSachThanhToan.html">
+                <button class="nav-item active"><i class="bi bi-credit-card"></i>Thanh toán</button>
+            </a>
+            <a href="hoTro.html">
+                <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
+            </a>
+            <a href="blog.html">
+                <button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button>
+            </a>
         </nav>
     </div>
+    <!-- MENU TRÁI ẨN MẶC ĐỊNH -->
+    <div class="menu-left-1" id="menuLeft">
+        <ul>
+            <li><a href="danhMuc/Category.html">
+                <img src="../image/logoDanhMuc/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
+            </a>
+            </li>
+
+            <li><a href="danhMuc/DanhMucDuLich.html">
+                <img src="../image/logoDanhMuc/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
+            </a>
+            </li>
+            <li><a href="danhMuc/DanhMucTheThao.html">
+                <img src="../image/logoDanhMuc/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
+            </a>
+            </li>
+            <li><a href="danhMuc/agriDrone.html">
+                <img src="../image/logoDanhMuc/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
+            </a>
+            </li>
+            <li><a href="danhMuc/DanhMucGiamSat.html">
+                <img src="../image/logoDanhMuc/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
+            </a>
+            </li>
+            <li><a href="danhMuc/DanhMucMini.html">
+                <img src="../image/logoDanhMuc/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
+            </a>
+            </li>
+        </ul>
+    </div>
 </div>
-
-
-<!-- MENU TRÁI ẨN MẶC ĐỊNH -->
-<div class="menu-left-1" id="menuLeft">
-    <ul>
-        <a href="../page/danhMuc/Category.html"><li><img src="../image/logoDanhMuc/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp</li></a>
-        <a href="../page/danhMuc/DanhMucDuLich.html"><li><img src="../image/logoDanhMuc/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog</li></a>
-        <a href="../page/danhMuc/DanhMucTheThao.html"><li><img src="../image/logoDanhMuc/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao</li></a>
-        <a href="../page/danhMuc/agriDrone.html"><li><img src="../image/logoDanhMuc/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp</li></a>
-        <a href="../page/danhMuc/DanhMucGiamSat.html"><li><img src="../image/logoDanhMuc/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh</li></a>
-        <a href="../page/danhMuc/DanhMucMini.html"><li><img src="../image/logoDanhMuc/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ</li></a>
-    </ul>
-</div>
-
 
 <section class="warranty">
     <div class="container">
         <h1>Thanh toán tiền mặt/COD</h1>
         <ul>
-            <p>Quý khách có thể chọn phương thức thanh toán COD khi mua hàng online qua website skydrone.vn và thanh toán tiền mặt cho nhân viên giao hàng</p>
+            <p>Quý khách có thể chọn phương thức thanh toán COD khi mua hàng online qua website skydrone.vn và thanh
+                toán tiền mặt cho nhân viên giao hàng</p>
         </ul>
         <h1>Thanh toán quét mã QR</h1>
         <ul>
-            <p>Thanh toán VNPAY-QR là hình thức thanh toán tiên phong cho xu thế tiêu dùng không dùng tiền mặt tương lai. Thao tác thanh toán an toàn, đơn giản, nhanh chóng và bảo mật cấp cao. Chỉ cần sử dụng app Mobile Banking ngân hàng của Quý khách và quét mã VNPAY-QR để thanh toán. Bên cạnh đó, thanh toán bằng VNPAY-QR, Quý khách sẽ có thể nhận được những chương trình ưu đãi đặc biệt. VNPAY-QR được áp dụng thanh toán tại website skydrone.vn.</p>
+            <p>Thanh toán VNPAY-QR là hình thức thanh toán tiên phong cho xu thế tiêu dùng không dùng tiền mặt tương
+                lai. Thao tác thanh toán an toàn, đơn giản, nhanh chóng và bảo mật cấp cao. Chỉ cần sử dụng app Mobile
+                Banking ngân hàng của Quý khách và quét mã VNPAY-QR để thanh toán. Bên cạnh đó, thanh toán bằng
+                VNPAY-QR, Quý khách sẽ có thể nhận được những chương trình ưu đãi đặc biệt. VNPAY-QR được áp dụng thanh
+                toán tại website skydrone.vn.</p>
         </ul>
         <h1>Thanh toán thẻ ATM nội địa - Internet Banking</h1>
         <ul>
-            <p class="note">Quý khách có thể thanh toán bằng thẻ ATM thông qua cổng Internet Banking khi mua hàng online tại skydrone.vn</p>
+            <p class="note">Quý khách có thể thanh toán bằng thẻ ATM thông qua cổng Internet Banking khi mua hàng online
+                tại skydrone.vn</p>
         </ul>
         <h1>Thanh toán chuyển khoản</h1>
         <ul>
@@ -165,7 +205,8 @@
             <section class="payment-methods">
                 <h6>PHƯƠNG THỨC THANH TOÁN</h6>
                 <div class="payment-icons">
-                    <img src="https://tse3.mm.bing.net/th/id/OIP.kklIaX3TV97u5KnjU_Kr4wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="VNPay">
+                    <img src="https://tse3.mm.bing.net/th/id/OIP.kklIaX3TV97u5KnjU_Kr4wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
+                         alt="VNPay">
                 </div>
             </section>
         </div>
@@ -217,7 +258,8 @@
 
     <div class="footer-bottom">
         <p>Copyright © 2025 © <strong>SKYDrone Việt Nam</strong></p>
-        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm cấm.</p>
+        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm
+            cấm.</p>
     </div>
 </footer>
 </body>
