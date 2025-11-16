@@ -118,3 +118,16 @@ body {
     padding: 10px 15px;
     margin-bottom: 10px;
 }
+#comment-form {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+
+
+
