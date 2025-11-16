@@ -4,31 +4,32 @@ body {
     background-color: #fff;
 }
 
-/* Toàn màn hình, căn giữa */
 .page-container {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* từ flex-end -> center */
     align-items: center;
-    height: 100vh; /* Chiều cao toàn màn hình */
+    height: 100vh;
 }
 
-/* --- Bọc toàn bộ phần logo + form --- */
+
 .login-wrapper {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between; /* để logo trái - form phải */
     width: 90%;
     max-width: 1100px;
     gap: 60px;
 }
 
-/* --- Logo bên trái --- */
+
+
 .logo-section {
     flex: 1;
-    /*display: flex;*/
-    /*justify-content: center;*/
-    /*align-items: center;*/
+    display: flex;
+    justify-content: flex-start; /* căn trái */
+    align-items: center;
 }
+
 
 .logo-section .mascot {
     width: auto;
@@ -135,4 +136,10 @@ body {
 
 .register a:hover {
     text-decoration: underline;
+}
+.page-container {
+    background-image: url("../image/img1.png"); /* đổi thành ảnh bạn muốn */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
