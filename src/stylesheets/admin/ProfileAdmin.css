@@ -33,17 +33,19 @@ body {
     align-items: center;
     gap: 10px;
 }
+
 .logo img {
     width: 50px;
     height: 50px;
     border-radius: 10px;
     object-fit: cover;
 }
+
 .logo h2 {
     font-size: 20px;
     font-weight: 700;
     letter-spacing: 1px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
     white-space: nowrap;
     color: white;
 }
@@ -163,7 +165,7 @@ a {
 
 .menu li:hover,
 .menu li.active {
-    background-color: rgba(255,255,255,0.25);
+    background-color: rgba(255, 255, 255, 0.25);
     transform: translateX(3px);
 }
 
@@ -222,14 +224,13 @@ a {
 }
 
 .submenu li:hover {
-    background-color: rgba(255,255,255,0.25);
+    background-color: rgba(255, 255, 255, 0.25);
     transform: translateX(3px);
 }
 
 .has-submenu.open .submenu {
     display: flex;
 }
-
 
 
 /* LOGOUT MODAL */
@@ -239,7 +240,7 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0, 0, 0, 0.4);
     display: none;
     justify-content: center;
     align-items: center;
@@ -252,7 +253,7 @@ a {
     border-radius: 12px;
     width: 320px;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .logout-actions {
@@ -295,7 +296,6 @@ a {
 }
 
 
-
 /* ==== LEFT SIDE ==== */
 .profile-left {
     width: 280px;
@@ -303,7 +303,7 @@ a {
     background: #fff;
     padding: 30px 20px;
     border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -381,7 +381,7 @@ a {
     background: #fff;
     padding: 30px 40px;
     border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .profile-right h4 {
@@ -422,91 +422,72 @@ a {
 }
 
 /* === Bank Info === */
-/* === Bank edit UI === */
-.bank-container {
-    position: relative;
-    background-color: #f5f5f5;
-    padding: 16px 20px;
-    border-radius: 8px;
-    max-width: 450px;
-    /*min-height: 160px;*/
-}
-
-.bank-info {
-    position: relative;
-    font-size: 14px;
-}
-
-.bank-info p{
-    margin-bottom: 10px;
-}
-
-
-.edit-btn {
-    position: absolute;
-    top: 10px;
-    right: 50px;
-    background: transparent;
-    border: none;
-    font-size: 14px;
-    cursor: pointer;
-    transition: color 0.2s;
-    margin-right: 6px;
-}
-
-.edit-btn:hover {
-    color: #0056b3;
-}
-
-.btn-group {
-    margin-top: 10px;
-    margin-bottom: 10px;
+/* KHUNG NGÂN HÀNG CHUNG */
+.bank-info, .bank-info-edit {
+    max-width: 500px;              /* độ rộng tối đa */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     display: flex;
-    gap: 10px;
-    justify-content: flex-end;
+    flex-wrap: wrap;
+    align-items: flex-start;       /* canh top của nội dung */
+    gap: 15px;
+    position: relative;
 }
 
-/* hidden helper */
-.hidden { display: none !important; }
 
-/* edit block */
-.bank-info-edit {
-    background-color: #fff;
-    padding: 14px;
-    border-radius: 8px;
-    border: 1px solid #eee;
+
+/* INPUT + SELECT */
+.bank-info-edit .form-control,
+.bank-info-edit .form-select {
+    margin-bottom: 12px;
+    height: 40px;
+    font-size: 0.95rem;
+}
+/* ICON CHỈNH SỬA */
+#btn-edit-bank {
     position: absolute;
-    width: 100%;
+    top: 15px;
+    right: 15px;
+    height: 35px;
+    width: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
-.bank-info-edit select{
-    font-size: 14px;
-    margin-top: 10px;
+/* QR THẺ */
+.bank-qr {
+    flex: 1 1 100%;          /* chiếm cả chiều ngang */
+    text-align: center;       /* căn giữa QR */
+    margin-top: 15px;         /* cách phần info trên */
 }
 
-/* secondary button */
-.btn.btn-secondary {
-    background: transparent;
-    color: #444;
-    border: 1px solid #ddd;
-    padding:8px 14px;
-    border-radius:6px;
-    font-size: 14px;
+.bank-qr img, #qrPreviewImg {
+    max-width: 150px;
+    height: auto;
+    border-radius: 8px;
 }
 
-/* form inputs within bank edit share same style as other inputs */
-.bank-info-edit input {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #e6e6e6;
-    border-radius: 6px;
-    font-size: 14px;
+/* KHUNG THÊM QR */
+#khungThemQR {
+    padding: 30px;
+    border: 2px dashed #bbb;
+    border-radius: 12px;
+    transition: 0.25s;
+
 }
 
-.bank-info-edit .btn-secondary:hover{
-    background: #ff4c4c ;
-    color: white;
+#khungThemQR:hover {
+    border-color: #777;
+    background: #f1f1f1;
+}
+
+/* Căn h4 trên khung */
+h4.fw-bold.text-center {
+    margin-bottom: 10px;
 }
 
 /* === Activity Log === */
@@ -543,7 +524,7 @@ a {
 }
 
 .btn {
-    background-color: #007bff;
+    background-color: #0051c6;
     color: white;
     padding: 10px 18px;
     border: none;
@@ -605,6 +586,7 @@ hr {
         flex-direction: column;
         align-items: center;
     }
+
     .profile-left, .profile-right {
         width: 100%;
     }
@@ -666,7 +648,7 @@ select#bankName {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .edit-btn:hover {
@@ -703,8 +685,10 @@ select#bankName {
 
 .qr-plus-icon {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.05);
     display: flex;
     align-items: center;
@@ -723,3 +707,63 @@ select#bankName {
     display: none;
 }
 
+/* === CHỈNH GỌN KHOẢNG CÁCH TRONG FORM EDIT === */
+.bank-info-edit label {
+    display: block;
+}
+
+
+/* === INPUT GROUP + ICON CON MẮT THẲNG HÀNG === */
+.bank-info-edit .input-group {
+    position: relative;
+}
+
+.bank-info-edit .input-group .form-control {
+    padding-right: 45px;              /* để mắt không đè lên chữ */
+}
+
+#toggleEye {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    height: 20px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+
+}
+
+#toggleEye i {
+    font-size: 18px;
+}
+
+#toggleEye:hover {
+    color: #007bff;
+}
+
+/* === KHUNG QR CĂN GIỮA TUYỆT ĐỐI === */
+#bankEdit .text-center {
+    text-align: center;
+}
+
+#khungThemQR {
+    display: inline-block;
+    margin-left: 200px;
+    padding: 24px;
+}
+
+/* Giảm khoảng cách giữa QR, icon và input */
+#qrPreviewImg {
+    margin-bottom: 6px;
+}
+
+/* Nút Lưu – Hủy gần hơn */
+.bank-info-edit .mt-3.d-flex {
+    margin-left: 180px;
+}

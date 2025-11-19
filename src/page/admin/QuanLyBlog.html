@@ -15,7 +15,15 @@
         <h2>SkyDrone Admin</h2>
     </div>
     <div class="header-right">
-        <button class="logout-btn" id="logoutBtn"  title="Đăng xuất">
+        <!-- Icon admin + tên -->
+        <a href="../admin/ProfileAdmin.html" class="text-decoration-none text-while">
+            <div class="thong-tin-admin d-flex align-items-center gap-2">
+                <i class="bi bi-person-circle fs-4"></i>
+                <span class="fw-semibold">Admin</span>
+            </div>
+        </a>
+
+        <button class="logout-btn" id="logoutBtn" title="Đăng xuất">
             <i class="bi bi-box-arrow-right"></i>
         </button>
     </div>
@@ -23,7 +31,9 @@
         <div class="logout-modal-content">
             <p>Bạn có chắc muốn đăng xuất không?</p>
             <div class="logout-actions">
-                <a href="../login.html"><button id="confirmLogout" class="confirm">Có</button></a>
+                <a href="../login.html">
+                    <button id="confirmLogout" class="confirm">Có</button>
+                </a>
                 <button id="cancelLogout" class="cancel">Không</button>
             </div>
         </div>

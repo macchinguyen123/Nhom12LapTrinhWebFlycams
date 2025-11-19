@@ -32,6 +32,11 @@ a {
     color: inherit;
     display: contents;
 }
+.header-right a {
+    display: inline-flex !important;
+    align-items: center;
+
+}
 
 
 /* === BỐ CỤC === */
@@ -49,6 +54,7 @@ a {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-left: 15px;
 }
 
 .logout-btn:hover {
