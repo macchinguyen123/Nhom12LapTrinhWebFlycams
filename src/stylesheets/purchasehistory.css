@@ -159,8 +159,8 @@
 #lich-su-mua-hang {
     max-width: 1000px;
     background: #fff;
-    margin: 40px auto;
-    padding: 30px;
+    margin: 30px auto;
+    padding: 5px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
@@ -169,6 +169,7 @@
     text-align: center;
     margin-bottom: 28px;
     color: #007bff;
+
 }
 
 /* ==== BẢNG ĐƠN HÀNG ==== */

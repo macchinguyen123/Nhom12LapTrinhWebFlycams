@@ -79,6 +79,7 @@ body {
     margin: 12px 0;
     color: #1a73e8;
     text-decoration: none;
+    text-align: center;
 }
 
 .forgot-pass:hover {
