@@ -5,7 +5,6 @@
     <title>Trang Quản Lý Khách Hàng</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="../../stylesheets/admin/QuanLyKhachHang.css">
 
 
@@ -197,40 +196,12 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
     // Toggle submenu
     document.querySelectorAll('.has-submenu .menu-item').forEach(item => {
         item.addEventListener('click', () => {
             item.parentElement.classList.toggle('open');
-        });
-    });
-
-    // DataTable
-    $(document).ready(function () {
-        const table = $('#tableKhachHang').DataTable({
-            language: {
-                emptyTable: "Không có dữ liệu trong bảng",
-                info: "Hiển thị _START_ đến _END_ trong tổng số _TOTAL_ khách hàng",
-                infoEmpty: "Hiển thị 0 đến 0 của 0 khách hàng",
-                infoFiltered: "(lọc từ _MAX_ khách hàng)",
-                lengthMenu: "Hiển thị _MENU_ khách hàng",
-                zeroRecords: "Không tìm thấy kết quả phù hợp",
-                paginate: {
-                    first: "Đầu",
-                    last: "Cuối",
-                    next: "Sau",
-                    previous: "Trước"
-                }
-            },
-            pageLength: 5,
-            dom: 't<"d-flex justify-content-between mt-3"ip>'
-        });
-
-        $('#search').on('keyup', function () {
-            table.search(this.value).draw();
         });
     });
 

@@ -288,6 +288,3 @@ a {
     color: inherit;
     display: contents;
 }
-.dataTables_filter {
-    display: none !important;
-}
