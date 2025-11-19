@@ -42,7 +42,11 @@ body {
 a {
     text-decoration: none;
     color: inherit;
-    display: contents;
+
+}
+.header-right a {
+    display: inline-flex !important;
+    align-items: center;
 }
 
 .logout-btn {
@@ -54,6 +58,7 @@ a {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-left: 15px;
 }
 
 .logout-btn:hover {
