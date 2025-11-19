@@ -9,6 +9,19 @@
 body {
     background-color: #ffffff;
 }
+.menu li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+.menu li.active a {
+    background-color: rgba(255,255,255,0.25);
+    border-radius: 8px;
+}
 
 /* === HEADER === */
 .main-header {
