@@ -166,6 +166,13 @@
                         </tr>
                         </tbody>
                     </table>
+
+                    <div class="d-flex justify-content-end align-items-center mt-3">
+                        <button id="prevPage" class="btn btn-outline-primary btn-sm">Trước</button>
+                        <span id="pageInfo" class="mx-2">1 / 1</span>
+                        <button id="nextPage" class="btn btn-outline-primary btn-sm">Sau</button>
+                    </div>
+
                 </section>
             </div>
 
@@ -198,25 +205,71 @@
         });
     });
 
-    // DataTable setup
-    let table;
-    $(document).ready(function () {
-        table = $('#tableBlog').DataTable({
-            language: {
-                emptyTable: "Không có bài viết nào",
-                info: "Hiển thị _START_ đến _END_ trong tổng số _TOTAL_ bài viết",
-                lengthMenu: "Hiển thị _MENU_ bài viết",
-                zeroRecords: "Không tìm thấy kết quả phù hợp",
-                paginate: {first: "Đầu", last: "Cuối", next: "Sau", previous: "Trước"}
-            },
-            pageLength: 5,
-            dom: 't<"d-flex justify-content-between mt-3"ip>'
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const table = document.querySelector("#tableBlog tbody");
+        const searchInput = document.getElementById("search");
+        const prevBtn = document.getElementById("prevPage");
+        const nextBtn = document.getElementById("nextPage");
+        const pageInfo = document.getElementById("pageInfo");
+
+        let currentPage = 1;
+        let rowsPerPage = 5;
+        let allRows = Array.from(table.querySelectorAll("tr"));
+
+        function renderTable() {
+            const filteredRows = filterRows();
+            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+            currentPage = Math.min(currentPage, totalPages || 1);
+
+            table.innerHTML = "";
+
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+
+            filteredRows.slice(start, end).forEach(row => table.appendChild(row));
+            pageInfo.textContent = `${currentPage} / ${totalPages || 1}`;
+        }
+
+        function filterRows() {
+            const keyword = searchInput.value.toLowerCase();
+            return allRows.filter(row => row.innerText.toLowerCase().includes(keyword));
+        }
+
+        searchInput.addEventListener("keyup", function () {
+            currentPage = 1;
+            renderTable();
         });
 
-        $('#search').on('keyup', function () {
-            table.search(this.value).draw();
+        prevBtn.addEventListener("click", function() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+            }
         });
+
+        nextBtn.addEventListener("click", function() {
+            const filteredRows = filterRows();
+            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+            }
+        });
+
+        renderTable();
+
+        // Xóa bài viết
+        window.deletePost = function(id) {
+            if (confirm("Bạn có chắc muốn xóa bài viết " + id + " không?")) {
+                allRows = allRows.filter(row => row.cells[0].innerText !== id);
+                renderTable();
+            }
+        }
+
+        // Các chức năng xem chi tiết, edit vẫn giữ nguyên
     });
+
 
     // Thêm bài viết mới
     function showAddForm() {
