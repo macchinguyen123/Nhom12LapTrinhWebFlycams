@@ -254,7 +254,7 @@ a {
 }
 
 /* === NỘI DUNG CHÍNH === */
-.noi-dung-chinh {
+.main-content {
     margin-left: 270px;
     flex: 1;
     background-color: #f9fafb;
@@ -355,5 +355,21 @@ a {
     text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
     white-space: nowrap;
     color: white;
+}
+
+/* Làm cho 3 phần tử trong hàng sát nhau hợp lý */
+.main-content .d-flex {
+    gap: 10px !important;
+}
+
+/* Giảm khoảng cách riêng của form tìm kiếm */
+.main-content .d-flex > form {
+    margin-right: 0 !important;
+    margin-left: auto !important;
+}
+
+/* Giữ nút thêm dính sát form */
+.main-content .d-flex > button {
+    margin-left: 5px !important;
 }
 
