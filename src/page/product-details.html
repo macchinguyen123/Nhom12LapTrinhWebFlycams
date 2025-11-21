@@ -11,11 +11,12 @@
     <!-- Thêm link Bootstrap Icons (nếu chưa có trong <head>) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <!-- CSS riêng -->
-    <link rel="stylesheet" href="../stylesheets/ChiTietSanPham.css">
+    <link rel="stylesheet" href="../stylesheets/product-details.css">
     <link rel="stylesheet" href="../stylesheets/header.css">
     <link rel="stylesheet" href="../stylesheets/footer.css">
 </head>
 <body>
+
 <!-- ==== HEADER TRÊN ==== -->
 <div class="header-bg">
     <div class="header-wrapper">
@@ -31,7 +32,7 @@
             <!-- THANH TÌM KIẾM -->
             <a href="searching.html"><div class="search-bar position-relative">
                 <i class="bi bi-search"></i>
-                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, flycam ..."
+                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, flycam..."
                        autocomplete="off">
 
                 <!-- Danh sách gợi ý xổ xuống -->
@@ -43,7 +44,7 @@
 
             <!-- HÀNH ĐỘNG HEADER -->
             <div class="header-actions">
-                <a href="danhSachYeuThich.html">
+                <a href="wishlist.html">
                     <div class="icon-btn" title="Yêu thích">
                         <i class="bi bi-heart"></i>
                         <span>Yêu thích</span>
@@ -57,7 +58,7 @@
                     </div>
                 </a>
 
-                <a href="trangcanhan.html">
+                <a href="personal-page.html">
                     <div class="icon-btn" title="Tài khoản">
                         <i class="bi bi-person-circle"></i>
                         <span>Tài khoản</span>
@@ -67,6 +68,7 @@
         </header>
     </div>
 </div>
+
 <!-- ==== MENU DƯỚI ==== -->
 <div class="menu-bg">
     <div class="header-wrapper">
@@ -77,16 +79,16 @@
             <button class="nav-item" id="btnDanhMuc">
                 <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
             </button>
-            <a href="khuyenMai.html">
+            <a href="promotion.html">
                 <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
             </a>
-            <a href="baohanh.html">
+            <a href="warranty.html">
                 <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
             </a>
-            <a href="chinhSachThanhToan.html">
+            <a href="payment-policy.html">
                 <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
             </a>
-            <a href="hoTro.html">
+            <a href="support.html">
                 <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
             </a>
             <a href="blog.html">
@@ -94,36 +96,36 @@
             </a>
         </nav>
     </div>
-</div>
-<!-- MENU TRÁI ẨN MẶC ĐỊNH -->
-<div class="menu-left-1" id="menuLeft">
-    <ul>
-        <li><a href="danhMuc/Category.html">
-            <img src="../image/logoDanhMuc/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
-        </a>
-        </li>
+    <!-- MENU TRÁI ẨN MẶC ĐỊNH -->
+    <div class="menu-left-1" id="menuLeft">
+        <ul>
+            <li><a href="danhMuc/Category.html">
+                <img src="../image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
+            </a>
+            </li>
 
-        <li><a href="danhMuc/DanhMucDuLich.html">
-            <img src="../image/logoDanhMuc/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
-        </a>
-        </li>
-        <li><a href="danhMuc/DanhMucTheThao.html">
-            <img src="../image/logoDanhMuc/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
-        </a>
-        </li>
-        <li><a href="danhMuc/agriDrone.html">
-            <img src="../image/logoDanhMuc/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
-        </a>
-        </li>
-        <li><a href="danhMuc/DanhMucGiamSat.html">
-            <img src="../image/logoDanhMuc/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
-        </a>
-        </li>
-        <li><a href="danhMuc/DanhMucMini.html">
-            <img src="../image/logoDanhMuc/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
-        </a>
-        </li>
-    </ul>
+            <li><a href="danhMuc/DanhMucDuLich.html">
+                <img src="../image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
+            </a>
+            </li>
+            <li><a href="danhMuc/DanhMucTheThao.html">
+                <img src="../image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
+            </a>
+            </li>
+            <li><a href="danhMuc/agriDrone.html">
+                <img src="../image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
+            </a>
+            </li>
+            <li><a href="danhMuc/DanhMucGiamSat.html">
+                <img src="../image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
+            </a>
+            </li>
+            <li><a href="danhMuc/DanhMucMini.html">
+                <img src="../image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
+            </a>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <!-- Khung chính -->
@@ -198,7 +200,7 @@
                             <i class="bi bi-cart-fill"></i> Thêm Vào Giỏ Hàng
                         </button>
                     </a>
-                    <a href="thongTinGiaoHang.html">
+                    <a href="delivery-info.html">
                         <button class="btn-buy-now">Mua Ngay</button>
                     </a>
                 </div>
@@ -618,7 +620,7 @@
 
         <!-- === SẢN PHẨM 9 === -->
         <div class="san-pham">
-            <a href="product-details.html"><img src="../image/sanPhamQuayPhim/Flycam%20DJI%20Mini%203%20With%20DJI%20RC%20Remote%20Controller.png"
+            <a href="product-details.html"><img src="../image/filmProduct/Flycam%20DJI%20Mini%203%20With%20DJI%20RC%20Remote%20Controller.png"
                  alt="FlycamDJIMini3WithDJIRCRemoteController">
 
             <h3 class="ten-san-pham">Flycam DJI Mini 3 With DJI RC Remote Controller</h3>
@@ -645,7 +647,7 @@
 
         <!-- === SẢN PHẨM 10 === -->
         <div class="san-pham">
-            <a href="product-details.html"><img src="../image/sanPhamQuayPhim/Flycam%20DJI%20O4%20Air%20Unit.png" alt="FlycamDJIO4AirUnit">
+            <a href="product-details.html"><img src="../image/filmProduct/Flycam%20DJI%20O4%20Air%20Unit.png" alt="FlycamDJIO4AirUnit">
 
             <h3 class="ten-san-pham">Flycam DJI O4 Air Unit</h3>
             <div class="gia"><b>2.505.000 ₫</b>
@@ -867,20 +869,6 @@
         currentIndex = (currentIndex + 1) % thumbs.length;
         updateMainImage(currentIndex);
     });
-
-    // // Hiển thị sao
-    // const ratingEl = document.getElementById('rating');
-    // const ratingValue = 4.3;
-    // const fullStars = Math.floor(ratingValue);
-    // const halfStar = ratingValue % 1 >= 0.5;
-    // let starsHTML = "";
-    //
-    // for (let i = 0; i < fullStars; i++) starsHTML += '<i class="bi bi-star-fill"></i>';
-    // if (halfStar) starsHTML += '<i class="bi bi-star-half"></i>';
-    // for (let i = fullStars + (halfStar ? 1 : 0); i < 5; i++) starsHTML += '<i class="bi bi-star"></i>';
-    //
-    // starsHTML += `<span class="ms-2"><u>${ratingValue.toFixed(1)}</u> | <u class="text-muted">546 Đánh Giá</u></span>`;
-    // ratingEl.innerHTML = starsHTML;
 
     // Tăng giảm số lượng
     const minusBtn = document.getElementById('minus');

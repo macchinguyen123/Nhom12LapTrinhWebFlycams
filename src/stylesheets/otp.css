@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Inter, Inter Fallback, Arial, sans-serif;
     background-color: #fff;
     height: 100vh;
     width: 100vw;
@@ -110,7 +110,7 @@ input:focus {
 }
 /* ---- Style cho các nút liên kết ---- */
 a.nut {
-    text-decoration: none;      /* ❌ bỏ gạch chân */
+    text-decoration: none;      /*bỏ gạch chân */
     display: inline-block;
     padding: 10px 20px;
     border-radius: 8px;

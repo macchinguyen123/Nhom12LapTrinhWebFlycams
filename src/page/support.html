@@ -2,19 +2,18 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Lịch sử mua hàng</title>
-
+    <title>Hỗ Trợ Khách Hàng | SkyDrone Việt Nam</title>
+    <link rel="stylesheet" href="../stylesheets/support.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../stylesheets/purchasehistory.css">
     <link rel="stylesheet" href="../stylesheets/header.css">
     <link rel="stylesheet" href="../stylesheets/footer.css">
-
 </head>
 <body>
-
 <!-- ==== HEADER TRÊN ==== -->
 <div class="header-bg">
     <div class="header-wrapper">
@@ -28,16 +27,18 @@
             </a>
 
             <!-- THANH TÌM KIẾM -->
-            <a href="searching.html"><div class="search-bar position-relative">
-                <i class="bi bi-search"></i>
-                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, flycam..."
-                       autocomplete="off">
+            <a href="searching.html">
+                <div class="search-bar position-relative">
+                    <i class="bi bi-search"></i>
+                    <input id="searchInput" type="text" placeholder="Tìm kiếm drone, flycam..."
+                           autocomplete="off">
 
-                <!-- Danh sách gợi ý xổ xuống -->
-                <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
-                    style="top: 100%; left: 0; z-index: 1000; display: none;">
-                </ul>
-            </div></a>
+                    <!-- Danh sách gợi ý xổ xuống -->
+                    <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
+                        style="top: 100%; left: 0; z-index: 1000; display: none;">
+                    </ul>
+                </div>
+            </a>
 
 
             <!-- HÀNH ĐỘNG HEADER -->
@@ -87,7 +88,7 @@
                 <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
             </a>
             <a href="support.html">
-                <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
+                <button class="nav-item active"><i class="bi bi-headset"></i>Hỗ trợ</button>
             </a>
             <a href="blog.html">
                 <button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button>
@@ -126,67 +127,55 @@
     </div>
 </div>
 
-<div id="lich-su-mua-hang">
-    <h2>Đơn hàng đã mua gần đây</h2>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Mã đơn hàng</th>
-            <th>Sản phẩm</th>
-            <th>Giá</th>
-            <th>Ngày đặt mua</th>
-            <th>Trạng thái</th>
-            <th>Thao tác</th>
-        </tr>
-        </thead>
-        <tbody>
+<section class="hotro-container">
+    <div class="hotro-header">
+        <i class="bi bi-headset"></i>
+        <h1>HỖ TRỢ KHÁCH HÀNG</h1>
+        <p>SkyDrone luôn sẵn sàng hỗ trợ bạn qua các kênh liên hệ nhanh chóng và tiện lợi.</p>
+    </div>
 
-        <!-- Đơn hàng 1 -->
-        <tr id="don-hang-1">
-            <td><a href="#" class="ma-don">#5432177</a></td>
-            <td>
-                <div class="san-pham">
-                    <img src="../image/content/DJI Mini 3.png" alt="DJI Mini 3" class="anh_san_pham me-3" width="120">
-                    <div>
-                        <div class="ten-san-pham">DJI Mini 3</div>
+    <div class="hotro-grid">
 
-                        <a href="product-details.html" class="nut-xem-chi-tiet">Xem chi tiết</a>
-                    </div>
-                </div>
-            </td>
-            <td class="gia">8.990.000₫</td>
-            <td>05/11/2025</td>
-            <td class="trang-thai da-huy">Đã hủy</td>
+        <!-- Hỗ trợ qua Zalo -->
+        <div class="hotro-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo">
+            <h3>Chat qua Zalo</h3>
+            <p>Liên hệ trực tiếp với đội ngũ hỗ trợ qua Zalo để được phản hồi nhanh nhất.</p>
+            <a href="https://zalo.me/0966089465"
+               target="_blank" rel="noopener noreferrer"
+               class="hotro-btn">Mở Zalo</a>
+        </div>
 
-            <td><a href="payment.html"><button class="nut-mua-lai">Mua lại</button></a></td>
+        <!-- Hỗ trợ qua Email -->
+        <div class="hotro-item">
+            <i class="bi bi-envelope-paper"></i>
+            <h3>Hỗ trợ qua Email</h3>
+            <p>Gửi email cho bộ phận chăm sóc khách hàng 24/7 để được hỗ trợ chi tiết.</p>
+            <a href="mailto:23130211@st.hcmuaf.edu.vn" class="hotro-btn">Gửi Email</a>
+        </div>
 
-        </tr>
+        <!-- Fanpage Facebook -->
+        <div class="hotro-item">
+            <i class="bi bi-facebook"></i>
+            <h3>Fanpage Facebook</h3>
+            <p>Theo dõi Fanpage SkyDrone để nhận thông báo, ưu đãi và hỗ trợ nhanh chóng.</p>
+            <a href="https://www.facebook.com/skydrone.vn"
+               target="_blank" rel="noopener noreferrer"
+               class="hotro-btn">Đến Fanpage</a>
+        </div>
 
-        <!-- Đơn hàng 2 -->
-        <tr id="don-hang-2">
-            <td><a href="#" class="ma-don">#5432152</a></td>
-            <td>
-                <div class="san-pham">
-                    <img src="../image/content/DJI Mini 4K.png" alt="DJI Mini 4K" class="anh_san_pham me-3" width="120">
-                    <div>
-                        <div class="ten-san-pham">DJI Mini 4K</div>
-                        <a href="product-details.html" class="nut-xem-chi-tiet">Xem chi tiết</a>
-                    </div>
-                </div>
-            </td>
-            <td class="gia">9.607.000₫</td>
-            <td>10/11/2025</td>
-            <td class="trang-thai da-nhan-hang">Đã nhận hàng</td>
-            <a href="payment.html">
-            <td><a href="payment.html"><button class="nut-mua-lai">Mua lại</button></a></td>
-            </a>
-        </tr>
-
-        </tbody>
-    </table>
-</div>
-
+        <!-- Messenger -->
+        <div class="hotro-item">
+            <i class="bi bi-messenger"></i>
+            <h3>Chat qua Messenger</h3>
+            <p>Trao đổi trực tiếp với đội ngũ hỗ trợ SkyDrone qua Facebook Messenger.</p>
+            <a href="https://m.me/skydrone.vn"
+               target="_blank" rel="noopener noreferrer"
+               class="hotro-btn">Nhắn Messenger</a>
+        </div>
+    </div>
+</section>
 <footer class="footer">
     <div class="footer-container">
         <!-- Cột 1 -->
@@ -238,7 +227,8 @@
             <section class="payment-methods">
                 <h6>PHƯƠNG THỨC THANH TOÁN</h6>
                 <div class="payment-icons">
-                    <img src="https://tse3.mm.bing.net/th/id/OIP.kklIaX3TV97u5KnjU_Kr4wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="VNPay">
+                    <img src="https://tse3.mm.bing.net/th/id/OIP.kklIaX3TV97u5KnjU_Kr4wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
+                         alt="VNPay">
                 </div>
             </section>
         </div>
@@ -290,10 +280,10 @@
 
     <div class="footer-bottom">
         <p>Copyright © 2025 © <strong>SKYDrone Việt Nam</strong></p>
-        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm cấm.</p>
+        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm
+            cấm.</p>
     </div>
 </footer>
-
 </body>
 <script>
     const btnDanhMuc = document.getElementById('btnDanhMuc');
