@@ -1,7 +1,7 @@
 /* === NỀN VÀ FONT CHUNG === */
 body {
     background-color: #f7f7f7;
-    font-family: "Segoe UI", sans-serif;
+    font-family: Inter, Inter Fallback, Arial, sans-serif;
 }
 
 /* === GIỚI HẠN CHIỀU RỘNG CHUNG === */
@@ -868,5 +868,14 @@ a {
     display: inline-flex;
     gap: 2px; /* khoảng cách giữa các sao */
     align-items: center;
+}
+.discount-badge {
+    background: #e62b23;      /* màu đỏ giống mẫu */
+    color: white;
+    padding: 8px 12px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 6px;      /* bo góc */
+    display: inline-block;
 }
 
