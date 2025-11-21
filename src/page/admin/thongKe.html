@@ -78,36 +78,26 @@
     <!-- === MAIN CONTENT === -->
     <!-- === MAIN CONTENT === -->
     <main class="main-content container-fluid p-4">
-        <!-- === DANH SÁCH ĐƠN TRONG NGÀY === -->
+        <!-- ===== DANH SÁCH ĐƠN TRONG NGÀY ===== -->
         <section class="donTrongNgay mb-5">
             <h4 class="tieude mb-3"><i class="bi bi-truck"></i><b> Danh Sách Đơn Hàng Trong Ngày</b></h4>
 
-            <!-- Thanh tìm kiếm kiểu đẹp -->
+            <!-- Thanh tìm kiếm -->
             <div class="d-flex align-items-center mb-3">
-                <div class="d-flex align-items-center shadow-sm" style="
-                background: #fff;
-                border-radius: 8px;
-                overflow: hidden;
-                border: 1px solid #dee2e6;
-                max-width: 320px;
-            ">
-                    <div class="d-flex align-items-center justify-content-center" style="
-                    background-color: #0d6efd;
-                    color: #fff;
-                    width: 45px;
-                    height: 40px;
-                ">
+                <div class="d-flex align-items-center shadow-sm"
+                     style="background:#fff;border-radius:8px;overflow:hidden;border:1px solid #dee2e6;max-width:320px;">
+                    <div class="d-flex align-items-center justify-content-center"
+                         style="background-color:#0d6efd;color:#fff;width:45px;height:40px;">
                         <i class="bi bi-search"></i>
                     </div>
                     <input id="searchBox" type="text" class="form-control border-0"
-                           placeholder="Tìm kiếm đơn hàng..."
-                           style="box-shadow: none; height: 40px;">
+                           placeholder="Tìm kiếm đơn hàng..." style="box-shadow:none;height:40px;">
                 </div>
             </div>
 
             <div class="table-responsive">
-                <table id="tableDonTrongNgay" class="table table-striped table-bordered align-middle">
-                    <thead class="table-primary text-center">
+                <table id="tableDonTrongNgay" class="table table-striped table-bordered align-middle text-center">
+                    <thead class="table-primary">
                     <tr>
                         <th>Mã Đơn</th>
                         <th>Khách Hàng</th>
@@ -117,110 +107,94 @@
                         <th>Chi Tiết</th>
                     </tr>
                     </thead>
-                    <tbody>
+
+                    <tbody id="donHangBody">
+
                     <tr>
                         <td>DH001</td>
                         <td>Nguyễn Văn A</td>
                         <td>08/11/2025</td>
                         <td>2.350.000 VND</td>
                         <td><span class="badge bg-warning text-dark">Chờ xác nhận</span></td>
-                        <td class="text-center">
-                            <button class="btn btn-info btn-sm xemChiTiet">
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </td>
+                        <td><button class="btn btn-info btn-sm xemChiTiet"><i class="bi bi-eye"></i></button></td>
                     </tr>
+
                     <tr>
                         <td>DH002</td>
                         <td>Trần Thị B</td>
                         <td>08/11/2025</td>
                         <td>4.800.000 VND</td>
                         <td><span class="badge bg-success">Đã giao</span></td>
-                        <td class="text-center">
-                            <button class="btn btn-info btn-sm xemChiTiet">
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </td>
+                        <td><button class="btn btn-info btn-sm xemChiTiet"><i class="bi bi-eye"></i></button></td>
                     </tr>
+
                     <tr>
                         <td>DH003</td>
                         <td>Trần Thị C</td>
                         <td>08/11/2025</td>
                         <td>4.800.000 VND</td>
                         <td><span class="badge bg-success">Đã giao</span></td>
-                        <td class="text-center">
-                            <button class="btn btn-info btn-sm xemChiTiet">
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </td>
+                        <td><button class="btn btn-info btn-sm xemChiTiet"><i class="bi bi-eye"></i></button></td>
                     </tr>
+
                     <tr>
                         <td>DH004</td>
                         <td>Nguyễn Anh Minh</td>
                         <td>03/11/2025</td>
                         <td>10.390.000 VND</td>
                         <td><span class="badge bg-success">Đã giao</span></td>
-                        <td class="text-center">
-                            <button class="btn btn-info btn-sm xemChiTiet">
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </td>
+                        <td><button class="btn btn-info btn-sm xemChiTiet"><i class="bi bi-eye"></i></button></td>
                     </tr>
+
                     <tr>
                         <td>DH005</td>
                         <td>Lê Minh</td>
                         <td>03/11/2025</td>
                         <td>22.300.000 VND</td>
                         <td><span class="badge bg-success">Đã giao</span></td>
-                        <td class="text-center">
-                            <button class="btn btn-info btn-sm xemChiTiet">
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </td>
+                        <td><button class="btn btn-info btn-sm xemChiTiet"><i class="bi bi-eye"></i></button></td>
                     </tr>
+
                     <tr>
                         <td>DH006</td>
                         <td>Phạm Đình Khang</td>
                         <td>05/11/2025</td>
                         <td>12.230.000 VND</td>
                         <td><span class="badge bg-success">Đã giao</span></td>
-                        <td class="text-center">
-                            <button class="btn btn-info btn-sm xemChiTiet">
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </td>
+                        <td><button class="btn btn-info btn-sm xemChiTiet"><i class="bi bi-eye"></i></button></td>
                     </tr>
+
                     <tr>
                         <td>DH007</td>
                         <td>Nguyễn Anh Tuấn</td>
                         <td>03/11/2025</td>
                         <td>19.390.000 VND</td>
                         <td><span class="badge bg-success">Đã giao</span></td>
-                        <td class="text-center">
-                            <button class="btn btn-info btn-sm xemChiTiet">
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </td>
-                    </tr><tr>
+                        <td><button class="btn btn-info btn-sm xemChiTiet"><i class="bi bi-eye"></i></button></td>
+                    </tr>
+
+                    <tr>
                         <td>DH008</td>
                         <td>Lý Chí Huy</td>
                         <td>03/11/2025</td>
                         <td>9.090.000 VND</td>
                         <td><span class="badge bg-success">Đã giao</span></td>
-                        <td class="text-center">
-                            <button class="btn btn-info btn-sm xemChiTiet">
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </td>
+                        <td><button class="btn btn-info btn-sm xemChiTiet"><i class="bi bi-eye"></i></button></td>
                     </tr>
-
-
-
 
                     </tbody>
                 </table>
             </div>
+            <div class="d-flex justify-content-end align-items-center mt-3">
+                <div class="pagination-controls">
+                    <button id="prevPage" class="btn btn-outline-primary btn-sm">Trước</button>
+                    <span id="pageInfo" class="mx-2">1 / 1</span> <!-- <- Đây là nơi hiển thị "1 / 2", "2 / 2" -->
+                    <button id="nextPage" class="btn btn-outline-primary btn-sm">Sau</button>
+                </div>
+            </div>
+
         </section>
+
 
         <!-- === THỐNG KÊ TỔNG QUAN === -->
             <h4 class="tieude mb-3"><i class="bi bi-bar-chart"></i><b> Thống Kê Tổng Quan</b></h4>
@@ -279,79 +253,98 @@
             item.parentElement.classList.toggle('open');
         });
     });
+</script>
 
-    // === KHỞI TẠO DATATABLE CHO ĐƠN TRONG NGÀY ===
-    $(document).ready(function () {
-        const table = $('#tableDonTrongNgay').DataTable({
-            dom: '<"d-flex justify-content-between align-items-center mb-3"B>rtip', // ❌ bỏ thanh search mặc định
-            buttons: [
-                { extend: 'excel', text: '<i class="bi bi-file-earmark-excel"></i> Xuất Excel', className: 'btn btn-success btn-sm' },
-                { extend: 'pdf', text: '<i class="bi bi-file-earmark-pdf"></i> Xuất PDF', className: 'btn btn-danger btn-sm' },
-                { extend: 'print', text: '<i class="bi bi-printer"></i> In', className: 'btn btn-secondary btn-sm' }
-            ],
-            order: [[2, 'desc']],
-            pageLength: 5,           // 👈 chỉ hiển thị 5 dòng mỗi trang
-            lengthChange: false,     // ❌ không cho người dùng thay đổi số dòng hiển thị
-            language: {
-                lengthMenu: "Hiển thị _MENU_ đơn hàng",
-                info: "Hiển thị _START_ - _END_ / _TOTAL_ đơn hàng",
-                paginate: { previous: "Trước", next: "Sau" },
-                zeroRecords: "Không có đơn hàng nào trong ngày hôm nay."
-            }
+<script>
+    // TÌM KIẾM ĐƠN HÀNG
+    document.getElementById("searchBox").addEventListener("keyup", function () {
+        const keyword = this.value.toLowerCase();
+        const rows = document.querySelectorAll("#donHangBody tr");
+
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            row.style.display = text.includes(keyword) ? "" : "none";
         });
+    });
 
-        // === KẾT NỐI THANH TÌM KIẾM MỚI ===
-        $('#searchBox').on('keyup', function () {
-            table.search(this.value).draw();
-        });
+    // MODAL XEM CHI TIẾT
+    document.querySelectorAll(".xemChiTiet").forEach(btn => {
+        btn.addEventListener("click", function () {
 
-        // === MODAL XEM CHI TIẾT ĐƠN ===
-        $('#tableDonTrongNgay').on('click', '.xemChiTiet', function () {
-            const row = $(this).closest('tr');
-            const maDon = row.find('td:eq(0)').text();
-            const khach = row.find('td:eq(1)').text();
-            const ngay = row.find('td:eq(2)').text();
-            const tong = row.find('td:eq(3)').text();
-            const trangThai = row.find('td:eq(4)').text();
+            const row = this.closest("tr");
+            const maDon = row.cells[0].innerText;
+            const khach = row.cells[1].innerText;
+            const ngay = row.cells[2].innerText;
+            const tong = row.cells[3].innerText;
+            const trangThai = row.cells[4].innerText;
 
             const modalHTML = `
-        <div class="modal fade" id="modalChiTietDon" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-info text-white">
-                        <h5 class="modal-title"><i class="bi bi-receipt"></i> Chi Tiết Đơn Hàng</h5>
-                        <button class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p><b>Mã đơn:</b> ${maDon}</p>
-                        <p><b>Khách hàng:</b> ${khach}</p>
-                        <p><b>Ngày đặt:</b> ${ngay}</p>
-                        <p><b>Tổng tiền:</b> ${tong}</p>
-                        <p><b>Trạng thái:</b> ${trangThai}</p>
-                        <hr>
-                        <p><b>Sản phẩm:</b></p>
-                        <ul>
-                            <li>Flycam DJI Mini 4 Pro x1</li>
-                            <li>Phụ kiện pin dự phòng x1</li>
-                        </ul>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            <div class="modal fade" id="modalChiTietDon" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h5 class="modal-title"><i class="bi bi-receipt"></i> Chi Tiết Đơn Hàng</h5>
+                            <button class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><b>Mã đơn:</b> ${maDon}</p>
+                            <p><b>Khách hàng:</b> ${khach}</p>
+                            <p><b>Ngày đặt:</b> ${ngay}</p>
+                            <p><b>Tổng tiền:</b> ${tong}</p>
+                            <p><b>Trạng thái:</b> ${trangThai}</p>
+                            <hr>
+                            <p><b>Sản phẩm:</b></p>
+                            <ul>
+                                <li>Flycam DJI Mini 4 Pro x1</li>
+                                <li>Phụ kiện pin dự phòng x1</li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>`;
+            </div>`;
 
-            $('body').append(modalHTML);
-            const modal = new bootstrap.Modal(document.getElementById('modalChiTietDon'));
+            document.body.insertAdjacentHTML("beforeend", modalHTML);
+
+            const modal = new bootstrap.Modal(document.getElementById("modalChiTietDon"));
             modal.show();
 
-            document.getElementById('modalChiTietDon').addEventListener('hidden.bs.modal', () => {
-                document.getElementById('modalChiTietDon').remove();
+            document.getElementById("modalChiTietDon").addEventListener("hidden.bs.modal", () => {
+                document.getElementById("modalChiTietDon").remove();
             });
         });
     });
+    const table = document.querySelector("#tableSanPham tbody");
+    const searchInput = document.getElementById("searchInput");
+    const rowsPerPageSelect = document.getElementById("rowsPerPage");
+    const prevBtn = document.getElementById("prevPage");
+    const nextBtn = document.getElementById("nextPage");
+    const pageInfo = document.getElementById("pageInfo");
+
+    let currentPage = 1;
+    let rowsPerPage = parseInt(rowsPerPageSelect.value);
+    let allRows = Array.from(table.querySelectorAll("tr"));
+
+    function renderTable() {
+        const filteredRows = filterRows();
+        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+
+        currentPage = Math.min(currentPage, totalPages || 1);
+
+        table.innerHTML = "";
+
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+
+        filteredRows.slice(start, end).forEach(row => table.appendChild(row));
+
+        pageInfo.textContent = `${currentPage} / ${totalPages || 1}`;  // <- cập nhật số trang
+    }
+
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
