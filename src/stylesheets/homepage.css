@@ -266,7 +266,7 @@ a {
 /* ==== SLIDER 2 KÍCH THƯỚC MỚI ==== */
 .slider-2 {
     width: 80%;               /* Rộng 80% màn hình */
-    height: 600px;            /* Tăng chiều cao */
+    height: 400px;            /* Tăng chiều cao */
     margin: 0px auto;
     position: relative;
     overflow: hidden;
