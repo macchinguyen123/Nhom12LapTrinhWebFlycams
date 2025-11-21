@@ -1,19 +1,16 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8" />
-    <title>Giỏ hàng Flycam</title>
-
+    <meta charset="utf-8" />
+    <title>Chính sách bảo hành</title>
+    <link rel="stylesheet" href="../stylesheets/warranty.css">
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="../stylesheets/shoppingcart.css">
     <link rel="stylesheet" href="../stylesheets/header.css">
     <link rel="stylesheet" href="../stylesheets/footer.css">
 </head>
-
 <body>
 <!-- ==== HEADER TRÊN ==== -->
 <div class="header-bg">
@@ -49,7 +46,7 @@
                     </div>
                 </a>
 
-                <a href="shoppingcart.html"><div class="icon-btn active" title="Giỏ hàng">
+                <a href="shoppingcart.html"><div class="icon-btn" title="Giỏ hàng">
                     <i class="bi bi-cart3"></i>
                     <span>Giỏ hàng</span>
                 </div></a>
@@ -62,6 +59,7 @@
         </header>
     </div>
 </div>
+
 <!-- ==== MENU DƯỚI ==== -->
 <div class="menu-bg">
     <div class="header-wrapper">
@@ -76,7 +74,7 @@
                 <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
             </a>
             <a href="warranty.html">
-                <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
+                <button class="nav-item active"><i class="bi bi-tools"></i>Bảo hành</button>
             </a>
             <a href="payment-policy.html">
                 <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
@@ -120,122 +118,35 @@
         </ul>
     </div>
 </div>
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 
-
-
-
-<div class="gio-hang">
-<!-- Bao toàn bộ phần giỏ hàng -->
-<div class="gio-hang-noi-dung">
-    <div class="container py-4">
-        <!-- nội dung giỏ hàng -->
-
-    <!-- Nút quay lại trang chủ -->
-    <div class="mb-3">
-        <h3 class="text-center mb-4 fw-bold text-primary">Giỏ hàng của bạn</h3>
-    </div>
-
-
-    <!-- Thanh công cụ -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="chon_tat_ca">
-            <label for="chon_tat_ca" class="form-check-label">Chọn tất cả</label>
+<section class="warranty">
+    <div class="container">
+        <h1>I. ĐIỀU KIỆN NHẬN BẢO HÀNH</h1>
+        <ul>
+            <li>Các sản phẩm, thiết bị do các cửa hàng của HÀNG CHÍNH HIỆU hoặc gian hàng HÀNG CHÍNH HIỆU trên Website.</li>
+            <li>Đối với các sản phẩm, thiết bị được cấp phiếu bảo hành (PBH), khách hàng phải xuất trình PBH và có đầy đủ tem bảo hành của HÀNG CHÍNH HIỆU (nếu thiết bị không cấp PBH thì phải còn nguyên tem của HÀNG CHÍNH HIỆU) và phải còn trong thời hạn bảo hành.</li>
+            <li>Tem bảo hành, mã vạch số serial,… của sản phẩm phải còn nguyên vẹn, không có dấu hiệu cạo sửa, tẩy xóa, bị rách, mờ.</li>
+            <li>Trong trường hợp, tem chưa rách nhưng bị mờ hoặc tem bị rách do yếu tố khách quan nào đó, công ty sẽ tạm thời giữ lại để kiểm tra, xác nhận thông tin. Nếu sản phẩm, thiết bị do HÀNG CHÍNH HIỆU cung cấp thì mới được chính thức nhận bảo hành. Nếu có vấn đề phát sinh, HÀNG CHÍNH HIỆU sẽ liên hệ ngay để xác nhận với khách hàng trong vòng 24h kể từ khi nhận thiết bị.</li>
+            <li>Những hư hỏng của thiết bị được xác định do lỗi kỹ thuật hoặc lỗi của nhà sản xuất.</li>
+        </ul>
+        <h1>II. TRƯỜNG HỢP KHÔNG NHẬN BẢO HÀNH</h1>
+        <ul>
+            <li>Số serial trên máy và Phiếu bảo hành không trùng khớp nhau hoặc không xác định được vì bất kỳ lý do nào</li>
+            <li>Tem niêm phong bảo hành bị rách, vỡ, hoặc bị sửa đổi</li>
+            <li>Tự ý tháo dỡ, sửa chữa bởi các cá nhân hoặc kỹ thuật viên không được sự ủy quyền của SKYDrone</li>
+            <li>Các sản phẩm, thiết bị có dấu hiệu dung dịch lạ, có nước vào, có vết ẩm ướt, bị đứt mạch, bị trầy xước, bể mẻ, móp méo, biến dạng, có dấu hiệu cháy nổ, nấm, phù tụ, gỉ sét hoặc các hiện tượng được cho là do lỗi cá nhân gây ra. Hoặc nếu được nhận BH, khách hàng phải hoàn toàn chịu chi phí phát sinh đối với các lỗi đó.</li>
+            <li>Thiết bị hư hỏng do thiên tai, hỏa hoạn, sử dụng nguồn điện không ổn định hoặc do lắp đặt, vận chuyển không đúng quy cách,…</li>
+            <li>Các phụ kiện kèm theo thiết bị.</li>
+            <li>Không bảo hành đối với quà khuyến mãi của công ty.</li>
+        </ul>
+        <p class="note"><b>Đặc biệt:</b> không nhận BH về dữ liệu trong các thiết bị lưu trữ.</p>
+        <h1>III. THỜI GIAN TRẢ BẢO HÀNH</h1>
+            <ul>
+                <p class="note">Dự kiến từ 7 – 10 ngày tính từ ngày tiếp nhận bảo hành tại cửa hàng (không tính thứ 7 và chủ nhật, ngày lễ). Đối với những lỗi phức tạp hơn thì thời gian bảo hành có thể kéo dài, Hàng Chính Hiệu sẽ thông báo cho bạn nếu có thông tin bảo hành từ hãng.</p>
+            </ul>
         </div>
-        <button class="btn btn-outline-danger btn-sm nut_xoa_da_chon">
-            <i class="bi bi-trash"></i> Xóa sản phẩm đã chọn
-        </button>
-    </div>
-
-    <!-- Danh sách sản phẩm -->
-    <div id="danh_sach_san_pham">
-        <!-- Sản phẩm 1 -->
-        <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center">
-                <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                <a href="product-details.html"><img src="../image/content/DJI Mini 3.png" alt="DJI Mini 3" class="anh_san_pham me-3" width="120"></a>
-                <div>
-                    <h5 class="ten_san_pham mb-2">Flycam DJI Mini 3</h5>
-                    <div>
-                        <span class="gia_hien_tai text-danger fw-bold me-2">8.990.000₫</span>
-                        <span class="gia_goc text-muted text-decoration-line-through">10.900.000₫</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="d-flex align-items-center">
-                <button class="btn btn-outline-secondary btn-sm nut_giam me-1">−</button>
-                <input type="text" class="form-control text-center o_so_luong mx-1" value="1" style="width:50px;">
-                <button class="btn btn-outline-secondary btn-sm nut_tang me-3">+</button>
-                <button class="btn btn-outline-danger btn-sm nut_xoa"><i class="bi bi-trash"></i></button>
-            </div>
-        </div>
-
-        <!-- Sản phẩm 2 -->
-        <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center">
-                <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                <a href="product-details.html"><img src="../image/content/DJI Mini 4K.png" alt="DJI Mini 4K" class="anh_san_pham me-3" width="120"></a>
-                <div>
-                    <h5 class="ten_san_pham mb-2">Flycam DJI Mini 4K</h5>
-                    <div>
-                        <span class="gia_hien_tai text-danger fw-bold me-2">9.607.000₫</span>
-                        <span class="gia_goc text-muted text-decoration-line-through">7.990.000₫</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="d-flex align-items-center">
-                <button class="btn btn-outline-secondary btn-sm nut_giam me-1">−</button>
-                <input type="text" class="form-control text-center o_so_luong mx-1" value="1" style="width:50px;">
-                <button class="btn btn-outline-secondary btn-sm nut_tang me-3">+</button>
-                <button class="btn btn-outline-danger btn-sm nut_xoa"><i class="bi bi-trash"></i></button>
-            </div>
-        </div>
-
-        <!-- Sản phẩm 3 -->
-        <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center">
-                <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                <a href="product-details.html"><img src="../image/content/Flycam DJI Air 3.png" alt="Flycam DJI Air 3" class="anh_san_pham me-3" width="120"></a>
-                <div>
-                    <h5 class="ten_san_pham mb-2">Flycam DJI Air 3</h5>
-                    <div>
-                        <span class="gia_hien_tai text-danger fw-bold me-2">25.000.000₫</span>
-                        <span class="gia_goc text-muted text-decoration-line-through">29.990.000₫</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="d-flex align-items-center">
-                <button class="btn btn-outline-secondary btn-sm nut_giam me-1">−</button>
-                <input type="text" class="form-control text-center o_so_luong mx-1" value="1" style="width:50px;">
-                <button class="btn btn-outline-secondary btn-sm nut_tang me-3">+</button>
-                <button class="btn btn-outline-danger btn-sm nut_xoa"><i class="bi bi-trash"></i></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Tổng tiền -->
-    <div class="card p-3 shadow-sm">
-        <div class="d-flex justify-content-between">
-            <span class="fw-bold">Tạm tính:</span>
-            <span class="so_tien">0 ₫</span>
-        </div>
-        <hr>
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="tong_cong text-danger m-0">Tổng cộng: 0 ₫</h5>
-            <a href="delivery-info.html">
-            <button class="btn btn-primary nut_thanh_toan">Mua ngay</button>
-                </a>
-        </div>
-    </div>
-</div>
-</div>
-</div>
+</section>
 <footer class="footer">
     <div class="footer-container">
         <!-- Cột 1 -->
@@ -342,74 +253,7 @@
         <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm cấm.</p>
     </div>
 </footer>
-<script>
-    const chonTatCa = document.getElementById("chon_tat_ca");
-    const nutXoaDaChon = document.querySelector(".nut_xoa_da_chon");
-    const nutThanhToan = document.querySelector(".nut_thanh_toan");
-    const danhSach = document.getElementById("danh_sach_san_pham");
-
-    function dinhDangTien(vnd) {
-        return vnd.toLocaleString("vi-VN") + " ₫";
-    }
-
-    function capNhatTongTien() {
-        let tong = 0;
-        document.querySelectorAll(".khung_san_pham").forEach(sp => {
-            const check = sp.querySelector(".chon_san_pham");
-            if (check.checked) {
-                const giaText = sp.querySelector(".gia_hien_tai").textContent.replace(/[^\d]/g, "");
-                const soLuong = parseInt(sp.querySelector(".o_so_luong").value);
-                tong += parseInt(giaText) * soLuong;
-            }
-        });
-        document.querySelector(".so_tien").textContent = dinhDangTien(tong);
-        document.querySelector(".tong_cong").textContent = "Tổng cộng: " + dinhDangTien(tong);
-    }
-
-    // Chọn tất cả
-    chonTatCa.addEventListener("change", () => {
-        document.querySelectorAll(".chon_san_pham").forEach(cb => cb.checked = chonTatCa.checked);
-        capNhatTongTien();
-    });
-
-    // Sự kiện trên từng sản phẩm
-    danhSach.addEventListener("click", e => {
-        const sp = e.target.closest(".khung_san_pham");
-        if (!sp) return;
-
-        // Tăng / giảm số lượng
-        if (e.target.classList.contains("nut_tang") || e.target.classList.contains("nut_giam")) {
-            const input = sp.querySelector(".o_so_luong");
-            let soLuong = parseInt(input.value);
-            if (e.target.classList.contains("nut_tang")) soLuong++;
-            else if (soLuong > 1) soLuong--;
-            input.value = soLuong;
-            capNhatTongTien();
-        }
-
-        // Xóa sản phẩm
-        if (e.target.classList.contains("nut_xoa") || e.target.closest(".nut_xoa")) {
-            sp.remove();
-            capNhatTongTien();
-        }
-
-        // Tick chọn sản phẩm
-        if (e.target.classList.contains("chon_san_pham")) {
-            const tatCa = document.querySelectorAll(".chon_san_pham").length;
-            const daChon = document.querySelectorAll(".chon_san_pham:checked").length;
-            chonTatCa.checked = (tatCa === daChon);
-            capNhatTongTien();
-        }
-    });
-
-    // Xóa các sản phẩm đã chọn
-    nutXoaDaChon.addEventListener("click", () => {
-        document.querySelectorAll(".chon_san_pham:checked").forEach(cb => cb.closest(".khung_san_pham").remove());
-        capNhatTongTien();
-    });
-
-
-</script>
+</body>
 <script>
     const btnDanhMuc = document.getElementById('btnDanhMuc');
     const menuLeft = document.getElementById('menuLeft');
@@ -425,5 +269,5 @@
         }
     });
 </script>
-</body>
+
 </html>

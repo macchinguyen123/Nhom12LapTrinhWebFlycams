@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Hồ Sơ Của Tôi</title>
+    <link rel="stylesheet" href="../stylesheets/header.css">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../stylesheets/footer.css">
+    <link rel="stylesheet" href="../stylesheets/personal-page.css">
+</head>
+<body>
+<!-- ==== HEADER TRÊN ==== -->
+<div class="header-bg">
+    <div class="header-wrapper">
+        <header class="top-header">
+            <!-- LOGO -->
+            <a href="homepage.html">
+                <div class="logo">
+                    <img src="../image/logoo2.png" alt="Logo">
+                    <h2>SkyDrone</h2>
+                </div>
+            </a>
+
+            <!-- THANH TÌM KIẾM -->
+            <a href="searching.html"><div class="search-bar position-relative">
+                <i class="bi bi-search"></i>
+                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, flycam..."
+                       autocomplete="off">
+
+                <!-- Danh sách gợi ý xổ xuống -->
+                <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
+                    style="top: 100%; left: 0; z-index: 1000; display: none;">
+                </ul>
+            </div></a>
+
+
+            <!-- HÀNH ĐỘNG HEADER -->
+            <div class="header-actions">
+                <a href="wishlist.html">
+                    <div class="icon-btn" title="Yêu thích">
+                        <i class="bi bi-heart"></i>
+                        <span>Yêu thích</span>
+                    </div>
+                </a>
+
+                <a href="shoppingcart.html">
+                    <div class="icon-btn" title="Giỏ hàng">
+                        <i class="bi bi-cart3"></i>
+                        <span>Giỏ hàng</span>
+                    </div>
+                </a>
+
+                <a href="personal-page.html">
+                    <div class="icon-btn active" title="Tài khoản">
+                        <i class="bi bi-person-circle"></i>
+                        <span>Tài khoản</span>
+                    </div>
+                </a>
+            </div>
+        </header>
+    </div>
+</div>
+
+<!-- ==== MENU DƯỚI ==== -->
+<div class="menu-bg">
+    <div class="header-wrapper">
+        <nav class="main-nav">
+            <a href="homepage.html">
+                <button class="nav-item"><i class="bi bi-house-door"></i>Trang chủ</button>
+            </a>
+            <button class="nav-item" id="btnDanhMuc">
+                <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
+            </button>
+            <a href="promotion.html">
+                <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
+            </a>
+            <a href="warranty.html">
+                <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
+            </a>
+            <a href="payment-policy.html">
+                <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
+            </a>
+            <a href="support.html">
+                <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
+            </a>
+            <a href="blog.html">
+                <button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button>
+            </a>
+        </nav>
+    </div>
+    <!-- MENU TRÁI ẨN MẶC ĐỊNH -->
+    <div class="menu-left-1" id="menuLeft">
+        <ul>
+            <li><a href="danhMuc/Category.html">
+                <img src="../image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
+            </a>
+            </li>
+
+            <li><a href="danhMuc/DanhMucDuLich.html">
+                <img src="../image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
+            </a>
+            </li>
+            <li><a href="danhMuc/DanhMucTheThao.html">
+                <img src="../image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
+            </a>
+            </li>
+            <li><a href="danhMuc/agriDrone.html">
+                <img src="../image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
+            </a>
+            </li>
+            <li><a href="danhMuc/DanhMucGiamSat.html">
+                <img src="../image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
+            </a>
+            </li>
+            <li><a href="danhMuc/DanhMucMini.html">
+                <img src="../image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
+            </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="container">
+    <aside class="sidebar">
+        <div class="user-info">
+            <div class="avatar">
+                <img src="../image/logoTCN.png" alt="Avatar của phclhu632">
+            </div>
+            <p class="username">phclhu632</p>
+            <a href="#" class="edit-profile">Sửa Hồ Sơ</a>
+        </div>
+
+
+        <nav class="menu">
+            <ul>
+                <li class="active" data-section="profile"><a href="#">Tài Khoản Của Tôi</a></li>
+                <li data-section="repass"><a href="#">Đổi mật khẩu</a></li>
+                <li data-section="orders"><a href="#">Đơn Mua</a></li>
+                <li data-section="addresses"><a href="#">Địa Chỉ Nhận Hàng</a></li>
+            </ul>
+        </nav>
+
+        <!-- 🧾 Nút đăng xuất -->
+        <div class="logout-section">
+            <a href="purchasehistory.html">
+                <button id="logoutBtn1">Lịch sử mua hàng</button>
+            </a>
+            <a href="homepage-visitors.html">
+            <button id="logoutBtn">Đăng Xuất</button>
+            </a>
+        </div>
+    </aside>
+
+    <main class="content">
+        <!-- === Tài khoản của tôi === -->
+        <section id="profile-section" class="section active">
+            <h2>Hồ Sơ Của Tôi</h2>
+            <p class="desc">Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
+
+            <form class="profile-form">
+                <div class="form-left">
+                    <div class="form-group">
+                        <label>Tên đăng nhập</label>
+                        <input type="text" value="phclhu632" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tên</label>
+                        <input type="text" value="Phước">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" value="23******@st.hcmuaf.edu.vn" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input type="tel" value="0901234567" maxlength="10">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Giới tính</label>
+                        <select name="gender">
+                            <option value="" disabled selected>Chọn giới tính</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group birthday">
+                        <label>Ngày sinh</label>
+                        <div class="date-select">
+                            <select name="day">
+                                <option value="" disabled selected>Ngày</option>
+                                <script>
+                                    for (let i = 1; i <= 31; i++) document.write(`<option value="${i}">${i}</option>`);
+                                </script>
+                            </select>
+                            <select name="month">
+                                <option value="" disabled selected>Tháng</option>
+                                <script>
+                                    for (let i = 1; i <= 12; i++) document.write(`<option value="${i}">${i}</option>`);
+                                </script>
+                            </select>
+                            <select name="year">
+                                <option value="" disabled selected>Năm</option>
+                                <script>
+                                    const year = new Date().getFullYear();
+                                    for (let i = year; i >= 1950; i--) document.write(`<option value="${i}">${i}</option>`);
+                                </script>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="save-btn" type="button">Lưu</button>
+                </div>
+            </form>
+        </section>
+        <!-- === Đổi mật khẩu có OTP === -->
+        <section id="repass-section" class="section">
+            <h2>Đổi Mật Khẩu</h2>
+            <p class="desc">Vui lòng xác minh qua mã OTP để đảm bảo an toàn cho tài khoản của bạn</p>
+
+            <form id="passwordForm" class="password-form">
+                <div class="form-group">
+                    <label for="currentPassword">Mật khẩu hiện tại</label>
+                    <input type="password" id="currentPassword" placeholder="Nhập mật khẩu hiện tại">
+                </div>
+
+                <div class="form-group">
+                    <label for="newPassword">Mật khẩu mới</label>
+                    <input type="password" id="newPassword" placeholder="Nhập mật khẩu mới">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Nhập lại mật khẩu mới</label>
+                    <input type="password" id="confirmPassword" placeholder="Nhập lại mật khẩu mới">
+                </div>
+
+                <div class="otp-group" style="display: none;">
+                    <label for="otpInput">Nhập mã OTP (đã gửi đến email/số điện thoại của bạn)</label>
+                    <input type="text" id="otpInput" placeholder="Nhập mã OTP 6 chữ số" maxlength="6">
+                </div>
+
+                <a href="personal-page.html"><div class="btn-group">
+                    <button type="button" id="sendOtpBtn" class="save-btn">Lưa thay đổi</button>
+                    <button type="button" id="confirmChangeBtn" class="save-btn" style="display: none;">Xác nhận đổi mật khẩu</button>
+                </div></a>
+            </form>
+        </section>
+
+
+
+        <!-- === Đơn Mua === -->
+        <section id="orders-section" class="section">
+            <h2>Đơn Mua</h2>
+            <!-- BẢNG DANH SÁCH HÓA ĐƠN -->
+            <div id="order-list" class="order-table">
+                <!-- TABS LỌC TRẠNG THÁI -->
+                <div class="order-tabs">
+                    <button class="order-tab tab-cho active" data-status="cho">
+                        <i class="bi bi-clock-history"></i> Chờ xác nhận
+                    </button>
+
+                    <button class="order-tab tab-dang-giao" data-status="dang-giao">
+                        <i class="bi bi-truck"></i> Đang giao
+                    </button>
+
+                    <button class="order-tab tab-da-giao" data-status="da-giao">
+                        <i class="bi bi-check2-circle"></i> Đã giao
+                    </button>
+
+                    <button class="order-tab tab-da-huy" data-status="da-huy">
+                        <i class="bi bi-x-circle"></i> Đã huỷ
+                    </button>
+                </div>
+                <h3>Hóa đơn gần đây</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Mã hóa đơn</th>
+                        <th>Thời gian cập nhật</th>
+                        <th>Trạng thái</th>
+                        <th>Tổng giá trị</th>
+                        <th class="text-center">Thao Tác</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>51</td>
+                        <td>2024-01-03 23:21:41</td>
+                        <td class="delivered">Đang giao</td>
+                        <td>70.999.990 ₫</td>
+                        <td class="thao-tac-col">
+                            <button class="btn btn-view btn-sm" onclick="showOrderDetail(51)">
+                                <i class="bi bi-eye"></i> Xem chi tiết
+                            </button>
+
+                            <button class="btn btn-cancel btn-sm" onclick="cancelOrder(51)">
+                                <i class="bi bi-trash"></i> Huỷ đơn hàng
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>51</td>
+                        <td>2024-01-03 23:21:41</td>
+                        <td class="delivered">Chờ xác nhận</td>
+                        <td>70.999.990 ₫</td>
+                        <td class="thao-tac-col">
+                            <button class="btn btn-view btn-sm" onclick="showOrderDetail(51)">
+                                <i class="bi bi-eye"></i> Xem chi tiết
+                            </button>
+
+                            <button class="btn btn-cancel btn-sm" onclick="cancelOrder(51)">
+                                <i class="bi bi-trash"></i> Huỷ đơn hàng
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>50</td>
+                        <td>2024-01-02 22:24:02</td>
+                        <td class="delivered">Đang giao</td>
+                        <td>70.999.990 ₫</td>
+                        <td class="thao-tac-col">
+                            <button class="btn btn-view btn-sm" onclick="showOrderDetail(51)">
+                                <i class="bi bi-eye"></i> Xem chi tiết
+                            </button>
+
+                            <button class="btn btn-cancel btn-sm" onclick="cancelOrder(51)">
+                                <i class="bi bi-trash"></i> Huỷ đơn hàng
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <!-- 🔹 CHI TIẾT ĐƠN HÀNG (ẩn mặc định) -->
+            <div id="order-detail" class="order-card" style="display: none;">
+                <button class="back-btn" onclick="showOrderList()">Quay lại danh sách</button>
+                <p class="order-date">Vận chuyển ngày <strong>03 tháng 11 năm 2025</strong></p>
+
+                <div class="order-progress">
+                    <div class="step active">ĐANG XỬ LÝ</div>
+                    <div class="step">ĐANG VẬN CHUYỂN</div>
+                    <div class="step">ĐÃ GIAO</div>
+                </div>
+
+                <div class="order-item">
+                    <img src="../image/content/Flycam%20DJI%20Air%203.png" alt="Flycam DJI Air 3">
+                    <div class="item-info">
+                        <h4>Flycam DJI Air 3</h4>
+                        <p>Số lượng: 1</p>
+                        <p>Giá: <strong>31.000.000 ₫</strong></p>
+                    </div>
+                </div>
+
+                <div class="order-item">
+                    <img src="../image/content/Flycam%20DJl%20Inspire%203.png" alt="Flycam DJl Inspire 3">
+                    <div class="item-info">
+                        <h4>Flycam DJl Inspire 3</h4>
+                        <p>Số lượng: 1</p>
+                        <p>Giá: <strong>39.999.990 ₫</strong></p>
+                    </div>
+                </div>
+
+                <div class="order-summary-box">
+                    <div class="summary-left">
+                        <h4>Địa chỉ giao hàng</h4>
+                        <p><strong>Chí Nguyên</strong></p>
+                        <p>Tòa B, Ký túc xá Khu B</p>
+                        <p>033332234</p>
+                    </div>
+
+                    <div class="summary-right">
+                        <p>Tổng phụ thu: <strong>70.999.990 ₫</strong></p>
+                        <p>Phí vận chuyển: <strong>0 ₫</strong></p>
+                        <hr>
+                        <p><strong>Tổng: 70.999.990 ₫</strong></p>
+                        <p class="payment-note">Thanh toán bằng tiền mặt khi giao hàng</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- === Địa chỉ nhận hàng === -->
+        <section id="addresses-section" class="section">
+            <h2>Địa Chỉ Nhận Hàng</h2>
+            <div class="address-header">
+                <button type="button" id="addAddressBtn">+ Thêm địa chỉ mới</button>
+            </div>
+
+            <div class="address-list" id="addressList"></div>
+
+            <div class="address-form" id="addressForm">
+                <input type="text" id="nameInput" placeholder="Họ và tên người nhận">
+                <input type="text" id="phoneInput" placeholder="Số điện thoại">
+                <input type="text" id="detailAddress" placeholder="Số nhà, tên đường...">
+                <div class="address-select-group">
+                    <select id="province">
+                        <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                    </select>
+                    <select id="ward">
+                        <option value="">-- Chọn Phường/Xã --</option>
+                    </select>
+                </div>
+                <label class="default-check">
+                    <input type="checkbox" id="defaultAddress">
+                    Đặt làm địa chỉ mặc định
+                </label>
+                <div>
+                    <button type="button" class="save-address" id="saveAddressBtn">Lưu</button>
+                    <button type="button" class="cancel-address" id="cancelAddressBtn">Hủy</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Cột 1 -->
+        <div class="footer-column">
+            <h6>SKYDRONE VIỆT NAM</h6>
+            <img src="../image/dronefooter.png" alt="SKYDRONE Logo" class="mascot">
+            <p><strong>Công ty Cổ phần thương mại SKYDrone Việt Nam</strong></p>
+            <p>Địa chỉ: Số 1 Đường Số 1, Phường Linh Xuân, TP Hồ Chí Minh, Việt Nam</p>
+            <p><strong>Hotline:</strong> 0815.000.060</p>
+            <p>ĐKKD số 0108676636 do Sở KH&ĐT TP. Hồ Chí Minh cấp ngày 10/10/2025</p>
+
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+
+        <!-- Cột 2 -->
+        <div class="footer-column">
+            <h6>SẢN PHẨM</h6>
+            <ul>
+                <li><a href="#">Drone quay phim chuyên nghiệp</a></li>
+                <li><a href="#">Drone du lịch / vlog</a></li>
+                <li><a href="#">Drone thể thao tốc độ cao</a></li>
+                <li><a href="#">Drone nông nghiệp</a></li>
+                <li><a href="#">Drone giám sát / an ninh</a></li>
+                <li><a href="#">Drone mini / cở nhỏ</a></li>
+            </ul>
+
+            <h3>TƯ VẤN MUA HÀNG</h3>
+            <div class="hotline">
+                <i class="fa-solid fa-phone"></i>0813.660.666
+            </div>
+        </div>
+
+        <!-- Cột 3 -->
+        <div class="footer-column">
+            <h6>HỆ THỐNG PHÂN PHỐI</h6>
+            <ul>
+                <li><a href="#">SKYDrone Store</a></li>
+                <li><a href="#">Hà Nội</a></li>
+                <li><a href="#">TP. Hồ Chí Minh</a></li>
+                <li><a href="#">Đà Nẵng</a></li>
+                <li><a href="#">Nghệ An</a></li>
+
+            </ul>
+            <section class="payment-methods">
+                <h6>PHƯƠNG THỨC THANH TOÁN</h6>
+                <div class="payment-icons">
+                    <img src="https://tse3.mm.bing.net/th/id/OIP.kklIaX3TV97u5KnjU_Kr4wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="VNPay">
+                </div>
+            </section>
+        </div>
+        <!-- Cột 4 -->
+        <div class="footer-column">
+            <h6>THÔNG TIN VỀ CHÍNH SÁCH</h6>
+            <ul>
+                <li><a href="#">Mua hàng và thanh toán Online</a></li>
+                <li><a href="#">Chính sách giao hàng</a></li>
+                <li><a href="#">Chính sách đổi trả</a></li>
+                <li><a href="#">Tra thông tin bảo hành</a></li>
+                <li><a href="#">Thông tin hoá đơn mua hàng</a></li>
+            </ul>
+
+            <section class="social-connect">
+                <h6>KẾT NỐI VỚI SKYDRONE</h6>
+                <div class="social-icons">
+                    <a href="https://www.youtube.com/@F8VNOfficial"
+                       class="icon youtube" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+                    </a>
+
+                    <a href="https://www.facebook.com/dhkcntt.nlu"
+                       class="icon facebook" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
+                    </a>
+
+                    <a href="https://www.instagram.com/truyenthongchinhphu/"
+                       class="icon instagram" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+                    </a>
+
+                    <a href="https://www.tiktok.com/@nonglam.university"
+                       class="icon tiktok" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
+                    </a>
+
+                    <a href="https://zalo.me/0966089465"
+                       class="icon zalo" target="_blank" rel="noopener noreferrer">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo">
+                    </a>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+        <p>Copyright © 2025 © <strong>SKYDrone Việt Nam</strong></p>
+        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm cấm.</p>
+    </div>
+</footer>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- ====== Script xử lý ====== -->
+<script>
+
+    document.querySelectorAll(".order-tab").forEach(tab => {
+        tab.addEventListener("click", function () {
+
+            // Bỏ active tab
+            document.querySelectorAll(".order-tab").forEach(t => t.classList.remove("active"));
+            this.classList.add("active");
+
+            const status = this.getAttribute("data-status");
+            const rows = document.querySelectorAll("#order-list tbody tr");
+
+            rows.forEach(row => {
+                const cellStatus = row.querySelector("td:nth-child(3)").textContent.trim();
+
+                // Hiện tất cả
+                if (status === "all") {
+                    row.style.display = "";
+                    return;
+                }
+
+                // Mapping từ tab → text trạng thái
+                const mapStatus = {
+                    "cho": "Chờ xác nhận",
+                    "dang-giao": "Đang giao",
+                    "da-giao": "Đã giao",
+                    "da-huy": "Đã huỷ"
+                };
+
+                // Lọc
+                if (cellStatus === mapStatus[status]) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+    });
+
+    // === Chuyển tab ===
+    const menuItems = document.querySelectorAll(".menu li");
+    const sections = document.querySelectorAll(".section");
+
+    menuItems.forEach(item => {
+        item.addEventListener("click", () => {
+            menuItems.forEach(i => i.classList.remove("active"));
+            item.classList.add("active");
+
+            const sectionId = item.getAttribute("data-section") + "-section";
+            sections.forEach(sec => sec.classList.remove("active"));
+            document.getElementById(sectionId).classList.add("active");
+        });
+    });
+
+    // === Xử lý địa chỉ ===
+    const addBtn = document.getElementById("addAddressBtn");
+    const form = document.getElementById("addressForm");
+    const cancelBtn = document.getElementById("cancelAddressBtn");
+    const saveBtn = document.getElementById("saveAddressBtn");
+    const list = document.getElementById("addressList");
+
+    let addresses = [];
+    let editIndex = null;
+
+    addBtn.addEventListener("click", () => {
+        form.style.display = "block";
+        addBtn.style.display = "none";
+    });
+
+    cancelBtn.addEventListener("click", resetForm);
+
+    saveBtn.addEventListener("click", () => {
+        const name = nameInput.value.trim();
+        const phone = phoneInput.value.trim();
+        const address = addressInput.value.trim();
+
+        if (!name || !phone || !address) return alert("Vui lòng nhập đầy đủ thông tin!");
+
+        if (editIndex !== null) {
+            addresses[editIndex] = { name, phone, address };
+            editIndex = null;
+        } else {
+            addresses.push({ name, phone, address });
+        }
+
+        renderAddresses();
+        resetForm();
+    });
+
+    function renderAddresses() {
+        list.innerHTML = "";
+        addresses.forEach((a, i) => {
+            const div = document.createElement("div");
+            div.className = "address-item";
+            div.innerHTML = `
+                <p><strong>${a.name}</strong> | ${a.phone}</p>
+                <p>${a.address}</p>
+                <div class="address-actions">
+                    <button onclick="editAddress(${i})">Sửa</button>
+                    <button onclick="deleteAddress(${i})">Xóa</button>
+                </div>`;
+            list.appendChild(div);
+        });
+    }
+
+    function editAddress(i) {
+        const a = addresses[i];
+        nameInput.value = a.name;
+        phoneInput.value = a.phone;
+        addressInput.value = a.address;
+        editIndex = i;
+        form.style.display = "block";
+        addBtn.style.display = "none";
+    }
+
+    function deleteAddress(i) {
+        if (confirm("Bạn có chắc muốn xóa địa chỉ này?")) {
+            addresses.splice(i, 1);
+            renderAddresses();
+        }
+    }
+
+    function resetForm() {
+        nameInput.value = phoneInput.value = addressInput.value = "";
+        form.style.display = "none";
+        addBtn.style.display = "inline-block";
+        editIndex = null;
+    }
+
+
+    // === Xử lý đổi mật khẩu có OTP ===
+    let generatedOtp = null;
+    let otpTimeout = null;
+
+    const sendOtpBtn = document.getElementById("sendOtpBtn");
+    const confirmBtn = document.getElementById("confirmChangeBtn");
+
+    sendOtpBtn.addEventListener("click", () => {
+        const current = document.getElementById("currentPassword").value.trim();
+        const newPass = document.getElementById("newPassword").value.trim();
+        const confirm = document.getElementById("confirmPassword").value.trim();
+
+        if (!current || !newPass || !confirm) {
+            alert("Vui lòng nhập đầy đủ thông tin trước khi yêu cầu OTP!");
+            return;
+        }
+
+        if (newPass.length < 6) {
+            alert("Mật khẩu mới phải có ít nhất 6 ký tự!");
+            return;
+        }
+
+        if (newPass !== confirm) {
+            alert("Mật khẩu xác nhận không khớp!");
+            return;
+        }
+
+        const fakeCurrentPassword = "123456"; // Giả lập
+        if (current !== fakeCurrentPassword) {
+            alert("Mật khẩu hiện tại không chính xác!");
+            return;
+        }
+
+        // Giả lập tạo mã OTP
+        generatedOtp = Math.floor(100000 + Math.random() * 900000); // mã 6 chữ số
+        alert(`Mã OTP của bạn là: ${generatedOtp}\n(Trong thực tế sẽ gửi qua email hoặc SMS)`);
+
+        document.querySelector(".otp-group").style.display = "block";
+        sendOtpBtn.style.display = "none";
+        confirmBtn.style.display = "inline-block";
+
+        // Tự động hết hạn OTP sau 2 phút
+        otpTimeout = setTimeout(() => {
+            generatedOtp = null;
+            alert("Mã OTP đã hết hạn. Vui lòng gửi lại.");
+            document.querySelector(".otp-group").style.display = "none";
+            sendOtpBtn.style.display = "inline-block";
+            confirmBtn.style.display = "none";
+        }, 120000); // 2 phút
+    });
+
+    confirmBtn.addEventListener("click", () => {
+        const otpInput = document.getElementById("otpInput").value.trim();
+        const newPass = document.getElementById("newPassword").value.trim();
+
+        if (!otpInput) {
+            alert("Vui lòng nhập mã OTP!");
+            return;
+        }
+
+        if (!generatedOtp) {
+            alert("Mã OTP không hợp lệ hoặc đã hết hạn!");
+            return;
+        }
+
+        if (otpInput != generatedOtp) {
+            alert("Mã OTP không đúng!");
+            return;
+        }
+
+        // Nếu OTP hợp lệ
+        clearTimeout(otpTimeout);
+        alert("Đổi mật khẩu thành công!");
+
+        // Reset form
+        document.getElementById("passwordForm").reset();
+        document.querySelector(".otp-group").style.display = "none";
+        sendOtpBtn.style.display = "inline-block";
+        confirmBtn.style.display = "none";
+        generatedOtp = null;
+    });
+
+
+    function showOrderDetail(id) {
+        document.getElementById("order-list").style.display = "none";
+        document.getElementById("order-detail").style.display = "block";
+        // Nếu có nhiều đơn, có thể load chi tiết khác dựa theo id (sau này fetch API)
+    }
+
+    function cancelOrder(orderId) {
+        if (!confirm("Bạn có chắc muốn huỷ đơn #" + orderId + " không?")) {
+            return;
+        }
+
+        // Xóa dòng khỏi bảng
+        const row = document.querySelector(`button[onclick="cancelOrder(${orderId})"]`).closest("tr");
+        if (row) {
+            row.remove();
+        }
+
+        alert("Đã huỷ đơn hàng #" + orderId);
+    }
+    function showOrderList() {
+        document.getElementById("order-detail").style.display = "none";
+        document.getElementById("order-list").style.display = "block";
+    }
+</script>
+<script>
+    const btnDanhMuc = document.getElementById('btnDanhMuc');
+    const menuLeft = document.getElementById('menuLeft');
+
+    btnDanhMuc.addEventListener('click', () => {
+        menuLeft.classList.toggle('show');
+    });
+
+    // Ẩn menu khi click ra ngoài
+    document.addEventListener('click', (e) => {
+        if (!menuLeft.contains(e.target) && !btnDanhMuc.contains(e.target)) {
+            menuLeft.classList.remove('show');
+        }
+    });
+</script>
+
+
+
+</body>
+</html>
