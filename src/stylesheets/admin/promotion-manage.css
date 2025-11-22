@@ -288,6 +288,9 @@ a {
 #maSanPhamRieng {
     max-width: 400px;
 }
+#maDanhMucRieng {
+    max-width: 400px;
+}
 
 .logout-modal {
     position: fixed;

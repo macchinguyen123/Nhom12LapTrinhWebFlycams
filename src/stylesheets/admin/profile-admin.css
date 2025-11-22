@@ -82,7 +82,7 @@ body {
 a {
     text-decoration: none;
     color: inherit;
-    display: contents;
+
 }
 
 /* === SIDEBAR === */
@@ -232,7 +232,6 @@ a {
     display: flex;
 }
 
-
 /* LOGOUT MODAL */
 .logout-modal {
     position: fixed;
@@ -253,6 +252,7 @@ a {
     border-radius: 12px;
     width: 320px;
     text-align: center;
+    color: black;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
@@ -766,4 +766,20 @@ select#bankName {
 /* Nút Lưu – Hủy gần hơn */
 .bank-info-edit .mt-3.d-flex {
     margin-left: 180px;
+}
+
+.logout-btn {
+    background-color: #facc15;
+    border: none;
+    color: #0f172a;
+    font-size: 18px;
+    padding: 6px 9px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #eab308;
+    transform: scale(1.05);
 }

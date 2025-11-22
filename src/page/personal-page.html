@@ -94,28 +94,28 @@
     <!-- MENU TRÁI ẨN MẶC ĐỊNH -->
     <div class="menu-left-1" id="menuLeft">
         <ul>
-            <li><a href="danhMuc/Category.html">
+            <li><a href="danhMuc/film-drone.html">
                 <img src="../image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
             </a>
             </li>
 
-            <li><a href="danhMuc/DanhMucDuLich.html">
+            <li><a href="danhMuc/tourism-drone.html">
                 <img src="../image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
             </a>
             </li>
-            <li><a href="danhMuc/DanhMucTheThao.html">
+            <li><a href="danhMuc/sport-drone.html">
                 <img src="../image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
             </a>
             </li>
-            <li><a href="danhMuc/agriDrone.html">
+            <li><a href="danhMuc/agriculture-drone.html">
                 <img src="../image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
             </a>
             </li>
-            <li><a href="danhMuc/DanhMucGiamSat.html">
+            <li><a href="danhMuc/monitor-drone.html">
                 <img src="../image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
             </a>
             </li>
-            <li><a href="danhMuc/DanhMucMini.html">
+            <li><a href="danhMuc/mini-drone.html">
                 <img src="../image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
             </a>
             </li>
@@ -126,9 +126,16 @@
 <div class="container">
     <aside class="sidebar">
         <div class="user-info">
-            <div class="avatar">
-                <img src="../image/logoTCN.png" alt="Avatar của phclhu632">
+            <!-- Avatar -->
+            <div class="avatar-wrapper">
+                <img src="/image/logoTCN.png" alt="Avatar" class="avatar-img">
+                <span class="avatar-camera">
+        <i class="bi bi-camera-fill"></i>
+    </span>
             </div>
+            <input type="file" id="avatar-upload" accept="image/*" hidden>
+
+
             <p class="username">phclhu632</p>
             <a href="#" class="edit-profile">Sửa Hồ Sơ</a>
         </div>
@@ -534,59 +541,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- ====== Script xử lý ====== -->
 <script>
-
-    document.querySelectorAll(".order-tab").forEach(tab => {
-        tab.addEventListener("click", function () {
-
-            // Bỏ active tab
-            document.querySelectorAll(".order-tab").forEach(t => t.classList.remove("active"));
-            this.classList.add("active");
-
-            const status = this.getAttribute("data-status");
-            const rows = document.querySelectorAll("#order-list tbody tr");
-
-            rows.forEach(row => {
-                const cellStatus = row.querySelector("td:nth-child(3)").textContent.trim();
-
-                // Hiện tất cả
-                if (status === "all") {
-                    row.style.display = "";
-                    return;
-                }
-
-                // Mapping từ tab → text trạng thái
-                const mapStatus = {
-                    "cho": "Chờ xác nhận",
-                    "dang-giao": "Đang giao",
-                    "da-giao": "Đã giao",
-                    "da-huy": "Đã huỷ"
-                };
-
-                // Lọc
-                if (cellStatus === mapStatus[status]) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
-                }
-            });
-        });
-    });
-
-    // === Chuyển tab ===
-    const menuItems = document.querySelectorAll(".menu li");
-    const sections = document.querySelectorAll(".section");
-
-    menuItems.forEach(item => {
-        item.addEventListener("click", () => {
-            menuItems.forEach(i => i.classList.remove("active"));
-            item.classList.add("active");
-
-            const sectionId = item.getAttribute("data-section") + "-section";
-            sections.forEach(sec => sec.classList.remove("active"));
-            document.getElementById(sectionId).classList.add("active");
-        });
-    });
-
     // === Xử lý địa chỉ ===
     const addBtn = document.getElementById("addAddressBtn");
     const form = document.getElementById("addressForm");
@@ -594,196 +548,149 @@
     const saveBtn = document.getElementById("saveAddressBtn");
     const list = document.getElementById("addressList");
 
+    const nameInput = document.getElementById("nameInput");
+    const phoneInput = document.getElementById("phoneInput");
+    const detailAddress = document.getElementById("detailAddress");
+    const provinceSelect = document.getElementById("province");
+    const wardSelect = document.getElementById("ward");
+    const defaultAddress = document.getElementById("defaultAddress");
+
     let addresses = [];
     let editIndex = null;
 
+    // Mở form
     addBtn.addEventListener("click", () => {
         form.style.display = "block";
         addBtn.style.display = "none";
     });
 
+    // Hủy form
     cancelBtn.addEventListener("click", resetForm);
 
+    // Lưu địa chỉ
     saveBtn.addEventListener("click", () => {
         const name = nameInput.value.trim();
         const phone = phoneInput.value.trim();
-        const address = addressInput.value.trim();
+        const addr = detailAddress.value.trim();
+        const province = provinceSelect.value;
+        const ward = wardSelect.value;
+        const isDefault = defaultAddress.checked;
 
-        if (!name || !phone || !address) return alert("Vui lòng nhập đầy đủ thông tin!");
+        if (!name || !phone || !addr || !province || !ward) {
+            alert("Vui lòng nhập đầy đủ thông tin!");
+            return;
+        }
+
+        const fullAddress = `${addr}, ${ward}, ${province}`;
+
+        const data = {
+            name,
+            phone,
+            fullAddress,
+            isDefault
+        };
+
+        // Nếu đặt làm mặc định → bỏ mặc định ở các địa chỉ khác
+        if (isDefault) {
+            addresses.forEach(a => a.isDefault = false);
+        }
 
         if (editIndex !== null) {
-            addresses[editIndex] = { name, phone, address };
-            editIndex = null;
+            addresses[editIndex] = data;
         } else {
-            addresses.push({ name, phone, address });
+            addresses.push(data);
         }
 
         renderAddresses();
         resetForm();
     });
 
+    // Render danh sách địa chỉ
     function renderAddresses() {
         list.innerHTML = "";
-        addresses.forEach((a, i) => {
+
+        if (addresses.length === 0) {
+            list.innerHTML = "<p>Chưa có địa chỉ nào.</p>";
+            return;
+        }
+
+        addresses.forEach((item, index) => {
             const div = document.createElement("div");
-            div.className = "address-item";
+            div.classList.add("address-item");
             div.innerHTML = `
-                <p><strong>${a.name}</strong> | ${a.phone}</p>
-                <p>${a.address}</p>
-                <div class="address-actions">
-                    <button onclick="editAddress(${i})">Sửa</button>
-                    <button onclick="deleteAddress(${i})">Xóa</button>
-                </div>`;
+            <p><strong>${item.name}</strong> (${item.phone})</p>
+            <p>${item.fullAddress}</p>
+            ${item.isDefault ? `<span class="default-tag">Mặc định</span>` : ""}
+            <div class="address-actions">
+                <button onclick="editAddress(${index})">Sửa</button>
+                <button onclick="deleteAddress(${index})">Xóa</button>
+            </div>
+        `;
             list.appendChild(div);
         });
     }
 
-    function editAddress(i) {
-        const a = addresses[i];
-        nameInput.value = a.name;
-        phoneInput.value = a.phone;
-        addressInput.value = a.address;
-        editIndex = i;
+    // Sửa địa chỉ
+    function editAddress(index) {
+        const item = addresses[index];
+        editIndex = index;
+
+        nameInput.value = item.name;
+        phoneInput.value = item.phone;
+        detailAddress.value = item.fullAddress.split(",")[0].trim();
+        defaultAddress.checked = item.isDefault;
+
         form.style.display = "block";
         addBtn.style.display = "none";
     }
 
-    function deleteAddress(i) {
+    // Xóa địa chỉ
+    function deleteAddress(index) {
         if (confirm("Bạn có chắc muốn xóa địa chỉ này?")) {
-            addresses.splice(i, 1);
+            addresses.splice(index, 1);
             renderAddresses();
         }
     }
 
+    // Reset form
     function resetForm() {
-        nameInput.value = phoneInput.value = addressInput.value = "";
         form.style.display = "none";
-        addBtn.style.display = "inline-block";
+        addBtn.style.display = "block";
+
+        nameInput.value = "";
+        phoneInput.value = "";
+        detailAddress.value = "";
+        provinceSelect.value = "";
+        wardSelect.value = "";
+        defaultAddress.checked = false;
+
         editIndex = null;
     }
+    // =============================
+    // UPLOAD ẢNH AVATAR
+    // =============================
+    const avatarWrapper = document.querySelector(".avatar-wrapper");
+    const avatarUpload = document.getElementById("avatar-upload");
+    const avatarImg = document.querySelector(".avatar-img");
 
-
-    // === Xử lý đổi mật khẩu có OTP ===
-    let generatedOtp = null;
-    let otpTimeout = null;
-
-    const sendOtpBtn = document.getElementById("sendOtpBtn");
-    const confirmBtn = document.getElementById("confirmChangeBtn");
-
-    sendOtpBtn.addEventListener("click", () => {
-        const current = document.getElementById("currentPassword").value.trim();
-        const newPass = document.getElementById("newPassword").value.trim();
-        const confirm = document.getElementById("confirmPassword").value.trim();
-
-        if (!current || !newPass || !confirm) {
-            alert("Vui lòng nhập đầy đủ thông tin trước khi yêu cầu OTP!");
-            return;
-        }
-
-        if (newPass.length < 6) {
-            alert("Mật khẩu mới phải có ít nhất 6 ký tự!");
-            return;
-        }
-
-        if (newPass !== confirm) {
-            alert("Mật khẩu xác nhận không khớp!");
-            return;
-        }
-
-        const fakeCurrentPassword = "123456"; // Giả lập
-        if (current !== fakeCurrentPassword) {
-            alert("Mật khẩu hiện tại không chính xác!");
-            return;
-        }
-
-        // Giả lập tạo mã OTP
-        generatedOtp = Math.floor(100000 + Math.random() * 900000); // mã 6 chữ số
-        alert(`Mã OTP của bạn là: ${generatedOtp}\n(Trong thực tế sẽ gửi qua email hoặc SMS)`);
-
-        document.querySelector(".otp-group").style.display = "block";
-        sendOtpBtn.style.display = "none";
-        confirmBtn.style.display = "inline-block";
-
-        // Tự động hết hạn OTP sau 2 phút
-        otpTimeout = setTimeout(() => {
-            generatedOtp = null;
-            alert("Mã OTP đã hết hạn. Vui lòng gửi lại.");
-            document.querySelector(".otp-group").style.display = "none";
-            sendOtpBtn.style.display = "inline-block";
-            confirmBtn.style.display = "none";
-        }, 120000); // 2 phút
+    // Khi bấm vào icon camera => mở chọn file
+    avatarWrapper.addEventListener("click", () => {
+        avatarUpload.click();
     });
 
-    confirmBtn.addEventListener("click", () => {
-        const otpInput = document.getElementById("otpInput").value.trim();
-        const newPass = document.getElementById("newPassword").value.trim();
+    // Hiển thị avatar preview sau khi chọn ảnh
+    avatarUpload.addEventListener("change", function () {
+        const file = this.files[0];
+        if (!file) return;
 
-        if (!otpInput) {
-            alert("Vui lòng nhập mã OTP!");
-            return;
-        }
-
-        if (!generatedOtp) {
-            alert("Mã OTP không hợp lệ hoặc đã hết hạn!");
-            return;
-        }
-
-        if (otpInput != generatedOtp) {
-            alert("Mã OTP không đúng!");
-            return;
-        }
-
-        // Nếu OTP hợp lệ
-        clearTimeout(otpTimeout);
-        alert("Đổi mật khẩu thành công!");
-
-        // Reset form
-        document.getElementById("passwordForm").reset();
-        document.querySelector(".otp-group").style.display = "none";
-        sendOtpBtn.style.display = "inline-block";
-        confirmBtn.style.display = "none";
-        generatedOtp = null;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            avatarImg.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
     });
 
 
-    function showOrderDetail(id) {
-        document.getElementById("order-list").style.display = "none";
-        document.getElementById("order-detail").style.display = "block";
-        // Nếu có nhiều đơn, có thể load chi tiết khác dựa theo id (sau này fetch API)
-    }
-
-    function cancelOrder(orderId) {
-        if (!confirm("Bạn có chắc muốn huỷ đơn #" + orderId + " không?")) {
-            return;
-        }
-
-        // Xóa dòng khỏi bảng
-        const row = document.querySelector(`button[onclick="cancelOrder(${orderId})"]`).closest("tr");
-        if (row) {
-            row.remove();
-        }
-
-        alert("Đã huỷ đơn hàng #" + orderId);
-    }
-    function showOrderList() {
-        document.getElementById("order-detail").style.display = "none";
-        document.getElementById("order-list").style.display = "block";
-    }
-</script>
-<script>
-    const btnDanhMuc = document.getElementById('btnDanhMuc');
-    const menuLeft = document.getElementById('menuLeft');
-
-    btnDanhMuc.addEventListener('click', () => {
-        menuLeft.classList.toggle('show');
-    });
-
-    // Ẩn menu khi click ra ngoài
-    document.addEventListener('click', (e) => {
-        if (!menuLeft.contains(e.target) && !btnDanhMuc.contains(e.target)) {
-            menuLeft.classList.remove('show');
-        }
-    });
 </script>
 
 
