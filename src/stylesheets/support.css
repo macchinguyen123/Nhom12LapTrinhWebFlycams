@@ -80,3 +80,13 @@ body {
 .hotro-btn:hover {
     background: #084298;
 }
+.map-section h2 {
+    font-size: 28px;
+    color: #0d6efd;
+}
+
+.map-section p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
