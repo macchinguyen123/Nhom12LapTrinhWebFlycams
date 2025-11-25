@@ -878,4 +878,19 @@ a {
     border-radius: 6px;      /* bo góc */
     display: inline-block;
 }
+.tim-yeu-thich {
+    font-size: 1.5rem;       /* giữ size cố định */
+    width: 1.5rem;           /* cố định chiều ngang */
+    height: 1.5rem;          /* cố định chiều cao */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s;  /* đổi màu mượt */
+    cursor: pointer;
+}
+
+.tim-yeu-thich.liked {
+    color: red;
+}
+
 
