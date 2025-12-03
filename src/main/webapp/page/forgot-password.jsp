@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang tạo mật khẩu mới</title>
+    <link rel="stylesheet" href="../stylesheets/forgot-pasword.css">
+
+
+</head>
+<body>
+
+<div class="khung">
+    <img src="../image/logoo.png" alt="SKYDRONE Logo" class="mascot">
+
+    <h1>Tạo mật khẩu mới</h1>
+
+    <p class="huong_dan">
+        Hãy nhập email của bạn vào bên dưới để bắt đầu quá trình khôi phục mật khẩu.
+    </p>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="Nhập email">
+
+
+    <div class="nut_nhom">
+        <a href="login.jsp" class="nut nut_quay_lai">⬅ Quay lại đăng nhập</a>
+        <a href="otp.jsp" class="nut nut_tiep_tuc">Tiếp tục</a>
+    </div>
+</div>
+</body>
+</html>

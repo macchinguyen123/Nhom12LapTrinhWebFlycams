@@ -1,0 +1,344 @@
+body {
+    font-family: "Poppins", "Segoe UI", sans-serif;
+    background-color: #fff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* === Sản phẩm nổi bật === */
+.phan-san-pham {
+    color: white;
+    background-color: #0051c6;
+    width: 80%;
+    margin: 0 auto; /* căn giữa phần đỏ */
+    padding: 20px 1%;
+    border-radius: 10px;
+}
+
+.phan-san-pham-noi-bat {
+    color: #000000;
+    background-color: #ffffff;
+    width: 80%;
+    margin: 0 auto; /* căn giữa phần đỏ */
+    padding: 20px 0%;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.phan-san-pham-noi-bat h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+
+.khung-san-pham {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 sản phẩm / hàng */
+    gap: 25px 15px; /* giảm nhẹ khoảng cách cho vừa khung */
+    justify-items: center;
+    margin-top: 15px;
+}
+
+
+.san-pham {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 270px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: transform 0.3s, box-shadow 0.3s;
+
+}
+
+.san-pham:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.san-pham img {
+    width: 100%;
+    height: 70%;
+    display: block;
+    object-fit: cover;
+    border-radius: 20px 20px 0 0;
+}
+
+
+/* --- Căn trái nội dung --- */
+.ten-san-pham {
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111;
+    margin: 6px 0;
+    min-height: 48px; /* 👈 chỉnh theo độ cao mong muốn */
+    display: flex;
+    align-items: flex-start; /* căn đều từ trên xuống */
+}
+
+/* --- Giá chính --- */
+.gia {
+    color: red;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 4px 0;
+    text-align: left;
+    line-height: 1.2;
+}
+
+/* --- Giá gốc xuống dòng, nhỏ hơn và xám --- */
+.gia-goc {
+    display: block; /* 🔹 xuống dòng */
+    color: #888;
+    font-size: 0.9rem;
+    text-decoration: line-through;
+    margin-top: 2px;
+    font-weight: normal;
+}
+
+/* --- Sao vàng --- */
+.danh-gia-sao {
+    color: #ffb400;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    line-height: 1.2;
+
+}
+
+.hang-danh-gia {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    line-height: 1.0;
+}
+
+
+/* --- Trái tim --- */
+.tim-yeu-thich {
+    font-size: 1.3rem;
+    color: #bbb;
+    cursor: pointer;
+    transition: color 0.3s;
+    margin-right: 20px;
+    font-size: 1rem;
+}
+
+.tim-yeu-thich.yeu-thich {
+    color: #ff4d4d;
+}
+
+.so-danh-gia {
+    font-size: 0.85rem;
+    color: #777;
+    margin: 4px 0 10px 8px;
+    margin-left: 15px;
+}
+
+/* --- Nút mua ngay --- */
+.nut-mua-ngay {
+    background-color: #0051c6;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: auto; /* luôn đẩy nút xuống đáy */
+    margin-bottom: 10px; /* nhích lên khỏi mép dưới một chút */
+    align-self: center;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.nut-mua-ngay:hover {
+    background-color: #003c94;
+    transform: scale(1.05);
+}
+
+/* === Tiêu đề chung === */
+.tieu-de-muc {
+    font-size: 1.8rem;
+    position: relative;
+    display: inline-block;
+}
+
+.tieu-de-muc::after {
+    content: "";
+    display: block;
+    width: 50%;
+    height: 3px;
+    background-color: #ffffff;
+    margin: 2px auto 0;
+}
+
+/* --- Căn lề trái gọn gàng --- */
+.ten-san-pham,
+.gia,
+.danh-gia-sao {
+    text-align: left;
+    margin-left: 15px; /*không dính mép */
+    margin-right: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    display: contents;
+}
+
+.banner {
+    width: 80%;
+    height: 120px;
+    margin: 0 auto; /* căn giữa ngang */
+    overflow: hidden;
+    border-radius: 25px;
+}
+
+.banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 6px;
+}
+
+/* === BÀI VIẾT CÙNG CHỦ ĐỀ === */
+.related-articles {
+    margin: 50px auto; /* canh giữa */
+    /*padding: 20px;*/
+    background-color: #fff;
+    width: 80vw; /* 80% toàn màn hình */
+    max-width: 1200px; /* giới hạn nếu cần */
+    border-radius: 10px; /* thêm viền mềm mại hơn nếu muốn */
+}
+
+
+.related-articles h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+}
+
+.related-item {
+    background: #f8f9fa;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.related-item img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+}
+
+.related-item p {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1a1a1a;
+    padding: 10px;
+    text-align: center;
+    margin: 0;
+}
+
+.related-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* ==== SLIDER 2 KÍCH THƯỚC MỚI ==== */
+.slider-2 {
+    width: 80%; /* Rộng 80% màn hình */
+    height: 400px; /* Tăng chiều cao */
+    margin: 0px auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+/* Bọc ảnh */
+.slider-2-inner {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+/* Ảnh luôn vừa khung, không méo */
+.slider-2 .slide {
+    min-width: 100%;
+    height: 100%;
+}
+
+.slider-2 .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Fill đầy slider */
+}
+
+/* Mũi tên */
+.slider-2-left,
+.slider-2-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 40px;
+    cursor: pointer;
+    padding: 10px;
+    color: white;
+    text-shadow: 0 0 6px black;
+}
+
+.slider-2-left {
+    left: 15px;
+}
+
+.slider-2-right {
+    right: 15px;
+}
+
+/* Dots */
+.slider-2-dots {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.slider-2-dots span {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin: 4px;
+    background: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.slider-2-dots .active {
+    background: #555;
+}
+
+.banner-right video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}

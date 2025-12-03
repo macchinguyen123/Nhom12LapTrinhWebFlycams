@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nhập mã OTP</title>
+    <link rel="stylesheet" href="../stylesheets/otp.css">
+
+</head>
+<body>
+
+<div class="khung">
+    <img src="../image/logoo.png" alt="SKYDRONE Logo" class="mascot">
+
+    <h1>Tạo mật khẩu mới</h1>
+    <p class="huong_dan">
+        Vui lòng nhập mã OTP vừa được gửi qua email của bạn<br>
+    </p>
+
+    <div class="otp_khung">
+        <input type="text" maxlength="1" class="otp-nhap">
+        <input type="text" maxlength="1" class="otp-nhap">
+        <input type="text" maxlength="1" class="otp-nhap">
+        <input type="text" maxlength="1" class="otp-nhap">
+    </div>
+
+    <div class="nut_nhom">
+        <a href="forgot-password.jsp" class="nut nut_quay_lai">⬅ Quay lại</a>
+        <a href="create-new-password.jsp" class="nut nut_xac_nhan">Xác nhận</a>
+    </div>
+</div>
+
+
+</body>
+</html>
