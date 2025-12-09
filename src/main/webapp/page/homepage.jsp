@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,11 +12,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../stylesheets/header.css">
-    <link rel="stylesheet" href="../stylesheets/category-homepage.css">
-    <link rel="stylesheet" href="../stylesheets/homepage.css">
-    <link rel="stylesheet" href="../stylesheets/footer.css">
-    <link rel="stylesheet" href="../stylesheets/product-homepage.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/category-homepage.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/homepage.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/footer.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/product-homepage.css">
 </head>
 <body>
 

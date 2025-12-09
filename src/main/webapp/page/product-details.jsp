@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +12,7 @@
     <!-- Thêm link Bootstrap Icons (nếu chưa có trong <head>) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <!-- CSS riêng -->
-    <link rel="stylesheet" href="../stylesheets/product-details.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}../stylesheets/product-details.css">
     <link rel="stylesheet" href="../stylesheets/header.css">
     <link rel="stylesheet" href="../stylesheets/footer.css">
 </head>
