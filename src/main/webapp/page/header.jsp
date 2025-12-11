@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +20,7 @@
     <div class="header-wrapper">
         <header class="top-header">
             <!-- LOGO -->
-            <a href="header.html">
+            <a href="homepage.jsp">
                 <div class="logo">
                     <img src="../image/logoo2.png" alt="Logo">
                     <h2>SkyDrone</h2>
@@ -26,17 +28,18 @@
             </a>
 
             <!-- THANH TÌM KIẾM -->
-            <div class="search-bar position-relative">
-                <i class="bi bi-search"></i>
+            <a href="searching.jsp">
+                <div class="search-bar position-relative">
+                    <i class="bi bi-search"></i>
+                    <input id="searchInput" type="text" placeholder="Tìm kiếm drone, flycam..."
+                           autocomplete="off">
 
-                <input id="searchInput" type="text" placeholder="Tìm kiếm drone, phụ kiện, linh kiện..."
-                       autocomplete="off">
-
-                <!-- Danh sách gợi ý xổ xuống -->
-                <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
-                    style="top: 100%; left: 0; z-index: 1000; display: none;">
-                </ul>
-            </div>
+                    <!-- Danh sách gợi ý xổ xuống -->
+                    <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
+                        style="top: 100%; left: 0; z-index: 1000; display: none;">
+                    </ul>
+                </div>
+            </a>
 
 
             <!-- HÀNH ĐỘNG HEADER -->
@@ -55,8 +58,8 @@
                     </div>
                 </a>
 
-                <a href="personal-page.jsp">
-                    <div class="icon-btn" title="Tài khoản">
+                <a href="personal-page.html">
+                    <div class="icon-btn active" title="Tài khoản">
                         <i class="bi bi-person-circle"></i>
                         <span>Tài khoản</span>
                     </div>
@@ -71,7 +74,7 @@
     <div class="header-wrapper">
         <nav class="main-nav">
             <a href="homepage.jsp">
-                <button class="nav-item active"><i class="bi bi-house-door"></i>Trang chủ</button>
+                <button class="nav-item"><i class="bi bi-house-door"></i>Trang chủ</button>
             </a>
             <button class="nav-item" id="btnDanhMuc">
                 <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
@@ -93,18 +96,36 @@
             </a>
         </nav>
     </div>
-</div>
-<!-- MENU TRÁI ẨN MẶC ĐỊNH -->
-<div class="menu-left-1" id="menuLeft">
-    <ul>
-        <li><img src="../image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
-        </li>
-        <li><img src="../image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog</li>
-        <li><img src="../image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao</li>
-        <li><img src="../image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp</li>
-        <li><img src="../image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh</li>
-        <li><img src="../image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ</li>
-    </ul>
+    <!-- MENU TRÁI ẨN MẶC ĐỊNH -->
+    <div class="menu-left-1" id="menuLeft">
+        <ul>
+            <li><a href="category/film-drone.jsp">
+                <img src="../image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
+            </a>
+            </li>
+
+            <li><a href="category/tourism-drone.jsp">
+                <img src="../image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
+            </a>
+            </li>
+            <li><a href="category/sport-drone.jsp">
+                <img src="../image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
+            </a>
+            </li>
+            <li><a href="category/agriculture-drone.jsp">
+                <img src="../image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
+            </a>
+            </li>
+            <li><a href="category/monitor-drone.jsp">
+                <img src="../image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
+            </a>
+            </li>
+            <li><a href="category/mini-drone.jsp">
+                <img src="../image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
+            </a>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <!-- Bootstrap JS -->

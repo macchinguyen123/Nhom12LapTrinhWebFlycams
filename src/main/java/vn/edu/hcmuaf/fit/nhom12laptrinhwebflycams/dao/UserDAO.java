@@ -38,5 +38,29 @@ public class UserDAO {
 
         return null;
     }
+    public boolean insertUser(User user) {
+        String sql = "INSERT INTO users (roleId, fullName, birthDate, email, username, password, phoneNumber, status, createdAt, updatedAt)\n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())\n";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, user.getRoleId());
+            ps.setString(2, user.getFullName());
+            ps.setDate(3, new java.sql.Date(user.getBirthDate().getTime()));
+            ps.setString(4, user.getEmail());
+            ps.setString(5, user.getUsername());
+            ps.setString(6, user.getPassword());
+            ps.setString(7, user.getPhoneNumber());
+            ps.setBoolean(8, user.isStatus());
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
 }
