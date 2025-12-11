@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +15,7 @@
 <!-- ===== HEADER ===== -->
 <header class="main-header">
     <div class="logo">
-        <img src="/image/logoo2.png" alt="Logo">
+        <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
         <h2>SkyDrone Admin</h2>
     </div>
     <div class="header-right">
@@ -47,7 +49,8 @@
     <!-- === SIDEBAR === -->
     <aside class="sidebar">
         <div class="user-info">
-            <img src="/image/logoTCN.png" alt="Avatar">
+            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+
             <h3>Mạc Nguyên</h3>
             <p>Chào mừng bạn trở lại 👋</p>
         </div>
@@ -304,72 +307,77 @@
     </div>
 </div>
 
-<!-- ===== THÊM CÁC THƯ VIỆN CẦN THIẾT ===== -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Thêm CSS & JS DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    $(document).ready(function () {
 
-        // --- TÌM KIẾM KHÔNG DÙNG DATATABLE ---
-        const searchInput = document.getElementById("searchInput");
-        const table = document.getElementById("tableDonHang");
-        const rows = table.getElementsByTagName("tr");
-
-        searchInput.addEventListener("keyup", function () {
-            let keyword = this.value.toLowerCase();
-
-            // Bắt đầu từ i = 1 để bỏ dòng <thead>
-            for (let i = 1; i < rows.length; i++) {
-                let rowText = rows[i].innerText.toLowerCase();
-
-                if (rowText.includes(keyword)) {
-                    rows[i].style.display = "";
-                } else {
-                    rows[i].style.display = "none";
-                }
-            }
+        // --- KHỞI TẠO DATATABLE ---
+        var table = $('#tableDonHang').DataTable({
+            paging: true,
+            info: false,
+            lengthChange: false,
+            searching: true,  // bật search
+            pageLength: 10,
+            language: {
+                zeroRecords: "Không tìm thấy kết quả",
+                paginate: { previous: "Trước", next: "Sau" }
+            },
+            dom: 't', // ẩn search box, pagination mặc định, chỉ hiển thị table
         });
 
+        // --- CẬP NHẬT THÔNG TIN TRANG ---
+        function updatePageInfo() {
+            var info = table.page.info();
+            $("#pageInfo").text((info.page + 1) + " / " + info.pages);
+        }
+        updatePageInfo();
 
-        // --- MỞ / ĐÓNG SUBMENU ---
-        document.querySelectorAll('.has-submenu .menu-item').forEach(item => {
-            item.addEventListener('click', () => {
-                item.parentElement.classList.toggle('open');
-            });
+        // --- NÚT TRƯỚC ---
+        $("#prevPage").click(function () {
+            table.page('previous').draw('page');
+            updatePageInfo();
         });
 
-
-        // --- POPUP ĐĂNG XUẤT ---
-        const logoutBtn = document.getElementById("logoutBtn");
-        const logoutModal = document.getElementById("logoutModal");
-        const cancelLogout = document.getElementById("cancelLogout");
-
-        logoutBtn.addEventListener("click", () => {
-            logoutModal.style.display = "flex";
+        // --- NÚT SAU ---
+        $("#nextPage").click(function () {
+            table.page('next').draw('page');
+            updatePageInfo();
         });
 
-        cancelLogout.addEventListener("click", () => {
-            logoutModal.style.display = "none";
+        // --- THANH TÌM KIẾM NGOÀI ---
+        $("#searchInput").on("keyup", function () {
+            let value = $(this).val();
+            table.search(value).draw();
+            updatePageInfo();
         });
 
+        // --- COMBO SỐ HÀNG HIỂN THỊ ---
+        $("#rowsPerPage").change(function () {
+            var value = $(this).val();
+            table.page.len(value).draw();
+            updatePageInfo();
+        });
+
+        // --- CẬP NHẬT TRANG KHI DRAW DATATABLE ---
+        table.on('draw', function () {
+            updatePageInfo();
+        });
+
+        // ======= LOGOUT =======
+        $("#logoutBtn").on("click", function () {
+            $("#logoutModal").css("display", "flex");
+        });
+
+        $("#cancelLogout").on("click", function () {
+            $("#logoutModal").hide();
+        });
     });
 </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const logoutBtn = document.getElementById("logoutBtn");
-        const logoutModal = document.getElementById("logoutModal");
-        const cancelLogout = document.getElementById("cancelLogout");
 
-        // Mở popup
-        logoutBtn.addEventListener("click", function () {
-            logoutModal.style.display = "flex";
-        });
-
-        // Đóng popup
-        cancelLogout.addEventListener("click", function () {
-            logoutModal.style.display = "none";
-        });
-    });
-</script>
 </body>
 </html>

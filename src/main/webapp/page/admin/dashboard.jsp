@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +9,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Bootstrap Bundle (gồm cả Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery (BẮT BUỘC TRƯỚC) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
     <link rel="stylesheet" href="../../stylesheets/admin/dashboard.css">
 </head>
 <body>
@@ -14,7 +22,7 @@
 <!-- ===== HEADER ===== -->
 <header class="main-header">
     <div class="logo">
-        <img src="/image/logoo2.png" alt="Logo">
+        <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
         <h2>SkyDrone Admin</h2>
     </div>
     <div class="header-right">
@@ -48,7 +56,8 @@
     <!-- === SIDEBAR === -->
     <aside class="sidebar">
         <div class="user-info">
-            <img src="/image/logoTCN.png" alt="Avatar">
+            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+
             <h3>Mạc Nguyên</h3>
             <p>Chào mừng bạn trở lại 👋</p>
         </div>
@@ -232,6 +241,51 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // --- DataTable cho khách hàng mới ---
+        let customerTable = $('#customerTable').DataTable({
+            paging: true,        // Phân trang
+            pageLength: 5,       // Số dòng mỗi trang
+            lengthChange: false, // Ẩn select số lượng
+            searching: true,     // Bật tìm kiếm
+            ordering: true,      // Cho phép sắp xếp
+            info: false,         // Ẩn thông tin số trang
+            language: {
+                search: "Tìm kiếm:",
+                zeroRecords: "Không tìm thấy kết quả",
+                paginate: {
+                    previous: "Trước",
+                    next: "Sau"
+                }
+            },
+            columnDefs: [
+                { orderable: false, targets: [] } // Không vô hiệu hóa cột nào
+            ]
+        });
+
+        // --- DataTable cho trạng thái đơn hàng ---
+        let orderTable = $('#orderTable').DataTable({
+            paging: true,
+            pageLength: 5,
+            lengthChange: false,
+            searching: true,
+            ordering: true,
+            info: false,
+            language: {
+                search: "Tìm kiếm:",
+                zeroRecords: "Không tìm thấy kết quả",
+                paginate: {
+                    previous: "Trước",
+                    next: "Sau"
+                }
+            },
+            columnDefs: [
+                { orderable: false, targets: 2 } // Cột trạng thái không sắp xếp
+            ]
+        });
+    });
+</script>
 
 <script>
     $(document).ready(function () {
@@ -260,6 +314,15 @@
             }
         });
     });
+    // ======= LOGOUT =======
+    $("#logoutBtn").on("click", function () {
+        $("#logoutModal").css("display", "flex");
+    });
+
+    $("#cancelLogout").on("click", function () {
+        $("#logoutModal").hide();
+    });
+
     // Toggle submenu
     document.querySelectorAll('.has-submenu .menu-item').forEach(item => {
         item.addEventListener('click', () => {
@@ -267,23 +330,7 @@
         });
     });
 </script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const logoutBtn = document.getElementById("logoutBtn");
-        const logoutModal = document.getElementById("logoutModal");
-        const cancelLogout = document.getElementById("cancelLogout");
 
-        // Mở popup
-        logoutBtn.addEventListener("click", function () {
-            logoutModal.style.display = "flex";
-        });
-
-        // Đóng popup
-        cancelLogout.addEventListener("click", function () {
-            logoutModal.style.display = "none";
-        });
-    });
-</script>
 </body>
 
 </html>

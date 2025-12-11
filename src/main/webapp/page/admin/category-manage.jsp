@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,18 +7,32 @@
     <title>Trang Quản Lý Danh Mục - SkyDrone</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Bootstrap Bundle (gồm cả Popper) -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../../stylesheets/admin/category-manage.css">
+
+    <style>
+        .dataTables_paginate,
+        .dataTables_filter,
+        .dataTables_length,
+        .dataTables_info {
+            display: none !important;
+        }
+    </style>
 </head>
+
 <body>
 
 <!-- ===== HEADER ===== -->
 <header class="main-header">
     <div class="logo">
-        <img src="/image/logoo2.png" alt="Logo">
+        <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
         <h2>SkyDrone Admin</h2>
     </div>
     <div class="header-right">
@@ -50,7 +66,7 @@
     <!-- === SIDEBAR === -->
     <aside class="sidebar">
         <div class="user-info">
-            <img src="/image/logoTCN.png" alt="Avatar">
+            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
             <h3>Mạc Nguyên</h3>
             <p>Chào mừng bạn trở lại 👋</p>
         </div>
@@ -66,7 +82,7 @@
                 <a href="product-management.jsp"><i class="bi bi-box-seam"></i> Quản Lý Sản Phẩm</a>
             </li>
             <li class="active">
-                <a href="category-manage.html"><i class="bi bi-tags"></i> Quản Lý Danh Mục</a>
+                <a href="category-manage.jsp"><i class="bi bi-tags"></i> Quản Lý Danh Mục</a>
             </li>
 
             <li class="has-submenu">
@@ -147,10 +163,14 @@
             <tr>
                 <td>DM001</td>
                 <td>Drone quay phim chuyên nghiệp</td>
-                <td><img src="/image/danhmucquayphim.png"
+
+                <td>
+                    <img src="${pageContext.request.contextPath}/image/danhmucquayphim.png"
                          alt="Ảnh danh mục"
                          class="img-thumbnail"
-                         style="width: 60px; height: 60px; object-fit: cover;"></td> <!-- CHỈ TÊN FILE -->
+                         style="width: 60px; height: 60px; object-fit: cover;">
+                </td>
+
                 <td><span class="badge bg-success">Hiện</span></td>
                 <td>12</td>
                 <td>
@@ -159,13 +179,18 @@
                 </td>
             </tr>
 
+
             <tr>
                 <td>DM002</td>
                 <td>Drone du lịch / vlog</td>
-                <td><img src="/image/dulich.png"
+
+                <td>
+                    <img src="${pageContext.request.contextPath}/image/dulich.png"
                          alt="Ảnh danh mục"
                          class="img-thumbnail"
-                         style="width: 60px; height: 60px; object-fit: cover;"></td>
+                         style="width: 60px; height: 60px; object-fit: cover;">
+                </td>
+
                 <td><span class="badge bg-success">Hiện</span></td>
                 <td>8</td>
                 <td>
@@ -173,13 +198,18 @@
                     <button class="btn btn-danger btn-sm btn-xoa"><i class="bi bi-trash"></i></button>
                 </td>
             </tr>
+
             <tr>
                 <td>DM003</td>
                 <td>Drone thể thao tốc độ cao</td>
-                <td><img src="/image/thethao.png"
+
+                <td>
+                    <img src="${pageContext.request.contextPath}/image/thethao.png"
                          alt="Ảnh danh mục"
                          class="img-thumbnail"
-                         style="width: 60px; height: 60px; object-fit: cover;"></td>
+                         style="width: 60px; height: 60px; object-fit: cover;">
+                </td>
+
                 <td><span class="badge bg-success">Hiện</span></td>
                 <td>5</td>
                 <td>
@@ -187,14 +217,18 @@
                     <button class="btn btn-danger btn-sm btn-xoa"><i class="bi bi-trash"></i></button>
                 </td>
             </tr>
+
             <tr>
                 <td>DM004</td>
                 <td>Drone nông nghiệp</td>
-                <td><img src="/image/nongnghiep.png"
+
+                <td>
+                    <img src="${pageContext.request.contextPath}/image/nongnghiep.png"
                          alt="Ảnh danh mục"
                          class="img-thumbnail"
                          style="width: 60px; height: 60px; object-fit: cover;">
                 </td>
+
                 <td><span class="badge bg-secondary">Ẩn</span></td>
                 <td>6</td>
                 <td>
@@ -202,14 +236,18 @@
                     <button class="btn btn-danger btn-sm btn-xoa"><i class="bi bi-trash"></i></button>
                 </td>
             </tr>
+
             <tr>
                 <td>DM005</td>
                 <td>Drone giám sát / an ninh</td>
-                <td><img src="/image/giamsat.png"
+
+                <td>
+                    <img src="${pageContext.request.contextPath}/image/giamsat.png"
                          alt="Ảnh danh mục"
                          class="img-thumbnail"
                          style="width: 60px; height: 60px; object-fit: cover;">
                 </td>
+
                 <td><span class="badge bg-success">Hiện</span></td>
                 <td>4</td>
                 <td>
@@ -217,14 +255,18 @@
                     <button class="btn btn-danger btn-sm btn-xoa"><i class="bi bi-trash"></i></button>
                 </td>
             </tr>
+
             <tr>
                 <td>DM006</td>
                 <td>Drone mini / cỡ nhỏ</td>
-                <td><img src="/image/mini.png"
+
+                <td>
+                    <img src="${pageContext.request.contextPath}/image/mini.png"
                          alt="Ảnh danh mục"
                          class="img-thumbnail"
                          style="width: 60px; height: 60px; object-fit: cover;">
                 </td>
+
                 <td><span class="badge bg-success">Hiện</span></td>
                 <td>10</td>
                 <td>
@@ -232,6 +274,7 @@
                     <button class="btn btn-danger btn-sm btn-xoa"><i class="bi bi-trash"></i></button>
                 </td>
             </tr>
+
             </tbody>
 
         </table>
@@ -290,68 +333,125 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- === SCRIPT === -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    $(document).ready(function () {
 
-        // ================== TÌM KIẾM ==================
-        const searchInput = document.getElementById("search");
-        if (searchInput) {
-            searchInput.addEventListener("keyup", function () {
-                const filter = this.value.toLowerCase();
-                document.querySelectorAll("#tableDanhMuc tbody tr").forEach(row => {
-                    row.style.display = row.innerText.toLowerCase().includes(filter) ? "" : "none";
-                });
-            });
+        // === KHỞI TẠO DATATABLE ===
+        var table = $('#tableDanhMuc').DataTable({
+            paging: true,
+            info: false,
+            lengthChange: false,
+            searching: true,     // Ẩn thanh search mặc định
+            pageLength: 10,
+            language: {
+                zeroRecords: "Không tìm thấy kết quả"
+            }
+        });
+
+        // === CẬP NHẬT HIỂN THỊ TRANG ===
+        function updatePageInfo() {
+            var info = table.page.info();
+            $("#pageInfo").text((info.page + 1) + " / " + info.pages);
         }
+        updatePageInfo();
 
-        // ================== NÚT THÊM MỚI ==================
-        document.querySelector(".btn-success").addEventListener("click", () => {
-            document.querySelector("#modalDanhMuc .modal-title").textContent = "🆕 Thêm Danh Mục";
-            document.querySelector("#formDanhMuc").reset();
+
+        // === NÚT TRƯỚC ===
+        $("#prevPage").click(function () {
+            table.page('previous').draw('page');
+            updatePageInfo();
         });
 
-        document.querySelectorAll(".btn-sua").forEach(btn => {
-            btn.addEventListener("click", function () {
-                const row = this.closest("tr");
-
-                document.getElementById("maDM").value = row.children[0].textContent.trim();
-                document.getElementById("tenDM").value = row.children[1].textContent.trim();
-
-                // Lấy trạng thái từ span bên trong
-                const trangThai = row.children[3].querySelector("span").textContent.trim();
-                document.getElementById("trangThaiDM").value = trangThai;
-
-                // Mở modal
-                new bootstrap.Modal(document.getElementById("modalDanhMuc")).show();
-            });
+        // === NÚT SAU ===
+        $("#nextPage").click(function () {
+            table.page('next').draw('page');
+            updatePageInfo();
         });
 
 
-        // ================== NÚT XÓA ==================
-        document.querySelectorAll(".btn-xoa").forEach(btn => {
-            btn.addEventListener("click", function () {
-                if (confirm("Bạn có chắc chắn muốn xóa danh mục này không?")) {
-                    this.closest("tr").remove();
+        $("#searchInput").on("keyup", function () {
+            let value = $(this).val();
+            table.search(value).draw(); // search value
+            updatePageInfo();
+        });
+
+        // ======= LOGOUT =======
+        $("#logoutBtn").on("click", function () {
+            $("#logoutModal").css("display", "flex");
+        });
+
+        $("#cancelLogout").on("click", function () {
+            $("#logoutModal").hide();
+        });
+
+
+        // === COMBO "HIỂN THỊ 5 / 10 / 20 DANH MỤC" ===
+        $("#rowsPerPage").change(function () {
+            var value = $(this).val();
+            table.page.len(value).draw();
+            updatePageInfo();
+        });
+
+
+        // === NÚT DELETE ===
+        $(document).on('click', '.btn-xoa', function (e) {
+            e.preventDefault();
+
+            let row = $(this).closest("tr"); // lưu hàng cần xóa
+
+            Swal.fire({
+                title: "Bạn chắc chắn muốn xóa?",
+                text: "Hành động này không thể hoàn tác!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Xóa",
+                cancelButtonText: "Hủy",
+                confirmButtonColor: "#dc3545",
+                cancelButtonColor: "#6c757d"
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    // Xóa hàng trong DataTable
+                    table.row(row).remove().draw();
+                    updatePageInfo();
+
+                    Swal.fire({
+                        title: "Đã xóa!",
+                        text: "Danh mục đã được xóa.",
+                        icon: "success",
+                        confirmButtonColor: "#0d6efd"
+                    });
                 }
             });
         });
 
-        // ================== MỞ/ĐÓNG SUBMENU ==================
-        document.querySelectorAll('.has-submenu .menu-item').forEach(item => {
-            item.addEventListener('click', () => {
-                item.parentElement.classList.toggle('open');
-            });
-        });
 
-        // ================== POPUP ĐĂNG XUẤT ==================
-        const logoutBtn = document.getElementById("logoutBtn");
-        const logoutModal = document.getElementById("logoutModal");
-        const cancelLogout = document.getElementById("cancelLogout");
 
-        logoutBtn.onclick = () => logoutModal.style.display = "flex";
-        cancelLogout.onclick = () => logoutModal.style.display = "none";
+    });
+
+    // ====== XỬ LÝ NÚT CHỈNH SỬA ======
+    $(document).on("click", ".btn-sua", function () {
+
+        // Lấy hàng chứa nút đang bấm
+        let row = $(this).closest("tr");
+
+        // Lấy dữ liệu từ bảng
+        let maDM = row.find("td:eq(0)").text().trim();
+        let tenDM = row.find("td:eq(1)").text().trim();
+        let trangThai = row.find("td:eq(3)").text().trim();
+
+        // Gán dữ liệu vào modal
+        $("#maDM").val(maDM);
+        $("#tenDM").val(tenDM);
+        $("#trangThaiDM").val(trangThai);
+
+        // Mở modal chỉnh sửa
+        $("#modalDanhMuc").modal("show");
     });
 </script>
+
+
 </body>
 </html>

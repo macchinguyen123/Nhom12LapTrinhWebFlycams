@@ -9,6 +9,10 @@
 body {
     background-color: #ffffff;
 }
+.dataTables_filter,
+.dataTables_paginate {
+    display: none !important;
+}
 
 /* === HEADER === */
 .main-header {

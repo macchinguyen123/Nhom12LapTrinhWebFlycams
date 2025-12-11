@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,13 +8,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../stylesheets/admin/comfirmed-order-manage.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 </head>
 
 <body>
 <!-- ===== HEADER ===== -->
 <header class="main-header">
     <div class="logo">
-        <img src="/image/logoo2.png" alt="Logo">
+        <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
         <h2>SkyDrone Admin</h2>
     </div>
     <div class="header-right">
@@ -46,7 +57,8 @@
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="user-info">
-            <img src="/image/logoTCN.png" alt="Avatar">
+            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+
             <h3>Mạc Nguyên</h3>
             <p>Chào mừng bạn trở lại 👋</p>
         </div>
@@ -75,7 +87,7 @@
                     <a href="uncomfirmed-order-manage.jsp">
                         <li>Chưa Xác Nhận</li>
                     </a>
-                    <a href="comfirmed-order-manage.html">
+                    <a href="comfirmed-order-manage.jsp">
                         <li class="active">Đã Xác Nhận</li>
                     </a>
                 </ul>
@@ -376,81 +388,102 @@
 </div>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    $(document).ready(function () {
+        var table = $('#tblDonHang').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "pageLength": 10,
+            "searching": true,
+            "ordering": true,
+            "info": true,
 
-        const searchInput = document.getElementById("search");
-        const filterButtons = document.querySelectorAll(".filter");
-        const tableBody = document.getElementById("orderTableBody");
+            // ẨN THANH SEARCH MẶC ĐỊNH
+            dom: "tr", // t = table, r = info (ẩn search & paginate mặc định)
 
-        searchInput.addEventListener("keyup", function () {
-            const keyword = this.value.toLowerCase().trim();
-            const rows = tableBody.querySelectorAll("tr");
-
-            rows.forEach(row => {
-                const text = row.innerText.toLowerCase();
-                row.style.display = text.includes(keyword) ? "" : "none";
-            });
+            "language": {
+                "paginate": {"previous": "Trước", "next": "Sau"},
+                "info": "Trang _PAGE_ / _PAGES_",
+                "zeroRecords": "Không tìm thấy dữ liệu"
+            }
         });
 
-        filterButtons.forEach(btn => {
-            btn.addEventListener("click", function () {
 
-                // Active button
-                filterButtons.forEach(b => b.classList.remove("active"));
-                this.classList.add("active");
-
-                const status = this.getAttribute("data-status");
-                const rows = tableBody.querySelectorAll("tr");
-
-                rows.forEach(row => {
-                    const rowStatus = row.querySelector("td:nth-child(6)").innerText.trim();
-
-                    if (status === "all") {
-                        row.style.display = "";
-                    } else {
-                        row.style.display = rowStatus.includes(status) ? "" : "none";
-                    }
-                });
-            });
+        // ======= SEARCH MÀU XANH =======
+        $("#search").on("keyup", function () {
+            table.search(this.value).draw();
         });
 
-        document.querySelectorAll(".view").forEach(btn => {
-            btn.addEventListener("click", function () {
-                const modal = new bootstrap.Modal(document.getElementById("modalDonHang"));
-                modal.show();
-            });
+        // ======= ROW PER PAGE =======
+        $("#rowsPerPage").on("change", function () {
+            table.page.len($(this).val()).draw();
         });
 
-        document.getElementById("formDonHang").addEventListener("submit", function (e) {
+        // ======= FILTER TRẠNG THÁI =======
+        $(".filter").on("click", function () {
+            $(".filter").removeClass("active");
+            $(this).addClass("active");
+
+            const status = $(this).data("status");
+            if (status === "all") table.column(5).search("").draw();
+            else table.column(5).search(status).draw();
+
+            updatePagination();
+        });
+
+        // ======= PAGINATION CUSTOM =======
+        function updateCustomPagination() {
+            var info = table.page.info();
+            $("#pageInfo").text((info.page + 1) + " / " + info.pages);
+
+            // Ẩn nút Trước khi đang ở trang đầu
+            $("#prevPage").prop("disabled", info.page === 0);
+
+            // Ẩn nút Sau khi đang ở trang cuối
+            $("#nextPage").prop("disabled", info.page >= info.pages - 1);
+        }
+
+            // Nút SAU
+        $("#nextPage").on("click", function () {
+            table.page("next").draw("page");
+            updateCustomPagination();
+        });
+
+            // Nút TRƯỚC
+        $("#prevPage").on("click", function () {
+            table.page("previous").draw("page");
+            updateCustomPagination();
+        });
+
+// Cập nhật khi load
+        table.on("draw", updateCustomPagination);
+        updateCustomPagination();
+
+        // ======= MODAL =======
+        $(".view").on("click", function () {
+            new bootstrap.Modal(document.getElementById("modalDonHang")).show();
+        });
+
+        $("#formDonHang").on("submit", function (e) {
             e.preventDefault();
             alert("Lưu thành công (demo)!");
-            const modal = bootstrap.Modal.getInstance(document.getElementById("modalDonHang"));
-            modal.hide();
+            bootstrap.Modal.getInstance(document.getElementById("modalDonHang")).hide();
         });
 
-    });
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const logoutBtn = document.getElementById("logoutBtn");
-        const logoutModal = document.getElementById("logoutModal");
-        const cancelLogout = document.getElementById("cancelLogout");
-
-        // Mở popup
-        logoutBtn.addEventListener("click", function () {
-            logoutModal.style.display = "flex";
+        // ======= LOGOUT =======
+        $("#logoutBtn").on("click", function () {
+            $("#logoutModal").css("display", "flex");
         });
 
-        // Đóng popup
-        cancelLogout.addEventListener("click", function () {
-            logoutModal.style.display = "none";
+        $("#cancelLogout").on("click", function () {
+            $("#logoutModal").hide();
         });
     });
+
+
 </script>
+
 </body>
 </html>
