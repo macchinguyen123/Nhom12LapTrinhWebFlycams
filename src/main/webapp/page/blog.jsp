@@ -1,4 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -127,167 +131,34 @@
     </div>
 </div>
 
+
+
 <section class="blog-section">
     <div class="container">
         <h2 class="section-title">Flycam – Drone</h2>
 
         <div class="post-grid">
-            <!-- Bài 1 -->
+            <c:if test="${empty posts}">
+                <p>Không có bài viết nào.</p>
+            </c:if>
 
-            <article class="post-card">
-                <a href="article.jsp">
+            <c:forEach var="post" items="${posts}">
+                <article class="post-card">
                     <div class="post-thumb">
-                        <img src="../image/blog/img.png" alt="So sánh DJI Air 2 và Air 2S">
+                        <img src="${post.image}" alt="${post.title}">
                     </div>
                     <div class="post-info">
-                        <h3 class="post-title">DJI Air 2 vs Air 2S: So Sánh Toàn Diện 2025</h3>
-                        <p class="post-excerpt">So sánh chi tiết giữa hai dòng drone tầm trung nổi bật của DJI: hiệu
-                            năng, camera và khả năng bay thông minh...</p>
-                        <span class="post-date">08 Th11 2025</span>
+                        <h3 class="post-title">${post.title}</h3>
+                        <p class="post-excerpt">
+                                ${fn:substring(post.content, 0, 120)}...
+                        </p>
+                        <span class="post-date">
+                            <fmt:formatDate value="${post.createdAt}" pattern="dd MMM yyyy"/>
+                        </span>
                     </div>
-                </a>
-            </article>
+                </article>
+            </c:forEach>
 
-            <!-- Bài 2 -->
-            <article class="post-card">
-                <a href="article.jsp">
-                    <div class="post-thumb">
-                        <img src="../image/blog/img_1.png" alt="DJI RC 2">
-                    </div>
-                    <div class="post-info">
-                        <h3 class="post-title">Cách Kết Nối DJI RC 2 Với Drone Nhanh Nhất</h3>
-                        <p class="post-excerpt">DJI RC 2 giúp điều khiển flycam ổn định hơn, mượt hơn — hướng dẫn chi
-                            tiết cách kết nối và tối ưu thao tác...</p>
-                        <span class="post-date">06 Th11 2025</span>
-                    </div>
-                </a>
-            </article>
-
-            <!-- Bài 3 -->
-            <article class="post-card">
-                <a href="article.jsp">
-                    <div class="post-thumb">
-                        <img src="../image/blog/img_2.png" alt="DJI RC 2">
-                    </div>
-                    <div class="post-info">
-                        <h3 class="post-title">Hướng Dẫn Cập Nhật Firmware Cho DJI RC</h3>
-                        <p class="post-excerpt">Cập nhật firmware giúp cải thiện hiệu suất điều khiển, khắc phục lỗi GPS
-                            và tăng khả năng tương thích với drone mới...</p>
-                        <span class="post-date">01 Th11 2025</span>
-                    </div>
-                </a>
-            </article>
-
-            <!-- Bài 4 -->
-            <article class="post-card">
-                <a href="article.jsp">
-                    <div class="post-thumb">
-                        <img src="../image/blog/img_3.png" alt="DJI RC 2">
-                    </div>
-                    <div class="post-info">
-                        <h3 class="post-title">Trải Nghiệm Bay Thực Tế Ảo Với DJI Flight Simulator</h3>
-                        <p class="post-excerpt">Khám phá ứng dụng mô phỏng bay chuyên nghiệp giúp người dùng luyện kỹ
-                            năng điều khiển flycam an toàn và hiệu quả...</p>
-                        <span class="post-date">29 Th10 2025</span>
-                    </div>
-                </a>
-            </article>
-
-            <!-- Bài 5 -->
-            <article class="post-card">
-                <a href="article.jsp">
-                    <div class="post-thumb">
-                        <img src="../image/blog/img_4.png" alt="DJI RC 2">
-                    </div>
-                    <div class="post-info">
-                        <h3 class="post-title">Đánh Giá DJI Mini 4 Pro: Flycam Nhỏ Gọn, Hiệu Năng Lớn</h3>
-                        <p class="post-excerpt">Với trọng lượng chỉ 249g, DJI Mini 4 Pro vẫn sở hữu camera 4K HDR và cảm
-                            biến tránh vật cản 360 độ...</p>
-                        <span class="post-date">25 Th10 2025</span>
-                    </div>
-                </a>
-            </article>
-
-            <!-- Bài 6 -->
-            <article class="post-card">
-                <a href="article.jsp">
-                    <div class="post-thumb">
-                        <img src="../image/blog/img_5.png" alt="DJI RC 2">
-                    </div>
-                    <div class="post-info">
-                        <h3 class="post-title">DJI Motion 3 – Tay Cầm Bay Cảm Ứng Chuyển Động</h3>
-                        <p class="post-excerpt">Thiết kế mới mang lại trải nghiệm bay trực quan – chỉ cần nghiêng tay để
-                            điều khiển hướng drone...</p>
-                        <span class="post-date">22 Th10 2025</span>
-                    </div>
-                </a>
-            </article>
-
-            <!-- Bài 7 -->
-            <article class="post-card">
-                <a href="article.jsp">
-                    <div class="post-thumb">
-                        <img src="../image/blog/img_6.png" alt="DJI RC 2">
-                    </div>
-                    <div class="post-info">
-                        <h3 class="post-title">Cách Bảo Quản Pin Flycam Để Tăng Tuổi Thọ</h3>
-                        <p class="post-excerpt">Pin là bộ phận quan trọng của drone – hướng dẫn cách sạc, xả và lưu trữ
-                            đúng cách để tránh chai pin nhanh...</p>
-                        <span class="post-date">18 Th10 2025</span>
-                    </div>
-                </a>
-            </article>
-
-            <!-- Bài 8 -->
-            <article class="post-card">
-                <a href="article.jsp">
-                    <div class="post-thumb">
-                        <img src="../image/blog/img_7.png" alt="DJI RC 2">
-                    </div>
-                    <div class="post-info">
-                        <h3 class="post-title">Top 5 Mẫu Flycam Chống Gió Tốt Nhất Năm 2025</h3>
-                        <p class="post-excerpt">Tổng hợp các dòng drone có khả năng bay ổn định trong điều kiện gió mạnh
-                            – thích hợp quay video du lịch...</p>
-                        <span class="post-date">14 Th10 2025</span>
-                    </div>
-                </a>
-            </article>
-
-            <!-- Bài 9 -->
-            <article class="post-card">
-                <a href="article.jsp">
-                    <div class="post-thumb">
-                        <img src="../image/blog/img_8.png" alt="DJI RC 2">
-                    </div>
-                    <div class="post-info">
-                        <h3 class="post-title">10 Mẹo Quay Video Flycam Đẹp Như Phim Điện Ảnh</h3>
-                        <p class="post-excerpt">Từ cách chọn góc máy, điều chỉnh tốc độ gimbal cho đến hậu kỳ video –
-                            biến footage flycam của bạn thành tác phẩm nghệ thuật...</p>
-                        <span class="post-date">10 Th10 2025</span>
-                    </div>
-                </a>
-            </article>
-
-            <!-- Bài 10 -->
-            <article class="post-card">
-                <a href="article.jsp">
-                    <div class="post-thumb">
-                        <img src="../image/blog/img_9.png" alt="DJI RC 2">
-                    </div>
-                    <div class="post-info">
-                        <h3 class="post-title">Luật Bay Flycam Mới 2025 – Bạn Cần Biết Gì?</h3>
-                        <p class="post-excerpt">Cập nhật quy định mới nhất của Cục Hàng Không Việt Nam về việc đăng ký
-                            và xin phép bay drone trong khu vực dân cư...</p>
-                        <span class="post-date">05 Th10 2025</span>
-                    </div>
-                </a>
-            </article>
-        </div>
-
-        <div class="pagination">
-            <button class="prev">« Trang trước</button>
-            <span class="page-info">Trang 1 / 1</span>
-            <button class="next">Trang sau »</button>
         </div>
     </div>
 </section>
