@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--<jsp:useBean id="category" scope="request" type="vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Categories"/>--%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,9 +12,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- CSS riêng -->
-    <link rel="stylesheet" href="../../stylesheets/common-category.css">
-    <link rel="stylesheet" href="../../stylesheets/header.css">
-    <link rel="stylesheet" href="../../stylesheets/footer.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/common-category.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/footer.css">
 </head>
 <body>
 <!-- ==== HEADER TRÊN ==== -->
@@ -106,7 +109,7 @@
                 <img src="/image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
             </a>
             </li>
-            <li><a href="sport-drone.jsp">
+            <li><a href="/Nhom12LapTrinhWebFlycams/Category?id=1003">
                 <img src="/image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
             </a>
             </li>
@@ -118,8 +121,8 @@
                 <img src="/image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
             </a>
             </li>
-            <li><a href="../category/mini-drone.html">
-                <img src="/image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
+            <li><a href="/Nhom12LapTrinhWebFlycams/Category?id=1004">
+            <img src="/image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
             </a>
             </li>
         </ul>
@@ -127,7 +130,7 @@
 </div>
 
 <section class="phan-san-pham">
-    <h2 class="tieu-de-muc">Drone mini, cở nhỏ</h2>
+    <h2 class="tieu-de-muc">${category.categoryName}</h2>
 
     <div class="bo-loc-va-sap-xep position-relative">
 
@@ -228,486 +231,50 @@
 
     <!-- Lưới sản phẩm -->
     <div class="khung-san-pham">
-        <!-- SP mẫu 1 -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/DJI Mini 4 Pro.jpg" alt="Flycam DJI Air 3">
-            <h3 class="ten-san-pham">DJI Mini 4 Pro</h3>
-            <div class="gia">
-                <b>21.691.000 ₫</b>
-                <span class="gia-goc">26.000.000 ₫</span>
-            </div>
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
+
+        <c:forEach var="p" items="${products}">
+            <div class="san-pham">
+
+                <!-- Ảnh -->
+                <c:choose>
+                    <c:when test="${not empty p.images}">
+                        <img src="${p.images[0].imageUrl}" alt="${p.productName}">
+                    </c:when>
+                    <c:otherwise>
+                        <img src="/assets/no-image.png" alt="No Image">
+                    </c:otherwise>
+                </c:choose>
+
+                <!-- Tên sản phẩm -->
+                <h3 class="ten-san-pham">${p.productName}</h3>
+
+                <!-- Giá -->
+                <div class="gia">
+                    <b>${p.finalPrice} ₫</b>
+
+                    <c:if test="${p.finalPrice < p.price}">
+                        <span class="gia-goc">${p.price} ₫</span>
+                    </c:if>
                 </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-            <div class="so-danh-gia">(12 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-        <!--        Sản phẩm 2:-->
-        <div class="san-pham">
-            <img src="/image/miniProduct/DJI Mini 3 Pro.jpg" alt="FlycamDJlInspire3">
-            <h3 class="ten-san-pham">DJI Mini 3 Pro</h3>
-            <div class="gia"><b>17.990.000 ₫</b>
-                <span class="gia-goc">18.900.000 ₫</span>
-            </div>
 
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
+                <!-- Đánh giá mẫu -->
+                <div class="hang-danh-gia">
+                    <div class="danh-gia-sao">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                    </div>
+                    <i class="bi bi-heart tim-yeu-thich"></i>
                 </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
+
+                <!-- Số đánh giá -->
+                <div class="so-danh-gia">(12 đánh giá)</div>
+
+                <button class="nut-mua-ngay">Mua Ngay</button>
             </div>
-
-            <div class="so-danh-gia">(88 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-
-        <!-- === SẢN PHẨM 3 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/DJI Mini 3.jpg" alt="DJIMavic3ProWithDJIRCRemote">
-            <h3 class="ten-san-pham">DJI Mini 3</h3>
-            <div class="gia"><b>9.590.000 ₫</b>
-                <span class="gia-goc">10.800.000 ₫</span>
-            </div>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(80 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-
-        <!-- === SẢN PHẨM 4 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/DJI Mini 2 SE.jpg" alt="FlycamDJIMavicMiniSECombo">
-            <h3 class="ten-san-pham">DJI Mini 2 SE </h3>
-            <div class="gia"><b>6.750.000 ₫</b>
-                <span class="gia-goc">6.920.000 ₫</span>
-            </div>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(65 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-
-        <!-- === SẢN PHẨM 5 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/Flycam Autel Nano Plus.png" alt="DJlMini3">
-
-            <h3 class="ten-san-pham">Flycam Autel Nano Plus
-                4K</h3>
-            <div class="gia"><b>20.500.000 ₫</b>
-                <span class="gia-goc">21.000.000 ₫</span>
-            </div>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(79 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-
-        <!-- === SẢN PHẨM 6 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/FIMI X8 Mini V2.png" alt="DJlFlip">
-
-            <h3 class="ten-san-pham">FIMI X8 Mini V2</h3>
-            <div class="gia"><b>6.000.000 ₫</b>
-                <span class="gia-goc">6.500.000 ₫</span>
-            </div>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(53 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-
-        <!-- === SẢN PHẨM 7 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/Flycam Potensic Atom 4K New Fullbox.png" alt="DJlMini5Pro">
-
-            <h3 class="ten-san-pham">Flycam Potensic Atom 4K New Fullbox</h3>
-            <div class="gia"><b>10.000.000 ₫</b>
-                <span class="gia-goc">10.290.000 ₫</span>
-            </div>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(39 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-
-        <!-- === SẢN PHẨM 8 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/Flycam DJI Tello.png" alt="DJlMini4K">
-
-            <h3 class="ten-san-pham">Flycam DJI Tello</h3>
-            <div class="gia"><b>2.690.000 ₫</b>
-                <span class="gia-goc">2.900.000 ₫</span>
-            </div>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(39 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-        <!-- === SẢN PHẨM 9 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/Holy Stone HS440 Foldable FPV Drone.jpg" alt="DJlMini4K">
-
-            <h3 class="ten-san-pham">Holy Stone HS440 Foldable FPV Drone</h3>
-            <div class="gia"><b>2.600.000 ₫</b>
-                <span class="gia-goc">3.000.000 ₫</span>
-            </div>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(33 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-        <!-- === SẢN PHẨM 10 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/Holy Stone Drone HS110D FPV RC.jpg" alt="DJlMini4K">
-
-            <h3 class="ten-san-pham">Holy Stone Drone HS110D FPV RC</h3>
-            <div class="gia"><b>2.054.000 ₫</b>
-                <span class="gia-goc">2.730.000 ₫</span>
-            </div>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(120 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-        <!-- === SẢN PHẨM 11 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/Flycam JY 019HW (Eachine E58).png" alt="DJlMini4K">
-
-            <h3 class="ten-san-pham">Flycam JY 019HW (Eachine E58)</h3>
-            <div class="gia"><b>1.390.000 ₫</b>
-                <span class="gia-goc">2.879.000 ₫</span>
-            </div>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(10 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-        <!-- === SẢN PHẨM 12 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/Potensic A20 Mini Drone.png" alt="FlycamDJIMini3WithDJIRCRemoteController">
-
-            <h3 class="ten-san-pham">Potensic A20 Mini Drone Easy </h3>
-            <div class="gia"><b>7.650.000 ₫</b>
-                <span class="gia-goc">9.650.000 ₫</span>
-            </div>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(87 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-
-
-        <!-- === SẢN PHẨM 13 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/Flycam ZLRC SG906 Pro.png" alt="FlycamDJIO4AirUnit">
-
-            <h3 class="ten-san-pham">Flycam ZLRC SG906 Pro GPS Camera WIFI 5G FPV 4K</h3>
-            <div class="gia"><b>3.300.000 ₫</b>
-                <span class="gia-goc">3.830.000 ₫</span>
-            </div>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(71 đánh giá)</div>
-
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-        <div class="san-pham">
-            <img src="/image/miniProduct/Syma X5C 4 Channel .png" alt="DJI Phantom 4 Pro">
-            <h3 class="ten-san-pham">Syma X5C 4 Channel 2.4GHz RC Explorers </h3>
-            <div class="gia"><b>1.404.000 ₫</b>
-                <span class="gia-goc">1.634.000 ₫</span>
-            </div>
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-            <div class="so-danh-gia">(123 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-
-        <!-- === SẢN PHẨM 15 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/COMBO FPV TẬP BAY.png" alt="Flycam E88 Pro Max">
-            <h3 class="ten-san-pham">COMBO FPV : Cetus X FPV – FPV BETA</h3>
-            <div class="gia"><b>6.700.000 ₫</b>
-                <span class="gia-goc">7.000.000 ₫</span>
-            </div>
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                    <i class="bi bi-star"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-            <div class="so-danh-gia">(58 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-
-        <!-- === SẢN PHẨM 16 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/Happymodel Mobula7 O4 2S 80mm.png" alt="Flycam SJRC F11 4K Pro">
-            <h3 class="ten-san-pham">Happymodel Mobula7 O4 2S 80mm</h3>
-            <div class="gia"><b>5.350.000 ₫</b>
-                <span class="gia-goc">6.100.000 ₫</span>
-            </div>
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-            <div class="so-danh-gia">(85 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-
-        <!-- === SẢN PHẨM 17 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/GEPRC CineLog 25 Analog CineWhoop Drone.png" alt="Flycam Hubsan Zino Mini SE">
-            <h3 class="ten-san-pham">GEPRC CineLog 25 Analog CineWhoop Drone</h3>
-            <div class="gia"><b>5.694.000 ₫</b>
-                <span class="gia-goc">6.123.000 ₫</span>
-            </div>
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                    <i class="bi bi-star"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-            <div class="so-danh-gia">(41 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-
-        <!-- === SẢN PHẨM 18 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/Flycam DJI Mini 4K Combo & stand .png" alt="Flycam MJX Bugs 20 EIS">
-            <h3 class="ten-san-pham">Flycam DJI Mini 4K Combo & stand </h3>
-            <div class="gia"><b>8.890.000 ₫</b>
-                <span class="gia-goc">9.123.000 ₫</span>
-            </div>
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-            <div class="so-danh-gia">(76 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-
-        <!-- === SẢN PHẨM 19 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/Tinyhawk 3 RTF Kit.png" alt="Flycam C-Fly Faith 2S">
-            <h3 class="ten-san-pham">Tinyhawk 3 RTF Kit 1s FRSKY FPV Drone</h3>
-            <div class="gia"><b>8.897.000 ₫</b>
-                <span class="gia-goc">9.123.000 ₫</span>
-            </div>
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                    <i class="bi bi-star"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-            <div class="so-danh-gia">(69 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-
-        <!-- === SẢN PHẨM 20 === -->
-        <div class="san-pham">
-            <img src="/image/miniProduct/Betafpv Meteor75 Pro - Sóng Elrs.png" alt="DJI Avata FPV Combo">
-            <h3 class="ten-san-pham">Betafpv Meteor75 Pro -Sóng Elrs</h3>
-            <div class="gia"><b>2.500.000 ₫</b>
-                <span class="gia-goc">3.500.000 ₫</span>
-            </div>
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-            <div class="so-danh-gia">(122 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
-
-        <div class="san-pham">
-            <img src="/image/miniProduct/GEPRC TinyGO 4K FPV Whoop RTF.png" alt="DJI Avata FPV Combo">
-            <h3 class="ten-san-pham">GEPRC TinyGO 4K FPV Whoop RTF</h3>
-            <div class="gia"><b>9.360.000 ₫</b>
-                <span class="gia-goc">10.000.000 ₫</span>
-            </div>
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-            <div class="so-danh-gia">(122 đánh giá)</div>
-            <button class="nut-mua-ngay">Mua Ngay</button>
-        </div>
+        </c:forEach>
 
     </div>
     <!-- PHÂN TRANG -->
