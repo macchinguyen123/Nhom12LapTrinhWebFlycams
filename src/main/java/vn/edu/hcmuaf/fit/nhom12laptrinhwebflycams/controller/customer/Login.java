@@ -11,8 +11,9 @@ import java.io.IOException;
 @WebServlet(name = "Login", value = "/Login")
 public class Login extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("/page/login.jsp").forward(request, response);
     }
 
     @Override
@@ -27,12 +28,16 @@ public class Login extends HttpServlet {
         UserDAO dao = new UserDAO();
         User user = dao.login(input, password);
 
-        // Sai thông tin
         if (user == null) {
-            request.setAttribute("error", "Sai thông tin đăng nhập!");
+            String msg =
+                    "<b>Số điện thoại hoặc mật khẩu không hợp lệ</b>" +
+                            "<div class='sub-msg'>Vui lòng nhập lại</div>";
+
+            request.setAttribute("error", msg);
             request.getRequestDispatcher("/page/login.jsp").forward(request, response);
             return;
         }
+
 
         // Tạo session và lưu JavaBean
         HttpSession session = request.getSession();

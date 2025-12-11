@@ -19,7 +19,7 @@
 </head>
 <body>
 
-<jsp:include page="/page/header.jsp" />
+<jsp:include page="/page/header.jsp"/>
 
 
 <!-- ==== DANH MỤC + SLIDER ==== -->
@@ -27,28 +27,28 @@
     <!-- MENU TRÁI -->
     <div class="menu-left">
         <ul>
-            <li><a href="category/film-drone.jsp">
+            <li><a href="/Nhom12LapTrinhWebFlycams/Category?id=1001">
                 <img src="../image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
             </a>
             </li>
 
-            <li><a href="category/tourism-drone.jsp">
+            <li><a href="/Nhom12LapTrinhWebFlycams/Category?id=1006">
                 <img src="../image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
             </a>
             </li>
-            <li><a href="category/sport-drone.jsp">
+            <li><a href="/Nhom12LapTrinhWebFlycams/Category?id=1003">
                 <img src="../image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
             </a>
             </li>
-            <li><a href="category/agriculture-drone.jsp">
+            <li><a href="/Nhom12LapTrinhWebFlycams/Category?id=1002">
                 <img src="../image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
             </a>
             </li>
-            <li><a href="category/monitor-drone.jsp">
+            <li><a href="/Nhom12LapTrinhWebFlycams/Category?id=1005">
                 <img src="../image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
             </a>
             </li>
-            <li><a href="category/mini-drone.jsp">
+            <li><a href="/Nhom12LapTrinhWebFlycams/Category?id=1004">
                 <img src="../image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
             </a>
             </li>

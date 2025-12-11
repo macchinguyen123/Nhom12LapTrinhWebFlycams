@@ -65,53 +65,36 @@
                 </p>
             </form>
 
-            <!-- Hiển thị lỗi bằng JSTL -->
-            <c:if test="${not empty error}">
-                <div class="alert alert-danger mt-3 text-center">
-                        ${error}
-                </div>
-            </c:if>
-
         </div>
 
     </div>
 </div>
 
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<c:if test="${not empty error}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                background: "#fff6f6",
+                color: "#d00000",
+                customClass: { popup: 'custom-toast' }
+            });
+
+            Toast.fire({
+                icon: "error",
+                html: `${error}`
+            });
+        });
+    </script>
+</c:if>
+
+
+
 </body>
-
-<%--<script>--%>
-<%--    // ==============================--%>
-<%--    // TÀI KHOẢN MẪU DEMO--%>
-<%--    // ==============================--%>
-<%--    const accounts = [--%>
-<%--        {role: "admin", email: "admin@example.com", phone: "0987654321", password: "123"},--%>
-<%--        {role: "user", email: "user@example.com", phone: "1234567890", password: "123"}--%>
-<%--    ];--%>
-
-<%--    // ==============================--%>
-<%--    // XỬ LÝ ĐĂNG NHẬP--%>
-<%--    // ==============================--%>
-<%--    document.getElementById("loginForm").addEventListener("submit", function (e) {--%>
-<%--        e.preventDefault();--%>
-
-<%--        const input = document.getElementById("loginInput").value.trim();--%>
-<%--        const password = document.getElementById("password").value;--%>
-
-<%--        const found = accounts.find(acc =>--%>
-<%--            (acc.email === input || acc.phone === input) && acc.password === password--%>
-<%--        );--%>
-
-<%--        if (!found) {--%>
-<%--            alert("Sai thông tin đăng nhập!");--%>
-<%--            return;--%>
-<%--        }--%>
-
-<%--        if (found.role === "admin") {--%>
-<%--            // đường dẫn tương đối so với login.jsp--%>
-<%--            window.location.href = "admin/dashboard.jsp";--%>
-<%--        } else {--%>
-<%--            window.location.href = "homepage.html";--%>
-<%--        }--%>
-<%--    });--%>
-<%--</script>--%>
 </html>
