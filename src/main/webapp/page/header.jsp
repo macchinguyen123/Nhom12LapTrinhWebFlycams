@@ -11,7 +11,7 @@
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../stylesheets/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/header.css">
 </head>
 <body>
 
@@ -22,7 +22,7 @@
             <!-- LOGO -->
             <a href="homepage.jsp">
                 <div class="logo">
-                    <img src="../image/logoo2.png" alt="Logo">
+                    <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
                     <h2>SkyDrone</h2>
                 </div>
             </a>
@@ -100,28 +100,28 @@
     <div class="menu-left-1" id="menuLeft">
         <ul>
             <li><a href="category/film-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
             </a>
             </li>
 
             <li><a href="category/tourism-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
             </a>
             </li>
             <li><a href="category/sport-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
             </a>
             </li>
             <li><a href="category/agriculture-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
             </a>
             </li>
             <li><a href="category/monitor-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
             </a>
             </li>
             <li><a href="category/mini-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
             </a>
             </li>
         </ul>
