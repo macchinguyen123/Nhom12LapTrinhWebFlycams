@@ -9,6 +9,7 @@
 body {
     background-color: #ffffff;
 }
+.dataTables_filter { display:none !important; }
 
 /* === HEADER === */
 .main-header {

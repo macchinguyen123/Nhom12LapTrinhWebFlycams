@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,15 +10,21 @@
     <!-- Bootstrap Bundle (gồm cả Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../stylesheets/admin/promotion-manage.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
 </head>
 <body>
 
 <!-- ===== HEADER ===== -->
 <header class="main-header">
     <div class="logo">
-        <img src="/image/logoo2.png" alt="Logo">
+        <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
         <h2>SkyDrone Admin</h2>
     </div>
     <div class="header-right">
@@ -50,7 +58,8 @@
     <!-- === SIDEBAR === -->
     <aside class="sidebar">
         <div class="user-info">
-            <img src="/image/logoTCN.png" alt="Avatar">
+            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+
             <h3>Mạc Nguyên</h3>
             <p>Chào mừng bạn trở lại 👋</p>
         </div>
@@ -243,134 +252,177 @@
     </div>
 </div>
 
-<!-- === SCRIPT === -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    $(document).ready(function () {
 
-        const tbody = document.querySelector("#bangKhuyenMai tbody");
+        // ===== KHỞI TẠO DATATABLE =====
+        let table = $("#bangKhuyenMai").DataTable({
+            paging: true,
+            info: false,
+            lengthChange: false,
+            searching: true,     // Ẩn thanh search mặc định
+            pageLength: 10,
+            language: {
+                zeroRecords: "Không tìm thấy kết quả"
+            }
+        });
 
+        // Ẩn UI gốc của DataTables (nếu chưa có CSS trong file)
+        $(".dataTables_filter, .dataTables_paginate").hide();
+
+        // --- Thanh tìm kiếm custom ---
+        $("#searchInput").on("keyup", function () {
+            table.search(this.value).draw();
+            updatePageInfo();
+        });
+
+        // --- Nút chuyển trang custom ---
+        $("#nextPage").click(function () {
+            table.page("next").draw("page");
+            updatePageInfo();
+        });
+
+        $("#prevPage").click(function () {
+            table.page("previous").draw("page");
+            updatePageInfo();
+        });
+
+        // Cập nhật thông tin trang
+        function updatePageInfo() {
+            let info = table.page.info();
+            $("#pageInfo").text((info.page + 1) + " / " + info.pages);
+        }
+
+        updatePageInfo();
+
+
+        // === NÚT DELETE ===
+        $(document).on('click', '.nut-xoa', function (e) {
+            e.preventDefault();
+
+            let row = $(this).closest("tr"); // lưu hàng cần xóa
+
+            Swal.fire({
+                title: "Bạn chắc chắn muốn xóa?",
+                text: "Hành động này không thể hoàn tác!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Xóa",
+                cancelButtonText: "Hủy",
+                confirmButtonColor: "#dc3545",
+                cancelButtonColor: "#6c757d"
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    // Xóa hàng trong DataTable
+                    table.row(row).remove().draw();
+                    updatePageInfo();
+
+                    Swal.fire({
+                        title: "Đã xóa!",
+                        text: "Danh mục đã được xóa.",
+                        icon: "success",
+                        confirmButtonColor: "#0d6efd"
+                    });
+                }
+            });
+        });
+
+        // ======= LOGOUT =======
+        $("#logoutBtn").on("click", function () {
+            $("#logoutModal").css("display", "flex");
+        });
+
+        $("#cancelLogout").on("click", function () {
+            $("#logoutModal").hide();
+        });
         // ===== NÚT LƯU =====
-        document.querySelector(".btn-primary").addEventListener("click", function () {
-            const maKM = maKhuyenMai.value.trim();
-            const tenCT = tenChuongTrinh.value.trim();
-            const mucGiamInp = document.getElementById("mucGiam");
-
-            const mucGiam = mucGiamInp.value.trim();
-            const ngayBD = ngayBatDau.value;
-            const ngayKT = ngayKetThuc.value;
+        $(".btn.btn-primary").click(function () {
+            const maKM = $("#maKhuyenMai").val().trim();
+            const tenCT = $("#tenChuongTrinh").val().trim();
+            const mucGiam = $("#mucGiam").val().trim();
+            const ngayBD = $("#ngayBatDau").val();
+            const ngayKT = $("#ngayKetThuc").val();
 
             if (!maKM || !tenCT || !ngayBD || !ngayKT) {
                 alert("⚠️ Vui lòng nhập đầy đủ thông tin!");
                 return;
             }
 
-            // Phạm vi danh mục
             let danhMuc = [];
-            document.querySelectorAll("#dsDanhMuc input[type=checkbox]:checked").forEach(c => {
-                danhMuc.push(c.value);
+            $("#dsDanhMuc input[type=checkbox]:checked").each(function () {
+                danhMuc.push($(this).val());
             });
 
             const phamVi = danhMuc.join(", ") || "Không có danh mục";
 
-            const maSP = maSanPhamRieng.value.trim();
+            const maSP = $("#maSanPhamRieng").val().trim();
             const phamViCuoi = maSP ? `${phamVi} (SP: ${maSP})` : phamVi;
 
-            // Kiểm tra trùng mã KM → cập nhật
             let daCo = false;
-            tbody.querySelectorAll("tr").forEach(row => {
-                if (row.children[0].textContent === maKM) {
-                    row.children[1].textContent = tenCT;
-                    row.children[2].textContent = mucGiam;
-                    row.children[3].textContent = `${ngayBD} - ${ngayKT}`;
-                    row.children[4].textContent = phamViCuoi;
+
+            table.rows().every(function () {
+                let d = this.data();
+                if (d[0] === maKM) {
+                    d[1] = tenCT;
+                    d[2] = mucGiam;
+                    d[3] = `${ngayBD} - ${ngayKT}`;
+                    d[4] = phamViCuoi;
+                    this.data(d);
                     daCo = true;
                 }
             });
 
-            // Nếu chưa có → thêm mới
             if (!daCo) {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `
-                <td>${maKM}</td>
-                <td>${tenCT}</td>
-                <td>${mucGiam}</td>
-                <td>${ngayBD} - ${ngayKT}</td>
-                <td>${phamViCuoi}</td>
-                <td>
-                    <button class="btn btn-warning btn-sm nut-sua"><i class="bi bi-pencil"></i></button>
-                    <button class="btn btn-danger btn-sm nut-xoa"><i class="bi bi-trash"></i></button>
-                </td>
-            `;
-                tbody.appendChild(tr);
+                table.row.add([
+                    maKM,
+                    tenCT,
+                    mucGiam,
+                    `${ngayBD} - ${ngayKT}`,
+                    phamViCuoi,
+                    `<button class="btn btn-warning btn-sm nut-sua"><i class="bi bi-pencil"></i></button>
+                 <button class="btn btn-danger btn-sm nut-xoa"><i class="bi bi-trash"></i></button>`
+                ]).draw();
             }
 
-            // Reset form
-            document.querySelector("#bieuMauKhuyenMai").reset();
-            document.querySelectorAll("#dsDanhMuc input[type=checkbox]").forEach(c => c.checked = false);
+            $("#bieuMauKhuyenMai")[0].reset();
+            $("#dsDanhMuc input[type=checkbox]").prop("checked", false);
 
             bootstrap.Modal.getInstance(document.querySelector("#hopThoaiKhuyenMai")).hide();
         });
 
-
         // ===== NÚT SỬA =====
-        document.addEventListener("click", function (e) {
-            if (!e.target.closest(".nut-sua")) return;
-            const row = e.target.closest("tr");
+        $("#bangKhuyenMai tbody").on("click", ".nut-sua", function () {
+            const row = table.row($(this).closest("tr"));
+            const d = row.data();
 
-            maKhuyenMai.value = row.children[0].textContent;
-            tenChuongTrinh.value = row.children[1].textContent;
-            mucGiamInp.value = row.children[2].textContent;
+            $("#maKhuyenMai").val(d[0]);
+            $("#tenChuongTrinh").val(d[1]);
+            $("#mucGiam").val(d[2]);
 
-            const tg = row.children[3].textContent.split(" - ");
-            ngayBatDau.value = tg[0];
-            ngayKetThuc.value = tg[1];
+            const tg = d[3].split(" - ");
+            $("#ngayBatDau").val(tg[0]);
+            $("#ngayKetThuc").val(tg[1]);
 
-            // Phạm vi danh mục
-            let text = row.children[4].textContent;
+            let text = d[4];
             let maSP = "";
 
-            // Lấy SP nếu có
             const match = text.match(/\(SP: (.+)\)/);
             if (match) {
                 maSP = match[1];
                 text = text.replace(/\(SP: .+\)/, "").trim();
             }
 
-            maSanPhamRieng.value = maSP;
+            $("#maSanPhamRieng").val(maSP);
 
-            // Tick lại checkbox
             const arr = text.split(",").map(s => s.trim());
-            document.querySelectorAll("#dsDanhMuc input[type=checkbox]").forEach(c => {
-                c.checked = arr.includes(c.value);
+            $("#dsDanhMuc input[type=checkbox]").each(function () {
+                $(this).prop("checked", arr.includes($(this).val()));
             });
 
             new bootstrap.Modal("#hopThoaiKhuyenMai").show();
         });
 
-
-        // ===== NÚT XÓA =====
-        document.addEventListener("click", function (e) {
-            if (!e.target.closest(".nut-xoa")) return;
-
-            if (confirm("Bạn có chắc muốn xóa khuyến mãi này không?")) {
-                e.target.closest("tr").remove();
-            }
-        });
-
-
-        // ===== TÌM KIẾM =====
-        const oTim = document.querySelector("#oTimKiemKhuyenMai");
-        const nutLoc = document.querySelector("#nutLoc");
-
-        if (nutLoc) {
-            nutLoc.addEventListener("click", function () {
-                const tuKhoa = oTim.value.toLowerCase();
-                tbody.querySelectorAll("tr").forEach(tr => {
-                    const tenCT = tr.children[1].textContent.toLowerCase();
-                    tr.style.display = tenCT.includes(tuKhoa) ? "" : "none";
-                });
-            });
-        }
 
     });
 </script>

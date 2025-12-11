@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +8,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../../stylesheets/admin/customer-manage.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
+
 
 
 </head>
@@ -14,7 +21,7 @@
 <!-- ===== HEADER ===== -->
 <header class="main-header">
     <div class="logo">
-        <img src="/image/logoo2.png" alt="Logo">
+        <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
         <h2>SkyDrone Admin</h2>
     </div>
     <div class="header-right">
@@ -46,7 +53,8 @@
 <div class="layout">
     <aside class="sidebar">
         <div class="user-info">
-            <img src="/image/logoTCN.png" alt="Avatar">
+            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+
             <h3>Mạc Nguyên</h3>
             <p>Chào mừng bạn trở lại 👋</p>
         </div>
@@ -55,7 +63,7 @@
             <a href="dashboard.jsp">
                 <li><i class="bi bi-speedometer2"></i> Tổng Quan</li>
             </a>
-            <a href="customer-manage.html">
+            <a href="customer-manage.jsp">
                 <li class="active"><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li>
             </a>
             <a href="product-management.jsp">
@@ -312,8 +320,6 @@
 </div>
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
     // Toggle submenu
@@ -370,69 +376,77 @@
             logoutModal.style.display = "none";
         });
     });
-    document.addEventListener("DOMContentLoaded", function () {
-        const table = document.querySelector("#tableKhachHang tbody");
-        const searchInput = document.getElementById("search");
-        const rowsPerPageSelect = document.getElementById("rowsPerPage");
-        const prevBtn = document.getElementById("prevPage");
-        const nextBtn = document.getElementById("nextPage");
-        const pageInfo = document.getElementById("pageInfo");
 
-        let currentPage = 1;
-        let rowsPerPage = parseInt(rowsPerPageSelect.value);
-        let allRows = Array.from(table.querySelectorAll("tr"));
+    $(document).ready(function () {
+        // Khởi tạo DataTable
+        var table = $('#tableKhachHang').DataTable({
+            "paging": true,
+            "lengthChange": false, // dùng custom select
+            "pageLength": 5,
+            "searching": true,     // vẫn dùng search riêng
+            "ordering": true,
+            "info": false,         // ẩn info mặc định
+            "dom": 't',            // chỉ hiển thị table, ẩn search + pagination mặc định
+            "columnDefs": [
+                { orderable: false, targets: [6, 7] } // cột khóa & chi tiết không sắp xếp
+            ],
+            "language": {
+                "emptyTable": "Không có dữ liệu",
+                "zeroRecords": "Không tìm thấy dữ liệu phù hợp",
+                "searchPlaceholder": "Tìm kiếm...",
+                "paginate": {
+                    "first": "Đầu",
+                    "last": "Cuối",
+                    "next": "Sau",
+                    "previous": "Trước"
+                }
+            }
 
-        function renderTable() {
-            const filteredRows = filterRows();
-            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-            currentPage = Math.min(currentPage, totalPages || 1);
+        });
 
-            table.innerHTML = "";
-            const start = (currentPage - 1) * rowsPerPage;
-            const end = start + rowsPerPage;
+        // ===== CUSTOM SEARCH =====
+        $("#search").on("keyup", function () {
+            table.search(this.value).draw();
+            updatePageInfo();
+        });
 
-            filteredRows.slice(start, end).forEach(row => table.appendChild(row));
-            pageInfo.textContent = `${currentPage} / ${totalPages || 1}`;
+        // ===== CUSTOM ROWS PER PAGE =====
+        $("#rowsPerPage").on("change", function () {
+            table.page.len($(this).val()).draw();
+            updatePageInfo();
+        });
+
+        // ===== CUSTOM PAGINATION BUTTONS =====
+        $("#prevPage").click(function () {
+            table.page('previous').draw('page');
+            updatePageInfo();
+        });
+
+        $("#nextPage").click(function () {
+            table.page('next').draw('page');
+            updatePageInfo();
+        });
+
+        // ======= LOGOUT =======
+        $("#logoutBtn").on("click", function () {
+            $("#logoutModal").css("display", "flex");
+        });
+
+        $("#cancelLogout").on("click", function () {
+            $("#logoutModal").hide();
+        });
+
+
+        // ===== UPDATE PAGE INFO =====
+        function updatePageInfo() {
+            var info = table.page.info();
+            $('#pageInfo').text((info.page + 1) + " / " + info.pages);
         }
 
-        function filterRows() {
-            const keyword = searchInput.value.toLowerCase();
-            return allRows.filter(row => row.innerText.toLowerCase().includes(keyword));
-        }
-
-        // Tìm kiếm
-        searchInput.addEventListener("keyup", function () {
-            currentPage = 1;
-            renderTable();
-        });
-
-        // Đổi số dòng hiển thị
-        rowsPerPageSelect.addEventListener("change", function () {
-            rowsPerPage = parseInt(this.value);
-            currentPage = 1;
-            renderTable();
-        });
-
-        // Nút trước
-        prevBtn.addEventListener("click", function () {
-            if (currentPage > 1) {
-                currentPage--;
-                renderTable();
-            }
-        });
-
-        // Nút sau
-        nextBtn.addEventListener("click", function () {
-            const filteredRows = filterRows();
-            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-            if (currentPage < totalPages) {
-                currentPage++;
-                renderTable();
-            }
-        });
-
-        renderTable();
+        table.on('draw', updatePageInfo);
+        updatePageInfo();
     });
+
 
 </script>
 </body>

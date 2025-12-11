@@ -16,6 +16,16 @@ body {
     background-color: #ffffff;
 }
 
+
+.cancel {
+    background: #ffffff;
+    color: #0051c6;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid #0051c6; /* THÊM DÒNG NÀY */
+}
+
 /* ==== LOGO ==== */
 .logo {
     display: flex;

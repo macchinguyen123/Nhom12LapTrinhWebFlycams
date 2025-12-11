@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,14 +7,29 @@
     <title>Trang Quản Trị - SkyDrone</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <!-- DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
     <link rel="stylesheet" href="../../stylesheets/admin/product-manage.css">
+    <style>
+        div.dataTables_filter {
+            display: none;
+        }
+    </style>
+
 </head>
 <body>
 
 <!-- ===== HEADER ===== -->
 <header class="main-header">
     <div class="logo">
-        <img src="/image/logoo2.png" alt="Logo">
+        <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
         <h2>SkyDrone Admin</h2>
     </div>
     <div class="header-right">
@@ -46,7 +63,8 @@
     <!-- === SIDEBAR === -->
     <aside class="sidebar">
         <div class="user-info">
-            <img src="/image/logoTCN.png" alt="Avatar">
+            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+
             <h3>Mạc Nguyên</h3>
             <p>Chào mừng bạn trở lại 👋</p>
         </div>
@@ -58,7 +76,7 @@
             <a href="customer-manage.jsp">
                 <li><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li>
             </a>
-            <a href="product-management.html">
+            <a href="product-management.jsp">
                 <li class="active"><i class="bi bi-box-seam"></i> Quản Lý Sản Phẩm</li>
             </a>
             <a href="category-manage.jsp">
@@ -150,9 +168,12 @@
                 <td>FlyCam SkyMini</td>
                 <td>Drone Mini</td>
                 <td>
-                    <img src="/image/superviseProduct/Flycam SkyView 4K Security.png" alt="Ảnh sản phẩm"
-                         class="img-thumbnail" style="width:60px; height:60px; object-fit:cover;">
+                    <img src="${pageContext.request.contextPath}/image/superviseProduct/Flycam SkyView 4K Security.png"
+                         alt="Ảnh sản phẩm"
+                         class="img-thumbnail"
+                         style="width:60px; height:60px; object-fit:cover;">
                 </td>
+
 
                 <td>2.000.000đ</td>
                 <td>1.800.000đ</td>
@@ -228,6 +249,11 @@
                     </div>
 
                     <div class="col-md-6">
+                        <label class="form-label">Giá khuyến mãi</label>
+                        <input type="number" class="form-control" id="giaKM" placeholder="Nhập giá khuyến mãi (nếu có)">
+                    </div>
+
+                    <div class="col-md-6">
                         <label class="form-label">Số lượng</label>
                         <input type="number" class="form-control" id="soLuong" placeholder="Nhập số lượng">
                     </div>
@@ -269,158 +295,202 @@
     </div>
 </div>
 
-
-<!-- === SCRIPT === -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-
-    // Toggle submenu
-    document.querySelectorAll('.has-submenu .menu-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const parent = item.parentElement;
-            parent.classList.toggle('open');
-        });
+    var table = $('#tableSanPham').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "pageLength": 10,
+        "ordering": true,
+        "searching": true,
+        "info": false,
+        "dom": 't',
+        "columnDefs": [
+            {"orderable": false, "targets": [3, 7]}
+        ], "language": {
+            "zeroRecords": "Không tìm thấy dữ liệu"
+        }
     });
 
-    // Nút thêm
-    document.querySelector('.btn-success').addEventListener('click', () => {
-        document.querySelector('#modalSanPham .modal-title').textContent = "🆕 Thêm Sản Phẩm";
-        document.getElementById('formSanPham').reset();
+    // Tìm kiếm
+    $('#searchInput').on('keyup', function () {
+        table.search(this.value).draw();
     });
 
-    // Nút Sửa → Hiện modal và đổ dữ liệu
-    document.querySelectorAll('.btn-warning').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const row = btn.closest('tr');
-            // Hiển thị modal
-            const modal = new bootstrap.Modal(document.getElementById('modalSanPham'));
-            modal.show();
-        });
+    // Thay đổi số dòng hiển thị
+    $('#rowsPerPage').on('change', function () {
+        table.page.len(parseInt($(this).val())).draw();
+        updatePageInfo();
     });
 
-    // ===== XÓA SẢN PHẨM =====
-    document.querySelectorAll('.btn-danger').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const row = btn.closest('tr');
-            if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?")) {
-                row.remove();
+    // ======= LOGOUT =======
+    $("#logoutBtn").on("click", function () {
+        $("#logoutModal").css("display", "flex");
+    });
+
+    $("#cancelLogout").on("click", function () {
+        $("#logoutModal").hide();
+    });
+
+    // Nút phân trang trước / sau
+    $('#prevPage').on('click', function () {
+        table.page('previous').draw('page');
+        updatePageInfo();
+    });
+
+    $('#nextPage').on('click', function () {
+        table.page('next').draw('page');
+        updatePageInfo();
+    });
+
+    // Cập nhật số trang hiển thị
+    function updatePageInfo() {
+        var info = table.page.info();
+        $('#pageInfo').text((info.page + 1) + ' / ' + info.pages);
+    }
+
+    updatePageInfo();
+
+    // --- SỬA SẢN PHẨM ---
+    $(document).on('click', '.btn-warning', function () {
+        editRow = table.row($(this).closest('tr'));
+
+        let data = editRow.data();
+
+        // Đổ dữ liệu vào form modal
+        $('#maSP').val(data[0]);
+        $('#tenSP').val(data[1]);
+        $('#danhMuc').val(data[2]);
+        $('#giaGoc').val(data[4]);
+        $('#giaKM').val(data[5]);
+        $('#trangThai').val($(data[6]).text().trim() === "Ẩn" ? "Ẩn" : "Đang Kinh Doanh");
+
+        // Đổi tiêu đề
+        $('#modalSanPham .modal-title').html('<i class="bi bi-pencil"></i> Chỉnh sửa sản phẩm');
+
+        // Mở modal
+        modalSanPham.show();
+    });
+    // --- Xóa sản phẩm ---
+    $(document).on('click', '.btn-danger', function (e) {
+        e.preventDefault();
+        let row = $(this).closest('tr');
+        Swal.fire({
+            title: "Bạn chắc chắn muốn xóa?",
+            text: "Hành động này không thể hoàn tác!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Xóa",
+            cancelButtonText: "Hủy",
+            confirmButtonColor: "#dc3545",
+            cancelButtonColor: "#6c757d"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                table.row(row).remove().draw();
+                updatePageInfo();
+                Swal.fire({
+                    title: "Đã xóa!",
+                    text: "Sản phẩm đã được xóa.",
+                    icon: "success",
+                    confirmButtonColor: "#0d6efd"
+                });
             }
         });
     });
 
+    let editRow = null;
 
-    // ===== THAY ĐỔI TRẠNG THÁI SẢN PHẨM =====
-    document.querySelectorAll('.btn-secondary').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const row = btn.closest('tr');
-            const statusCell = row.cells[6]; // Cột trạng thái
+    // Khởi tạo modal Bootstrap 5
+    const modalSanPham = new bootstrap.Modal(document.getElementById('modalSanPham'));
 
-            // Nếu trạng thái đang là "Đang KD" → chuyển sang "Ẩn"
-            if (statusCell.innerText.trim() === "Đang KD" || statusCell.innerText.trim() === "Đang Kinh Doanh") {
-                statusCell.innerHTML = `<span class="badge bg-secondary">Ẩn</span>`;
-                btn.innerHTML = `<i class="bi bi-eye"></i>`; // icon mở mắt
-            }
-            // Ngược lại: đang Ẩn → chuyển thành Đang KD
-            else {
-                statusCell.innerHTML = `<span class="badge bg-success">Đang KD</span>`;
-                btn.innerHTML = `<i class="bi bi-eye-slash"></i>`; // icon đóng mắt
-            }
-        });
+    // Khi nhấn Thêm sản phẩm
+    $('#modalSanPham').on('show.bs.modal', function () {
+        editRow = null;
+        $('#formSanPham')[0].reset();
+        $('#trangThai').val('Đang Kinh Doanh');
+        $('#modalSanPham .modal-title').html('<i class="bi bi-plus-lg"></i> Thêm sản phẩm');
     });
 
+    // Khi nhấn Lưu Thay Đổi
+    $('#modalSanPham .btn-primary').on('click', function () {
 
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const logoutBtn = document.getElementById("logoutBtn");
-        const logoutModal = document.getElementById("logoutModal");
-        const cancelLogout = document.getElementById("cancelLogout");
+        const maSP = $('#maSP').val().trim();
+        const tenSP = $('#tenSP').val().trim();
+        const danhMuc = $('#danhMuc').val();
+        const giaGoc = $('#giaGoc').val().trim();
+        const giaKM = $('#giaKM').val().trim() || '';
+        const trangThaiVal = $('#trangThai').val();
+        const trangThai = (trangThaiVal === "Ẩn") ? "Ẩn" : "Đang KD";
 
-        // Mở popup
-        logoutBtn.addEventListener("click", function () {
-            logoutModal.style.display = "flex";
-        });
-
-        // Đóng popup
-        cancelLogout.addEventListener("click", function () {
-            logoutModal.style.display = "none";
-        });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-
-        const table = document.querySelector("#tableSanPham tbody");
-        const searchInput = document.getElementById("searchInput");
-        const rowsPerPageSelect = document.getElementById("rowsPerPage");
-        const prevBtn = document.getElementById("prevPage");
-        const nextBtn = document.getElementById("nextPage");
-        const pageInfo = document.getElementById("pageInfo");
-
-        let currentPage = 1;
-        let rowsPerPage = parseInt(rowsPerPageSelect.value);
-        let allRows = Array.from(table.querySelectorAll("tr"));
-
-        // --- Cập nhật hiển thị bảng ---
-        function renderTable() {
-            const filteredRows = filterRows();
-            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-
-            currentPage = Math.min(currentPage, totalPages || 1);
-
-            table.innerHTML = "";
-
-            const start = (currentPage - 1) * rowsPerPage;
-            const end = start + rowsPerPage;
-
-            filteredRows.slice(start, end).forEach(row => table.appendChild(row));
-
-            pageInfo.textContent = `${currentPage} / ${totalPages || 1}`;
+        if (!maSP || !tenSP || !giaGoc) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Thiếu thông tin',
+                text: 'Vui lòng nhập Mã SP, Tên SP và Giá gốc.'
+            });
+            return;
         }
 
-        // --- Lọc theo ô tìm kiếm ---
-        function filterRows() {
-            const keyword = searchInput.value.toLowerCase();
-            return allRows.filter(row => row.innerText.toLowerCase().includes(keyword));
+        let imgHTML = '<img src="https://via.placeholder.com/60" class="img-thumbnail" style="width:60px;height:60px;object-fit:cover;">';
+
+        const data = [
+            maSP,
+            tenSP,
+            danhMuc,
+            imgHTML,
+            giaGoc,
+            giaKM,
+            `<span class="badge ${trangThai == "Đang KD" ? "bg-success" : "bg-secondary"}">${trangThai}</span>`,
+            '<button class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></button> ' +
+            '<button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button> ' +
+            `<button class="btn btn-secondary btn-sm">${trangThai == "Đang KD" ? '<i class="bi bi-eye-slash"></i>' : '<i class="bi bi-eye"></i>'}</button>`
+        ];
+
+        if (editRow) {
+            editRow.data(data).draw();
+            editRow = null;
+        } else {
+            table.row.add(data).draw();
         }
 
-        // --- Event Tìm kiếm ---
-        searchInput.addEventListener("keyup", function () {
-            currentPage = 1;
-            renderTable();
-        });
+        updatePageInfo();
+        modalSanPham.hide();
+    });
 
-        // --- Đổi số dòng ---
-        rowsPerPageSelect.addEventListener("change", function () {
-            rowsPerPage = parseInt(this.value);
-            currentPage = 1;
-            renderTable();
-        });
+    // --- SỬA SẢN PHẨM ---
+    $(document).on('click', '.btn-warning', function () {
+        editRow = table.row($(this).closest('tr'));
 
-        // --- Nút Trước ---
-        prevBtn.addEventListener("click", function () {
-            if (currentPage > 1) {
-                currentPage--;
-                renderTable();
-            }
-        });
+        let data = editRow.data();
 
-        // --- Nút Sau ---
-        nextBtn.addEventListener("click", function () {
-            const filteredRows = filterRows();
-            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-            if (currentPage < totalPages) {
-                currentPage++;
-                renderTable();
-            }
-        });
+        // Đổ dữ liệu vào form modal
+        $('#maSP').val(data[0]);
+        $('#tenSP').val(data[1]);
+        $('#danhMuc').val(data[2]);
+        $('#giaGoc').val(data[4]);
+        $('#giaKM').val(data[5]);
+        $('#trangThai').val($(data[6]).text().trim() === "Ẩn" ? "Ẩn" : "Đang Kinh Doanh");
 
-        // --- Khởi tạo ---
-        renderTable();
+        // Đổi tiêu đề
+        $('#modalSanPham .modal-title').html('<i class="bi bi-pencil"></i> Chỉnh sửa sản phẩm');
 
+        // Mở modal
+        modalSanPham.show();
+    });
+
+    // --- Toggle trạng thái ---
+    $(document).on('click', '.btn-secondary', function () {
+        const row = $(this).closest('tr');
+        const statusCell = row.find('td:eq(6)');
+        if (statusCell.text().trim() === "Đang KD" || statusCell.text().trim() === "Đang Kinh Doanh") {
+            statusCell.html('<span class="badge bg-secondary">Ẩn</span>');
+            $(this).html('<i class="bi bi-eye"></i>');
+        } else {
+            statusCell.html('<span class="badge bg-success">Đang KD</span>');
+            $(this).html('<i class="bi bi-eye-slash"></i>');
+        }
     });
 </script>
+
 </body>
 </html>

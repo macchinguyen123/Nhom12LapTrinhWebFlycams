@@ -9,6 +9,12 @@
 body {
     background-color: #ffffff;
 }
+.dataTables_paginate,
+.dataTables_filter,
+.dataTables_length,
+.dataTables_info {
+    display: none !important;
+}
 
 /* === HEADER === */
 .main-header {

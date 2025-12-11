@@ -10,6 +10,29 @@ body {
     background-color: #ffffff;
     /*color: #ffffff;*/
 }
+/* Ẩn ô tìm kiếm mặc định + phân trang mặc định của DataTables */
+.dataTables_filter,
+.dataTables_paginate {
+    display: none !important;
+}
+
+/* Style bảng chung */
+.table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table td,
+.table th {
+    vertical-align: middle;
+}
+
+/* Header bảng màu xanh (nếu bạn muốn giữ giống khuyến mãi) */
+table.dataTable thead th {
+    background-color: #0051c6 !important;
+    color: #fff !important;
+}
 
 /* === HEADER === */
 .main-header {

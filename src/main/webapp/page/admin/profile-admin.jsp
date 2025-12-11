@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,11 +15,13 @@
 
 </head>
 <body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 <!-- ===== HEADER ===== -->
 <header class="main-header">
     <div class="logo">
-        <img src="/image/logoo2.png" alt="Logo">
+        <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
         <h2>SkyDrone Admin</h2>
     </div>
     <div class="header-right">
@@ -51,7 +55,8 @@
     <!-- === SIDEBAR === -->
     <aside class="sidebar">
         <div class="user-info">
-            <img src="/image/logoTCN.png" alt="Avatar">
+            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+
             <h3>Mạc Nguyên</h3>
             <p>Chào mừng bạn trở lại 👋</p>
         </div>
@@ -102,7 +107,7 @@
         <div class="profile-left">
             <div class="avatar-box">
                 <div class="avatar-wrapper">
-                    <img src="/image/logoTCN.png" alt="Avatar" class="avatar-img">
+                    <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar" class="avatar-img">
                     <span class="avatar-camera">
         <i class="bi bi-camera-fill"></i>
     </span>
@@ -141,7 +146,8 @@
                 <p><strong>Chủ tài khoản:</strong> <span id="acctNameText">Mạc Nguyên</span></p></div>
             <button id="btn-edit-bank" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square"></i>
             </button>
-            <div class="bank-qr"><p><strong>Mã QR thanh toán</strong></p> <img src="/image/qr/qr.png" alt="QR Code">
+            <div class="bank-qr"><p><strong>Mã QR thanh toán</strong></p> <img src="${pageContext.request.contextPath}/image/qr/qr.png" alt="QR Code">
+
             </div>
         </div>
 
@@ -252,6 +258,15 @@
         let isMasked = true;
 
 
+        // ======= LOGOUT =======
+        $("#logoutBtn").on("click", function () {
+            $("#logoutModal").css("display", "flex");
+        });
+
+        $("#cancelLogout").on("click", function () {
+            $("#logoutModal").hide();
+        });
+
         /* =============================
            MASK SỐ TÀI KHOẢN
         ==============================*/
@@ -337,13 +352,7 @@
         ==============================*/
         updateMaskedDisplay();
 
-        // ================== POPUP ĐĂNG XUẤT ==================
-        const logoutBtn = document.getElementById("logoutBtn");
-        const logoutModal = document.getElementById("logoutModal");
-        const cancelLogout = document.getElementById("cancelLogout");
 
-        logoutBtn.onclick = () => logoutModal.style.display = "flex";
-        cancelLogout.onclick = () => logoutModal.style.display = "none";
     });
 </script>
 

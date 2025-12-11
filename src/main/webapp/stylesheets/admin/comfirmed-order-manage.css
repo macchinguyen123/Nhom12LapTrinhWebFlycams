@@ -11,6 +11,14 @@ body {
     /*color: #ffffff;*/
 }
 
+.dataTables_filter {
+    display: none !important;
+}
+
+.dataTables_paginate {
+    display: none !important;
+}
+
 /* === HEADER === */
 .main-header {
     position: fixed;
