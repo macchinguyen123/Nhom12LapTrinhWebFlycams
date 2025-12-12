@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--<jsp:useBean id="category" scope="request" type="vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Categories"/>--%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,102 +21,111 @@
 <section class="phan-san-pham">
     <h2 class="tieu-de-muc">${category.categoryName}</h2>
 
-    <div class="bo-loc-va-sap-xep position-relative">
+    <form id="filter-form" method="get" action="Category">
+        <!-- Hidden category id -->
+        <input type="hidden" name="id" value="${param.id}">
+        <!-- Hidden sort -->
+        <input type="hidden" name="sort" id="sort-input" value="${param.sort}">
 
-        <!-- Nút Bộ lọc -->
-        <button class="nut-bo-loc btn btn-outline-primary">
-            <i class="bi bi-funnel"></i> Bộ lọc
-        </button>
+        <div class="bo-loc-va-sap-xep position-relative">
+            <!-- Nút Bộ lọc -->
+            <button type="button" class="nut-bo-loc btn btn-outline-primary">
+                <i class="bi bi-funnel"></i> Bộ lọc
+            </button>
 
-        <!-- Cửa sổ xổ xuống -->
-        <div class="hop-loc" id="hop-loc">
-            <h6><i class="bi bi-funnel"></i> Lọc theo giá</h6>
-            <hr class="my-2">
-
-            <!-- Các khoảng giá -->
-            <div class="danh-sach-loc">
-                <label><input type="radio" name="chon-gia" value="tat-ca" checked> Tất cả</label>
-                <label><input type="radio" name="chon-gia" value="duoi-5000000"> Dưới 5.000.000 ₫</label>
-                <label><input type="radio" name="chon-gia" value="5-10"> 5.000.000 ₫ - 10.000.000 ₫</label>
-                <label><input type="radio" name="chon-gia" value="10-20"> 10.000.000 ₫ - 20.000.000 ₫</label>
-                <label><input type="radio" name="chon-gia" value="tren-20"> Trên 20.000.000 ₫</label>
-                <p><b>Nhập vào khoảng giá bạn muốn</b></p>
-                <div class="d-flex align-items-center gap-1">
-                    <input type="number" id="gia-tu" class="form-control form-control-sm" placeholder="Từ ₫"
-                           style="width: 100px;">
-                    <span>-</span>
-                    <input type="number" id="gia-den" class="form-control form-control-sm" placeholder="Đến ₫"
-                           style="width: 100px;">
-                </div>
-                <!-- Lọc theo thương hiệu -->
+            <!-- Cửa sổ xổ xuống -->
+            <div class="hop-loc" id="hop-loc">
+                <h6><i class="bi bi-funnel"></i> Lọc theo giá</h6>
                 <hr class="my-2">
-                <h6><i class="bi bi-box"></i> Lọc theo thương hiệu</h6>
-                <hr class="my-2">
-                <div class="row mt-2">
+                <div class="danh-sach-loc">
+                    <label><input type="radio" name="chon-gia" value="tat-ca"
+                                  <c:if test="${param['chon-gia']=='tat-ca'}">checked</c:if>> Tất cả</label>
+                    <label><input type="radio" name="chon-gia" value="duoi-5000000"
+                                  <c:if test="${param['chon-gia']=='duoi-5000000'}">checked</c:if>> Dưới 5.000.000 ₫</label>
+                    <label><input type="radio" name="chon-gia" value="5-10"
+                                  <c:if test="${param['chon-gia']=='5-10'}">checked</c:if>> 5.000.000 ₫ - 10.000.000 ₫</label>
+                    <label><input type="radio" name="chon-gia" value="10-20"
+                                  <c:if test="${param['chon-gia']=='10-20'}">checked</c:if>> 10.000.000 ₫ - 20.000.000 ₫</label>
+                    <label><input type="radio" name="chon-gia" value="tren-20"
+                                  <c:if test="${param['chon-gia']=='tren-20'}">checked</c:if>> Trên 20.000.000 ₫</label>
 
-                    <!-- Cột 1 -->
-                    <div class="col-6">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandDJI" name="chon-thuong-hieu"
-                                   value="DJI">
-                            <label class="form-check-label" for="brandDJI">DJI</label>
+                    <p><b>Nhập vào khoảng giá bạn muốn</b></p>
+                    <div class="d-flex align-items-center gap-1">
+                        <input type="number" name="gia-tu" id="gia-tu"
+                               class="form-control form-control-sm"
+                               value="${param['gia-tu']}"
+                               placeholder="Từ ₫" style="width: 100px;">
+
+                        <span>-</span>
+
+                        <input type="number" name="gia-den" id="gia-den"
+                               class="form-control form-control-sm"
+                               value="${param['gia-den']}"
+                               placeholder="Đến ₫" style="width: 100px;">
+                    </div>
+
+
+                    <!-- Lọc theo thương hiệu -->
+                    <hr class="my-2">
+                    <h6><i class="bi bi-box"></i> Lọc theo thương hiệu</h6>
+                    <hr class="my-2">
+                    <div class="row mt-2">
+                        <c:set var="brands" value="${paramValues['chon-thuong-hieu']}" />
+                        <div class="col-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       name="chon-thuong-hieu" value="DJI"
+                                       <c:if test="${fn:contains(brands,'DJI')}">checked</c:if>>
+                                <label class="form-check-label">DJI</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       name="chon-thuong-hieu" value="Autel Robotics"
+                                       <c:if test="${fn:contains(brands,'Autel Robotics')}">checked</c:if>>
+                                <label class="form-check-label">Autel Robotics</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       name="chon-thuong-hieu" value="Parrot"
+                                       <c:if test="${fn:contains(brands,'Parrot')}">checked</c:if>>
+                                <label class="form-check-label">Parrot</label>
+                            </div>
                         </div>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandAutel" name="chon-thuong-hieu"
-                                   value="Autel Robotics">
-                            <label class="form-check-label" for="brandAutel">Autel Robotics</label>
-                        </div>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandParrot" name="chon-thuong-hieu"
-                                   value="Parrot">
-                            <label class="form-check-label" for="brandParrot">Parrot</label>
+                        <div class="col-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       name="chon-thuong-hieu" value="Skydio"
+                                       <c:if test="${fn:contains(brands,'Skydio')}">checked</c:if>>
+                                <label class="form-check-label">Skydio</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       name="chon-thuong-hieu" value="Xiaomi"
+                                       <c:if test="${fn:contains(brands,'Xiaomi')}">checked</c:if>>
+                                <label class="form-check-label">Xiaomi</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       name="chon-thuong-hieu" value="Khác"
+                                       <c:if test="${fn:contains(brands,'Khác')}">checked</c:if>>
+                                <label class="form-check-label">Khác</label>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Cột 2 -->
-                    <div class="col-6">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandSkydio" name="chon-thuong-hieu"
-                                   value="Skydio">
-                            <label class="form-check-label" for="brandSkydio">Skydio</label>
-                        </div>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandXiaomi" name="chon-thuong-hieu"
-                                   value="Xiaomi">
-                            <label class="form-check-label" for="brandXiaomi">Xiaomi</label>
-                        </div>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandOther" name="chon-thuong-hieu"
-                                   value="Khác">
-                            <label class="form-check-label" for="brandOther">Khác</label>
-                        </div>
-                    </div>
-
+                    <button type="submit" class="btn btn-sm btn-primary mt-2">Áp dụng</button>
                 </div>
-                <button id="btn-ap-dung-gia" class="btn btn-sm btn-primary mt-2">Áp dụng</button>
             </div>
 
-
+            <!-- Sort buttons -->
+            <div class="sap-xep-theo">
+                <span>Sắp xếp theo:</span>
+                <button type="button" class="btn-sap-xep ${empty param.sort?'active':''}" onclick="submitSort('')">Nổi bật</button>
+                <button type="button" class="btn-sap-xep ${param.sort=='asc'?'active':''}" onclick="submitSort('asc')">Giá Thấp → Cao</button>
+                <button type="button" class="btn-sap-xep ${param.sort=='desc'?'active':''}" onclick="submitSort('desc')">Giá Cao → Thấp</button>
+            </div>
         </div>
-
-
-        <!-- Nhóm sắp xếp -->
-        <div class="sap-xep-theo">
-            <span class="label">Sắp xếp theo:</span>
-            <button class="btn-sap-xep active">Nổi bật</button>
-            <button class="btn-sap-xep">
-                <i class="bi bi-filter"></i> Giá Thấp - Cao
-            </button>
-            <button class="btn-sap-xep">
-                <i class="bi bi-filter"></i> Giá Cao - Thấp
-            </button>
-        </div>
-    </div>
-
+    </form>
 
     <!-- Lưới sản phẩm -->
     <div class="khung-san-pham">
@@ -125,8 +135,8 @@
                 <a href="${pageContext.request.contextPath}/product-details.jsp?id=${p.id}">
                     <!-- Ảnh -->
                     <c:choose>
-                        <c:when test="${not empty p.images}">
-                            <img src="${p.images[0].imageUrl}" alt="${p.productName}">
+                        <c:when test="${not empty p.mainImage}">
+                            <img src="${p.mainImage}" alt="${p.productName}">
                         </c:when>
                         <c:otherwise>
                             <img src="${pageContext.request.contextPath}/assets/no-image.png" alt="No Image">
@@ -138,9 +148,9 @@
 
                     <!-- Giá (luôn hiển thị div.gia giống mẫu) -->
                     <div class="gia">
-                        <b>${p.finalPrice} ₫</b>
+                        <b>  ${formatter.format(p.finalPrice)} ₫</b>
                         <c:if test="${p.price >= p.finalPrice}">
-                        <span class="gia-goc">${p.price} ₫</span>
+                            <span class="gia-goc">  ${formatter.format(p.price)} ₫</span>
                         </c:if>
                     </div>
                 </a>
@@ -270,6 +280,18 @@
 
 </script>
 <script>
+    function submitSort(sortValue){
+        document.getElementById('sort-input').value = sortValue;
+        document.getElementById('filter-form').submit();
+    }
+
+    // Toggle hiển thị bộ lọc
+    document.querySelector('.nut-bo-loc').addEventListener('click', function(){
+        document.getElementById('hop-loc').classList.toggle('show');
+    });
+</script>
+
+<script>
     const btnDanhMuc = document.getElementById('btnDanhMuc');
     const menuLeft = document.getElementById('menuLeft');
 
@@ -284,5 +306,6 @@
         }
     });
 </script>
+
 </body>
 </html>

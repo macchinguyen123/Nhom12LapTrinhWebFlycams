@@ -5,28 +5,97 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PriceFormatter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @WebServlet(name = "Searching", value = "/Searching")
 public class Searching extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-        String keyword = request.getParameter("keyword"); // lấy từ khóa
+        // ======= 1. Lấy từ khóa =======
+        String keyword = request.getParameter("keyword");
+        if (keyword == null) keyword = "";
 
-        if(keyword == null) keyword = "";
 
+        // ======= 2. Lọc theo giá =======
+        String giaTuStr = request.getParameter("gia-tu");
+        String giaDenStr = request.getParameter("gia-den");
+
+        Double minPrice = null;
+        Double maxPrice = null;
+
+        try {
+            if (giaTuStr != null && !giaTuStr.trim().isEmpty()) {
+                String s = giaTuStr.trim().replaceAll("[^0-9]", "");
+                if (!s.isEmpty()) minPrice = Double.parseDouble(s);
+            }
+        } catch (NumberFormatException x) {
+            minPrice = null;
+        }
+
+        try {
+            if (giaDenStr != null && !giaDenStr.trim().isEmpty()) {
+                String s = giaDenStr.trim().replaceAll("[^0-9]", "");
+                if (!s.isEmpty()) maxPrice = Double.parseDouble(s);
+            }
+        } catch (NumberFormatException x) {
+            maxPrice = null;
+        }
+
+        String priceFilter = request.getParameter("chon-gia");
+
+        if ((minPrice == null && maxPrice == null) && priceFilter != null) {
+            switch (priceFilter) {
+                case "duoi-5000000":
+                    minPrice = null; maxPrice = 5_000_000.0; break;
+                case "5-10":
+                    minPrice = 5_000_000.0; maxPrice = 10_000_000.0; break;
+                case "10-20":
+                    minPrice = 10_000_000.0; maxPrice = 20_000_000.0; break;
+                case "tren-20":
+                    minPrice = 20_000_000.0; maxPrice = null; break;
+                default:
+                    break;
+            }
+        }
+
+
+        // ======= 3. Lọc theo brand =======
+        String[] brandArr = request.getParameterValues("chon-thuong-hieu");
+        List<String> brandList = (brandArr != null) ? Arrays.asList(brandArr) : null;
+
+
+        // ======= 4. Sắp xếp =======
+        String sortBy = request.getParameter("sort");
+
+
+        // ======= 5. Gọi DAO =======
         ProductDAO dao = new ProductDAO();
-        List<Product> results = dao.searchProducts(keyword);
+        List<Product> results = dao.searchProducts(
+                keyword,
+                priceFilter,
+                minPrice,
+                maxPrice,
+                brandList,
+                sortBy
+        );
 
-        request.setAttribute("keyword", keyword);
+
+        // ======= 6. Gửi formatter xuống JSP =======
+        request.setAttribute("formatter", new PriceFormatter());
+
+        // ======= 7. Trả kết quả =======
         request.setAttribute("products", results);
+        request.setAttribute("keyword", keyword);
 
-        // chuyển sang trang kết quả
         request.getRequestDispatcher("page/searching.jsp").forward(request, response);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

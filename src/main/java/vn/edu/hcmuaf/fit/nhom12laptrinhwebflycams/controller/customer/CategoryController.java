@@ -7,8 +7,10 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.CategoryDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Categories;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PriceFormatter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @WebServlet(name = "Category", value = "/Category")
@@ -21,8 +23,8 @@ public class CategoryController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // ======= 1. Lấy ID danh mục ========
         String id_raw = request.getParameter("id");
-
         if (id_raw == null) {
             response.sendRedirect("home");
             return;
@@ -30,26 +32,92 @@ public class CategoryController extends HttpServlet {
 
         int categoryId = Integer.parseInt(id_raw);
 
-        // Lấy thông tin danh mục
+        // Lấy thông tin category
         Categories category = categoryDAO.getCategoryById(categoryId);
-
-        // Nếu danh mục không tồn tại → redirect
         if (category == null) {
             response.sendRedirect("page/homepage.jsp");
             return;
         }
 
-        // Lấy danh sách sản phẩm theo danh mục
-        List<Product> products = productDAO.getProductsByCategory(categoryId);
+        // ======= 2. Từ khóa tìm kiếm (nếu có) =======
+        String keyword = request.getParameter("keyword");
 
+        // ======= 3. Lọc theo giá =======
+        String giaTuStr = request.getParameter("gia-tu");
+        String giaDenStr = request.getParameter("gia-den");
+
+        Double minPrice = null;
+        Double maxPrice = null;
+
+        try {
+            if (giaTuStr != null && !giaTuStr.trim().isEmpty()) {
+                String s = giaTuStr.trim().replaceAll("[^0-9]", "");
+                if (!s.isEmpty()) minPrice = Double.parseDouble(s);
+            }
+        } catch (NumberFormatException ignored) {}
+
+        try {
+            if (giaDenStr != null && !giaDenStr.trim().isEmpty()) {
+                String s = giaDenStr.trim().replaceAll("[^0-9]", "");
+                if (!s.isEmpty()) maxPrice = Double.parseDouble(s);
+            }
+        } catch (NumberFormatException ignored) {}
+
+        String priceFilter = request.getParameter("chon-gia");
+
+        if ((minPrice == null && maxPrice == null) && priceFilter != null) {
+            switch (priceFilter) {
+                case "duoi-5000000":
+                    maxPrice = 5_000_000.0;
+                    break;
+                case "5-10":
+                    minPrice = 5_000_000.0;
+                    maxPrice = 10_000_000.0;
+                    break;
+                case "10-20":
+                    minPrice = 10_000_000.0;
+                    maxPrice = 20_000_000.0;
+                    break;
+                case "tren-20":
+                    minPrice = 20_000_000.0;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // ======= 4. Lọc theo thương hiệu =======
+        String[] brandArr = request.getParameterValues("chon-thuong-hieu");
+        List<String> brandList = (brandArr != null) ? Arrays.asList(brandArr) : null;
+
+        // ======= 5. Sắp xếp =======
+        String sortParam = request.getParameter("sort"); // "asc" hoặc "desc"
+        String sortBy = null; // giá trị truyền vào DAO
+
+        if ("asc".equals(sortParam)) sortBy = "low-high";
+        else if ("desc".equals(sortParam)) sortBy = "high-low";
+
+
+        // ======= 6. Lấy danh sách sản phẩm theo category + lọc =======
+        List<Product> products = productDAO.searchProductsInCategory(
+                categoryId,
+                keyword,
+                minPrice,
+                maxPrice,
+                brandList,
+                sortBy
+        );
+
+        // ======= 7. Gửi xuống JSP =======
         request.setAttribute("category", category);
         request.setAttribute("products", products);
+        request.setAttribute("formatter", new PriceFormatter());
 
-        // Chuyển sang trang JSP
+        // ======= 8. Forward tới trang category =======
         request.getRequestDispatcher("/page/category/mini-drone.jsp").forward(request, response);
-        System.out.println("ID = " + id_raw);
-        System.out.println("Category = " + products.toString());
 
+        System.out.println("Category ID = " + categoryId);
+        System.out.println("Products count = " + products.size());
     }
 
     @Override
