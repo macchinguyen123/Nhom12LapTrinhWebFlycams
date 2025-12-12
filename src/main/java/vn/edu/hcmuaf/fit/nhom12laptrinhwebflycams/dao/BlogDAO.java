@@ -12,7 +12,7 @@ public class BlogDAO {
     // Lấy tất cả bài viết để hiển thị danh sách
     public List<Post> getAllPosts() {
         List<Post> list = new ArrayList<>();
-        String sql = "SELECT id, title, content, image, createdAt, productId FROM posts ORDER BY createdAt DESC";
+        String sql = "SELECT id, title, content, image, createdAt, product_id FROM posts ORDER BY createdAt DESC";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -25,8 +25,9 @@ public class BlogDAO {
                         rs.getString("content"),
                         rs.getString("image"),
                         rs.getTimestamp("createdAt"),
-                        rs.getInt("productId")
+                        rs.getInt("product_id")
                 );
+                System.out.println("Total posts: " + list.size());
                 list.add(p);
             }
 
