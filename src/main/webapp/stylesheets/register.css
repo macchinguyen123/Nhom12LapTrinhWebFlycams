@@ -12,6 +12,14 @@ body {
     padding: 40px 10px;
 }
 
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 6px;
+    display: block;
+}
+
+
 
 .container {
     width: 100%;

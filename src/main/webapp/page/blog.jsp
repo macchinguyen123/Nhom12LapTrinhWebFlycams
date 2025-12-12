@@ -25,7 +25,7 @@
             <!-- LOGO -->
             <a href="homepage.jsp">
                 <div class="logo">
-                    <img src="../image/logoo2.png" alt="Logo">
+                    <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
                     <h2>SkyDrone</h2>
                 </div>
             </a>
@@ -94,7 +94,7 @@
             <a href="support.jsp">
                 <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
             </a>
-            <a href="blog.html">
+            <a href="blog.jsp">
                 <button class="nav-item active"><i class="bi bi-journal-text"></i>Bài viết</button>
             </a>
         </nav>
@@ -145,16 +145,20 @@
             <c:forEach var="post" items="${posts}">
                 <article class="post-card">
                     <div class="post-thumb">
-                        <img src="${post.image}" alt="${post.title}">
+                        <a href="${pageContext.request.contextPath}/article?id=${post.id}">
+                            <img src="${post.image}" alt="${post.title}">
+                        </a>
                     </div>
                     <div class="post-info">
-                        <h3 class="post-title">${post.title}</h3>
+                        <h3 class="post-title">
+                            <a href="${pageContext.request.contextPath}/article?id=${post.id}">${post.title}</a>
+                        </h3>
                         <p class="post-excerpt">
                                 ${fn:substring(post.content, 0, 120)}...
                         </p>
                         <span class="post-date">
-                            <fmt:formatDate value="${post.createdAt}" pattern="dd MMM yyyy"/>
-                        </span>
+                <fmt:formatDate value="${post.createdAt}" pattern="dd MMM yyyy"/>
+            </span>
                     </div>
                 </article>
             </c:forEach>

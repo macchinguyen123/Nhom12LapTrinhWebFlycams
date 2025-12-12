@@ -1,16 +1,22 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hướng Dẫn Sử Dụng Điều Khiển DJI RC 2</title>
+    <title><c:out value="${post.title}"/> - SkyDrone</title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../stylesheets/header.css">
-    <link rel="stylesheet" href="../stylesheets/footer.css">
-    <link rel="stylesheet" href="../stylesheets/article.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/article.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/footer.css">
+
 </head>
 <body>
 <!-- ==== HEADER TRÊN ==== -->
@@ -20,7 +26,7 @@
             <!-- LOGO -->
             <a href="homepage.jsp">
                 <div class="logo">
-                    <img src="../image/logoo2.png" alt="Logo">
+                    <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
                     <h2>SkyDrone</h2>
                 </div>
             </a>
@@ -129,224 +135,45 @@
 <article class="article-container">
     <header class="article-header">
         <div class="meta-info">
-            <span class="post-date">Posted on 07/11/2024</span>
+            <span class="post-date">
+                <fmt:formatDate value="${post.createdAt}" pattern="dd/MM/yyyy" />
+            </span>
             <span class="author">by Admin</span>
         </div>
-        <h1 class="article-title">Hướng Dẫn Sử Dụng Điều Khiển DJI RC 2</h1>
+
+        <h1 class="article-title">${post.title}</h1>
     </header>
 
     <div class="article-content">
+
+        <!-- ẢNH BÀI VIẾT -->
         <div class="article-image">
-            <img src="../image/blog/hinhAnhBaiViet1.png" alt="DJI RC 2 điều khiển từ xa">
-        </div>
-        <div class="intro-section">
-            <p>DJI RC 2 được biết đến là bộ điều kiểu từ xa cầm tay do DJI thiết đế dành riêng cho nhiều dòng flycam của
-                mình. Cũng nhờ thiết bị điều khiến này mà người dùng dễ dàng tạo nên những sản phẩm hình ảnh/video đẹp.
-                Tuy nhiên đối với người mới thì việc sử dụng chắc chắn sẽ gặp phải nhiều khó khăn. Vậy nên hãy để chúng
-                tôi hướng dẫn sử dụng điều khiển DJI RC 2 một cách chi tiết nhất nhé!</p>
+            <img src="${post.image}" alt="${post.title}">
         </div>
 
-        <section class="content-section">
-            <h2>Giới thiệu về DJI RC 2</h2>
-            <p>Để mang lại trải nghiệm tốt nhất cho người dùng DJI đã cho ra mắt thiết bị điều khiển DJI RC 2. Đây là
-                một thiết bị điều khiển flycam được trang bị nhiều tính năng vượt trội. Thiết bị này có khả năng tiếp
-                nhận và truyền tải thông tin ở khoảng cách xa đến <strong>20km</strong>.</p>
-            <div class="article-image">
-                <img src="../image/blog/hinhAnhBaiViet2.png" alt="DJI RC 2 điều khiển từ xa">
-            </div>
-            <div class="highlight-box">
-                <p>Khi sử dụng thiết bị ngày người dùng đã sở hữu ngay <strong>32GB lưu trữ</strong> được tích hợp sẵn.
-                    Nhờ vậy bạn có thể thoải mái ghi hình, chụp ảnh trực tiếp ngay trên bộ nhớ đẹp của thiết bị. Điều
-                    khiển còn hỗ trợ thẻ nhớ để người dùng có thể tăng không gian lưu trữ.</p>
-            </div>
+        <!-- NỘI DUNG -->
+        <div class="article-text" style="white-space: pre-line;">
+        ${post.content}
+    </div>
 
-            <p>Trọng lượng thiết bị chỉ <strong>420g</strong> cùng hệ thống tự động làm mát sẽ mang lại cảm giác cầm
-                nắm, điều khiển thoải mái trong suốt quá trình điều khiển. Ngoài ra thiết bị điều khiển này còn trang bị
-                thêm nhiều tính năng như: công nghệ truyền video O4, anten 2T4R, màn hình FHD… Với những thông số này
-                chắc chắn thiết bị điều khiển DJI RC 2 sẽ giúp người dùng điều khiển flycam một cách dễ dàng và chính
-                xác hơn.</p>
-        </section>
 
-        <section class="content-section">
-            <h2>Hướng dẫn sử dụng điều khiển DJI RC 2</h2>
-            <p>Để sử dụng được bộ điều khiển DJI RC 2 các bạn có thể thực hiện theo những bước dưới đây:</p>
 
-            <h3>Chuẩn bị</h3>
-            <p>Trước khi sử dụng bạn cần đảm bảo điều khiển đã được nạp đầy pin. Nếu pin chưa đầy hãy kết nối bộ sạc với
-                cổng USB-C trên bộ điều khiển để tiến hành nạp năng lượng cho thiết bị.</p>
-            <div class="article-image">
-                <img src="../image/blog/hinhAnhBaiViet3.png" alt="DJI RC 2 điều khiển từ xa">
-            </div>
-            <p>Tiếp đến người dùng cần tháo cần điều khiển ra khỏi khe cất giữ và gắn chúng vào bộ điều khiển từ xa.
-                Tiến hành mở các ăng ten để truyền, nhận tín hiệu. Trong lần đầu tiên sử dụng thì bộ điều khiển cần được
-                kích hoạt. Để kích hoạt bạn cần thực hiện những bước sau:</p>
 
-            <div class="steps-box">
-                <ol>
-                    <li>Bật nguồn → chọn ngôn ngữ và nhấn tiếp theo → Chọn đồng ý với các điều khoản sử dụng và chính
-                        sách quyền riêng tư → chọn quốc gia/khu vực
-                    </li>
-                    <li>Kết nối bộ điều khiển với wifi → Chọn Tiếp theo → cài đặt múi giờ và thời gian</li>
-                    <li>Đăng nhập bằng tài khoản DJI của bạn. Nếu chưa có thì tiến hành tạo tài khoản mới rồi đăng
-                        nhập
-                    </li>
-                    <li>Nhấn Kích hoạt</li>
-                    <li>Sau khi kích hoạt bạn có thể chọn tham gia dự án cải tiến hay không</li>
-                </ol>
-            </div>
 
-            <h3>Hoạt động của điều khiển</h3>
-            <p>Tiến hành khởi động bộ điều khiển bằng cách nhấn và giữ nút nguồn. Kiểm tra bộ điều khiển đã được liên
-                kết với flycam hay chưa. Thường nếu bạn mua theo combo thì việc liên kết đã được thực hiện sẵn. Nếu chưa
-                bạn tiến hành các bước sau:</p>
-
-            <div class="steps-box">
-                <ol>
-                    <li>Bật nguồn flycam và bộ điều khiển</li>
-                    <li>Khởi chạy DJI Fly</li>
-                    <li>Trong máy ảnh view chọn << + rồi chọn Điều khiển rồi ghép nối lại với Máy bay. Lúc này led của
-                        bộ điều khiển sẽ nhấp nháy màu xanh lam và phát ra tiếng bíp
-                    </li>
-                    <li>Nhấn giữ nút nguồn của flycam trong khoảng 4 giây. Lúc nào flycam phát ra tiếng bíp hai lần sau
-                        1 tiếng bíp ngắn và đèn báo mức pin nhấp nháy theo trình tự là flycam đã sẵn sàng liên kết. Bộ
-                        điều khiển phát ra tiếng bíp và đèn chuyển sang màu xanh lục là liên kết đã thành công.
-                    </li>
-                </ol>
-            </div>
-            <div class="article-image">
-                <img src="../image/blog/hinhAnhBaiViet5.png" alt="DJI RC 2 điều khiển từ xa">
-            </div>
-            <h4>Tiến hành điều khiển</h4>
-            <p>Sau khi thực hiện những bước trên thì bộ điều khiển đã có thể sử dụng. Lúc này bộ điều khiển có 3 chế độ
-                để bạn có thể sử dụng và các chế độ tùy chỉnh khác. Thông thường chế độ 2 là chế độ mặc định của bộ điều
-                khiển. Tùy vào nhu cầu mà bạn có thể điều chỉnh chế độ sao cho phù hợp.</p>
-
-            <p><strong>Đối với thiết bị các bộ phận trên thiết bị có ý nghĩa như sau:</strong></p>
-
-            <div class="features-grid">
-                <div class="feature-item">
-                    <div class="feature-title">Gậy điều khiển</div>
-                    <div class="feature-desc">Điều khiển chuyển động của máy</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-title">Ăng ten</div>
-                    <div class="feature-desc">Truyền tải tín hiệu để điều khiển máy bay</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-title">Đèn LED</div>
-                    <div class="feature-desc">Thể hiện trạng thái của bộ điều khiển từ xa</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-title">Đèn LED báo mức pin</div>
-                    <div class="feature-desc">Phản ánh mức pin của bộ điều khiển</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-title">Nút Tạm dừng/Quay lại</div>
-                    <div class="feature-desc">Tạm dừng Chuyến bay hoặc Quay lại Trang chủ</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-title">Chuyển chế độ máy bay</div>
-                    <div class="feature-desc">Thay đổi giữa các chế độ bay khác nhau</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-title">Power Button</div>
-                    <div class="feature-desc">Nhấn 1 lần để xem mức pin. Nhấn giữ để tắt/bật</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-title">Màn hình cảm ứng</div>
-                    <div class="feature-desc">Chạm vào màn hình để vận hành bộ điều khiển</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-title">Cổng USB-C</div>
-                    <div class="feature-desc">Sạc và kết nối bộ điều khiển</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-title">Khe cắm thẻ nhớ</div>
-                    <div class="feature-desc">Mở rộng không gian lưu trữ</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-title">Quay số Gimbal</div>
-                    <div class="feature-desc">Kiểm soát độ nghiêng của máy ảnh</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-title">Nút ghi</div>
-                    <div class="feature-desc">Nhấn 1 lần để bắt đầu/dừng ghi</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-title">Quay số điều khiển máy ảnh</div>
-                    <div class="feature-desc">Điều chỉnh các thông số máy ảnh</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-title">Nút lấy nét/chụp</div>
-                    <div class="feature-desc">Nhấn một nửa để lấy nét, nhấn hết hở để chụp</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-title">Loa</div>
-                    <div class="feature-desc">Phát âm thanh thông báo</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-title">Khe lưu trữ gậy điều khiển</div>
-                    <div class="feature-desc">Cất giữ gậy điều khiển khi không sử dụng</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="conclusion-section">
-            <p>Hy vọng với hướng dẫn sử dụng điều khiển DJI RC 2 chi tiết nhất trên của chúng tôi có thể giúp bạn biết
-                được cách sử dụng thiết bị này. Nếu bạn đang có nhu cầu mua thiết bị điều khiển này hay còn bất kỳ thắc
-                mắc nào về sản phẩm hãy liên hệ ngay với SkyDrone qua hotline <strong>0369.326.399</strong> để được tư
-                vấn và hỗ trợ tốt nhất nhé!</p>
-        </section>
-
+        <!-- Bài viết liên quan -->
         <section class="related-posts">
-            <h3>Xem thêm:</h3>
+            <h3>Xem thêm bài viết khác:</h3>
             <ul>
-                <li><a href="#">Hướng Dẫn Sử Dụng Điều Khiển DJI RC 2</a></li>
-                <li><a href="#">DJI Mini 2 VS DJI Mini 4K So Sánh Chiếc Flycam Nào Sẽ Phù Hợp Với Bạn</a></li>
-                <li><a href="#">Hướng dẫn cách lấy video từ flycam chi tiết từng bước</a></li>
-                <li><a href="#">DJI Air 2 Vs Air 2s So Sánh Chi Tiết A-Z</a></li>
-                <li><a href="#">Review Flycam SJRC F22 S2 PRO+ Đánh Giá Chi Tiết</a></li>
+                <c:forEach var="p" items="${relatedPosts}">
+                    <li>
+                        <a href="article?id=${p.id}">
+                                ${p.title}
+                        </a>
+                    </li>
+                </c:forEach>
             </ul>
         </section>
-        <section class="related-articles">
-            <h2>Bài viết cùng chủ đề:</h2>
-            <a href="article.html">
-                <div class="related-grid">
-                    <div class="related-item">
-                        <img src="../image/blog/img_2.png" alt="DJI Air 2 vs Air 2S">
-                        <p>DJI Air 2 Vs Air 2s So Sánh Chi Tiết A-Z</p>
-                    </div>
-                    <div class="related-item">
-                        <img src="../image/blog/img_3.png" alt="Hướng dẫn DJI RC">
-                        <p>Hướng Dẫn Sử Dụng Điều Khiển DJI RC Chi Tiết</p>
-                    </div>
-                    <div class="related-item">
-                        <img src="../image/blog/img_4.png" alt="Phần mềm giả lập bay">
-                        <p>Phần mềm giả lập bay Flycam trên điện thoại – DJI Flight Simulator</p>
-                    </div>
-                    <div class="related-item">
-                        <img src="../image/blog/img_5.png" alt="Lấy video từ flycam">
-                        <p>Hướng dẫn cách lấy video từ flycam chi tiết từng bước</p>
-                    </div>
-                    <div class="related-item">
-                        <img src="../image/blog/img_6.png" alt="Tải DJI Fly app">
-                        <p>Hướng Dẫn Tải Ứng Dụng DJI Fly Cho Điện Thoại Android</p>
-                    </div>
-                    <div class="related-item">
-                        <img src="../image/blog/img_7.png" alt="Mở vùng bay GEO">
-                        <p>Hướng dẫn cách mở vùng bay cấm GEO ZONE của DJI</p>
-                    </div>
-                    <div class="related-item">
-                        <img src="../image/blog/img_8.png" alt="Khắc phục lỗi app RC">
-                        <p>Khắc Phục Mất APP Trên Tay Điều Khiển RC Flycam Peng Pro 2</p>
-                    </div>
-                    <div class="related-item">
-                        <img src="../image/blog/img_9.png" alt="Lắp cánh quạt">
-                        <p>Hướng Dẫn Cách Lắp Cánh Quạt Flycam Đúng Chuẩn</p>
-                    </div>
-                </div>
-            </a>
-        </section>
+
         <!-- Phần bình luận -->
         <section class="comment-section">
             <h2>1 bình luận trong bài viết này</h2>
@@ -372,8 +199,10 @@
                 <button type="submit" class="comment-submit">Đăng Bình Luận</button>
             </div>
         </section>
+
     </div>
 </article>
+
 <footer class="footer">
     <div class="footer-container">
         <!-- Cột 1 -->
