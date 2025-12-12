@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/header.css">
 </head>
 <body>
-<c:set var="currentPage" value="${pageContext.request.requestURI}" />
+<c:set var="currentPage" value="${pageContext.request.requestURI}"/>
 <!-- ==== HEADER TRÊN ==== -->
 <div class="header-bg">
     <div class="header-wrapper">
@@ -28,11 +28,19 @@
             </a>
 
             <!-- THANH TÌM KIẾM -->
-            <form action="${pageContext.request.contextPath}/Searching" method="get" class="search-bar position-relative">
+            <form action="${pageContext.request.contextPath}/Searching" method="get"
+                  class="search-bar position-relative">
                 <i class="bi bi-search" id="searchBtn" style="cursor: pointer;"></i>
-                <input id="searchInput" name="keyword" type="text" placeholder="Tìm kiếm drone, flycam..." autocomplete="off">
 
-                <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
+                <input id="searchInput"
+                       name="keyword"
+                       type="text"
+                       placeholder="Tìm kiếm drone, flycam..."
+                       autocomplete="off"
+                       value="${keyword != null ? keyword : ''}">
+
+                <ul id="suggestList"
+                    class="list-group position-absolute w-100 shadow-sm"
                     style="top: 100%; left: 0; z-index: 1000; display: none;">
                 </ul>
             </form>
@@ -55,7 +63,8 @@
                 </a>
 
                 <a href="personal-page.jsp">
-                    <div class="icon-btn ${currentPage.endsWith('personal-page.jsp') ? 'active' : ''}" title="Tài khoản">
+                    <div class="icon-btn ${currentPage.endsWith('personal-page.jsp') ? 'active' : ''}"
+                         title="Tài khoản">
                         <i class="bi bi-person-circle"></i>
                         <span>Tài khoản</span>
                     </div>
@@ -117,28 +126,34 @@
     <div class="menu-left-1" id="menuLeft">
         <ul>
             <li><a href="category/film-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucQuayPhim.png"
+                     class="menu-icon">Drone quay phim chuyên nghiệp
             </a>
             </li>
 
             <li><a href="category/tourism-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucDuLich.png"
+                     class="menu-icon">Drone du lịch, vlog
             </a>
             </li>
             <li><a href="category/sport-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucTheThao.png"
+                     class="menu-icon">Drone thể thao tốc độ cao
             </a>
             </li>
             <li><a href="category/agriculture-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucNongNghiep.png"
+                     class="menu-icon">Drone nông nghiệp
             </a>
             </li>
             <li><a href="category/monitor-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucAnNinh.png"
+                     class="menu-icon">Drone giám sát, an ninh
             </a>
             </li>
             <li><a href="category/mini-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone
+                mini, cỡ nhỏ
             </a>
             </li>
         </ul>

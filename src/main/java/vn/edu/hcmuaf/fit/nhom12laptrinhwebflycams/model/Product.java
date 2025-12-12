@@ -17,6 +17,7 @@ public class Product implements Serializable {
     private int quantity;
     private boolean status;
     private List<Image> images;
+    private String mainImage; // NEW FIELD
 
     // Constructor không tham số – bắt buộc cho JavaBean
     public Product() {
@@ -138,5 +139,13 @@ public class Product implements Serializable {
 
     public void setImages(List<Image> images) {
         this.images = images;
+    }
+
+    public String getMainImage() {
+        return mainImage;
+    }
+
+    public void setMainImage(String mainImage) {
+        this.mainImage = mainImage;
     }
 }
