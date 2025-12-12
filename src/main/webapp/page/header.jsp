@@ -48,11 +48,10 @@
 
             <!-- HÀNH ĐỘNG HEADER -->
             <div class="header-actions">
-                <a href="wishlist.jsp">
-                    <div class="icon-btn ${currentPage.endsWith('wishlist.jsp') ? 'active' : ''}" title="Yêu thích">
-                        <i class="bi bi-heart"></i>
-                        <span>Yêu thích</span>
-                    </div>
+                <a href="${pageContext.request.contextPath}/wishlist">
+                    <button class="nav-item ${currentPage.contains('/wishlist') ? 'active' : ''}">
+                        <i class="bi bi-heart"></i> Yêu thích
+                    </button>
                 </a>
 
                 <a href="shoppingcart.jsp">

@@ -1,13 +1,21 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
     <title>Giỏ hàng Flycam</title>
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/wishlist.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/footer.css">
+
 
     <link rel="stylesheet" href="../stylesheets/wishlist.css">
     <link rel="stylesheet" href="../stylesheets/header.css">
@@ -128,115 +136,49 @@
     </div>
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<div class="khung-san-pham">
+    <c:if test="${empty products}">
+        <p>Không có sản phẩm yêu thích nào.</p>
+    </c:if>
+    <c:forEach var="p" items="${products}">
+        <div class="san-pham">
+            <a href="${pageContext.request.contextPath}/product-details.jsp?id=${p.id}">
+                <c:choose>
+                    <c:when test="${not empty p.images}">
+                        <img src="${p.images[0].imageUrl}" alt="${p.productName}">
+                    </c:when>
+                    <c:otherwise>
+                        <img src="${pageContext.request.contextPath}/assets/no-image.png" alt="No Image">
+                    </c:otherwise>
+                </c:choose>
 
-<div class="gio-hang">
-    <!-- Bao toàn bộ phần giỏ hàng -->
-    <div class="gio-hang-noi-dung">
-        <div class="container py-4">
-            <!-- nội dung giỏ hàng -->
-            <div class="mb-3">
-                <h3 class="text-center mb-4 fw-bold text-primary">Danh Sách Sản Phẩm Đã Thích</h3>
+                <h3 class="ten-san-pham">${p.productName}</h3>
+
+                <div class="gia">
+                    <b>${p.finalPrice} ₫</b>
+                    <c:if test="${p.price >= p.finalPrice}">
+                        <span class="gia-goc">${p.price} ₫</span>
+                    </c:if>
+                </div>
+            </a>
+
+            <div class="hang-danh-gia">
+                <div class="danh-gia-sao">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+                <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
-            <!-- Thanh công cụ -->
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="chon_tat_ca">
-                    <label for="chon_tat_ca" class="form-check-label">Chọn tất cả</label>
-                </div>
-                <button class="btn btn-outline-danger btn-sm nut_xoa_da_chon">
-                    <i class="bi bi-trash"></i> Xóa sản phẩm đã chọn
-                </button>
-            </div>
 
-            <!-- Danh sách sản phẩm -->
-            <div id="danh_sach_san_pham">
-                <!-- Sản phẩm 1 -->
-                <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                        <a href="product-details.jsp"><img src="../image/filmProduct/avatafpv.png" alt="DJI Mini 3"
-                                                           class="anh_san_pham me-3" width="120"></a>
-                        <div>
-                            <h5 class="ten_san_pham mb-2">Flycam DJI Mini 3</h5>
-                            <div>
-                                <span class="gia_hien_tai text-danger fw-bold me-2">8.990.000₫</span>
-                                <span class="gia_goc text-muted text-decoration-line-through">10.900.000₫</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-center gap-2">
-                        <a href="shoppingcart.jsp">
-                            <button class="btn btn-primary btn-sm nut_them_vao_gio">
-                                <i class="bi bi-cart-plus"></i> Thêm vào giỏ hàng
-                            </button>
-                        </a>
-                        <button class="btn btn-outline-danger btn-sm nut_xoa">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 🔹 Sản phẩm 2 -->
-                <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                        <a href="product-details.jsp"><img src="../image/filmProduct/bugs20.png" alt="DJI Mini 4K"
-                                                           class="anh_san_pham me-3" width="120"></a>
-                        <div>
-                            <h5 class="ten_san_pham mb-2">Flycam DJI Mini 4K</h5>
-                            <div>
-                                <span class="gia_hien_tai text-danger fw-bold me-2">9.607.000₫</span>
-                                <span class="gia_goc text-muted text-decoration-line-through">7.990.000₫</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-center gap-2">
-                        <a href="shoppingcart.jsp">
-                            <button class="btn btn-primary btn-sm nut_them_vao_gio">
-                                <i class="bi bi-cart-plus"></i> Thêm vào giỏ hàng
-                            </button>
-                        </a>
-                        <button class="btn btn-outline-danger btn-sm nut_xoa">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 🔹 Sản phẩm 3 -->
-                <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                        <a href="product-details.jsp"><img src="../image/filmProduct/DJI%20SPARK.png"
-                                                           alt="Flycam DJI Air 3" class="anh_san_pham me-3"
-                                                           width="120"></a>
-                        <div>
-                            <h5 class="ten_san_pham mb-2">Flycam DJI Air 3</h5>
-                            <div>
-                                <span class="gia_hien_tai text-danger fw-bold me-2">25.000.000₫</span>
-                                <span class="gia_goc text-muted text-decoration-line-through">29.990.000₫</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-center gap-2">
-                        <a href="shoppingcart.jsp">
-                            <button class="btn btn-primary btn-sm nut_them_vao_gio">
-                                <i class="bi bi-cart-plus"></i> Thêm vào giỏ hàng
-                            </button>
-                        </a>
-                        <button class="btn btn-outline-danger btn-sm nut_xoa">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <div class="so-danh-gia">(12 đánh giá)</div>
+            <button class="nut-mua-ngay">Mua Ngay</button>
         </div>
-    </div>
+    </c:forEach>
 </div>
+
 
 <footer class="footer">
     <div class="footer-container">

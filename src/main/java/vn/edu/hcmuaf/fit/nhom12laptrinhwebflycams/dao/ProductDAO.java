@@ -225,4 +225,40 @@ public class ProductDAO {
         return list;
     }
 
+    public Product getProductById(int id) {
+        ImageDAO imageDAO = new ImageDAO();
+        String sql = "SELECT * FROM products WHERE id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    System.out.println("[ProductDAO] Found product name = " + rs.getString("productName"));
+
+                    Product p = new Product(
+                            rs.getInt("id"),
+                            rs.getInt("category_id"),
+                            rs.getString("brandName"),
+                            rs.getString("productName"),
+                            rs.getString("description"),
+                            rs.getString("parameter"),
+                            rs.getDouble("price"),
+                            rs.getDouble("finalPrice"),
+                            rs.getString("warranty"),
+                            rs.getInt("quantity"),
+                            rs.getInt("status") == 1 // ✅ dùng kiểu int để tránh lỗi boolean
+                    );
+                    p.setImages(imageDAO.getImagesByProduct(p.getId()));
+                    return p;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
