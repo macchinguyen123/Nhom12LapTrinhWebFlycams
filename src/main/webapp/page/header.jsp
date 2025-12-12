@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/header.css">
 </head>
 <body>
-
+<c:set var="currentPage" value="${pageContext.request.requestURI}" />
 <!-- ==== HEADER TRÊN ==== -->
 <div class="header-bg">
     <div class="header-wrapper">
@@ -28,24 +28,20 @@
             </a>
 
             <!-- THANH TÌM KIẾM -->
-            <a href="searching.jsp">
-                <div class="search-bar position-relative">
-                    <i class="bi bi-search"></i>
-                    <input id="searchInput" type="text" placeholder="Tìm kiếm drone, flycam..."
-                           autocomplete="off">
+            <form action="${pageContext.request.contextPath}/Searching" method="get" class="search-bar position-relative">
+                <i class="bi bi-search" id="searchBtn" style="cursor: pointer;"></i>
+                <input id="searchInput" name="keyword" type="text" placeholder="Tìm kiếm drone, flycam..." autocomplete="off">
 
-                    <!-- Danh sách gợi ý xổ xuống -->
-                    <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
-                        style="top: 100%; left: 0; z-index: 1000; display: none;">
-                    </ul>
-                </div>
-            </a>
+                <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
+                    style="top: 100%; left: 0; z-index: 1000; display: none;">
+                </ul>
+            </form>
 
 
             <!-- HÀNH ĐỘNG HEADER -->
             <div class="header-actions">
                 <a href="wishlist.jsp">
-                    <div class="icon-btn" title="Yêu thích">
+                    <div class="icon-btn ${currentPage.endsWith('wishlist.jsp') ? 'active' : ''}" title="Yêu thích">
                         <i class="bi bi-heart"></i>
                         <span>Yêu thích</span>
                     </div>
@@ -58,8 +54,8 @@
                     </div>
                 </a>
 
-                <a href="personal-page.html">
-                    <div class="icon-btn active" title="Tài khoản">
+                <a href="personal-page.jsp">
+                    <div class="icon-btn ${currentPage.endsWith('personal-page.jsp') ? 'active' : ''}" title="Tài khoản">
                         <i class="bi bi-person-circle"></i>
                         <span>Tài khoản</span>
                     </div>
@@ -73,28 +69,49 @@
 <div class="menu-bg">
     <div class="header-wrapper">
         <nav class="main-nav">
+
             <a href="homepage.jsp">
-                <button class="nav-item"><i class="bi bi-house-door"></i>Trang chủ</button>
+                <button class="nav-item ${currentPage.endsWith('homepage.jsp') ? 'active' : ''}">
+                    <i class="bi bi-house-door"></i>Trang chủ
+                </button>
             </a>
-            <button class="nav-item" id="btnDanhMuc">
+
+            <button class="nav-item ${currentPage.contains('/category') ? 'active' : ''}" id="btnDanhMuc">
                 <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
             </button>
+
             <a href="promotion.jsp">
-                <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
+                <button class="nav-item ${currentPage.endsWith('promotion.jsp') ? 'active' : ''}">
+                    <i class="bi bi-gift"></i>Khuyến mãi
+                </button>
             </a>
+
             <a href="warranty.jsp">
-                <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
+                <button class="nav-item ${currentPage.endsWith('warranty.jsp') ? 'active' : ''}">
+                    <i class="bi bi-tools"></i>Bảo hành
+                </button>
             </a>
+
             <a href="payment-policy.jsp">
-                <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
+                <button class="nav-item ${currentPage.endsWith('payment-policy.jsp') ? 'active' : ''}">
+                    <i class="bi bi-credit-card"></i>Thanh toán
+                </button>
             </a>
+
             <a href="support.jsp">
-                <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
+                <button class="nav-item ${currentPage.endsWith('support.jsp') ? 'active' : ''}">
+                    <i class="bi bi-headset"></i>Hỗ trợ
+                </button>
             </a>
-            <a href="blog.jsp">
-                <button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button>
+
+            <a href="${pageContext.request.contextPath}/blog">
+                <button class="nav-item ${currentPage.contains('/blog') ? 'active' : ''}">
+                    <i class="bi bi-journal-text"></i>Bài viết
+                </button>
             </a>
+
         </nav>
+
     </div>
     <!-- MENU TRÁI ẨN MẶC ĐỊNH -->
     <div class="menu-left-1" id="menuLeft">
@@ -144,6 +161,11 @@
         if (!menuLeft.contains(e.target) && !btnDanhMuc.contains(e.target)) {
             menuLeft.classList.remove('show');
         }
+    });
+</script>
+<script>
+    document.getElementById("searchBtn").addEventListener("click", () => {
+        document.querySelector(".search-bar").submit();
     });
 </script>
 </body>
