@@ -36,4 +36,31 @@ public class BlogDAO {
         }
         return list;
     }
+
+    // Lấy bài viết theo ID
+    public Post getPostById(int id) {
+        String sql = "SELECT id, title, content, image, createdAt, product_id FROM posts WHERE id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return new Post(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("content"),
+                        rs.getString("image"),
+                        rs.getTimestamp("createdAt"),
+                        rs.getInt("product_id")
+                );
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

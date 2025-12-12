@@ -1,11 +1,13 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 
+
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.validate.Validator;
+
 
 import java.io.IOException;
 import java.sql.Date;
@@ -29,9 +31,9 @@ public class Register extends HttpServlet {
         String email = request.getParameter("email");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirm"); // NEW
         String phone = request.getParameter("phoneNumber");
         String birthdayStr = request.getParameter("birthday");
-
 
         boolean hasError = false;
 
@@ -68,8 +70,28 @@ public class Register extends HttpServlet {
             hasError = true;
         }
 
+        // ------- NEW: kiểm tra confirm password -------
+        if (!password.equals(confirmPassword)) {
+            request.setAttribute("confirmPasswordError", "Mật khẩu nhập lại không khớp");
+            hasError = true;
+        }
+
         if (!Validator.isValidPhoneNumber(phone)) {
             request.setAttribute("phoneError", "Số điện thoại không đúng định dạng");
+            hasError = true;
+        }
+
+        UserDAO userDAO = new UserDAO();
+
+        // ------- NEW: kiểm tra trùng email -------
+        if (userDAO.isEmailExists(email)) {
+            request.setAttribute("emailError", "Email đã tồn tại");
+            hasError = true;
+        }
+
+        // ------- NEW: kiểm tra trùng username -------
+        if (userDAO.isUsernameExists(username)) {
+            request.setAttribute("usernameError", "Username đã tồn tại");
             hasError = true;
         }
 
@@ -89,14 +111,13 @@ public class Register extends HttpServlet {
         user.setFullName(fullName);
         user.setEmail(email);
         user.setUsername(username);
-        user.setPassword(password); // bạn nên hash password sau này
+        user.setPassword(password);
         user.setPhoneNumber(phone);
-        user.setRoleId(2); // mặc định customer
+        user.setRoleId(2);
         user.setStatus(true);
         user.setBirthDate(birthday);
 
-        // Lưu vào DB
-        UserDAO userDAO = new UserDAO();
+        // INSERT
         boolean isInserted = userDAO.insertUser(user);
 
         if (!isInserted) {
@@ -105,7 +126,9 @@ public class Register extends HttpServlet {
             return;
         }
 
-        // Thành công → chuyển đến trang login
-        response.sendRedirect("page/login.jsp?register=success");
+        response.sendRedirect("page/login.jsp?success=1");
+
+
     }
+
 }

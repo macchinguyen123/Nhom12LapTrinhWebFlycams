@@ -6,13 +6,19 @@
     <meta charset="UTF-8">
     <title>Đăng ký trở thành SMEMBER</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/register.css">
+    <style>
+        .error { color: red; }
+    </style>
+
 </head>
 <body>
 
 <div class="container">
     <h1 class="title">Đăng ký trở thành <span>SKYDroneMember</span></h1>
 
-    <img src="../image/logoo.png" alt="SKYDRONE Logo" class="mascot">
+    <img src="${pageContext.request.contextPath}/image/logoo.png"
+         alt="Logo" class="mascot">
+
 
     <p class="subtitle">Đăng ký bằng tài khoản mạng xã hội</p>
     <div class="social-buttons">
@@ -37,8 +43,9 @@
                    value="${username}"
                    required>
             <c:if test="${not empty usernameError}">
-                <p class="error">${usernameError}</p>
+                <p class="error">⚠ ${usernameError}</p>
             </c:if>
+
         </div>
 
         <h2>Thông tin cá nhân</h2>
@@ -50,8 +57,9 @@
                        value="${fullName}"
                        required>
                 <c:if test="${not empty fullNameError}">
-                    <p class="error">${fullNameError}</p>
+                    <p class="error">⚠ ${fullNameError}</p>
                 </c:if>
+
             </div>
 
             <div class="field">
@@ -60,8 +68,9 @@
                        value="${birthday}"
                        required>
                 <c:if test="${not empty birthdayError}">
-                    <p class="error">${birthdayError}</p>
+                    <p class="error">⚠ ${birthdayError}</p>
                 </c:if>
+
             </div>
 
             <div class="field">
@@ -71,8 +80,9 @@
                        value="${phoneNumber}"
                        required>
                 <c:if test="${not empty phoneError}">
-                    <p class="error">${phoneError}</p>
+                    <p class="error">⚠ ${phoneError}</p>
                 </c:if>
+
             </div>
 
             <div class="field">
@@ -83,8 +93,9 @@
                 <p class="hint">✔ Hóa đơn VAT sẽ gửi qua email này</p>
 
                 <c:if test="${not empty emailError}">
-                    <p class="error">${emailError}</p>
+                    <p class="error">⚠ ${emailError}</p>
                 </c:if>
+
             </div>
         </div>
 
@@ -97,14 +108,19 @@
                 <p class="hint">Mật khẩu tối thiểu 6 ký tự, có ít nhất 1 chữ số và 1 chữ cái</p>
 
                 <c:if test="${not empty passwordError}">
-                    <p class="error">${passwordError}</p>
+                    <p class="error">⚠ ${passwordError}</p>
                 </c:if>
+
             </div>
 
             <div class="field">
                 <label for="confirm">Nhập lại mật khẩu</label>
                 <input type="password" id="confirm" name="confirm"
                        placeholder="Nhập lại mật khẩu" required>
+                <c:if test="${not empty confirmPasswordError}">
+                    <p class="error">⚠ ${confirmPasswordError}</p>
+                </c:if>
+
             </div>
         </div>
 
