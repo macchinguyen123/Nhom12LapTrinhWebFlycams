@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="../stylesheets/wishlist.css">
     <link rel="stylesheet" href="../stylesheets/header.css">
     <link rel="stylesheet" href="../stylesheets/footer.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/common-category.css">
 </head>
 <body>
 
@@ -170,7 +171,13 @@
                     <i class="bi bi-star-fill"></i>
                     <i class="bi bi-star-fill"></i>
                 </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
+                <form action="wishlist" method="post">
+                    <input type="hidden" name="productId" value="${p.id}" />
+                    <input type="hidden" name="action" value="remove" />
+                    <button type="submit"><i class="bi bi-heart-fill tim-yeu-thich_1"></i></button>
+                </form>
+
+
             </div>
 
             <div class="so-danh-gia">(12 đánh giá)</div>

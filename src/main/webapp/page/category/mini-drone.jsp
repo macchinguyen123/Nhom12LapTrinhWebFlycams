@@ -164,7 +164,11 @@
                         <i class="bi bi-star-fill"></i>
                         <i class="bi bi-star-fill"></i>
                     </div>
-                    <i class="bi bi-heart tim-yeu-thich"></i>
+                    <form action="wishlist" method="post">
+                        <input type="hidden" name="productId" value="${p.id}" />
+                        <input type="hidden" name="action" value="add" />
+                        <button type="submit">  <i class="bi bi-heart-fill tim-yeu-thich"></i></button>
+                    </form>
                 </div>
 
                 <!-- Số đánh giá -->

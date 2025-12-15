@@ -1,31 +1,31 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/forgot-pasword.css">
 <head>
     <meta charset="UTF-8">
-    <title>Trang tạo mật khẩu mới</title>
+    <title>Quên mật khẩu</title>
     <link rel="stylesheet" href="../stylesheets/forgot-pasword.css">
-
-
 </head>
 <body>
-
 <div class="khung">
-    <img src="../image/logoo.png" alt="SKYDRONE Logo" class="mascot">
 
-    <h1>Tạo mật khẩu mới</h1>
+    <img src="${pageContext.request.contextPath}/image/logoo.png" alt="SKYDRONE Logo" class="mascot">
 
-    <p class="huong_dan">
-        Hãy nhập email của bạn vào bên dưới để bắt đầu quá trình khôi phục mật khẩu.
-    </p>
+    <h1>Quên mật khẩu</h1>
+    <p class="huong_dan">Nhập email của bạn để khôi phục mật khẩu.</p>
 
-    <label for="email">Email</label>
-    <input type="email" id="email" placeholder="Nhập email">
+    <form action="${pageContext.request.contextPath}/ForgotPassword" method="post">
+        <label>Email:</label>
+        <input type="email" name="email" required />
+        <button type="submit">Tiếp tục</button>
+    </form>
 
 
-    <div class="nut_nhom">
-        <a href="login.jsp" class="nut nut_quay_lai">⬅ Quay lại đăng nhập</a>
-        <a href="otp.jsp" class="nut nut_tiep_tuc">Tiếp tục</a>
-    </div>
+    <c:if test="${not empty message}">
+        <div class="alert">${message}</div>
+    </c:if>
 </div>
 </body>
 </html>
