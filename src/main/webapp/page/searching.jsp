@@ -190,7 +190,7 @@
         <c:forEach var="p" items="${products}">
             <div class="san-pham">
                 <!-- Bọc toàn bộ phần chính bằng link tới chi tiết (nếu có id sản phẩm) -->
-                <a href="${pageContext.request.contextPath}/product-details.jsp?id=${p.id}">
+                <a href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
                     <!-- Ảnh -->
                     <c:choose>
                         <c:when test="${not empty p.mainImage}">

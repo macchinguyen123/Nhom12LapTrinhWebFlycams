@@ -57,4 +57,16 @@ public class CategoryDAO {
         }
         return c;
     }
+    public String getCategoryNameById(int id) {
+        String sql = "SELECT categoryName FROM categories WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getString("categoryName");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
