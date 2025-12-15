@@ -61,7 +61,7 @@
                     </div>
                 </a>
 
-                <a href="personal-page.jsp">
+                <a href="${pageContext.request.contextPath}/personal">
                     <div class="icon-btn ${currentPage.endsWith('personal-page.jsp') ? 'active' : ''}"
                          title="Tài khoản">
                         <i class="bi bi-person-circle"></i>

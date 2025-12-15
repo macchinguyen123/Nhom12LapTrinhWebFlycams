@@ -1,15 +1,20 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Hồ Sơ Của Tôi</title>
-    <link rel="stylesheet" href="../stylesheets/header.css">
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../stylesheets/footer.css">
-    <link rel="stylesheet" href="../stylesheets/personal-page.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/footer.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/personal-page.css">
+
 </head>
 <body>
 <!-- ==== HEADER TRÊN ==== -->
@@ -19,7 +24,7 @@
             <!-- LOGO -->
             <a href="homepage.jsp">
                 <div class="logo">
-                    <img src="../image/logoo2.png" alt="Logo">
+                    <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
                     <h2>SkyDrone</h2>
                 </div>
             </a>
@@ -55,7 +60,7 @@
                     </div>
                 </a>
 
-                <a href="personal-page.html">
+                <a href="personal-page.jsp">
                     <div class="icon-btn active" title="Tài khoản">
                         <i class="bi bi-person-circle"></i>
                         <span>Tài khoản</span>
@@ -130,7 +135,9 @@
         <div class="user-info">
             <!-- Avatar -->
             <div class="avatar-wrapper">
-                <img src="/image/logoTCN.png" alt="Avatar" class="avatar-img">
+                <img src="${pageContext.request.contextPath}/image/avatar/${user.avatar}"
+                     class="avatar-img">
+
                 <span class="avatar-camera">
         <i class="bi bi-camera-fill"></i>
     </span>
@@ -138,7 +145,7 @@
             <input type="file" id="avatar-upload" accept="image/*" hidden>
 
 
-            <p class="username">phclhu632</p>
+            <p class="username">${user.username}</p>
             <a href="#" class="edit-profile">Sửa Hồ Sơ</a>
         </div>
 
@@ -173,31 +180,41 @@
                 <div class="form-left">
                     <div class="form-group">
                         <label>Tên đăng nhập</label>
-                        <input type="text" value="phclhu632" readonly>
+                        <input type="text" value="${user.username}" readonly>
                     </div>
 
                     <div class="form-group">
                         <label>Tên</label>
-                        <input type="text" value="Phước">
+                        <input type="text" name="fullName" value="${user.fullName}">
                     </div>
 
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" value="23******@st.hcmuaf.edu.vn" readonly>
+                        <input type="email" value="${user.email}" readonly>
                     </div>
 
                     <div class="form-group">
                         <label>Số điện thoại</label>
-                        <input type="tel" value="0901234567" maxlength="10">
+                        <input type="tel" name="phoneNumber" value="${user.phoneNumber}">
                     </div>
 
                     <div class="form-group">
                         <label>Giới tính</label>
                         <select name="gender">
-                            <option value="" disabled selected>Chọn giới tính</option>
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
-                            <option value="Khác">Khác</option>
+                            <option value="Nam"
+                                    <c:if test="${user.gender eq 'Nam'}">selected</c:if>>
+                                Nam
+                            </option>
+
+                            <option value="Nữ"
+                                    <c:if test="${user.gender eq 'Nữ'}">selected</c:if>>
+                                Nữ
+                            </option>
+
+                            <option value="Khác"
+                                    <c:if test="${user.gender eq 'Khác'}">selected</c:if>>
+                                Khác
+                            </option>
                         </select>
                     </div>
 
@@ -205,24 +222,37 @@
                         <label>Ngày sinh</label>
                         <div class="date-select">
                             <select name="day">
-                                <option value="" disabled selected>Ngày</option>
-                                <script>
-                                    for (let i = 1; i <= 31; i++) document.write(`<option value="${i}">${i}</option>`);
-                                </script>
+                                <option disabled>Ngày</option>
+                                <c:forEach var="i" begin="1" end="31">
+                                    <option value="${i}" ${i == birthDay ? 'selected' : ''}>
+                                            ${i}
+                                    </option>
+                                </c:forEach>
                             </select>
+
+
+
                             <select name="month">
-                                <option value="" disabled selected>Tháng</option>
-                                <script>
-                                    for (let i = 1; i <= 12; i++) document.write(`<option value="${i}">${i}</option>`);
-                                </script>
+                                <option disabled>Tháng</option>
+                                <c:forEach var="i" begin="1" end="12">
+                                    <option value="${i}" ${i == birthMonth ? 'selected' : ''}>
+                                            ${i}
+                                    </option>
+                                </c:forEach>
                             </select>
+
+
+
                             <select name="year">
-                                <option value="" disabled selected>Năm</option>
-                                <script>
-                                    const year = new Date().getFullYear();
-                                    for (let i = year; i >= 1950; i--) document.write(`<option value="${i}">${i}</option>`);
-                                </script>
+                                <option disabled>Năm</option>
+                                <c:forEach var="i" begin="1950" end="2025">
+                                    <option value="${i}" ${i == birthYear ? 'selected' : ''}>
+                                            ${i}
+                                    </option>
+                                </c:forEach>
                             </select>
+
+
                         </div>
                     </div>
 
@@ -256,9 +286,9 @@
                     <input type="text" id="otpInput" placeholder="Nhập mã OTP 6 chữ số" maxlength="6">
                 </div>
 
-                <a href="personal-page.html">
+                <a href="personal-page.jsp">
                     <div class="btn-group">
-                        <button type="button" id="sendOtpBtn" class="save-btn">Lưa thay đổi</button>
+                        <button type="button" id="sendOtpBtn" class="save-btn">Lưu thay đổi</button>
                         <button type="button" id="confirmChangeBtn" class="save-btn" style="display: none;">Xác nhận đổi
                             mật khẩu
                         </button>
@@ -625,15 +655,14 @@
         addresses.forEach((item, index) => {
             const div = document.createElement("div");
             div.classList.add("address-item");
-            div.innerHTML = `
-            <p><strong>${item.name}</strong> (${item.phone})</p>
-            <p>${item.fullAddress}</p>
-            ${item.isDefault ? `<span class="default-tag">Mặc định</span>` : ""}
-            <div class="address-actions">
-                <button onclick="editAddress(${index})">Sửa</button>
-                <button onclick="deleteAddress(${index})">Xóa</button>
-            </div>
-        `;
+            div.innerHTML =
+                "<p><strong>" + item.name + "</strong> (" + item.phone + ")</p>" +
+                "<p>" + item.fullAddress + "</p>" +
+                (item.isDefault ? "<span class=\"default-tag\">Mặc định</span>" : "") +
+                "<div class=\"address-actions\">" +
+                "<button onclick=\"editAddress(" + index + ")\">Sửa</button>" +
+                "<button onclick=\"deleteAddress(" + index + ")\">Xóa</button>" +
+                "</div>";
             list.appendChild(div);
         });
     }

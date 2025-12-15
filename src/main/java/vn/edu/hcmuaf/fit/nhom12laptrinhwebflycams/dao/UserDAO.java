@@ -4,6 +4,8 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.DBConnection;
 
 import java.sql.*;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class UserDAO {
 
@@ -110,6 +112,49 @@ public class UserDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public User findById(int id) {
+        String sql = "SELECT * FROM users WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                User u = new User();
+                u.setId(rs.getInt("id"));
+                u.setRoleId(rs.getInt("role_id"));
+                u.setFullName(rs.getString("full_name"));
+
+                Date date = rs.getDate("birth_date");
+
+                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+                cal.setTime(date);
+
+                // ÉP GIỜ VỀ 12:00 TRƯA (tránh nhảy ngày)
+                cal.set(Calendar.HOUR_OF_DAY, 12);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
+                cal.set(Calendar.MILLISECOND, 0);
+
+                u.setBirthDate(cal.getTime());
+
+                u.setGender(rs.getString("gender"));
+                u.setEmail(rs.getString("email"));
+                u.setUsername(rs.getString("username"));
+                u.setPhoneNumber(rs.getString("phone_number"));
+                u.setAvatar(rs.getString("avatar"));
+                u.setStatus(rs.getBoolean("status"));
+                u.setCreatedAt(rs.getTimestamp("created_at"));
+                u.setUpdatedAt(rs.getTimestamp("updated_at"));
+                return u;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
