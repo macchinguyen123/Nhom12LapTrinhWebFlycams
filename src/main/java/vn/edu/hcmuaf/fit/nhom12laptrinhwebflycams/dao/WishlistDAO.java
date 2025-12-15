@@ -33,6 +33,63 @@ public class WishlistDAO {
         }
         return list;
     }
+    public boolean addToWishlist(int userId, int productId) {
+        if (existsInWishlist(userId, productId)) {
+            return false;
+        }
+
+        String sql = "INSERT INTO wishlists(user_id, product_id) VALUES(?, ?)";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ps.setInt(2, productId);
+
+            int rows = ps.executeUpdate();
+            return rows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean removeFromWishlist(int userId, int productId) {
+        String sql = "DELETE FROM wishlists WHERE user_id = ? AND product_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ps.setInt(2, productId);
+
+            int rows = ps.executeUpdate();
+            return rows > 0; //
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public boolean existsInWishlist(int userId, int productId) {
+        String sql = "SELECT COUNT(*) FROM wishlists WHERE user_id = ? AND product_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ps.setInt(2, productId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 }
 
 

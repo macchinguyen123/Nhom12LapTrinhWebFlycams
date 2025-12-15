@@ -47,7 +47,9 @@
                 </button>
 
                 <div class="text-end">
-                    <a href="forgot-password.jsp" class="forgot-pass">Quên mật khẩu?</a>
+                    <a href="${pageContext.request.contextPath}/page/forgot-password.jsp" class="forgot-pass">
+                        Quên mật khẩu?
+                    </a>
                 </div>
 
                 <div class="divider text-center my-3">Hoặc đăng nhập bằng</div>

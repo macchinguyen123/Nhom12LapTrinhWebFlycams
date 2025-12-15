@@ -248,7 +248,7 @@ public class ProductDAO {
                             rs.getDouble("finalPrice"),
                             rs.getString("warranty"),
                             rs.getInt("quantity"),
-                            rs.getInt("status") == 1 // ✅ dùng kiểu int để tránh lỗi boolean
+                            rs.getInt("status") == 1
                     );
                     p.setImages(imageDAO.getImagesByProduct(p.getId()));
                     return p;

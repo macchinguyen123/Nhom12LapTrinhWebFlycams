@@ -71,10 +71,11 @@ a {
 
 .khung-san-pham {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* ✅ 5 sản phẩm / hàng */
-    gap: 25px 15px; /* giảm nhẹ khoảng cách cho vừa khung */
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px 15px;
     justify-items: center;
-    margin-top: 15px;
+    margin: 15px auto;   /* căn giữa theo chiều ngang */
+    width: 1200px;       /* hoặc bất kỳ chiều rộng nào bạn muốn */
 }
 
 .san-pham {
@@ -161,6 +162,16 @@ a {
     transition: color 0.3s;
     margin-right: 20px;
     font-size: 1rem;
+    border: none;
+}
+.tim-yeu-thich_1 {
+    font-size: 1.3rem;
+    color: #ff2424;
+    cursor: pointer;
+    transition: color 0.3s;
+    margin-right: 20px;
+    font-size: 1rem;
+    border: none;
 }
 
 .tim-yeu-thich.yeu-thich {
