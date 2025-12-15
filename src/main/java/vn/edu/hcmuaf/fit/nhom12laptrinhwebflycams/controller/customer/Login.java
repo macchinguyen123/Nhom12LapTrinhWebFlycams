@@ -42,6 +42,8 @@ public class Login extends HttpServlet {
         // Tạo session và lưu JavaBean
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
+        System.out.println("LOGIN SESSION ID = " + session.getId());
+
 
         // chuyển hướng theo role
         if (user.getRoleId() == 1) {

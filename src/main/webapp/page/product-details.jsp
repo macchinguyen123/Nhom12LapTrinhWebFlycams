@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,124 +15,11 @@
     <!-- Thêm link Bootstrap Icons (nếu chưa có trong <head>) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <!-- CSS riêng -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}../stylesheets/product-details.css">
-    <link rel="stylesheet" href="../stylesheets/header.css">
-    <link rel="stylesheet" href="../stylesheets/footer.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/product-details.css">
 </head>
 <body>
 
-<!-- ==== HEADER TRÊN ==== -->
-<div class="header-bg">
-    <div class="header-wrapper">
-        <header class="top-header">
-            <!-- LOGO -->
-            <a href="homepage.jsp">
-                <div class="logo">
-                    <img src="../image/logoo2.png" alt="Logo">
-                    <h2>SkyDrone</h2>
-                </div>
-            </a>
-
-            <!-- THANH TÌM KIẾM -->
-            <a href="searching.jsp">
-                <div class="search-bar position-relative">
-                    <i class="bi bi-search"></i>
-                    <input id="searchInput" type="text" placeholder="Tìm kiếm drone, flycam..."
-                           autocomplete="off">
-
-                    <!-- Danh sách gợi ý xổ xuống -->
-                    <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
-                        style="top: 100%; left: 0; z-index: 1000; display: none;">
-                    </ul>
-                </div>
-            </a>
-
-
-            <!-- HÀNH ĐỘNG HEADER -->
-            <div class="header-actions">
-                <a href="wishlist.jsp">
-                    <div class="icon-btn" title="Yêu thích">
-                        <i class="bi bi-heart"></i>
-                        <span>Yêu thích</span>
-                    </div>
-                </a>
-
-                <a href="shoppingcart.jsp">
-                    <div class="icon-btn" title="Giỏ hàng">
-                        <i class="bi bi-cart3"></i>
-                        <span>Giỏ hàng</span>
-                    </div>
-                </a>
-
-                <a href="personal-page.jsp">
-                    <div class="icon-btn" title="Tài khoản">
-                        <i class="bi bi-person-circle"></i>
-                        <span>Tài khoản</span>
-                    </div>
-                </a>
-            </div>
-        </header>
-    </div>
-</div>
-
-<!-- ==== MENU DƯỚI ==== -->
-<div class="menu-bg">
-    <div class="header-wrapper">
-        <nav class="main-nav">
-            <a href="homepage.jsp">
-                <button class="nav-item"><i class="bi bi-house-door"></i>Trang chủ</button>
-            </a>
-            <button class="nav-item" id="btnDanhMuc">
-                <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
-            </button>
-            <a href="promotion.jsp">
-                <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
-            </a>
-            <a href="warranty.jsp">
-                <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
-            </a>
-            <a href="payment-policy.jsp">
-                <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
-            </a>
-            <a href="support.jsp">
-                <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
-            </a>
-            <a href="blog.jsp">
-                <button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button>
-            </a>
-        </nav>
-    </div>
-    <!-- MENU TRÁI ẨN MẶC ĐỊNH -->
-    <div class="menu-left-1" id="menuLeft">
-        <ul>
-            <li><a href="category/film-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
-            </a>
-            </li>
-
-            <li><a href="category/tourism-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
-            </a>
-            </li>
-            <li><a href="category/sport-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
-            </a>
-            </li>
-            <li><a href="category/agriculture-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
-            </a>
-            </li>
-            <li><a href="category/monitor-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
-            </a>
-            </li>
-            <li><a href="category/mini-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
-            </a>
-            </li>
-        </ul>
-    </div>
-</div>
+<jsp:include page="/page/header.jsp"/>
 
 <!-- Khung chính -->
 <div class="main-wrapper">
@@ -137,35 +27,45 @@
         <div class="row">
 
             <!-- Hình ảnh sản phẩm -->
-            <div class="col-md-6 text-center">
-                <div id="mainImage" class="border rounded mb-3 p-3 position-relative">
-                    <img id="displayImg" src="../image/productt/DJIMavic3_1.png" alt="Drone DJI Mavic 3"
-                         class="img-fluid">
-                    <button class="nav-btn prev-btn"><i class="bi bi-chevron-left"></i></button>
-                    <button class="nav-btn next-btn"><i class="bi bi-chevron-right"></i></button>
+            <div class="col-md-6 text-center product-image-col">
+                <div class="main-image-wrapper">
+                    <div id="mainImage" class="border rounded mb-3">
+                        <c:if test="${not empty product.images}">
+                            <img id="displayImg"
+                                 src="${product.images[0].imageUrl}">
+                        </c:if>
+
+                        <button class="nav-btn prev-btn"><i class="bi bi-chevron-left"></i></button>
+                        <button class="nav-btn next-btn"><i class="bi bi-chevron-right"></i></button>
+                    </div>
                 </div>
 
-                <div class="d-flex justify-content-center gap-2">
-                    <img src="../image/productt/DJIMavic3_1.png" class="img-thumbnail thumb active" width="80">
-                    <img src="../image/productt/DJIMavic3_2.png" class="img-thumbnail thumb" width="80">
-                    <img src="../image/productt/DJIMavic3_3.png" class="img-thumbnail thumb" width="80">
-                </div>
+                <div class="fixed-bottom-block">
+                    <div class="d-flex justify-content-center gap-2">
+                        <c:forEach var="img" items="${product.images}">
+                            <img src="${img.imageUrl}"
+                                 class="img-thumbnail thumb"
+                                 width="80"
+                                 onclick="changeImage('${img.imageUrl}')">
+                        </c:forEach>
+                    </div>
 
-                <div class="share-icons mt-3">
-                    <span>Chia sẻ:</span>
-                    <i class="bi bi-messenger"></i>
-                    <i class="bi bi-facebook"></i>
-                    <i class="bi bi-pinterest"></i>
-                    <i class="bi bi-twitter-x"></i>
-                    <span class="ms-2 heart-btn">
-                        <i class="bi bi-heart tim-yeu-thich"></i> Yêu thích
-                    </span>
+                    <div class="share-icons mt-3">
+                        <span>Chia sẻ:</span>
+                        <i class="bi bi-messenger"></i>
+                        <i class="bi bi-facebook"></i>
+                        <i class="bi bi-pinterest"></i>
+                        <i class="bi bi-twitter-x"></i>
+                        <span class="ms-2 heart-btn">
+                            <i class="bi bi-heart tim-yeu-thich"></i> Yêu thích
+                        </span>
+                    </div>
                 </div>
             </div>
 
             <!-- Thông tin sản phẩm -->
             <div class="col-md-6">
-                <h5 class="fw-bold mb-2">DJI Mavic 3 Nhập Khẩu Chính Hãng Fullbox</h5>
+                <h5 class="fw-bold mb-2">${product.productName}</h5>
 
                 <!-- Rating trực tiếp trong HTML -->
                 <div class="rating mb-3" id="rating">
@@ -180,25 +80,35 @@
 
                     <p class="mb-1 d-flex flex-wrap gap-3">
                         <span>
-            <span class="fw-semibold">Thương hiệu:</span>
-            <span class="text-primary">DJI</span>
-        </span>
+                            <span class="fw-semibold">Thương hiệu:</span>
+                            <span class="text-primary">${product.brandName}</span>
+                        </span>
                         <span>
-            <span class="fw-semibold">Mã sản phẩm:</span>
-            <span class="text-secondary">P1462CVA-NK0065W</span>
-        </span>
+                            <span class="fw-semibold">Mã sản phẩm:</span>
+                            <span class="text-secondary">${product.id}</span>
+                        </span>
                     </p>
 
                     <p class="mb-1">
                         <span class="fw-semibold">Danh mục:</span>
-                        <a href="y/agriculture-drone.html"><span class="text-primary">Drone quay phim chuyên nghiệp</span></a>
+                        <a href="${pageContext.request.contextPath}/Category?id=${product.categoryId}">
+                            <span class="text-primary">${categoryName}</span>
+                        </a>
                     </p>
 
                 </div>
 
                 <div class="price my-3">
-                    <span class="fs-1 fw-bold text-danger">46.300.000₫</span>
-                    <span class="text-muted text-decoration-line-through ms-2">47.300.000₫</span>
+                    <span class="fs-1 fw-bold text-danger">
+                        ${formatter.format(product.finalPrice)} ₫
+                    </span>
+
+                    <c:if test="${product.price >= product.finalPrice}">
+                        <span class="text-muted text-decoration-line-through ms-2">
+                            ${formatter.format(product.price)} ₫
+                        </span>
+                    </c:if>
+
                     <div class="discount-badge">-11%</div>
                 </div>
 
@@ -225,11 +135,14 @@
                 <div class="policy p-3 rounded">
                     <h6 class="fw-bold mb-2">Chính sách của sản phẩm:</h6>
 
-                    <p><i class="bi bi-check-circle-fill text-success me-2"></i> Bảo hành 12 tháng chính hãng.</p>
-                    <p><i class="bi bi-check-circle-fill text-success me-2"></i> Hoàn tiền 100% nếu drone bị lỗi do nhà
-                        sản xuất.</p>
-                    <p><i class="bi bi-check-circle-fill text-success me-2"></i> Đổi trả trong 7 ngày nếu sản phẩm không
-                        đúng mô tả.</p>
+                    <c:forEach var="item" items="${fn:split(product.warranty, '.')}">
+                        <c:if test="${not empty fn:trim(item)}">
+                            <p>
+                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    ${fn:trim(item)}.
+                            </p>
+                        </c:if>
+                    </c:forEach>
                 </div>
 
             </div>
@@ -244,136 +157,15 @@
         </div>
 
         <!-- Tab: Thông tin sản phẩm -->
+        <!-- Tab: Thông tin sản phẩm -->
         <div class="tab-content p-4 bg-white rounded shadow-sm" id="infoTab">
-            <h5 class="text-center fw-semibold fst-italic mb-4">
-                DJI Mavic 3 Nhập Khẩu Chính Hãng Fullbox
-            </h5>
-
-            <p>
-                <strong>DJI Mavic 3</strong> là dòng <strong>flycam cao cấp hàng đầu</strong> đến từ thương hiệu DJI,
-                nổi
-                tiếng với khả năng quay phim, chụp ảnh chuyên nghiệp và hiệu suất bay vượt trội.
-                Sản phẩm nhập khẩu chính hãng, nguyên hộp (Fullbox), đảm bảo chất lượng và đầy đủ phụ kiện tiêu chuẩn từ
-                nhà
-                sản xuất.
-            </p>
-
-            <hr>
-
-            <h6 class="fw-bold mt-4"><i class="bi bi-airplane"></i> Thiết kế và hoàn thiện</h6>
-            <p>
-                DJI Mavic 3 sở hữu thiết kế tinh tế, hiện đại với thân máy được gia công từ vật liệu cao cấp, giúp giảm
-                trọng lượng nhưng vẫn đảm bảo độ bền chắc khi hoạt động ở độ cao lớn.
-                Hệ thống cánh gập gọn tiện lợi giúp người dùng dễ dàng mang theo trong mọi chuyến đi.
-                Toàn bộ cảm biến và camera được bố trí tối ưu để đảm bảo an toàn và ổn định trong suốt quá trình bay.
-            </p>
-
-            <h6 class="fw-bold mt-4"><i class="bi bi-camera"></i> Camera kép Hasselblad 4/3 CMOS – Chuẩn điện ảnh</h6>
-            <p>
-                Mavic 3 được trang bị cụm camera <strong>Hasselblad 4/3 CMOS</strong> với khả năng quay video <strong>5.1K
-                siêu nét</strong> và chụp ảnh 20MP cực kỳ chi tiết.
-                Cảm biến lớn cho phép thu sáng tốt hơn, giữ chi tiết trong điều kiện thiếu sáng và mang lại chất lượng
-                hình
-                ảnh trung thực, tự nhiên.
-                Ngoài ra, ống kính tele hỗ trợ zoom lai lên đến <strong>28x</strong>, giúp ghi hình từ xa mà vẫn giữ độ
-                nét
-                cao – cực kỳ hữu ích cho quay cảnh thiên nhiên, sự kiện hoặc khảo sát công trình.
-            </p>
-
-            <h6 class="fw-bold mt-4"><i class="bi bi-speedometer2"></i> Hiệu suất bay và công nghệ ổn định</h6>
-            <ul>
-                <li>⏱️ Thời gian bay tối đa: <strong>46 phút</strong> trong điều kiện lý tưởng.</li>
-                <li>⚡ Tốc độ tối đa: khoảng <strong>75 km/h</strong>.</li>
-                <li>📡 Hệ thống định vị đa vệ tinh (GPS + GLONASS + Galileo) cho khả năng định vị chính xác, bay ổn định
-                    ngay
-                    cả trong môi trường phức tạp.
-                </li>
-                <li>🧠 Cảm biến tránh vật cản 360° thông minh giúp drone tự động né tránh chướng ngại vật, đảm bảo an
-                    toàn
-                    tối đa.
-                </li>
-            </ul>
-
-            <h6 class="fw-bold mt-4"><i class="bi bi-broadcast"></i> Truyền hình ảnh O3+ – Tín hiệu cực kỳ ổn định</h6>
-            <p>
-                DJI Mavic 3 sử dụng công nghệ truyền hình ảnh <strong>O3+ (OcuSync 3.0 Plus)</strong>,
-                cho phép truyền video độ phân giải <strong>1080p/60fps</strong> với khoảng cách lên tới <strong>15
-                km</strong>.
-                Hình ảnh truyền về sắc nét, không bị trễ, mang lại trải nghiệm điều khiển mượt mà và chuyên nghiệp.
-            </p>
-
-            <h6 class="fw-bold mt-4"><i class="bi bi-joystick"></i> Chế độ bay thông minh</h6>
-            <ul>
-                <li>🎯 <strong>ActiveTrack 5.0:</strong> Tự động theo dõi đối tượng với độ chính xác cao.</li>
-                <li>🎬 <strong>MasterShots:</strong> Tự động quay và dựng video chuyên nghiệp chỉ với vài thao tác.</li>
-                <li>🗺️ <strong>Waypoint 3.0:</strong> Lập lộ trình bay tự động thông minh, phù hợp cho quay cảnh phức
-                    tạp.
-                </li>
-                <li>🏠 <strong>Return to Home (RTH):</strong> Tự động quay về điểm xuất phát khi pin yếu hoặc mất tín
-                    hiệu.
-                </li>
-            </ul>
-
-            <h6 class="fw-bold mt-4"><i class="bi bi-box-seam"></i> Bộ sản phẩm Fullbox bao gồm</h6>
-            <ul>
-                <li>📦 Flycam DJI Mavic 3 chính hãng</li>
-                <li>🎮 Tay điều khiển DJI RC</li>
-                <li>🔋 Pin chính hãng (01 viên)</li>
-                <li>🌀 Cánh quạt dự phòng</li>
-                <li>⚡ Bộ sạc nhanh và cáp kết nối</li>
-                <li>🎒 Túi đựng bảo vệ</li>
-                <li>📖 Sách hướng dẫn và tem bảo hành chính hãng</li>
-            </ul>
+            <c:out value="${product.description}" escapeXml="false"/>
         </div>
-
 
         <!-- Tab: Thông số kỹ thuật -->
         <div class="tab-content p-4 bg-white rounded shadow-sm d-none" id="specTab">
-            <h5 class="fw-bold mb-3">Thông số kỹ thuật DJI Mavic 3</h5>
-            <div class="table-responsive">
-                <table class="table table-bordered align-middle">
-                    <thead class="table-light">
-                    <tr class="text-center">
-                        <th>Thông số</th>
-                        <th>Giá trị</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Cảm biến</td>
-                        <td>Hasselblad 4/3 CMOS</td>
-                    </tr>
-                    <tr>
-                        <td>Độ phân giải ảnh</td>
-                        <td>20MP</td>
-                    </tr>
-                    <tr>
-                        <td>Video</td>
-                        <td>5.1K / 50fps, 4K / 120fps</td>
-                    </tr>
-                    <tr>
-                        <td>Zoom</td>
-                        <td>Hybrid 28x</td>
-                    </tr>
-                    <tr>
-                        <td>Thời gian bay</td>
-                        <td>Tối đa 46 phút</td>
-                    </tr>
-                    <tr>
-                        <td>Khoảng cách truyền hình ảnh</td>
-                        <td>15 km (O3+)</td>
-                    </tr>
-                    <tr>
-                        <td>Trọng lượng</td>
-                        <td>~895g</td>
-                    </tr>
-                    <tr>
-                        <td>Tránh vật cản</td>
-                        <td>360 độ toàn hướng</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+            <h5 class="fw-bold mb-3">Thông số kỹ thuật</h5>
+            <c:out value="${product.parameter}" escapeXml="false"/>
         </div>
     </div>
 
@@ -787,114 +579,7 @@
         </form>
     </div>
 </div>
-<footer class="footer">
-    <div class="footer-container">
-        <!-- Cột 1 -->
-        <div class="footer-column">
-            <h6>SKYDRONE VIỆT NAM</h6>
-            <img src="../image/dronefooter.png" alt="SKYDRONE Logo" class="mascot">
-            <p><strong>Công ty Cổ phần thương mại SKYDrone Việt Nam</strong></p>
-            <p>Địa chỉ: Số 1 Đường Số 1, Phường Linh Xuân, TP Hồ Chí Minh, Việt Nam</p>
-            <p><strong>Hotline:</strong> 0815.000.060</p>
-            <p>ĐKKD số 0108676636 do Sở KH&ĐT TP. Hồ Chí Minh cấp ngày 10/10/2025</p>
-
-            <div class="social-icons">
-                <a href="#"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="#"><i class="fa-solid fa-envelope"></i></a>
-            </div>
-        </div>
-
-        <!-- Cột 2 -->
-        <div class="footer-column">
-            <h6>SẢN PHẨM</h6>
-            <ul>
-                <li><a href="y/film-drone.html">Drone quay phim chuyên nghiệp</a></li>
-                <li><a href="y/tourism-drone.html">Drone du lịch / vlog</a></li>
-                <li><a href="y/sport-drone.html">Drone thể thao tốc độ cao</a></li>
-                <li><a href="y/agriculture-drone.html">Drone nông nghiệp</a></li>
-                <li><a href="y/monitor-drone.html">Drone giám sát / an ninh</a></li>
-                <li><a href="y/mini-drone.html">Drone mini / cở nhỏ</a></li>
-            </ul>
-
-            <h3>TƯ VẤN MUA HÀNG</h3>
-            <div class="hotline">
-                <i class="fa-solid fa-phone"></i>0813.660.666
-            </div>
-        </div>
-
-        <!-- Cột 3 -->
-        <div class="footer-column">
-            <h6>HỆ THỐNG PHÂN PHỐI</h6>
-            <ul>
-                <li><a href="#">SKYDrone Store</a></li>
-                <li><a href="#">Hà Nội</a></li>
-                <li><a href="#">TP. Hồ Chí Minh</a></li>
-                <li><a href="#">Đà Nẵng</a></li>
-                <li><a href="#">Nghệ An</a></li>
-
-            </ul>
-            <section class="payment-methods">
-                <h6>PHƯƠNG THỨC THANH TOÁN</h6>
-                <div class="payment-icons">
-                    <img src="https://tse3.mm.bing.net/th/id/OIP.kklIaX3TV97u5KnjU_Kr4wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
-                         alt="VNPay">
-                </div>
-            </section>
-        </div>
-        <!-- Cột 4 -->
-        <div class="footer-column">
-            <h6>THÔNG TIN VỀ CHÍNH SÁCH</h6>
-            <ul>
-                <li><a href="#">Mua hàng và thanh toán Online</a></li>
-                <li><a href="#">Chính sách giao hàng</a></li>
-                <li><a href="#">Chính sách đổi trả</a></li>
-                <li><a href="#">Tra thông tin bảo hành</a></li>
-                <li><a href="#">Thông tin hoá đơn mua hàng</a></li>
-            </ul>
-
-            <section class="social-connect">
-                <h6>KẾT NỐI VỚI SKYDRONE</h6>
-                <div class="social-icons">
-                    <a href="https://www.youtube.com/@F8VNOfficial"
-                       class="icon youtube" target="_blank" rel="noopener noreferrer">
-                        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
-                    </a>
-
-                    <a href="https://www.facebook.com/dhkcntt.nlu"
-                       class="icon facebook" target="_blank" rel="noopener noreferrer">
-                        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
-                    </a>
-
-                    <a href="https://www.instagram.com/truyenthongchinhphu/"
-                       class="icon instagram" target="_blank" rel="noopener noreferrer">
-                        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
-                    </a>
-
-                    <a href="https://www.tiktok.com/@nonglam.university"
-                       class="icon tiktok" target="_blank" rel="noopener noreferrer">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
-                    </a>
-
-                    <a href="https://zalo.me/0966089465"
-                       class="icon zalo" target="_blank" rel="noopener noreferrer">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo">
-                    </a>
-                </div>
-            </section>
-
-        </div>
-
-    </div>
-
-
-    <div class="footer-bottom">
-        <p>Copyright © 2025 © <strong>SKYDrone Việt Nam</strong></p>
-        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm
-            cấm.</p>
-    </div>
-</footer>
+<jsp:include page="/page/footer.jsp"/>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -1044,5 +729,11 @@
         }
     });
 </script>
+<script>
+    function changeImage(src) {
+        document.getElementById("displayImg").src = src;
+    }
+</script>
+
 </body>
 </html>
