@@ -5,11 +5,13 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.MailProperties.EmailSender;
 
 import java.io.IOException;
 
 @WebServlet(name = "ForgotPassword", value = "/ForgotPassword")
 public class ForgotPasswordController extends HttpServlet {
+
     private final UserDAO userDAO = new UserDAO();
 
     @Override
@@ -25,20 +27,34 @@ public class ForgotPasswordController extends HttpServlet {
             return;
         }
 
-        // Sinh OTP 4 số
+        // 1️⃣ Sinh OTP 4 số
         String otp = String.valueOf((int)(Math.random() * 9000) + 1000);
 
-// Lưu OTP vào session
+        // 2️⃣ Lưu OTP vào session
         HttpSession session = request.getSession();
         session.setAttribute("otp", otp);
         session.setAttribute("email", email);
+        session.setMaxInactiveInterval(5 * 60); // OTP hết hạn sau 5 phút
 
-// In ra console để test
-        System.out.println("OTP thử nghiệm cho " + email + " là: " + otp);
+        // 3️⃣ Gửi OTP qua email
+        EmailSender emailSender = new EmailSender();
 
-// Gửi sang JSP để hiển thị thử nghiệm
-        request.setAttribute("otpTest", otp);
+        String title = "Mã OTP đặt lại mật khẩu";
+        String content = "Mã OTP của bạn là";
+        String thanks = "Vui lòng nhập mã OTP bên dưới để tiếp tục";
+        String otpHtml = "<h1 style='color:red;'>" + otp + "</h1>";
+
+        emailSender.sendVerificationEmail(
+                email,
+                title,
+                user.getUsername(), // hoặc user.getFullName()
+                otpHtml,
+                content,
+                thanks
+        );
+
+        // 4️⃣ Chuyển sang trang nhập OTP
+        request.setAttribute("message", "OTP đã được gửi về email của bạn!");
         request.getRequestDispatcher("/page/otp.jsp").forward(request, response);
-
     }
 }
