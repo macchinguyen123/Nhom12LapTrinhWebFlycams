@@ -13,7 +13,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- CSS riêng -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/common-category.css">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/stylesheets/common-category.css">
 </head>
 <body>
 <jsp:include page="/page/header.jsp"/>
@@ -41,9 +42,11 @@
                     <label><input type="radio" name="chon-gia" value="tat-ca"
                                   <c:if test="${param['chon-gia']=='tat-ca'}">checked</c:if>> Tất cả</label>
                     <label><input type="radio" name="chon-gia" value="duoi-5000000"
-                                  <c:if test="${param['chon-gia']=='duoi-5000000'}">checked</c:if>> Dưới 5.000.000 ₫</label>
+                                  <c:if test="${param['chon-gia']=='duoi-5000000'}">checked</c:if>> Dưới 5.000.000
+                        ₫</label>
                     <label><input type="radio" name="chon-gia" value="5-10"
-                                  <c:if test="${param['chon-gia']=='5-10'}">checked</c:if>> 5.000.000 ₫ - 10.000.000 ₫</label>
+                                  <c:if test="${param['chon-gia']=='5-10'}">checked</c:if>> 5.000.000 ₫ - 10.000.000
+                        ₫</label>
                     <label><input type="radio" name="chon-gia" value="10-20"
                                   <c:if test="${param['chon-gia']=='10-20'}">checked</c:if>> 10.000.000 ₫ - 20.000.000 ₫</label>
                     <label><input type="radio" name="chon-gia" value="tren-20"
@@ -70,7 +73,7 @@
                     <h6><i class="bi bi-box"></i> Lọc theo thương hiệu</h6>
                     <hr class="my-2">
                     <div class="row mt-2">
-                        <c:set var="brands" value="${paramValues['chon-thuong-hieu']}" />
+                        <c:set var="brands" value="${paramValues['chon-thuong-hieu']}"/>
                         <div class="col-6">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox"
@@ -120,9 +123,15 @@
             <!-- Sort buttons -->
             <div class="sap-xep-theo">
                 <span>Sắp xếp theo:</span>
-                <button type="button" class="btn-sap-xep ${empty param.sort?'active':''}" onclick="submitSort('')">Nổi bật</button>
-                <button type="button" class="btn-sap-xep ${param.sort=='asc'?'active':''}" onclick="submitSort('asc')">Giá Thấp → Cao</button>
-                <button type="button" class="btn-sap-xep ${param.sort=='desc'?'active':''}" onclick="submitSort('desc')">Giá Cao → Thấp</button>
+                <button type="button" class="btn-sap-xep ${empty param.sort?'active':''}" onclick="submitSort('')">Nổi
+                    bật
+                </button>
+                <button type="button" class="btn-sap-xep ${param.sort=='asc'?'active':''}" onclick="submitSort('asc')">
+                    Giá Thấp → Cao
+                </button>
+                <button type="button" class="btn-sap-xep ${param.sort=='desc'?'active':''}"
+                        onclick="submitSort('desc')">Giá Cao → Thấp
+                </button>
             </div>
         </div>
     </form>
@@ -132,16 +141,18 @@
         <c:forEach var="p" items="${products}">
             <div class="san-pham">
                 <!-- Bọc toàn bộ phần chính bằng link tới chi tiết (nếu có id sản phẩm) -->
-                <a href="${pageContext.request.contextPath}/product-details.jsp?id=${p.id}">
+                <a class="link-chi-tiet" href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
                     <!-- Ảnh -->
-                    <c:choose>
-                        <c:when test="${not empty p.mainImage}">
-                            <img src="${p.mainImage}" alt="${p.productName}">
-                        </c:when>
-                        <c:otherwise>
-                            <img src="${pageContext.request.contextPath}/assets/no-image.png" alt="No Image">
-                        </c:otherwise>
-                    </c:choose>
+                    <div class="khung-anh">
+                        <c:choose>
+                            <c:when test="${not empty p.mainImage}">
+                                <img src="${p.mainImage}" alt="${p.productName}">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="${pageContext.request.contextPath}/assets/no-image.png" alt="No Image">
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
 
                     <!-- Tên sản phẩm -->
                     <h3 class="ten-san-pham">${p.productName}</h3>
@@ -164,11 +175,16 @@
                         <i class="bi bi-star-fill"></i>
                         <i class="bi bi-star-fill"></i>
                     </div>
-                    <form action="wishlist" method="post">
-                        <input type="hidden" name="productId" value="${p.id}" />
-                        <input type="hidden" name="action" value="add" />
-                        <button type="submit">  <i class="bi bi-heart-fill tim-yeu-thich"></i></button>
-                    </form>
+                    <c:choose>
+                        <c:when test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
+                            <i class="bi bi-heart-fill tim-yeu-thich yeu-thich"
+                               data-product-id="${p.id}"></i>
+                        </c:when>
+                        <c:otherwise>
+                            <i class="bi bi-heart tim-yeu-thich"
+                               data-product-id="${p.id}"></i>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
 
                 <!-- Số đánh giá -->
@@ -190,29 +206,59 @@
 
 </section>
 <jsp:include page="/page/footer.jsp"/>
+
+<script>
+    const contextPath = '${pageContext.request.contextPath}';
+</script>
+
 <script>
     document.querySelectorAll('.tim-yeu-thich').forEach(tim => {
-        tim.addEventListener('click', () => {
-            if (tim.classList.contains('bi-heart')) {
-                // đổi sang tim đầy màu đỏ
-                tim.classList.remove('bi-heart');
-                tim.classList.add('bi-heart-fill', 'yeu-thich');
-            } else {
-                // đổi ngược lại tim rỗng
-                tim.classList.remove('bi-heart-fill', 'yeu-thich');
-                tim.classList.add('bi-heart');
-            }
-        });
-    });
+        tim.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
 
-    // === Nút yêu thích (giữ nguyên) ===
-    document.querySelectorAll('.tim-yeu-thich').forEach(tim => {
-        tim.addEventListener('click', () => {
-            tim.classList.toggle('bi-heart');
-            tim.classList.toggle('bi-heart-fill');
-            tim.classList.toggle('yeu-thich');
+            const productId = this.getAttribute('data-product-id');
+            const isLiked = this.classList.contains('yeu-thich');
+            const action = isLiked ? 'remove' : 'add';
+
+            console.log('SEND:', action, productId);
+
+            if (!productId) {
+                console.error('productId is null');
+                return;
+            }
+
+            fetch('${pageContext.request.contextPath}/wishlist', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    action: action,
+                    productId: productId
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        this.classList.toggle('bi-heart');
+                        this.classList.toggle('bi-heart-fill');
+                        this.classList.toggle('yeu-thich');
+                    }
+                });
         });
     });
+</script>
+<script>
+    // Hiệu ứng tim yêu thích
+    // document.querySelectorAll('.tim-yeu-thich').forEach(tim => {
+    //     tim.addEventListener('click', () => {
+    //         tim.classList.toggle('bi-heart');
+    //         tim.classList.toggle('bi-heart-fill');
+    //         tim.classList.toggle('yeu-thich');
+    //     });
+    // });
     // === Chọn nút sắp xếp ===
     const nutSapXep = document.querySelectorAll('.btn-sap-xep');
     nutSapXep.forEach(btn => {
@@ -284,13 +330,13 @@
 
 </script>
 <script>
-    function submitSort(sortValue){
+    function submitSort(sortValue) {
         document.getElementById('sort-input').value = sortValue;
         document.getElementById('filter-form').submit();
     }
 
     // Toggle hiển thị bộ lọc
-    document.querySelector('.nut-bo-loc').addEventListener('click', function(){
+    document.querySelector('.nut-bo-loc').addEventListener('click', function () {
         document.getElementById('hop-loc').classList.toggle('show');
     });
 </script>
@@ -310,6 +356,5 @@
         }
     });
 </script>
-
 </body>
 </html>

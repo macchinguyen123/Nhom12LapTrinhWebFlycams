@@ -8,6 +8,8 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.WishlistDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Wishlists;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.WishlistService;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PriceFormatter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,75 +18,72 @@ import java.util.List;
 
 @WebServlet(name = "Wishlist", value = "/wishlist")
 public class WishlistController extends HttpServlet {
-    private final WishlistDAO wishlistDAO = new WishlistDAO();
-    private final ProductDAO productDAO = new ProductDAO();
+    private final WishlistService wishlistService = new WishlistService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-        User user = (User) (session != null ? session.getAttribute("user") : null);
-
-        System.out.println("[Wishlist] User: " + user);
-
-        List<Product> products = new ArrayList<>();
+        User user = (session != null) ? (User) session.getAttribute("user") : null;
 
         if (user != null) {
-            List<Wishlists> wishlists = wishlistDAO.getWishlistByUser(user.getId());
-            System.out.println("[Wishlist] Wishlist count: " + wishlists.size());
-
-            for (Wishlists w : wishlists) {
-                Product p = productDAO.getProductById(w.getProductId());
-                System.out.println("[Wishlist] ProductId: " + w.getProductId() + " → Found: " + (p != null));
-                if (p != null) {
-                    products.add(p);
-                }
-            }
-
-            System.out.println("[Wishlist] Final product count: " + products.size());
+            List<Product> products = wishlistService.getWishlistProducts(user.getId());
+            request.setAttribute("products", products);
         }
+        request.setAttribute("formatter", new PriceFormatter());
 
-        request.setAttribute("products", products);
         request.getRequestDispatcher("/page/wishlist.jsp").forward(request, response);
     }
+
+
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        System.out.println("=== [WISHLIST] POST REQUEST ===");
         HttpSession session = request.getSession(false);
         User user = (User) (session != null ? session.getAttribute("user") : null);
 
+        response.setContentType("application/json");
+
         if (user == null) {
-            response.sendRedirect("login.jsp");
+            System.out.println("[WISHLIST] User chưa đăng nhập");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("{\"success\":false,\"message\":\"NOT_LOGIN\"}");
             return;
         }
 
         String action = request.getParameter("action");
-        String productIdStr = request.getParameter("productId");
+        String productIdRaw = request.getParameter("productId");
+        System.out.println("[WISHLIST] UserId = " + user.getId());
+        System.out.println("[WISHLIST] Action = " + action);
+        System.out.println("[WISHLIST] ProductId = " + productIdRaw);
+        // ✅ CHECK NULL / RỖNG
+        if (productIdRaw == null || productIdRaw.isBlank()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"success\":false,\"message\":\"PRODUCT_ID_NULL\"}");
+            return;
+        }
+        int productId = Integer.parseInt(productIdRaw);
 
-        if (productIdStr == null || productIdStr.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu productId");
+        boolean success;
+
+        if ("add".equals(action)) {
+            success = wishlistService.add(user.getId(), productId);
+            System.out.println("[WISHLIST] Add result = " + success);
+        } else if ("remove".equals(action)) {
+            success = wishlistService.remove(user.getId(), productId);
+            System.out.println("[WISHLIST] Remove result = " + success);
+        } else {
+            System.out.println("[WISHLIST] Action không hợp lệ");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action không hợp lệ");
             return;
         }
 
-        int productId = Integer.parseInt(productIdStr);
-
-        if ("add".equals(action)) {
-            boolean success = wishlistDAO.addToWishlist(user.getId(), productId);
-            if (!success) {
-                System.out.println("[Wishlist] Product đã tồn tại trong wishlist, không thêm nữa.");
-            }
-
-    } else if ("remove".equals(action)) {
-            wishlistDAO.removeFromWishlist(user.getId(), productId);
-        }
-
-        response.sendRedirect("wishlist");
+        response.getWriter().write("{\"success\":" + success + "}");
     }
-
-
-
-
 
 }
 

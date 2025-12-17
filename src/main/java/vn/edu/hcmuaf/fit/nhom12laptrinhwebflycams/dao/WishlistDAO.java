@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao;
 
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Wishlists;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.DBConnection;
 
@@ -88,6 +89,64 @@ public class WishlistDAO {
         }
         return false;
     }
+    public List<Product> getWishlistProductsByUser(int userId) {
+        List<Product> list = new ArrayList<>();
+        String sql = """
+            SELECT p.*, pi.imageUrl
+                          FROM wishlists w
+                          JOIN products p ON w.product_id = p.id
+                          LEFT JOIN images pi ON p.id = pi.product_id AND pi.imageType = 'Chính'
+                          WHERE w.user_id = ?
+                          ORDER BY w.id DESC
+ 
+    """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product p = new Product(
+                        rs.getInt("id"),
+                        rs.getInt("category_id"),
+                        rs.getString("brandName"),
+                        rs.getString("productName"),
+                        rs.getString("description"),
+                        rs.getString("parameter"),
+                        rs.getDouble("price"),
+                        rs.getDouble("finalPrice"),
+                        rs.getString("warranty"),
+                        rs.getInt("quantity"),
+                        rs.getBoolean("status")
+                );
+                p.setMainImage(rs.getString("imageUrl"));
+                list.add(p);
+                System.out.println("[SERVICE] get wishlist: thành công=" + userId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public List<Integer> getWishlistProductIds(int userId) {
+        List<Integer> ids = new ArrayList<>();
+        String sql = "SELECT product_id FROM wishlists WHERE user_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ids.add(rs.getInt("product_id"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ids;
+    }
+
 
 
 }

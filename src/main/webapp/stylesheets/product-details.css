@@ -913,12 +913,12 @@ a {
 }
 /* 1. CỐ ĐỊNH TOÀN BỘ CỘT TRÁI */
 .product-image-col {
-    height: 800px;
+    height: 600px;
     display: flex;
     flex-direction: column;
 }
 .main-image-wrapper {
-    height: 540px;     /* 👈 GIỮ CHỖ CỐ ĐỊNH */
+    height: 500px;     /* 👈 GIỮ CHỖ CỐ ĐỊNH */
     width: 100%;
     display: flex;
     justify-content: center;
@@ -929,7 +929,7 @@ a {
 
 #mainImage {
     width: 520px;
-    height: 520px;
+    height: 450px;
     position: relative;
     overflow: hidden;
     background: #fff;
