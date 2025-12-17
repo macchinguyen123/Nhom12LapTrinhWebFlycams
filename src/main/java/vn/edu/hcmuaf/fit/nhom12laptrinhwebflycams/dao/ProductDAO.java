@@ -5,7 +5,9 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.DBConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ProductDAO {
@@ -132,6 +134,7 @@ public class ProductDAO {
         }
         return list;
     }
+
     public List<Product> searchProductsInCategory(
             int categoryId,
             String keyword,
@@ -144,12 +147,12 @@ public class ProductDAO {
         List<Product> list = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder("""
-            SELECT DISTINCT p.*, i.imageUrl
-            FROM products p
-            LEFT JOIN images i 
-              ON p.id = i.product_id AND i.imageType = 'Chính'
-            WHERE p.category_id = ? AND p.productName LIKE ?
-            """);
+                SELECT DISTINCT p.*, i.imageUrl
+                FROM products p
+                LEFT JOIN images i 
+                  ON p.id = i.product_id AND i.imageType = 'Chính'
+                WHERE p.category_id = ? AND p.productName LIKE ?
+                """);
 
         // điều kiện giá
         if (minPrice != null && maxPrice != null) {
@@ -259,6 +262,35 @@ public class ProductDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Map<String, Object>> getProductSuggestions(String keyword) {
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        String sql = """
+                    SELECT id, productName
+                    FROM products
+                    WHERE LOWER(productName) LIKE LOWER(?)
+                    LIMIT 8
+                """;
+
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, "%" + keyword + "%");
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> m = new HashMap<>();
+                m.put("id", rs.getInt("id"));
+                m.put("name", rs.getString("productName"));
+                list.add(m);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
 }
