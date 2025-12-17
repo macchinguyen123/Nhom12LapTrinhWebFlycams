@@ -7,6 +7,8 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.CategoryDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Categories;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.WishlistService;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PriceFormatter;
 
 import java.io.IOException;
@@ -19,10 +21,13 @@ public class CategoryController extends HttpServlet {
     private ProductDAO productDAO = new ProductDAO();
     private CategoryDAO categoryDAO = new CategoryDAO();
 
+    private final WishlistService wishlistService = new WishlistService();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        HttpSession session = request.getSession(false);
+        User user = session != null ? (User) session.getAttribute("user") : null;
         // ======= 1. Lấy ID danh mục ========
         String id_raw = request.getParameter("id");
         if (id_raw == null) {
@@ -107,6 +112,12 @@ public class CategoryController extends HttpServlet {
                 brandList,
                 sortBy
         );
+        // ======= 7. LOAD WISHLIST (QUAN TRỌNG) =======
+        if (user != null) {
+            List<Integer> wishlistProductIds =
+                    wishlistService.getWishlistProductIds(user.getId());
+            request.setAttribute("wishlistProductIds", wishlistProductIds);
+        }
 
         // ======= 7. Gửi xuống JSP =======
         request.setAttribute("category", category);
