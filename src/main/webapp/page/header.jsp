@@ -180,9 +180,78 @@
     });
 </script>
 <script>
-    document.getElementById("searchBtn").addEventListener("click", () => {
-        document.querySelector(".search-bar").submit();
+    const contextPath = '${pageContext.request.contextPath}';
+    const searchInput = document.getElementById("searchInput");
+    const suggestList = document.getElementById("suggestList");
+
+    let debounceTimer = null;
+    let isComposing = false;
+
+    searchInput.addEventListener("compositionstart", () => {
+        isComposing = true;
     });
+
+    searchInput.addEventListener("compositionend", () => {
+        isComposing = false;
+        triggerSuggest();
+    });
+
+    searchInput.addEventListener("input", () => {
+        if (!isComposing) triggerSuggest();
+    });
+
+    function triggerSuggest() {
+        const keyword = searchInput.value.trim();
+
+        if (keyword.length === 0) {
+            suggestList.style.display = "none";
+            suggestList.innerHTML = "";
+            return;
+        }
+
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            fetch(contextPath + "/search-suggestion?keyword=" + encodeURIComponent(keyword))
+                .then(res => res.json())
+                .then(data => {
+                    suggestList.innerHTML = "";
+
+                    if (!data || data.length === 0) {
+                        suggestList.style.display = "none";
+                        return;
+                    }
+
+                    data.forEach(item => {
+                        const li = document.createElement("li");
+                        li.className = "list-group-item list-group-item-action";
+                        li.innerHTML = highlightKeyword(item.name, keyword);
+
+                        li.onclick = () => {
+                            window.location.href =
+                                contextPath + "/product-detail?id=" + item.id;
+                        };
+
+                        suggestList.appendChild(li);
+                    });
+
+                    suggestList.style.display = "block";
+                });
+        }, 0);
+    }
+
+
+    document.addEventListener("click", (e) => {
+        if (!e.target.closest(".search-bar")) {
+            suggestList.style.display = "none";
+        }
+    });
+
+    function highlightKeyword(text, keyword) {
+        const regex = new RegExp("(" + keyword + ")", "gi");
+        return text.replace(regex, "<strong>$1</strong>");
+    }
 </script>
+
+
 </body>
 </html>

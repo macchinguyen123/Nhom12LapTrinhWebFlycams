@@ -4,6 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Trang tạo mật khẩu mới</title>
+    <style>
+        .btn-cap-nhat {
+            display: block;
+            margin: 20px auto 0;
+            padding: 12px 40px;
+            border-radius: 12px;
+            border: none;
+            background: #0051c6;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-cap-nhat:hover {
+            background: #3b5be0;
+        }
+
+        .btn-cap-nhat:active {
+            transform: scale(0.97);
+        }
+    </style>
+
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/create-new-password.css">
 
 </head>
@@ -25,7 +49,8 @@
             <div class="error">${confirmPasswordError}</div>
         </c:if>
 
-        <button type="submit">Cập nhật mật khẩu</button>
+        <button type="submit" class="btn-cap-nhat">Cập nhật mật khẩu</button>
+
     </form>
 
 
