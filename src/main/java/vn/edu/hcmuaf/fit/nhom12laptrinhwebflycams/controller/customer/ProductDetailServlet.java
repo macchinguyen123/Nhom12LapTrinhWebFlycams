@@ -49,13 +49,50 @@ public class ProductDetailServlet extends HttpServlet {
         double avgRating = reviewsDAO.getAverageRating(id);
         int reviewCount = reviewsDAO.countReviews(id);
 
-        request.setAttribute("avgRating", String.format("%.1f", avgRating));
+        int fullStars = (int) avgRating;
+        boolean hasHalfStar = (avgRating - fullStars) >= 0.5;
+
+        request.setAttribute("avgRating", avgRating);
         request.setAttribute("reviewCount", reviewCount);
         request.setAttribute("reviews", reviewsDAO.getReviewsByProduct(id));
+
+        request.setAttribute("fullStars", fullStars);
+        request.setAttribute("hasHalfStar", hasHalfStar);
 
         request.setAttribute("formatter", new PriceFormatter());
         request.setAttribute("product", product);
         request.setAttribute("categoryName", categoryName);
+        request.setAttribute("avgRating", avgRating);
+        request.setAttribute("reviewCount", reviewCount);
+
+
+        int page = 1;
+        int pageSize = 5;
+
+        String pageRaw = request.getParameter("page");
+        if (pageRaw != null) {
+            try {
+                page = Integer.parseInt(pageRaw);
+            } catch (NumberFormatException ignored) {}
+        }
+
+        int totalReviews = reviewsDAO.countReviews(id);
+        int totalPages = (int) Math.ceil((double) totalReviews / pageSize);
+
+        request.setAttribute("reviews",
+                reviewsDAO.getReviewsByProductPaging(id, page, pageSize));
+
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+//        request.setAttribute("reviews", reviewsDAO.getReviewsByProduct(id));
+        request.setAttribute("star5", reviewsDAO.countByStar(id, 5));
+        request.setAttribute("star4", reviewsDAO.countByStar(id, 4));
+        request.setAttribute("star3", reviewsDAO.countByStar(id, 3));
+        request.setAttribute("star2", reviewsDAO.countByStar(id, 2));
+        request.setAttribute("star1", reviewsDAO.countByStar(id, 1));
+        request.setAttribute("commentCount", reviewsDAO.countWithComment(id));
+
+
 
         request.getRequestDispatcher("/page/product-details.jsp")
                 .forward(request, response);

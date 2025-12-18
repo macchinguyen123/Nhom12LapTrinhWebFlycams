@@ -789,7 +789,9 @@ body {
 
 /* Ẩn radio */
 .rating-group input {
-    display: none;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* Ngôi sao */
@@ -955,4 +957,23 @@ a {
     height: 80px;
     object-fit: cover;
     cursor: pointer;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 20px;
+}
+
+.pagination button {
+    border: 1px solid #ddd;
+    background: #fff;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    background: #0d6efd;
+    color: #fff;
+    border-color: #0d6efd;
 }
