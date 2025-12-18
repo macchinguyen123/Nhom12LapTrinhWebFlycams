@@ -67,14 +67,25 @@
             <div class="col-md-6">
                 <h5 class="fw-bold mb-2">${product.productName}</h5>
 
-                <!-- Rating trực tiếp trong HTML -->
-                <div class="rating mb-3" id="rating">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-half"></i>
-                    <span class="ms-2"><u>4.3</u> | <u class="text-muted">546 Đánh Giá</u></span>
+                <div class="rating mb-3">
+
+                    <c:forEach begin="1" end="${fullStars}">
+                        <i class="bi bi-star-fill"></i>
+                    </c:forEach>
+
+                    <c:if test="${hasHalfStar}">
+                        <i class="bi bi-star-half"></i>
+                    </c:if>
+
+                    <c:forEach begin="1"
+                               end="${5 - fullStars - (hasHalfStar ? 1 : 0)}">
+                        <i class="bi bi-star"></i>
+                    </c:forEach>
+
+                    <span class="ms-2">
+                        <u><fmt:formatNumber value="${avgRating}" maxFractionDigits="1"/></u> |
+                        <u class="text-muted">${reviewCount} Đánh Giá</u>
+                    </span>
                 </div>
                 <div class="product-info text-muted mb-2">
 
@@ -176,55 +187,113 @@
         <div class="rating-overview">
             <div class="rating-score">
             <span class="score">
-                <i class="bi bi-star-fill"></i> 4.9
+                  <i class="bi bi-star-fill"></i> ${avgRating}
             </span><small>/5</small>
 
-                <p>24 đánh giá</p>
+                <p>${reviewCount} đánh giá</p>
             </div>
 
             <div class="rating-filters">
-                <button class="filter-btn active" data-star="all">Tất Cả</button>
-                <button class="filter-btn" data-star="5">5 Sao (23)</button>
-                <button class="filter-btn" data-star="4">4 Sao (19)</button>
-                <button class="filter-btn" data-star="3">3 Sao (6)</button>
-                <button class="filter-btn" data-star="2">2 Sao (2)</button>
-                <button class="filter-btn" data-star="1">1 Sao (1)</button>
-                <button class="filter-btn">Có Bình Luận (51)</button>
+                <button class="filter-btn active" data-star="all">
+                    Tất Cả (${reviewCount})
+                </button>
+
+                <button class="filter-btn" data-star="5">
+                    5 Sao (${star5})
+                </button>
+
+                <button class="filter-btn" data-star="4">
+                    4 Sao (${star4})
+                </button>
+
+                <button class="filter-btn" data-star="3">
+                    3 Sao (${star3})
+                </button>
+
+                <button class="filter-btn" data-star="2">
+                    2 Sao (${star2})
+                </button>
+
+                <button class="filter-btn" data-star="1">
+                    1 Sao (${star1})
+                </button>
+
+                <button class="filter-btn" data-filter="comment">
+                    Có Bình Luận (${commentCount})
+                </button>
             </div>
+
         </div>
 
         <div id="review-list">
-            <div class="review" data-star="5">
-                <div class="review-avatar"></div>
-                <div class="review-content">
-                    <div class="review-header">
-                        <span class="review-name">Nguyễn Văn A</span>
-                        <div class="review-stars">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                        </div>
+            <c:forEach var="r" items="${reviews}">
+                <div class="review"
+                     data-star="${r.rating}"
+                     data-comment="${not empty r.content}">
+                    <div class="review-avatar">
+                        <img src="${r.avatar}" alt="${r.username}">
                     </div>
-                    <div class="review-date">2023-05-25 16:47</div>
-                    <p class="review-text">
-                        Drone bay rất ổn định, chất lượng hình ảnh sắc nét, dễ điều khiển, pin lâu,
-                        giao hàng nhanh, đóng gói chắc chắn, cảm giác rất đáng đồng tiền.
-                    </p>
+
+                    <div class="review-content">
+                        <div class="review-header">
+                            <span class="review-name">${r.username}</span>
+
+                            <div class="review-stars">
+                                <c:forEach begin="1" end="5" var="i">
+                                    <c:choose>
+                                        <c:when test="${i <= r.rating}">
+                                            <i class="bi bi-star-fill"></i>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <i class="bi bi-star"></i>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                            </div>
+                        </div>
+
+                        <div class="review-date">
+                            <fmt:formatDate value="${r.createdAt}"
+                                            pattern="dd/MM/yyyy HH:mm"/>
+                        </div>
+
+                        <p class="review-text">
+                                ${r.content}
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </c:forEach>
         </div>
+
 
         <div class="pagination">
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <span>...</span>
-            <button>5</button>
+
+            <c:if test="${currentPage > 1}">
+                <a href="${pageContext.request.contextPath}/product-detail?id=${product.id}&page=${currentPage - 1}">
+                    <button>&laquo;</button>
+                </a>
+            </c:if>
+
+            <c:forEach begin="1" end="${totalPages}" var="i">
+                <a href="${pageContext.request.contextPath}/product-detail?id=${product.id}&page=${i}">
+                    <button class="${i == currentPage ? 'active' : ''}">
+                            ${i}
+                    </button>
+                </a>
+            </c:forEach>
+
+            <c:if test="${currentPage < totalPages}">
+                <a href="${pageContext.request.contextPath}/product-detail?id=${product.id}&page=${currentPage + 1}">
+                    <button>&raquo;</button>
+                </a>
+            </c:if>
+
         </div>
 
-        <button class="write-review-btn">Viết đánh giá</button>
+        <button class="write-review-btn"
+                data-product-id="${product.id}">
+            Viết đánh giá
+        </button>
     </section>
 </div>
 <div class="khung-san-pham-wrapper">
@@ -529,7 +598,11 @@
             Trường bắt buộc được đánh dấu <span>*</span>
         </p>
 
-        <form class="review-form">
+        <form class="review-form"
+              id="reviewForm"
+              action="${pageContext.request.contextPath}/ReviewServlet"
+              method="post">
+            <input type="hidden" name="product_id" value="${product.id}">
             <div class="rating-group">
                 <label>
                     <input type="radio" name="rating" value="1">
@@ -572,7 +645,10 @@
 
             <div class="comment-group">
                 <label for="comment-popup">Nhận xét của bạn <span>*</span></label>
-                <textarea id="comment-popup" placeholder="Viết nhận xét tại đây..."></textarea>
+                <textarea id="comment-popup"
+                          name="content"
+                          placeholder="Viết nhận xét tại đây..."
+                          required></textarea>
             </div>
 
             <button type="submit" class="submit-btn">Xác Nhận</button>
@@ -693,27 +769,6 @@
         khung.scrollBy({left: -300, behavior: 'smooth'});
     });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    const writeReviewBtn = document.querySelector('.write-review-btn');
-    const reviewPopup = document.getElementById('reviewPopup');
-    const closeBtn = reviewPopup.querySelector('.close-btn');
-
-    writeReviewBtn.addEventListener('click', () => {
-        reviewPopup.classList.add('active');
-    });
-
-    closeBtn.addEventListener('click', () => {
-        reviewPopup.classList.remove('active');
-    });
-
-    // Ấn bên ngoài popup cũng tắt
-    window.addEventListener('click', (e) => {
-        if (e.target === reviewPopup) {
-            reviewPopup.classList.remove('active');
-        }
-    });
-</script>
 <script>
     const btnDanhMuc = document.getElementById('btnDanhMuc');
     const menuLeft = document.getElementById('menuLeft');
@@ -729,11 +784,6 @@
         }
     });
 </script>
-<script>
-    function changeImage(src) {
-        document.getElementById("displayImg").src = src;
-    }
-</script>
-
+<script src="${pageContext.request.contextPath}/js/review.js"></script>
 </body>
 </html>
