@@ -191,7 +191,14 @@
                 <div class="so-danh-gia">(12 đánh giá)</div>
 
                 <!-- Nút mua ngay (có thể là form/post hoặc link) -->
-                <button class="nut-mua-ngay">Mua Ngay</button>
+                <form action="${pageContext.request.contextPath}/BuyNowServlet" method="post">
+                    <input type="hidden" name="productId" value="${p.id}">
+                    <input type="hidden" name="quantity" value="1">
+
+                    <button type="submit" class="nut-mua-ngay">
+                        Mua Ngay
+                    </button>
+                </form>
             </div>
         </c:forEach>
     </div>
