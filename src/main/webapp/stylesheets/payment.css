@@ -128,3 +128,20 @@ a {
 .vnpay-option:hover {
     background: #f6f9ff;
 }
+.cod-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999;
+}
+
+.cod-box {
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 12px;
+    width: 360px;
+    text-align: center;
+}

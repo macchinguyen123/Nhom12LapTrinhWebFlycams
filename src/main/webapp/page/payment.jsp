@@ -1,3 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,23 +32,34 @@
         <h5 class="mb-4 fw-bold">Phương Thức Thanh Toán</h5>
 
         <!-- FORM THANH TOÁN -->
-        <form id="paymentForm">
+        <form id="paymentForm"
+              action="${pageContext.request.contextPath}/PaymentServlet"
+              method="post">
+
+            <input type="hidden" name="paymentMethod" id="paymentMethod">
+
             <div class="form-check mb-3">
-                <input class="form-check-input" type="radio" name="payment" id="cod" value="cod" required>
+                <input class="form-check-input" type="radio"
+                       name="payment" value="COD" id="cod">
                 <label class="form-check-label" for="cod">
-                    <i class="bi bi-cash-coin me-2 text-success"></i> Thanh toán khi giao hàng (Tiền mặt)
+                    <i class="bi bi-cash-coin me-2 text-success"></i>
+                    Thanh toán khi giao hàng (COD)
                 </label>
             </div>
 
             <div class="form-check mb-4">
-                <input class="form-check-input" type="radio" name="payment" id="vnpay" value="vnpay">
+                <input class="form-check-input" type="radio"
+                       name="payment" value="VNPAY" id="vnpay">
                 <label class="form-check-label" for="vnpay">
-                    <i class="bi bi-credit-card-2-front me-2 text-primary"></i> Thanh toán qua VNPAY
+                    <i class="bi bi-credit-card-2-front me-2 text-primary"></i>
+                    Thanh toán qua VNPAY
                 </label>
             </div>
 
-            <!-- 1 nút duy nhất -->
-            <a href="#" id="btnHoanTat" class="btn btn-primary w-100">Hoàn tất đơn hàng</a>
+            <button type="button" id="btnHoanTat"
+                    class="btn btn-primary w-100">
+                Hoàn tất đơn hàng
+            </button>
         </form>
     </div>
 
@@ -52,37 +67,51 @@
     <div class="right">
         <h5 class="fw-bold mb-4">Đơn hàng của bạn</h5>
 
+        <c:set var="item" value="${sessionScope.BUY_NOW_ITEM}" />
+        <c:set var="product" value="${sessionScope.BUY_NOW_PRODUCT}" />
         <div class="d-flex align-items-center mb-3">
-            <img src="../image/productt/DJIMavic3_3.png" alt="Mavic3" width="60" class="me-3 prod-img">
+            <img src="${product.images[0].imageUrl}"
+                 width="60" class="me-3 prod-img">
             <div>
-                <p class="mb-0 fw-semibold">DJI Mavic 3 Nhập Khẩu Chính Hãng Fullbox</p>
-                <small class="text-muted">Số lượng: 1</small>
+                <p class="mb-0 fw-semibold">${product.productName}</p>
+                <small class="text-muted">Số lượng: ${item.quantity}</small>
             </div>
-            <span class="ms-auto fw-semibold">8,990,000₫</span>
+            <span class="ms-auto fw-semibold">
+        <fmt:formatNumber value="${item.price * item.quantity}"
+                          type="currency" currencySymbol="₫"/>
+    </span>
         </div>
-
-        <div class="d-flex align-items-center mb-3">
-            <img src="../image/productt/Flycam_DJI_Flip%20.png" alt="Flycam" width="60" class="me-3 prod-img">
-            <div>
-                <p class="mb-0 fw-semibold">Flycam DJI Flip Chính Hãng Fullbox</p>
-                <small class="text-muted">Số lượng: 2</small>
-            </div>
-            <span class="ms-auto fw-semibold">4,888,000₫</span>
-        </div>
+        <c:set var="total" value="${item.price * item.quantity}" />
 
         <div class="d-flex justify-content-between">
-            <span>Tạm tính</span><span>18,762,000₫</span>
+            <span>Tạm tính</span>
+            <span>
+        <fmt:formatNumber value="${total}" type="currency" currencySymbol="₫"/>
+    </span>
         </div>
         <div class="d-flex justify-content-between mb-2">
             <span>Phí vận chuyển</span><span>Miễn phí</span>
         </div>
         <hr>
         <div class="d-flex justify-content-between fw-bold total">
-            <span>Tổng cộng</span><span>18,762,000₫</span>
+            <span>Tổng cộng</span>
+            <span>
+        <fmt:formatNumber value="${total}" type="currency" currencySymbol="₫"/>
+    </span>
         </div>
     </div>
 </div>
 
+<div class="cod-popup" id="codPopup" style="display:none;">
+    <div class="cod-box">
+        <h5 class="text-center mb-3">Xác nhận đơn hàng</h5>
+        <p>Bạn chắc chắn muốn thanh toán khi nhận hàng?</p>
+        <div class="text-center mt-3">
+            <button type="button" class="btn btn-success me-2" id="confirmCOD">Xác nhận</button>
+            <button type="button" class="btn btn-outline-secondary" id="cancelCOD">Hủy</button>
+        </div>
+    </div>
+</div>
 <!-- POPUP GIẢ LẬP VNPAY -->
 <div class="vnpay-popup" id="vnpayPopup" style="display:none;">
     <div class="vnpay-box">
@@ -108,7 +137,9 @@
             <img src="https://sandbox.vnpayment.vn/paymentv2/images/icons/vnpay-wallet.svg" alt="">
         </div>
         <div class="text-center mt-3">
-            <a href="personal-page.jsp" class="btn btn-success me-2">Xác nhận thanh toán</a>
+            <button type="button" class="btn btn-success me-2" id="confirmVNPAY">
+                Xác nhận thanh toán
+            </button>
             <a href="#" class="btn btn-outline-secondary" id="cancelVNPAY">Hủy</a>
         </div>
     </div>
@@ -117,29 +148,43 @@
 <!-- Script chỉ để bật/tắt popup -->
 <script>
     const btnHoanTat = document.getElementById('btnHoanTat');
-    const popup = document.getElementById('vnpayPopup');
+    const codPopup = document.getElementById('codPopup');
+    const confirmCOD = document.getElementById('confirmCOD');
+    const cancelCOD = document.getElementById('cancelCOD');
+
+    const vnpayPopup = document.getElementById('vnpayPopup');
+    const confirmVNPAY = document.getElementById('confirmVNPAY');
     const cancelVNPAY = document.getElementById('cancelVNPAY');
 
-    btnHoanTat.addEventListener('click', (e) => {
+    const paymentMethodInput = document.getElementById('paymentMethod');
+    const paymentForm = document.getElementById('paymentForm');
+
+    // Bấm Hoàn tất đơn hàng
+    btnHoanTat.addEventListener('click', () => {
         const payment = document.querySelector('input[name="payment"]:checked');
         if (!payment) {
             alert('Vui lòng chọn phương thức thanh toán!');
-            e.preventDefault();
             return;
         }
-
-        if (payment.value === 'vnpay') {
-            e.preventDefault(); // không chuyển trang
-            popup.style.display = 'flex'; // bật popup
-        } else {
-            // COD: cho phép thẻ <a> hoạt động tự nhiên (chuyển trang)
-            btnHoanTat.setAttribute('href', 'personal-page.jsp');
+        if (payment.value === 'COD') {
+            codPopup.style.display = 'flex';
+        } else if (payment.value === 'VNPAY') {
+            vnpayPopup.style.display = 'flex';
         }
     });
 
-    cancelVNPAY.addEventListener('click', (e) => {
-        e.preventDefault();
-        popup.style.display = 'none';
+    // COD popup
+    cancelCOD.addEventListener('click', () => codPopup.style.display = 'none');
+    confirmCOD.addEventListener('click', () => {
+        paymentMethodInput.value = 'COD';
+        paymentForm.submit(); // submit form POST
+    });
+
+    // VNPAY popup
+    cancelVNPAY.addEventListener('click', () => vnpayPopup.style.display = 'none');
+    confirmVNPAY.addEventListener('click', () => {
+        paymentMethodInput.value = 'VNPAY';
+        paymentForm.submit(); // submit form POST
     });
 </script>
 </body>

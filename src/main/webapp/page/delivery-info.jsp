@@ -1,3 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,19 +31,24 @@
         <h5 class="mb-4 fw-bold">Thông tin giao hàng</h5>
 
         <!-- Tài khoản -->
+        <c:if test="${not empty sessionScope.user}">
         <div class="d-flex align-items-center mb-3">
             <div class="avatar rounded-circle d-flex justify-content-center align-items-center me-3">
                 <i class="bi bi-person fs-3 text-secondary"></i>
             </div>
             <div>
-                <p class="mb-0 fw-semibold">Mạc Chí Nguyên</p>
-                <small>23130211@st.hcmuaf.edu.vn</small><br>
-
+                <p class="mb-0 fw-semibold">${sessionScope.user.fullName}</p>
+                <small>${sessionScope.user.email}</small><br>
             </div>
         </div>
+        </c:if>
 
-        <!-- Form -->
-        <form id="checkoutForm">
+
+        <form id="checkoutForm"
+              action="${pageContext.request.contextPath}/CheckoutServlet"
+              method="post">
+
+            <!-- Địa chỉ đã lưu -->
             <div class="mb-3">
                 <select id="savedAddress" class="form-select">
                     <option value="">Thêm địa chỉ mới...</option>
@@ -48,70 +57,96 @@
                 </select>
             </div>
 
+            <!-- Họ tên -->
             <div class="mb-3">
-                <input type="text" class="form-control" placeholder="Họ và tên" value="Mạc Chí Nguyên" required>
+                <input type="text"
+                       name="fullName"
+                       class="form-control"
+                       placeholder="Họ và tên"
+                       required>
             </div>
 
+            <!-- Số điện thoại -->
             <div class="mb-3">
-                <input type="tel" class="form-control" placeholder="Số điện thoại" value="0948088315" required>
+                <input type="tel"
+                       name="phone"
+                       class="form-control"
+                       placeholder="Số điện thoại"
+                       required>
             </div>
 
+            <!-- Địa chỉ cụ thể -->
             <div class="mb-3">
-                <input type="text" class="form-control" placeholder="Địa chỉ cụ thể (Số nhà, đường...)" required>
+                <input type="text"
+                       name="address"
+                       class="form-control"
+                       placeholder="Địa chỉ cụ thể (Số nhà, đường...)"
+                       required>
             </div>
 
+            <!-- Tỉnh / xã -->
             <div class="address-select-group">
-                <select id="province">
+                <select name="province" id="province" class="form-select">
                     <option value="">-- Chọn Tỉnh/Thành phố --</option>
                 </select>
-                <select id="ward">
+
+                <select name="ward" id="ward" class="form-select">
                     <option value="">-- Chọn Phường/Xã --</option>
                 </select>
             </div>
-            <div>
-                <textarea id="comment-form" name="comment" rows="5" placeholder="Nhập ghi chú của bạn..."></textarea>
+
+            <!-- Ghi chú -->
+            <div class="mt-3">
+        <textarea name="note"
+                  rows="5"
+                  class="form-control"
+                  placeholder="Nhập ghi chú của bạn..."></textarea>
             </div>
 
-            <a href="payment.jsp" class="btn btn-primary w-100 mt-3">
+            <!-- Submit -->
+            <button type="submit" class="btn btn-primary w-100 mt-3">
                 Tiếp tục đến phương thức thanh toán
-            </a>
+            </button>
+
         </form>
     </div>
 
     <!-- PHẢI -->
     <div class="right">
+        <c:set var="item" value="${sessionScope.BUY_NOW_ITEM}" />
+        <c:set var="product" value="${sessionScope.BUY_NOW_PRODUCT}" />
+
         <h5 class="fw-bold mb-4">Đơn hàng của bạn</h5>
 
+        <c:if test="${not empty item && not empty product}">
         <div class="d-flex align-items-center mb-3">
-            <img src="../image/productt/DJIMavic3_3.png"
-                 alt="Corsair" width="60" class="me-3 prod-img">
+            <img src="${product.images[0].imageUrl}"
+                 width="60" class="me-3 prod-img">
             <div>
-                <p class="mb-0 fw-semibold">DJI Mavic 3 Nhập Khẩu Chính Hãng Fullbox</p>
-                <small class="text-muted">Số lượng: 1</small>
+                <p class="mb-0 fw-semibold">${product.productName}</p>
+                <small class="text-muted">Số lượng: ${item.quantity}</small>
             </div>
-            <span class="ms-auto fw-semibold">8,990,000₫</span>
+            <span class="ms-auto fw-semibold">
+             <fmt:formatNumber value="${item.price * item.quantity}" type="number"/>₫
+            </span>
         </div>
-
-        <div class="d-flex align-items-center mb-3">
-            <img src="../image/productt/Flycam_DJI_Flip%20.png"
-                 alt="Rapoo N200" width="60" class="me-3 prod-img">
-            <div>
-                <p class="mb-0 fw-semibold">Flycam DJI Flip Chính Hãng Fullbox</p>
-                <small class="text-muted">Số lượng: 2</small>
-            </div>
-            <span class="ms-auto fw-semibold">4,888,000₫</span>
-        </div>
-
         <div class="d-flex justify-content-between">
-            <span>Tạm tính</span><span>18,762,000₫</span>
+            <span>Tạm tính</span>
+            <span>
+            <fmt:formatNumber value="${item.price * item.quantity}" type="number"/>₫
+            </span>
         </div>
         <div class="d-flex justify-content-between mb-2">
             <span>Phí vận chuyển</span><span>—</span>
         </div>
         <hr>
         <div class="d-flex justify-content-between fw-bold total">
-            <span>Tổng cộng</span><span>18,762,000₫</span>
+            <span>Tổng cộng</span>
+            <span>
+            <fmt:formatNumber value="${item.price * item.quantity}" type="number"/>₫
+            </span>
         </div>
+        </c:if>
     </div>
 </div>
 <script>
