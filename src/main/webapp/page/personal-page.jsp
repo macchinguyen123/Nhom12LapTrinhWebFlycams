@@ -146,7 +146,6 @@
 
 
             <p class="username">${user.username}</p>
-            <a href="#" class="edit-profile">Sửa Hồ Sơ</a>
         </div>
 
 
@@ -155,7 +154,9 @@
                 <li class="active" data-section="profile-section"><a href="#">Tài Khoản Của Tôi</a></li>
                 <li data-section="repass-section"><a href="#">Đổi mật khẩu</a></li>
                 <li data-section="orders-section"><a href="#">Đơn Mua</a></li>
-                <li data-section="addresses-section"><a href="#">Địa Chỉ Nhận Hàng</a></li>
+                <li data-section="addresses-section"><a href="${pageContext.request.contextPath}/ListAddressServlet">Địa Chỉ Nhận Hàng</a>
+
+                </li>
             </ul>
         </nav>
 
@@ -171,16 +172,15 @@
     </aside>
 
     <main class="content">
-        <!-- === Tài khoản của tôi === -->
         <section id="profile-section" class="section active">
             <h2>Hồ Sơ Của Tôi</h2>
             <p class="desc">Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
 
-            <form class="profile-form">
+            <form class="profile-form" action="${pageContext.request.contextPath}/UpdateProfileServlet" method="post">
                 <div class="form-left">
                     <div class="form-group">
                         <label>Tên đăng nhập</label>
-                        <input type="text" value="${user.username}" readonly>
+                        <input type="text" name="username" value="${user.username}">
                     </div>
 
                     <div class="form-group">
@@ -198,103 +198,80 @@
                         <input type="tel" name="phoneNumber" value="${user.phoneNumber}">
                     </div>
 
-                    <div class="form-group">
-                        <label>Giới tính</label>
-                        <select name="gender">
-                            <option value="Nam"
-                                    <c:if test="${user.gender eq 'Nam'}">selected</c:if>>
-                                Nam
-                            </option>
-
-                            <option value="Nữ"
-                                    <c:if test="${user.gender eq 'Nữ'}">selected</c:if>>
-                                Nữ
-                            </option>
-
-                            <option value="Khác"
-                                    <c:if test="${user.gender eq 'Khác'}">selected</c:if>>
-                                Khác
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="form-group birthday">
-                        <label>Ngày sinh</label>
-                        <div class="date-select">
-                            <select name="day">
-                                <option disabled>Ngày</option>
-                                <c:forEach var="i" begin="1" end="31">
-                                    <option value="${i}" ${i == birthDay ? 'selected' : ''}>
-                                            ${i}
-                                    </option>
-                                </c:forEach>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label>Giới tính</label>
+                            <select name="gender">
+                                <option value="Nam" <c:if test="${user.gender eq 'Nam'}">selected</c:if>>Nam</option>
+                                <option value="Nữ" <c:if test="${user.gender eq 'Nữ'}">selected</c:if>>Nữ</option>
+                                <option value="Khác" <c:if test="${user.gender eq 'Khác'}">selected</c:if>>Khác</option>
                             </select>
+                        </div>
 
-
-
-                            <select name="month">
-                                <option disabled>Tháng</option>
-                                <c:forEach var="i" begin="1" end="12">
-                                    <option value="${i}" ${i == birthMonth ? 'selected' : ''}>
-                                            ${i}
-                                    </option>
-                                </c:forEach>
-                            </select>
-
-
-
-                            <select name="year">
-                                <option disabled>Năm</option>
-                                <c:forEach var="i" begin="1950" end="2025">
-                                    <option value="${i}" ${i == birthYear ? 'selected' : ''}>
-                                            ${i}
-                                    </option>
-                                </c:forEach>
-                            </select>
-
-
+                        <div class="form-col">
+                            <label>Ngày sinh</label>
+                            <input type="date" name="birthDate" value="${birthDate}">
                         </div>
                     </div>
-
-                    <button class="save-btn" type="button">Lưu</button>
+                    <button class="save-btn" type="submit">Lưu</button>
                 </div>
             </form>
+
+
         </section>
-        <!-- === Đổi mật khẩu có OTP === -->
+
         <section id="repass-section" class="section">
             <h2>Đổi Mật Khẩu</h2>
             <p class="desc">Vui lòng xác minh qua mã OTP để đảm bảo an toàn cho tài khoản của bạn</p>
 
-            <form id="passwordForm" class="password-form">
+            <form id="passwordForm" class="password-form" method="post" action="SendOtpChangePassword">
+
                 <div class="form-group">
                     <label for="currentPassword">Mật khẩu hiện tại</label>
-                    <input type="password" id="currentPassword" placeholder="Nhập mật khẩu hiện tại">
+                    <input type="password" name="currentPassword" id="currentPassword" required>
+                    <c:if test="${not empty currentPasswordError}">
+                        <span class="error">${currentPasswordError}</span>
+                    </c:if>
                 </div>
 
                 <div class="form-group">
                     <label for="newPassword">Mật khẩu mới</label>
-                    <input type="password" id="newPassword" placeholder="Nhập mật khẩu mới">
+                    <input type="password" name="password" id="newPassword" required>
+                    <c:if test="${not empty passwordError}">
+                        <span class="error">${passwordError}</span>
+                    </c:if>
                 </div>
 
                 <div class="form-group">
                     <label for="confirmPassword">Nhập lại mật khẩu mới</label>
-                    <input type="password" id="confirmPassword" placeholder="Nhập lại mật khẩu mới">
+                    <input type="password" name="confirm" id="confirmPassword" required>
+                    <c:if test="${not empty confirmPasswordError}">
+                        <span class="error">${confirmPasswordError}</span>
+                    </c:if>
                 </div>
 
-                <div class="otp-group" style="display: none;">
-                    <label for="otpInput">Nhập mã OTP (đã gửi đến email/số điện thoại của bạn)</label>
-                    <input type="text" id="otpInput" placeholder="Nhập mã OTP 6 chữ số" maxlength="6">
+                <div class="otp-group">
+                    <label for="otpInput">Nhập mã OTP</label>
+                    <input type="text" name="otp" id="otpInput" maxlength="6">
+                    <c:if test="${not empty otpError}">
+                        <span class="error">${otpError}</span>
+                    </c:if>
                 </div>
 
-                <a href="personal-page.jsp">
-                    <div class="btn-group">
-                        <button type="button" id="sendOtpBtn" class="save-btn">Lưu thay đổi</button>
-                        <button type="button" id="confirmChangeBtn" class="save-btn" style="display: none;">Xác nhận đổi
-                            mật khẩu
-                        </button>
-                    </div>
-                </a>
+
+                <div class="btn-group">
+                    <button type="button" id="sendOtpBtn" class="save-btn">Gửi OTP</button>
+                    <button type="button" id="confirmChangeBtn" class="save-btn" style="display: none;">Xác nhận đổi mật khẩu</button>
+                </div>
             </form>
+            <c:if test="${otpSent}">
+                <script>
+                    document.querySelector(".otp-group").style.display = "block";
+                    document.getElementById("sendOtpBtn").style.display = "none";
+                    document.getElementById("confirmChangeBtn").style.display = "inline-block";
+                </script>
+            </c:if>
+
         </section>
 
 
@@ -437,34 +414,118 @@
         <!-- === Địa chỉ nhận hàng === -->
         <section id="addresses-section" class="section">
             <h2>Địa Chỉ Nhận Hàng</h2>
-            <div class="address-header">
-                <button type="button" id="addAddressBtn">+ Thêm địa chỉ mới</button>
+
+            <!-- Danh sách địa chỉ -->
+            <div class="address-list">
+                <c:if test="${not empty addresses}">
+                    <ul>
+                        <c:forEach var="addr" items="${addresses}">
+                            <li class="address-item">
+                                <div class="address-item__header">
+                                    <div class="address-item__info">
+                                        <strong>${addr.fullName}</strong> - ${addr.phoneNumber}<br>
+                                            ${addr.addressLine}, ${addr.district}, ${addr.province}
+                                        <c:if test="${addr.defaultAddress}">
+                                            <span class="address-item__default">[Mặc định]</span>
+                                        </c:if>
+                                    </div>
+                                    <div class="address-item__actions">
+                                        <a href="#" onclick="toggleEditForm(${addr.id});return false;" class="btn btn-sm btn-primary">Sửa</a>
+                                        <a href="${pageContext.request.contextPath}/DeleteAddressServlet?id=${addr.id}" class="btn btn-sm btn-danger">Xóa</a>
+
+                                    </div>
+                                </div>
+
+                                <div id="editForm-${addr.id}" class="address-item__edit">
+                                    <form action="${pageContext.request.contextPath}/EditAddressServlet" method="post">
+                                        <input type="hidden" name="id" value="${addr.id}">
+
+                                        <div class="form-group">
+                                            <label for="fullName-${addr.id}">Họ tên</label>
+                                            <input type="text" name="fullName" id="fullName-${addr.id}" value="${addr.fullName}" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="phoneNumber-${addr.id}">Số điện thoại</label>
+                                            <input type="text" name="phoneNumber" id="phoneNumber-${addr.id}" value="${addr.phoneNumber}" required>
+                                        </div>
+
+                                        <div class="form-group form-group--full">
+                                            <label for="addressLine-${addr.id}">Địa chỉ</label>
+                                            <input type="text" name="addressLine" id="addressLine-${addr.id}" value="${addr.addressLine}" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="province-${addr.id}">Tỉnh/Thành phố</label>
+                                            <input type="text" name="province" id="province-${addr.id}" value="${addr.province}" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="district-${addr.id}">Quận/Huyện</label>
+                                            <input type="text" name="district" id="district-${addr.id}" value="${addr.district}" required>
+                                        </div>
+
+                                        <div class="checkbox-group form-group--full">
+                                            <input type="checkbox" name="isDefault" id="isDefault-${addr.id}" <c:if test="${addr.defaultAddress}">checked</c:if>>
+                                            <label for="isDefault-${addr.id}">Đặt làm địa chỉ mặc định</label>
+                                        </div>
+
+                                        <button type="submit" class="btn green-button">Cập nhật địa chỉ</button>
+                                    </form>
+                                </div>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </c:if>
+                <c:if test="${empty addresses}">
+                    <p>Chưa có địa chỉ nào.</p>
+                </c:if>
             </div>
 
-            <div class="address-list" id="addressList"></div>
+            <p class="instruction">Vui lòng nhập đầy đủ thông tin để đảm bảo đơn hàng được giao chính xác</p>
 
-            <div class="address-form" id="addressForm">
-                <input type="text" id="nameInput" placeholder="Họ và tên người nhận">
-                <input type="text" id="phoneInput" placeholder="Số điện thoại">
-                <input type="text" id="detailAddress" placeholder="Số nhà, tên đường...">
-                <div class="address-select-group">
-                    <select id="province">
-                        <option value="">-- Chọn Tỉnh/Thành phố --</option>
-                    </select>
-                    <select id="ward">
-                        <option value="">-- Chọn Phường/Xã --</option>
-                    </select>
-                </div>
-                <label class="default-check">
-                    <input type="checkbox" id="defaultAddress">
-                    Đặt làm địa chỉ mặc định
-                </label>
-                <div>
-                    <button type="button" class="save-address" id="saveAddressBtn">Lưu</button>
-                    <button type="button" class="cancel-address" id="cancelAddressBtn">Hủy</button>
-                </div>
+
+            <button id="toggleAddressFormBtn" class="btn btn-outline">Thêm địa chỉ</button>
+
+
+            <div id="addAddressForm" class="hidden" style="margin-top: 16px;">
+                <form action="${pageContext.request.contextPath}/AddAddressServlet" method="post">
+                    <div class="form-group">
+                        <label for="fullName">Họ tên</label>
+                        <input type="text" name="fullName" id="fullName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneNumber">Số điện thoại</label>
+                        <input type="text" name="phoneNumber" id="phoneNumber" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="addressLine">Địa chỉ</label>
+                        <input type="text" name="addressLine" id="addressLine" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="province">Tỉnh/Thành phố</label>
+                        <input type="text" name="province" id="province" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="district">Quận/Huyện</label>
+                        <input type="text" name="district" id="district" required>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="isDefault" id="isDefault">
+                        <label for="isDefault">Đặt làm địa chỉ mặc định</label>
+                    </div>
+
+                    <button type="submit" class="green-button">Thêm địa chỉ</button>
+                </form>
             </div>
         </section>
+
+
     </main>
 </div>
 <footer class="footer">
@@ -860,8 +921,97 @@
     }
 
 
+
+
+
+</script>
+<script>
+    // Gửi OTP bằng AJAX
+    document.getElementById("sendOtpBtn").addEventListener("click", function () {
+        fetch("SendOtpChangePassword", { method: "POST" })
+            .then(() => {
+                document.querySelector(".otp-group").style.display = "block";
+                document.getElementById("sendOtpBtn").style.display = "none";
+                document.getElementById("confirmChangeBtn").style.display = "inline-block";
+            })
+            .catch(error => console.error("Lỗi gửi OTP:", error));
+    });
+
+    // Xác nhận đổi mật khẩu
+    document.getElementById("confirmChangeBtn").addEventListener("click", function () {
+        const form = document.getElementById("passwordForm");
+        form.action = "ChangePassword";
+        form.submit();
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const btn = document.getElementById("toggleAddressFormBtn");
+        const formBox = document.getElementById("addAddressForm");
+
+        btn.addEventListener("click", function () {
+            const willShow = formBox.classList.contains("hidden");
+            formBox.classList.toggle("hidden");
+
+            // Đổi text nút cho rõ trạng thái
+            btn.textContent = willShow ? "Đóng" : "Thêm địa chỉ";
+
+            // Scroll nhẹ tới form khi mở
+            if (willShow) {
+                formBox.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        });
+
+        // Nếu vừa redirect về #addresses-section sau khi thêm, có thể mở form tự động khi có lỗi validate
+        const hasError =
+            document.querySelector(".error") &&
+            Array.from(document.querySelectorAll(".error")).some(e => e.textContent && e.textContent.trim() !== "");
+        if (hasError) {
+            formBox.classList.remove("hidden");
+            btn.textContent = "Đóng";
+        }
+    });
+</script>
+<script>
+    function toggleEditForm(id) {
+        const form = document.getElementById("editForm-" + id);
+        if (form.style.display === "none" || form.style.display === "") {
+            form.style.display = "block"; // hiện ra khi bấm
+        } else {
+            form.style.display = "none";  // ẩn lại nếu bấm lần nữa
+        }
+    }
 </script>
 
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<c:if test="${not empty error}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Swal.fire({
+                icon: "error",
+                title: "Lỗi",
+                text: "${error}",
+                timer: 4000,
+                showConfirmButton: false
+            });
+        });
+    </script>
+</c:if>
+
+<c:if test="${not empty success}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Swal.fire({
+                icon: "success",
+                title: "Thành công",
+                text: "${success}",
+                timer: 4000,
+                showConfirmButton: false
+            });
+        });
+    </script>
+</c:if>
 </body>
 </html>

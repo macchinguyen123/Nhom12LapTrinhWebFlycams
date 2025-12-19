@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao;
 
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Address;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.DBConnection;
 
@@ -176,16 +177,62 @@ public class UserDAO {
         return null;
     }
     public boolean updatePassword(int userId, String newPassword) {
-        String sql = "UPDATE users SET password = ?, updatedAt = NOW() WHERE id = ?";
+        String sql = "UPDATE users SET password = ? WHERE id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newPassword);
             ps.setInt(2, userId);
-            return ps.executeUpdate() > 0;
+            int rows = ps.executeUpdate();
+            System.out.println("Updating userId=" + userId + " newPassword=" + newPassword);
+            System.out.println("Rows updated: " + rows);
+            return rows > 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public void update(Address addr) throws SQLException {
+        String sql = "UPDATE addresses SET full_name=?, phone_number=?, address_line=?, province=?, district=?, is_default=? WHERE id=? AND user_id=?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, addr.getFullName());
+            ps.setString(2, addr.getPhoneNumber());
+            ps.setString(3, addr.getAddressLine());
+            ps.setString(4, addr.getProvince());
+            ps.setString(5, addr.getDistrict());
+            ps.setBoolean(6, addr.isDefaultAddress());
+            ps.setInt(7, addr.getId());
+            ps.setInt(8, addr.getUserId());
+
+            int rows = ps.executeUpdate();
+            System.out.println("DEBUG - Update address rows = " + rows);
+        }
+    }
+
+
+    public void updateProfile(User user) throws SQLException {
+        String sql = "UPDATE users SET username=?, full_name=?, phone_number=?, gender=?, birth_date=? WHERE id=?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getFullName());
+            ps.setString(3, user.getPhoneNumber());
+            ps.setString(4, user.getGender());
+
+            if (user.getBirthDate() != null) {
+                ps.setDate(5, new java.sql.Date(user.getBirthDate().getTime()));
+            } else {
+                ps.setNull(5, java.sql.Types.DATE);
+            }
+
+            ps.setInt(6, user.getId());
+
+            int rows = ps.executeUpdate();
+            System.out.println("DEBUG - updateProfile: rows updated = " + rows);
+        }
     }
 
 
