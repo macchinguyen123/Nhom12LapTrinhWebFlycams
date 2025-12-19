@@ -9,10 +9,9 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
-@WebServlet("/AddAddressServlet")
-public class AddAddressServlet extends HttpServlet {
+@WebServlet("/EditAddressServlet")
+public class EditAddressServlet extends HttpServlet {
     private AddressDAO dao = new AddressDAO();
 
     @Override
@@ -24,6 +23,7 @@ public class AddAddressServlet extends HttpServlet {
             return;
         }
 
+        int id = Integer.parseInt(request.getParameter("id"));
         String fullName = request.getParameter("fullName");
         String phoneNumber = request.getParameter("phoneNumber");
         String addressLine = request.getParameter("addressLine");
@@ -32,6 +32,7 @@ public class AddAddressServlet extends HttpServlet {
         boolean isDefault = request.getParameter("isDefault") != null;
 
         Address address = new Address();
+        address.setId(id);
         address.setUserId(user.getId());
         address.setFullName(fullName);
         address.setPhoneNumber(phoneNumber);
@@ -44,7 +45,7 @@ public class AddAddressServlet extends HttpServlet {
             if (isDefault) {
                 dao.resetDefault(user.getId());
             }
-            dao.insert(address);
+            dao.update(address);
         } catch (SQLException e) {
             e.printStackTrace();
         }
