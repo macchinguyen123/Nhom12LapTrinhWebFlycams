@@ -10,6 +10,7 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PriceFormatter;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "ProductDetailServlet", value = "/product-detail")
 public class ProductDetailServlet extends HttpServlet {
@@ -52,9 +53,11 @@ public class ProductDetailServlet extends HttpServlet {
         int fullStars = (int) avgRating;
         boolean hasHalfStar = (avgRating - fullStars) >= 0.5;
 
+
+
         request.setAttribute("avgRating", avgRating);
         request.setAttribute("reviewCount", reviewCount);
-        request.setAttribute("reviews", reviewsDAO.getReviewsByProduct(id));
+//        request.setAttribute("reviews", reviewsDAO.getReviewsByProduct(id));
 
         request.setAttribute("fullStars", fullStars);
         request.setAttribute("hasHalfStar", hasHalfStar);
@@ -91,6 +94,15 @@ public class ProductDetailServlet extends HttpServlet {
         request.setAttribute("star2", reviewsDAO.countByStar(id, 2));
         request.setAttribute("star1", reviewsDAO.countByStar(id, 1));
         request.setAttribute("commentCount", reviewsDAO.countWithComment(id));
+
+        // ===== SẢN PHẨM LIÊN QUAN =====
+        List<Product> relatedProducts = productDAO.getRelatedProducts(
+                product.getCategoryId(),
+                product.getId(),
+                20
+        );
+
+        request.setAttribute("relatedProducts", relatedProducts);
 
 
 

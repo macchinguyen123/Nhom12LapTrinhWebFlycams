@@ -187,7 +187,8 @@
         <div class="rating-overview">
             <div class="rating-score">
             <span class="score">
-                  <i class="bi bi-star-fill"></i> ${avgRating}
+                  <i class="bi bi-star-fill"></i>
+                  <fmt:formatNumber value="${avgRating}" maxFractionDigits="1"/>
             </span><small>/5</small>
 
                 <p>${reviewCount} đánh giá</p>
@@ -296,298 +297,79 @@
         </button>
     </section>
 </div>
-<div class="khung-san-pham-wrapper">
-    <button class="nut-chuyen prev"><i class="bi bi-chevron-left"></i></button>
-    <div class="khung-san-pham">
+<c:if test="${not empty relatedProducts}">
+    <div class="khung-san-pham-wrapper">
+        <button class="nut-chuyen prev">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+        <h2 class="section-title">Sản Phẩm Liên Quan</h2>
 
-        <!-- === SẢN PHẨM 1 === -->
-        <div class="san-pham">
-            <a href="product-details.html"><img src="../image/content/Flycam%20DJI%20Air%203.png" alt="FlycamDJlAir3">
+        <div class="khung-san-pham">
 
-                <h3 class="ten-san-pham">Flycam DJI Air 3</h3>
-                <div class="gia"><b>25.000.000 ₫</b>
-                    <span class="gia-goc">29.990.000 ₫</span>
+            <c:forEach items="${relatedProducts}" var="p">
+                <div class="san-pham">
+
+                    <a href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
+                        <img src="${empty p.mainImage ? '/assets/no-image.png' : p.mainImage}">
+
+                        <h3 class="ten-san-pham">
+                                ${p.productName}
+                        </h3>
+
+                        <div class="gia">
+                            <b>${formatter.format(p.finalPrice)} ₫</b>
+                            <c:if test="${p.price >= p.finalPrice}">
+                            <span class="gia-goc">
+                                ${formatter.format(p.price)} ₫
+                            </span>
+                            </c:if>
+                        </div>
+                    </a>
+
+                    <c:set var="fullStars1" value="${p.avgRating.intValue()}" />
+                    <c:set var="hasHalfStar1" value="${p.avgRating - fullStars1 >= 0.5}" />
+                    <div class="hang-danh-gia">
+                        <div class="danh-gia-sao">
+
+                            <!-- Sao đầy -->
+                            <c:forEach begin="1" end="${fullStars1}">
+                                <i class="bi bi-star-fill"></i>
+                            </c:forEach>
+
+                            <!-- Nửa sao -->
+                            <c:if test="${hasHalfStar1}">
+                                <i class="bi bi-star-half"></i>
+                            </c:if>
+
+                            <!-- Sao rỗng -->
+                            <c:forEach begin="1"
+                                       end="${5 - fullStars1 - (hasHalfStar1 ? 1 : 0)}">
+                                <i class="bi bi-star"></i>
+                            </c:forEach>
+
+                        </div>
+
+                        <i class="bi bi-heart tim-yeu-thich"></i>
+                    </div>
+
+                    <div class="so-danh-gia">
+                        (${empty p.reviewCount ? 0 : p.reviewCount} đánh giá)
+                    </div>
+
+                    <a href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
+                        <button class="nut-mua-ngay">Mua Ngay</button>
+                    </a>
+
                 </div>
-            </a>
+            </c:forEach>
 
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(120 đánh giá)</div>
-
-            <a href="product-details.html">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
         </div>
 
-        <!-- === SẢN PHẨM 2 === -->
-        <div class="san-pham">
-            <a href="product-details.html"><img src="../image/content/Flycam%20DJl%20Inspire%203.png"
-                                                alt="FlycamDJlInspire3">
-                <h3 class="ten-san-pham">Flycam DJl Inspire 3</h3>
-                <div class="gia"><b>9.990.000 ₫</b>
-                    <span class="gia-goc">12.500.000 ₫</span>
-                </div>
-            </a>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(98 đánh giá)</div>
-
-            <a href="product-details.html">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
-        </div>
-
-        <!-- === SẢN PHẨM 3 === -->
-        <div class="san-pham">
-            <a href="product-details.html"><img
-                    src="../image/content/DJI%20Mavic%203%20Pro%20With%20DJI%20RC%20Remote.png"
-                    alt="DJIMavic3ProWithDJIRCRemote">
-                <h3 class="ten-san-pham">DJI Mavic 3 Pro With DJI RC Remote</h3>
-                <div class="gia"><b>49.990.000 ₫</b>
-                    <span class="gia-goc">55.000.000 ₫</span>
-                </div>
-            </a>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(80 đánh giá)</div>
-
-            <a href="product-details.html">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
-        </div>
-
-        <!-- === SẢN PHẨM 4 === -->
-        <div class="san-pham">
-            <a href="product-details.html"><img src="../image/content/Flycam%20DJI%20Mavic%20Mini%20SE%20Combo.png"
-                                                alt="FlycamDJIMavicMiniSECombo">
-                <h3 class="ten-san-pham">Flycam DJI Mavic Mini SE Combo</h3>
-                <div class="gia"><b>29.290.000 ₫</b>
-                    <span class="gia-goc">31.000.000 ₫</span>
-                </div>
-            </a>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(65 đánh giá)</div>
-
-            <a href="product-details.html">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
-        </div>
-
-        <!-- === SẢN PHẨM 5 === -->
-        <div class="san-pham">
-            <a href="product-details.html"><img src="../image/content/DJI%20Mini%203.png" alt="DJlMini3">
-
-                <h3 class="ten-san-pham">DJl Mini 3</h3>
-                <div class="gia"><b>8.990.000 ₫</b>
-                    <span class="gia-goc">10.900.000 ₫</span>
-                </div>
-            </a>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(79 đánh giá)</div>
-
-            <a href="product-details.html">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
-        </div>
-
-        <!-- === SẢN PHẨM 6 === -->
-        <div class="san-pham">
-            <a href="product-details.html"><img src="../image/content/DJI%20Flip.png" alt="DJlFlip">
-
-                <h3 class="ten-san-pham">DJl Flip</h3>
-                <div class="gia"><b>10.490.000 ₫</b>
-                    <span class="gia-goc">11.000.000 ₫</span>
-                </div>
-            </a>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(53 đánh giá)</div>
-
-            <a href="product-details.html">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
-        </div>
-
-        <!-- === SẢN PHẨM 7 === -->
-        <div class="san-pham">
-            <a href="product-details.html"><img src="../image/content/DJI%20Mini%205%20Pro.png" alt="DJlMini5Pro">
-
-                <h3 class="ten-san-pham">DJl Mini 5 Pro</h3>
-                <div class="gia"><b>18.590.000 ₫</b>
-                    <span class="gia-goc">19.590.000 ₫</span>
-                </div>
-            </a>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(39 đánh giá)</div>
-
-            <a href="product-details.html">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
-        </div>
-
-        <!-- === SẢN PHẨM 8 === -->
-        <div class="san-pham">
-            <a href="product-details.html"><img src="../image/content/DJI%20Mini%204K.png" alt="DJlMini4K">
-
-                <h3 class="ten-san-pham">DJI Mini 4K</h3>
-                <div class="gia"><b>9.607.000 ₫</b>
-                    <span class="gia-goc">7.990.000 ₫</span>
-                </div>
-            </a>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(39 đánh giá)</div>
-
-            <a href="product-details.html">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
-        </div>
-
-        <!-- === SẢN PHẨM 9 === -->
-        <div class="san-pham">
-            <a href="product-details.html"><img
-                    src="../image/filmProduct/Flycam%20DJI%20Mini%203%20With%20DJI%20RC%20Remote%20Controller.png"
-                    alt="FlycamDJIMini3WithDJIRCRemoteController">
-
-                <h3 class="ten-san-pham">Flycam DJI Mini 3 With DJI RC Remote Controller</h3>
-                <div class="gia"><b>14.290.000 ₫</b>
-                    <span class="gia-goc">15.990.000 ₫</span>
-                </div>
-            </a>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(87 đánh giá)</div>
-
-            <a href="product-details.html">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
-        </div>
-
-
-        <!-- === SẢN PHẨM 10 === -->
-        <div class="san-pham">
-            <a href="product-details.html"><img src="../image/filmProduct/Flycam%20DJI%20O4%20Air%20Unit.png"
-                                                alt="FlycamDJIO4AirUnit">
-
-                <h3 class="ten-san-pham">Flycam DJI O4 Air Unit</h3>
-                <div class="gia"><b>2.505.000 ₫</b>
-                    <span class="gia-goc">3.600.000 ₫</span>
-                </div>
-            </a>
-
-            <div class="hang-danh-gia">
-                <div class="danh-gia-sao">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star"></i>
-                </div>
-                <i class="bi bi-heart tim-yeu-thich"></i>
-            </div>
-
-            <div class="so-danh-gia">(71 đánh giá)</div>
-
-            <a href="product-details.html">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
-        </div>
-
+        <button class="nut-chuyen next">
+            <i class="bi bi-chevron-right"></i>
+        </button>
     </div>
-    <button class="nut-chuyen next"><i class="bi bi-chevron-right"></i></button>
-</div>
+</c:if>
 <!-- POPUP REVIEW -->
 <div class="review-popup" id="reviewPopup">
     <div class="popup-content">

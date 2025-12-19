@@ -977,3 +977,38 @@ a {
     color: #fff;
     border-color: #0d6efd;
 }
+.section-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #222;
+    margin: 40px 0 20px;
+    padding-left: 14px;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Gạch màu bên trái */
+.section-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 70%;
+    background: linear-gradient(180deg, #0051c6, #0073ff);
+    border-radius: 4px;
+}
+
+/* Gạch mờ phía dưới */
+.section-title::after {
+    content: "";
+    display: block;
+    margin-top: 8px;
+    width: 60px;
+    height: 3px;
+    background: #0051c6;
+    border-radius: 2px;
+}
+

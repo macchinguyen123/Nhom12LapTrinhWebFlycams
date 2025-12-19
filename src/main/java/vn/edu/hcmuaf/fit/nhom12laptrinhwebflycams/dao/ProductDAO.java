@@ -293,4 +293,83 @@ public class ProductDAO {
         return list;
     }
 
+    public List<Product> getRelatedProducts(int categoryId, int excludeProductId, int limit) {
+
+        List<Product> list = new ArrayList<>();
+
+        System.out.println("===== [getRelatedProducts] START =====");
+        System.out.println("categoryId = " + categoryId);
+        System.out.println("excludeProductId = " + excludeProductId);
+        System.out.println("limit = " + limit);
+        String sql = """
+                    SELECT p.*, i.imageUrl, COUNT(r.id) AS reviewCount,  IFNULL(AVG(r.rating), 0) AS avgRating
+                    FROM products p
+                    LEFT JOIN images i
+                      ON p.id = i.product_id AND i.imageType = 'Chính'
+                    LEFT JOIN reviews r
+                      ON p.id = r.product_id
+                    WHERE p.category_id = ?
+                      AND p.id <> ?
+                    GROUP BY p.id
+                    ORDER BY RAND()
+                    LIMIT ?
+                """;
+
+
+        System.out.println("SQL = \n" + sql);
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, categoryId);
+            ps.setInt(2, excludeProductId);
+            ps.setInt(3, limit);
+
+            System.out.println("→ Executing query...");
+
+            ResultSet rs = ps.executeQuery();
+            int count = 0;
+
+            while (rs.next()) {
+                count++;
+
+                Product p = new Product(
+                        rs.getInt("id"),
+                        rs.getInt("category_id"),
+                        rs.getString("brandName"),
+                        rs.getString("productName"),
+                        rs.getString("description"),
+                        rs.getString("parameter"),
+                        rs.getDouble("price"),
+                        rs.getDouble("finalPrice"),
+                        rs.getString("warranty"),
+                        rs.getInt("quantity"),
+                        rs.getBoolean("status")
+                );
+
+                String imageUrl = rs.getString("imageUrl");
+                p.setMainImage(imageUrl);
+                p.setAvgRating(rs.getDouble("avgRating"));
+                p.setReviewCount(rs.getInt("reviewCount"));
+
+                System.out.println("✔ Found product #" + count
+                        + " | id=" + p.getId()
+                        + " | name=" + p.getProductName()
+                        + " | image=" + imageUrl);
+
+                list.add(p);
+            }
+
+            System.out.println("→ Total related products found = " + count);
+
+        } catch (Exception e) {
+            System.out.println("❌ ERROR in getRelatedProducts");
+            e.printStackTrace();
+        }
+
+        System.out.println("===== [getRelatedProducts] END =====");
+        return list;
+    }
+
+
 }

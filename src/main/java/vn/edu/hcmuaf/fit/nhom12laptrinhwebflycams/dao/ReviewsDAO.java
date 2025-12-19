@@ -151,12 +151,13 @@ public class ReviewsDAO {
         int offset = (page - 1) * pageSize;
 
         String sql = """
-        SELECT *
-        FROM reviews
-        WHERE product_id = ?
-        ORDER BY createdAt DESC
-        LIMIT ? OFFSET ?
-    """;
+                SELECT r.*, u.username, u.avatar
+                FROM reviews r
+                JOIN users u ON r.user_id = u.id
+                WHERE r.product_id = ?
+                ORDER BY r.createdAt DESC
+                LIMIT ? OFFSET ?
+                """;
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -174,6 +175,9 @@ public class ReviewsDAO {
                 r.setRating(rs.getInt("rating"));
                 r.setContent(rs.getString("content"));
                 r.setCreatedAt(rs.getTimestamp("createdAt"));
+                // ====== USER INFO ======
+                r.setUsername(rs.getString("username"));
+                r.setAvatar(rs.getString("avatar"));
                 list.add(r);
             }
         } catch (Exception e) {

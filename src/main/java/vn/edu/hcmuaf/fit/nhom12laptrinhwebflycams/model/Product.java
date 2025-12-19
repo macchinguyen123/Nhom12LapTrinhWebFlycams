@@ -18,9 +18,19 @@ public class Product implements Serializable {
     private boolean status;
     private List<Image> images;
     private String mainImage; // NEW FIELD
+    private Integer reviewCount;
+    private double avgRating;
 
     // Constructor không tham số – bắt buộc cho JavaBean
     public Product() {
+    }
+
+    public double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
     }
 
     // Constructor đầy đủ
@@ -147,5 +157,13 @@ public class Product implements Serializable {
 
     public void setMainImage(String mainImage) {
         this.mainImage = mainImage;
+    }
+
+    public Integer getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(Integer reviewCount) {
+        this.reviewCount = reviewCount;
     }
 }
