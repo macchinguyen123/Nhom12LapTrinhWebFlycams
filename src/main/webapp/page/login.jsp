@@ -63,7 +63,7 @@
 
                 <p class="text-center mt-3">
                     Bạn chưa có tài khoản?
-                    <a href="register.jsp">Đăng ký ngay</a>
+                    <a href="${pageContext.request.contextPath}/Register">Đăng ký ngay</a>
                 </p>
             </form>
 
