@@ -11,7 +11,7 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Post;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "BlogDetail", value = "/article")
+@WebServlet(name = "BlogDetail", value = "/blog-detail")
 public class BlogDetailController extends HttpServlet {
 
     private final BlogDAO blogDAO = new BlogDAO();

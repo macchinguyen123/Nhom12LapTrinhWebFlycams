@@ -4,7 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.cart.Carts;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.service.ProductService;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.ProductService;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 
 import java.io.IOException;
