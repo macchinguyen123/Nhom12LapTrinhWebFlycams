@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +17,7 @@
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
 
-    <link rel="stylesheet" href="../../stylesheets/admin/dashboard.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/admin/dashboard.css">
 </head>
 <body>
 
@@ -67,7 +69,7 @@
             <a href="customer-manage.jsp">
                 <li><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li>
             </a>
-            <a href="product-management.jsp">
+            <a href="${pageContext.request.contextPath}/admin/product-management">
                 <li><i class="bi bi-box-seam"></i> Quản Lý Sản Phẩm</li>
             </a>
             <a href="category-manage.jsp">
@@ -109,8 +111,21 @@
                 <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
                 <div class="stat-info">
                     <h6>Tổng khách hàng</h6>
-                    <div class="value">12.482</div>
-                    <small>+3.2% so với tuần trước</small>
+                    <div class="value">
+                        <fmt:formatNumber value="${totalUsers}" type="number"/>
+                    </div>
+                    <small>
+                        <c:choose>
+                            <c:when test="${userGrowthRate >= 0}">
+                                +<fmt:formatNumber value="${userGrowthRate}" maxFractionDigits="1"/>%
+                                so với tuần trước
+                            </c:when>
+                            <c:otherwise>
+                                <fmt:formatNumber value="${userGrowthRate}" maxFractionDigits="1"/>%
+                                so với tuần trước
+                            </c:otherwise>
+                        </c:choose>
+                    </small>
                 </div>
             </div>
 
@@ -118,8 +133,12 @@
                 <div class="stat-icon"><i class="bi bi-box-seam"></i></div>
                 <div class="stat-info">
                     <h6>Tổng sản phẩm</h6>
-                    <div class="value">3.215</div>
-                    <small>120 danh mục</small>
+                    <div class="value">
+                        <fmt:formatNumber value="${totalProducts}" type="number"/>
+                    </div>
+                    <small>
+                        <fmt:formatNumber value="${totalCategories}" type="number"/> danh mục
+                    </small>
                 </div>
             </div>
 
@@ -127,8 +146,13 @@
                 <div class="stat-icon"><i class="bi bi-receipt"></i></div>
                 <div class="stat-info">
                     <h6>Tổng đơn hàng</h6>
-                    <div class="value">8.941</div>
-                    <small>Đang xử lý 124</small>
+                    <div class="value">
+                        <fmt:formatNumber value="${totalOrders}" type="number"/>
+                    </div>
+                    <small>
+                        Đang xử lý
+                        <fmt:formatNumber value="${processingOrders}" type="number"/>
+                    </small>
                 </div>
             </div>
 
@@ -136,8 +160,13 @@
                 <div class="stat-icon"><i class="bi bi-cash-stack"></i></div>
                 <div class="stat-info">
                     <h6>Doanh thu (tháng)</h6>
-                    <div class="value">₫ 210.000.000</div>
-                    <small>Mục tiêu: ₫ 500.000.000</small>
+                    <div class="value">
+                        ₫ <fmt:formatNumber value="${monthlyRevenue}" type="number"/>
+                    </div>
+                    <small>
+                        Mục tiêu:
+                        ₫ <fmt:formatNumber value="${monthlyTarget}" type="number"/>
+                    </small>
                 </div>
             </div>
         </div>
@@ -165,27 +194,41 @@
                     <th>Ngày</th>
                 </tr>
                 </thead>
+                <jsp:useBean id="now" class="java.util.Date"/>
                 <tbody>
-                <tr>
-                    <td>Nguyễn Thanh</td>
-                    <td>+84 912 345 678</td>
-                    <td>2 ngày trước</td>
-                </tr>
-                <tr>
-                    <td>Lê Thu</td>
-                    <td>+84 903 555 111</td>
-                    <td>3 ngày trước</td>
-                </tr>
-                <tr>
-                    <td>Phan Nhi</td>
-                    <td>+84 977 222 333</td>
-                    <td>4 ngày trước</td>
-                </tr>
-                <tr>
-                    <td>Trần Long</td>
-                    <td>+84 934 888 999</td>
-                    <td>5 ngày trước</td>
-                </tr>
+                <c:forEach var="u" items="${newUsers}">
+                    <tr>
+                        <td>${u.fullName}</td>
+                        <td>${u.phoneNumber}</td>
+                        <td>
+                            <c:set var="days"
+                                   value="${Math.floor((now.time - u.createdAt.time) / (1000*60*60*24))}"/>
+
+                            <c:set var="days"
+                                   value="${days < 0 ? 0 : days}"/>
+
+                            <c:choose>
+                                <c:when test="${days == 0}">
+                                    Hôm nay
+                                </c:when>
+                                <c:when test="${days == 1}">
+                                    Hôm qua
+                                </c:when>
+                                <c:otherwise>
+                                    ${days} ngày trước
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+                </c:forEach>
+
+                <c:if test="${empty newUsers}">
+                    <tr>
+                        <td colspan="3" class="text-center text-muted">
+                            Không có khách hàng mới
+                        </td>
+                    </tr>
+                </c:if>
                 </tbody>
             </table>
         </div>
@@ -206,30 +249,31 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>#DH02134</td>
-                    <td>Nguyễn Thanh</td>
-                    <td><span class="badge-status bg-pending">Chờ xử lý</span></td>
-                    <td class="text-end">₫ 1.250.000</td>
-                </tr>
-                <tr>
-                    <td>#DH02110</td>
-                    <td>Lê Thu</td>
-                    <td><span class="badge-status bg-shipped">Đang giao</span></td>
-                    <td class="text-end">₫ 2.560.000</td>
-                </tr>
-                <tr>
-                    <td>#DH02009</td>
-                    <td>Phan Nhi</td>
-                    <td><span class="badge-status bg-complete">Hoàn thành</span></td>
-                    <td class="text-end">₫ 320.000</td>
-                </tr>
-                <tr>
-                    <td>#DH01999</td>
-                    <td>Trần Long</td>
-                    <td><span class="badge-status bg-cancel">Bị hủy</span></td>
-                    <td class="text-end">₫ 0</td>
-                </tr>
+                <c:forEach var="o" items="${recentOrders}">
+                    <tr>
+                        <td>#${o.shippingCode}</td>
+
+                        <td>${o.customerName}</td>
+
+                        <td>
+            <span class="badge-status ${o.statusClass}">
+                    ${o.statusLabel}
+            </span>
+                        </td>
+
+                        <td class="text-end">
+                            ₫ <fmt:formatNumber value="${o.totalPrice}" type="number"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+
+                <c:if test="${empty recentOrders}">
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">
+                            Chưa có đơn hàng
+                        </td>
+                    </tr>
+                </c:if>
                 </tbody>
             </table>
         </div>
@@ -241,6 +285,53 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+<c:if test="${not empty revenueLabels and not empty revenueValues}">
+    <script>
+        const revenueLabels = [
+            <c:forEach var="d" items="${revenueLabels}" varStatus="s">
+            "${d}"<c:if test="${!s.last}">, </c:if>
+            </c:forEach>
+        ];
+
+        const revenueData = [
+            <c:forEach var="v" items="${revenueValues}" varStatus="s">
+            ${v}<c:if test="${!s.last}">, </c:if>
+            </c:forEach>
+        ];
+    </script>
+</c:if>
+<script>
+    $(document).ready(function () {
+
+        if (typeof revenueLabels === 'undefined'
+            || typeof revenueData === 'undefined'
+            || revenueLabels.length === 0) {
+            return; // KHÔNG có dữ liệu → bỏ qua biểu đồ
+        }
+
+        const ctx = document.getElementById('salesChart');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: revenueLabels,
+                datasets: [{
+                    label: 'Doanh thu (VNĐ)',
+                    data: revenueData,
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {display: true}
+                }
+            }
+        });
+    });
+</script>
 <script>
     $(document).ready(function () {
         // --- DataTable cho khách hàng mới ---
@@ -260,7 +351,7 @@
                 }
             },
             columnDefs: [
-                { orderable: false, targets: [] } // Không vô hiệu hóa cột nào
+                {orderable: false, targets: []} // Không vô hiệu hóa cột nào
             ]
         });
 
@@ -281,39 +372,13 @@
                 }
             },
             columnDefs: [
-                { orderable: false, targets: 2 } // Cột trạng thái không sắp xếp
+                {orderable: false, targets: 2} // Cột trạng thái không sắp xếp
             ]
         });
     });
 </script>
 
 <script>
-    $(document).ready(function () {
-
-        // Biểu đồ doanh thu
-        const ctx = document.getElementById('salesChart');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['01', '05', '10', '15', '20', '25', '30'],
-                datasets: [{
-                    label: 'Doanh thu (triệu ₫)',
-                    data: [120, 150, 200, 300, 400, 480, 550],
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59,130,246,0.15)',
-                    fill: true,
-                    tension: 0.3
-                }]
-            },
-            options: {
-                plugins: {legend: {labels: {color: '#1e293b'}}},
-                scales: {
-                    x: {ticks: {color: '#475569'}},
-                    y: {ticks: {color: '#475569'}}
-                }
-            }
-        });
-    });
     // ======= LOGOUT =======
     $("#logoutBtn").on("click", function () {
         $("#logoutModal").css("display", "flex");

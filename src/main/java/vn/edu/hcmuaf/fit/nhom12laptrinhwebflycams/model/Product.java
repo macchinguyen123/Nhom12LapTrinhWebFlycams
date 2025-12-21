@@ -166,4 +166,8 @@ public class Product implements Serializable {
     public void setReviewCount(Integer reviewCount) {
         this.reviewCount = reviewCount;
     }
+    private Categories categoryName;
+    public Categories getCategory() {
+        return categoryName;
+    }
 }
