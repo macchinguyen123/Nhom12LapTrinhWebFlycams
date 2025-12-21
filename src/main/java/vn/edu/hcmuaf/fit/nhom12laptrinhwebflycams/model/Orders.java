@@ -122,6 +122,36 @@ public class Orders {
         return note;
     }
 
+    private String customerName;
+
+    // THÊM 2 FIELD PHỤ CHO VIEW
+    private String statusLabel;
+    private String statusClass;
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getStatusLabel() {
+        return statusLabel;
+    }
+
+    public void setStatusLabel(String statusLabel) {
+        this.statusLabel = statusLabel;
+    }
+
+    public String getStatusClass() {
+        return statusClass;
+    }
+
+    public void setStatusClass(String statusClass) {
+        this.statusClass = statusClass;
+    }
+
     public void setNote(String note) {
         this.note = note;
     }

@@ -47,7 +47,7 @@ public class Login extends HttpServlet {
 
         // chuyển hướng theo role
         if (user.getRoleId() == 1) {
-            response.sendRedirect("admin/dashboard.jsp");
+            response.sendRedirect(request.getContextPath() + "/admin/dashboard");
         } else {
             response.sendRedirect("page/homepage.jsp");
         }

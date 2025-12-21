@@ -370,6 +370,53 @@ public class ProductDAO {
         System.out.println("===== [getRelatedProducts] END =====");
         return list;
     }
+    public List<Product> getAllProductsForAdmin() {
+        List<Product> list = new ArrayList<>();
+
+        String sql = """
+        SELECT p.id,
+               p.productName,
+               p.brandName,
+               c.name AS categoryName,
+               p.price,
+               p.finalPrice,
+               p.quantity,
+               p.status,
+               i.imageUrl AS mainImage
+        FROM products p
+        JOIN categories c ON p.category_id = c.id
+        LEFT JOIN images i
+            ON p.id = i.product_id AND i.imageType = 'Chính'
+        ORDER BY p.createdAt DESC
+    """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Product p = new Product();
+
+                p.setId(rs.getInt("id"));
+                p.setProductName(rs.getString("productName"));
+                p.setBrandName(rs.getString("brandName"));
+                p.getCategory().setCategoryName(rs.getString("categoryName"));
+                p.setPrice(rs.getDouble("price"));
+                p.setFinalPrice(rs.getDouble("finalPrice"));
+                p.setQuantity(rs.getInt("quantity"));
+                p.setStatus(rs.getBoolean("status"));
+                p.setMainImage(rs.getString("mainImage"));
+
+                list.add(p);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
 
 
 }

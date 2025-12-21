@@ -16,13 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 
-    <link rel="stylesheet" href="../../stylesheets/admin/product-manage.css">
-    <style>
-        div.dataTables_filter {
-            display: none;
-        }
-    </style>
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/admin/product-manage.css">
 </head>
 <body>
 
@@ -70,13 +64,13 @@
         </div>
 
         <ul class="menu">
-            <a href="dashboard.jsp">
+            <a href="${pageContext.request.contextPath}/admin/dashboard">
                 <li><i class="bi bi-speedometer2"></i> Tổng Quan</li>
             </a>
             <a href="customer-manage.jsp">
                 <li><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li>
             </a>
-            <a href="product-management.jsp">
+            <a href="${pageContext.request.contextPath}/admin/product-management">
                 <li class="active"><i class="bi bi-box-seam"></i> Quản Lý Sản Phẩm</li>
             </a>
             <a href="category-manage.jsp">
