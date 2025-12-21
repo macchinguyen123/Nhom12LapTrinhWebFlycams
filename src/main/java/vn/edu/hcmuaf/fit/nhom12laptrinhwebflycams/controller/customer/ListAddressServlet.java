@@ -15,14 +15,14 @@ import java.util.List;
 
 @WebServlet("/ListAddressServlet")
 public class ListAddressServlet extends HttpServlet {
-    private AddressDAO dao = new AddressDAO();
+    private final AddressDAO dao = new AddressDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
         if (user == null) {
-            resp.sendRedirect("login.jsp");
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
         }
 
@@ -31,8 +31,15 @@ public class ListAddressServlet extends HttpServlet {
             req.setAttribute("addresses", list);
         } catch (SQLException e) {
             e.printStackTrace();
+            req.setAttribute("error", "Không thể tải danh sách địa chỉ.");
         }
 
         req.getRequestDispatcher("/page/personal-page.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        doGet(req, resp);
     }
 }

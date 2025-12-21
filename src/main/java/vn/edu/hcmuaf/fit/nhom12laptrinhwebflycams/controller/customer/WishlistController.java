@@ -1,20 +1,15 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 
-import jakarta.servlet.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.WishlistDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Wishlists;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.WishlistService;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PriceFormatter;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
 
 @WebServlet(name = "Wishlist", value = "/wishlist")
 public class WishlistController extends HttpServlet {
@@ -32,11 +27,8 @@ public class WishlistController extends HttpServlet {
             request.setAttribute("products", products);
         }
         request.setAttribute("formatter", new PriceFormatter());
-
         request.getRequestDispatcher("/page/wishlist.jsp").forward(request, response);
     }
-
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -44,9 +36,9 @@ public class WishlistController extends HttpServlet {
 
         System.out.println("=== [WISHLIST] POST REQUEST ===");
         HttpSession session = request.getSession(false);
-        User user = (User) (session != null ? session.getAttribute("user") : null);
+        User user = (session != null) ? (User) session.getAttribute("user") : null;
 
-        response.setContentType("application/json");
+        response.setContentType("application/json;charset=UTF-8");
 
         if (user == null) {
             System.out.println("[WISHLIST] User chưa đăng nhập");
@@ -57,34 +49,54 @@ public class WishlistController extends HttpServlet {
 
         String action = request.getParameter("action");
         String productIdRaw = request.getParameter("productId");
+
         System.out.println("[WISHLIST] UserId = " + user.getId());
         System.out.println("[WISHLIST] Action = " + action);
         System.out.println("[WISHLIST] ProductId = " + productIdRaw);
-        // ✅ CHECK NULL / RỖNG
+
+        if (action == null || action.isBlank()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"success\":false,\"message\":\"ACTION_NULL\"}");
+            return;
+        }
+
         if (productIdRaw == null || productIdRaw.isBlank()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("{\"success\":false,\"message\":\"PRODUCT_ID_NULL\"}");
             return;
         }
-        int productId = Integer.parseInt(productIdRaw);
+
+        int productId;
+        try {
+            productId = Integer.parseInt(productIdRaw);
+        } catch (NumberFormatException e) {
+            System.out.println("[WISHLIST] ProductId không hợp lệ: " + productIdRaw);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"success\":false,\"message\":\"PRODUCT_ID_INVALID\"}");
+            return;
+        }
 
         boolean success;
-
-        if ("add".equals(action)) {
-            success = wishlistService.add(user.getId(), productId);
-            System.out.println("[WISHLIST] Add result = " + success);
-        } else if ("remove".equals(action)) {
-            success = wishlistService.remove(user.getId(), productId);
-            System.out.println("[WISHLIST] Remove result = " + success);
-        } else {
-            System.out.println("[WISHLIST] Action không hợp lệ");
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action không hợp lệ");
-            return;
+        switch (action) {
+            case "add":
+                success = wishlistService.add(user.getId(), productId);
+                System.out.println("[WISHLIST] Add result = " + success);
+                break;
+            case "remove":
+                success = wishlistService.remove(user.getId(), productId);
+                System.out.println("[WISHLIST] Remove result = " + success);
+                break;
+            case "toggle":
+                success = wishlistService.toggleWishlist(user.getId(), productId);
+                System.out.println("[WISHLIST] Toggle result = " + success);
+                break;
+            default:
+                System.out.println("[WISHLIST] Action không hợp lệ: " + action);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"success\":false,\"message\":\"ACTION_INVALID\"}");
+                return;
         }
 
         response.getWriter().write("{\"success\":" + success + "}");
     }
-
 }
-
-

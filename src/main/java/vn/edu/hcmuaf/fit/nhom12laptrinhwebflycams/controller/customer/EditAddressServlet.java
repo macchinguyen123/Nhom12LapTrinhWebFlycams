@@ -12,44 +12,36 @@ import java.sql.SQLException;
 
 @WebServlet("/EditAddressServlet")
 public class EditAddressServlet extends HttpServlet {
-    private AddressDAO dao = new AddressDAO();
+    private final AddressDAO dao = new AddressDAO();
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute("user");
+        User user = (User) req.getSession().getAttribute("user");
         if (user == null) {
-            response.sendRedirect("login.jsp");
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
         }
 
-        int id = Integer.parseInt(request.getParameter("id"));
-        String fullName = request.getParameter("fullName");
-        String phoneNumber = request.getParameter("phoneNumber");
-        String addressLine = request.getParameter("addressLine");
-        String province = request.getParameter("province");
-        String district = request.getParameter("district");
-        boolean isDefault = request.getParameter("isDefault") != null;
-
-        Address address = new Address();
-        address.setId(id);
-        address.setUserId(user.getId());
-        address.setFullName(fullName);
-        address.setPhoneNumber(phoneNumber);
-        address.setAddressLine(addressLine);
-        address.setProvince(province);
-        address.setDistrict(district);
-        address.setDefaultAddress(isDefault);
+        Address addr = new Address();
+        addr.setId(Integer.parseInt(req.getParameter("id")));
+        addr.setUserId(user.getId());
+        addr.setFullName(req.getParameter("fullName"));
+        addr.setPhoneNumber(req.getParameter("phoneNumber"));
+        addr.setAddressLine(req.getParameter("addressLine"));
+        addr.setProvince(req.getParameter("province"));
+        addr.setDistrict(req.getParameter("district"));
+        addr.setDefaultAddress(req.getParameter("isDefault") != null);
 
         try {
-            if (isDefault) {
+            if (addr.isDefaultAddress()) {
                 dao.resetDefault(user.getId());
             }
-            dao.update(address);
+            dao.update(addr);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        response.sendRedirect(request.getContextPath() + "/ListAddressServlet#addresses-section");
+        resp.sendRedirect(req.getContextPath() + "/ListAddressServlet");
     }
 }

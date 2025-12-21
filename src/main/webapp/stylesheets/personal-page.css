@@ -1054,8 +1054,37 @@ a {
     box-sizing: border-box;
 }
 .address-item__edit {
-    display: none; /* ẩn mặc định */
+    display: none;
     margin-top: 10px;
     padding-top: 10px;
     border-top: 1px dashed #e5e5e5;
+}
+.hidden {
+    display: none !important;
+}
+
+.popup {
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.popup-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    font-size: 20px;
 }

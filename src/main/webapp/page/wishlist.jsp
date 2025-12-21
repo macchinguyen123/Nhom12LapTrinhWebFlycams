@@ -75,7 +75,11 @@
                             </a>
 
                             <div>
-                                <h5 class="ten_san_pham mb-2">${p.productName}</h5>
+                                <h5 class="ten_san_pham mb-2">
+                                        ${p.productName}
+                                    <span style="color:red"></span>
+                                </h5>
+
 
                                 <div>
                                    <span class="gia_hien_tai text-danger fw-bold me-2">
@@ -115,81 +119,49 @@
 
 <jsp:include page="/page/footer.jsp"/>
 <script>
-    const chonTatCa = document.getElementById("chon_tat_ca");
-    const nutXoaDaChon = document.querySelector(".nut_xoa_da_chon");
-    const danhSach = document.getElementById("danh_sach_san_pham");
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.nut_xoa').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.preventDefault();
 
-    // Chọn tất cả
-    chonTatCa.addEventListener("change", () => {
-        document.querySelectorAll(".chon_san_pham").forEach(cb => cb.checked = chonTatCa.checked);
-        capNhatTongTien();
-    });
+                const productId = btn.getAttribute("data-product-id");
+                console.log("CLICK XÓA productId =", productId);
 
-    // Xử lý click trong danh sách
-    danhSach.addEventListener("click", e => {
-        const sp = e.target.closest(".khung_san_pham");
-        if (!sp) return;
-
-        // Tick chọn sản phẩm
-        if (e.target.classList.contains("chon_san_pham")) {
-            const tatCa = document.querySelectorAll(".chon_san_pham").length;
-            const daChon = document.querySelectorAll(".chon_san_pham:checked").length;
-            chonTatCa.checked = (tatCa === daChon);
-            capNhatTongTien();
-        }
-    });
-
-    nutXoaDaChon.addEventListener("click", () => {
-        document.querySelectorAll(".chon_san_pham:checked").forEach(cb => cb.closest(".khung_san_pham").remove());
-        capNhatTongTien();
-    });
-</script>
-<script>
-    const btnDanhMuc = document.getElementById('btnDanhMuc');
-    const menuLeft = document.getElementById('menuLeft');
-
-    btnDanhMuc.addEventListener('click', () => {
-        menuLeft.classList.toggle('show');
-    });
-
-    // Ẩn menu khi click ra ngoài
-    document.addEventListener('click', (e) => {
-        if (!menuLeft.contains(e.target) && !btnDanhMuc.contains(e.target)) {
-            menuLeft.classList.remove('show');
-        }
-    });
-</script>
-<script>
-    const contextPath = '${pageContext.request.contextPath}';
-
-    document.addEventListener('click', function (e) {
-        const btn = e.target.closest('.nut_xoa');
-        if (!btn) return;
-
-        e.preventDefault();
-
-        const productId = btn.dataset.productId; // ✅ CHUẨN 100%
-
-        console.log('DELETE productId =', productId);
-
-        fetch(contextPath + '/wishlist', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: `action=remove&productId=${productId}`
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    btn.closest('.khung_san_pham').remove();
-                } else {
-                    alert('Xóa thất bại');
+                if (!productId || productId.trim() === "") {
+                    alert("Không tìm thấy productId để xóa");
+                    return;
                 }
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Lỗi kết nối server');
+
+                // Tạo body chuẩn bằng URLSearchParams
+                const params = new URLSearchParams();
+                params.append("action", "remove");
+                params.append("productId", productId);
+
+                fetch('${pageContext.request.contextPath}/wishlist', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    body: params.toString()
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            btn.closest('.khung_san_pham')?.remove();
+                        } else {
+                            alert('Xóa thất bại');
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert('Lỗi kết nối server');
+                    });
             });
+        });
     });
 </script>
+
+
+
 </body>
 </html>
