@@ -1,3 +1,8 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<c:set var="cart" value="${sessionScope.cart}"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,7 +56,7 @@
                     </div>
                 </a>
 
-                <a href="shoppingcart.html">
+                <a href="${pageContext.request.contextPath}/shopping-cart">
                     <div class="icon-btn active" title="Giỏ hàng">
                         <i class="bi bi-cart3"></i>
                         <span>Giỏ hàng</span>
@@ -148,103 +153,77 @@
                     <input type="checkbox" class="form-check-input" id="chon_tat_ca">
                     <label for="chon_tat_ca" class="form-check-label">Chọn tất cả</label>
                 </div>
-                <button class="btn btn-outline-danger btn-sm nut_xoa_da_chon">
-                    <i class="bi bi-trash"></i> Xóa sản phẩm đã chọn
+                <button type="button"
+                        class="btn btn-outline-danger btn-sm nut_xoa_da_chon">
+                <i class="bi bi-trash"></i> Xóa sản phẩm đã chọn
                 </button>
             </div>
 
             <!-- Danh sách sản phẩm -->
             <div id="danh_sach_san_pham">
-                <!-- Sản phẩm 1 -->
-                <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded d-flex align-items-center justify-content-between">
+                <c:if test="${empty cart or empty cart.items}">
+                    <p class="text-center text-muted">Giỏ hàng trống</p>
+                </c:if>
+
+                <c:forEach var="item" items="${cart.items}">
+                <div class="khung_san_pham d-flex align-items-center justify-content-between"
+                     data-id="${item.product.id}">
+
+                    <!-- TRÁI: checkbox + ảnh + info -->
                     <div class="d-flex align-items-center">
-                        <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                        <a href="product-details.jsp"><img src="../image/content/DJI%20Mini%203.png" alt="DJI Mini 3"
-                                                           class="anh_san_pham me-3" width="120"></a>
+                        <input type="checkbox"
+                               class="chon_san_pham form-check-input me-3">
+
+                        <img src="${not empty item.product.images
+          ? item.product.images[0].imageUrl
+          : pageContext.request.contextPath.concat('/image/no-image.png')}"
+                             class="anh_san_pham me-3"
+                             width="120">
+
                         <div>
-                            <h5 class="ten_san_pham mb-2">Flycam DJI Mini 3</h5>
-                            <div>
-                                <span class="gia_hien_tai text-danger fw-bold me-2">8.990.000₫</span>
-                                <span class="gia_goc text-muted text-decoration-line-through">10.900.000₫</span>
-                            </div>
+                            <h5 class="ten_san_pham mb-2">
+                                    ${item.product.productName}
+                            </h5>
+
+                            <span class="gia_hien_tai text-danger fw-bold">
+                <fmt:formatNumber value="${item.product.finalPrice}" type="number"/> ₫
+            </span>
                         </div>
                     </div>
 
+                    <!-- PHẢI: số lượng -->
                     <div class="d-flex align-items-center">
-                        <button class="btn btn-outline-secondary btn-sm nut_giam me-1">−</button>
-                        <input type="text" class="form-control text-center o_so_luong mx-1" value="1"
-                               style="width:50px;">
-                        <button class="btn btn-outline-secondary btn-sm nut_tang me-3">+</button>
-                        <button class="btn btn-outline-danger btn-sm nut_xoa"><i class="bi bi-trash"></i></button>
+                        <button class="btn btn-outline-secondary btn-sm nut_giam">−</button>
+
+                        <input type="text"
+                               class="form-control text-center o_so_luong mx-1"
+                               value="${item.quantity}"
+                               style="width:50px;"
+                               readonly>
+
+                        <button class="btn btn-outline-secondary btn-sm nut_tang">+</button>
                     </div>
                 </div>
 
-                <!-- Sản phẩm 2 -->
-                <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                        <a href="product-details.jsp"><img src="../image/content/DJI%20Mini%204K.png" alt="DJI Mini 4K"
-                                                           class="anh_san_pham me-3" width="120"></a>
-                        <div>
-                            <h5 class="ten_san_pham mb-2">Flycam DJI Mini 4K</h5>
-                            <div>
-                                <span class="gia_hien_tai text-danger fw-bold me-2">9.607.000₫</span>
-                                <span class="gia_goc text-muted text-decoration-line-through">7.990.000₫</span>
-                            </div>
-                        </div>
-                    </div>
+            </c:forEach>
+        </div>
 
-                    <div class="d-flex align-items-center">
-                        <button class="btn btn-outline-secondary btn-sm nut_giam me-1">−</button>
-                        <input type="text" class="form-control text-center o_so_luong mx-1" value="1"
-                               style="width:50px;">
-                        <button class="btn btn-outline-secondary btn-sm nut_tang me-3">+</button>
-                        <button class="btn btn-outline-danger btn-sm nut_xoa"><i class="bi bi-trash"></i></button>
-                    </div>
-                </div>
-
-                <!-- Sản phẩm 3 -->
-                <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                        <a href="product-details.jsp"><img src="../image/content/Flycam%20DJI%20Air%203.png"
-                                                           alt="Flycam DJI Air 3" class="anh_san_pham me-3"
-                                                           width="120"></a>
-                        <div>
-                            <h5 class="ten_san_pham mb-2">Flycam DJI Air 3</h5>
-                            <div>
-                                <span class="gia_hien_tai text-danger fw-bold me-2">25.000.000₫</span>
-                                <span class="gia_goc text-muted text-decoration-line-through">29.990.000₫</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-center">
-                        <button class="btn btn-outline-secondary btn-sm nut_giam me-1">−</button>
-                        <input type="text" class="form-control text-center o_so_luong mx-1" value="1"
-                               style="width:50px;">
-                        <button class="btn btn-outline-secondary btn-sm nut_tang me-3">+</button>
-                        <button class="btn btn-outline-danger btn-sm nut_xoa"><i class="bi bi-trash"></i></button>
-                    </div>
-                </div>
+        <!-- Tổng tiền -->
+        <div class="card p-3 shadow-sm">
+            <div class="d-flex justify-content-between">
+                <span class="fw-bold">Tạm tính:</span>
+                <span class="so_tien">0 ₫</span>
             </div>
-
-            <!-- Tổng tiền -->
-            <div class="card p-3 shadow-sm">
-                <div class="d-flex justify-content-between">
-                    <span class="fw-bold">Tạm tính:</span>
-                    <span class="so_tien">0 ₫</span>
-                </div>
-                <hr>
-                <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="tong_cong text-danger m-0">Tổng cộng: 0 ₫</h5>
-                    <a href="delivery-info.jsp">
-                        <button class="btn btn-primary nut_thanh_toan">Mua ngay</button>
-                    </a>
-                </div>
+            <hr>
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="tong_cong text-danger m-0">Tổng cộng: 0 ₫</h5>
+                <a href="delivery-info.jsp">
+                    <button class="btn btn-primary nut_thanh_toan">Mua ngay</button>
+                </a>
             </div>
         </div>
     </div>
+</div>
 </div>
 <footer class="footer">
     <div class="footer-container">
@@ -357,7 +336,6 @@
 <script>
     const chonTatCa = document.getElementById("chon_tat_ca");
     const nutXoaDaChon = document.querySelector(".nut_xoa_da_chon");
-    const nutThanhToan = document.querySelector(".nut_thanh_toan");
     const danhSach = document.getElementById("danh_sach_san_pham");
 
     function dinhDangTien(vnd) {
@@ -368,60 +346,85 @@
         let tong = 0;
         document.querySelectorAll(".khung_san_pham").forEach(sp => {
             const check = sp.querySelector(".chon_san_pham");
-            if (check.checked) {
-                const giaText = sp.querySelector(".gia_hien_tai").textContent.replace(/[^\d]/g, "");
+            if (check && check.checked) {
+                const giaText = sp.querySelector(".gia_hien_tai")
+                    .textContent.replace(/[^\d]/g, "");
                 const soLuong = parseInt(sp.querySelector(".o_so_luong").value);
                 tong += parseInt(giaText) * soLuong;
             }
         });
+
         document.querySelector(".so_tien").textContent = dinhDangTien(tong);
-        document.querySelector(".tong_cong").textContent = "Tổng cộng: " + dinhDangTien(tong);
+        document.querySelector(".tong_cong").textContent =
+            "Tổng cộng: " + dinhDangTien(tong);
     }
 
-    // Chọn tất cả
+    // ✅ Chọn tất cả
     chonTatCa.addEventListener("change", () => {
-        document.querySelectorAll(".chon_san_pham").forEach(cb => cb.checked = chonTatCa.checked);
+        document.querySelectorAll(".chon_san_pham")
+            .forEach(cb => cb.checked = chonTatCa.checked);
         capNhatTongTien();
     });
 
-    // Sự kiện trên từng sản phẩm
+    // ✅ Tick / tăng giảm số lượng
     danhSach.addEventListener("click", e => {
         const sp = e.target.closest(".khung_san_pham");
         if (!sp) return;
 
-        // Tăng / giảm số lượng
-        if (e.target.classList.contains("nut_tang") || e.target.classList.contains("nut_giam")) {
+        // tăng / giảm
+        if (e.target.classList.contains("nut_tang") ||
+            e.target.classList.contains("nut_giam")) {
+
             const input = sp.querySelector(".o_so_luong");
             let soLuong = parseInt(input.value);
+
             if (e.target.classList.contains("nut_tang")) soLuong++;
             else if (soLuong > 1) soLuong--;
+
             input.value = soLuong;
             capNhatTongTien();
         }
 
-        // Xóa sản phẩm
-        if (e.target.classList.contains("nut_xoa") || e.target.closest(".nut_xoa")) {
-            sp.remove();
-            capNhatTongTien();
-        }
-
-        // Tick chọn sản phẩm
+        // tick checkbox
         if (e.target.classList.contains("chon_san_pham")) {
-            const tatCa = document.querySelectorAll(".chon_san_pham").length;
+            const tong = document.querySelectorAll(".chon_san_pham").length;
             const daChon = document.querySelectorAll(".chon_san_pham:checked").length;
-            chonTatCa.checked = (tatCa === daChon);
+            chonTatCa.checked = (tong === daChon);
             capNhatTongTien();
         }
     });
 
-    // Xóa các sản phẩm đã chọn
+    // ✅ XÓA CÁC SẢN PHẨM ĐÃ CHỌN (XÓA THẬT TRONG SESSION)
     nutXoaDaChon.addEventListener("click", () => {
-        document.querySelectorAll(".chon_san_pham:checked").forEach(cb => cb.closest(".khung_san_pham").remove());
-        capNhatTongTien();
+        const ids = [];
+
+        document.querySelectorAll(".chon_san_pham:checked").forEach(cb => {
+            const sp = cb.closest(".khung_san_pham");
+            ids.push(sp.dataset.id);
+        });
+
+        if (ids.length === 0) return;
+
+        const body = ids.map(id => "productIds[]=" + id).join("&");
+
+        fetch("${pageContext.request.contextPath}/RemoveMultiFromCart", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: body
+        }).then(res => {
+            if (res.ok) {
+                document.querySelectorAll(".chon_san_pham:checked").forEach(cb => {
+                    cb.closest(".khung_san_pham").remove();
+                });
+                capNhatTongTien();
+            }
+        });
     });
-
-
+    // gọi khi load trang
+    window.addEventListener("load", capNhatTongTien);
 </script>
+
+
 <script>
     const btnDanhMuc = document.getElementById('btnDanhMuc');
     const menuLeft = document.getElementById('menuLeft');
@@ -437,5 +440,11 @@
         }
     });
 </script>
+<%--<script>--%>
+<%--    // gọi khi trang load xong--%>
+<%--    window.addEventListener("load", () => {--%>
+<%--        capNhatTongTien();--%>
+<%--    });--%>
+<%--</script>--%>
 </body>
 </html>

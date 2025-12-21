@@ -133,15 +133,24 @@
                 </div>
 
                 <div class="buy-buttons">
-                    <a href="shoppingcart.jsp">
-                        <button class="btn-add-cart">
+                    <form action="${pageContext.request.contextPath}/add-cart"
+                          method="get"
+                          style="display:inline-block;">
+
+                        <input type="hidden" name="productId" value="${product.id}">
+                        <input type="hidden" name="quantity" id="quantityHidden" value="1">
+
+                        <button type="submit" class="btn-add-cart">
                             <i class="bi bi-cart-fill"></i> Thêm Vào Giỏ Hàng
                         </button>
-                    </a>
+                    </form>
+
+
                     <a href="delivery-info.jsp">
                         <button class="btn-buy-now">Mua Ngay</button>
                     </a>
                 </div>
+
 
                 <div class="policy p-3 rounded">
                     <h6 class="fw-bold mb-2">Chính sách của sản phẩm:</h6>
@@ -469,20 +478,6 @@
         updateMainImage(currentIndex);
     });
 
-    // Tăng giảm số lượng
-    const minusBtn = document.getElementById('minus');
-    const plusBtn = document.getElementById('plus');
-    const qty = document.getElementById('qty');
-
-    minusBtn.addEventListener('click', () => {
-        let val = parseInt(qty.value);
-        if (val > 1) qty.value = val - 1;
-    });
-
-    plusBtn.addEventListener('click', () => {
-        let val = parseInt(qty.value);
-        qty.value = val + 1;
-    });
 
     document.querySelectorAll('.tim-yeu-thich').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -567,5 +562,27 @@
     });
 </script>
 <script src="${pageContext.request.contextPath}/js/review.js"></script>
+<script>
+    const minusBtn = document.getElementById('minus');
+    const plusBtn = document.getElementById('plus');
+    const qtyInput = document.getElementById('qty');
+    const quantityHidden = document.getElementById('quantityHidden');
+
+    minusBtn.addEventListener('click', () => {
+        let val = parseInt(qtyInput.value);
+        if (val > 1) {
+            qtyInput.value = val - 1;
+            quantityHidden.value = qtyInput.value;
+        }
+    });
+
+    plusBtn.addEventListener('click', () => {
+        let val = parseInt(qtyInput.value);
+        qtyInput.value = val + 1;
+        quantityHidden.value = qtyInput.value;
+    });
+</script>
+
+
 </body>
 </html>
