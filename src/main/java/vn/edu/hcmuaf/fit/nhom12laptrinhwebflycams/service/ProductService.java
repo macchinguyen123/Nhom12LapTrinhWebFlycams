@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.service;
+package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service;
 
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ImageDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
