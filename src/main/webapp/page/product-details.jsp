@@ -141,19 +141,21 @@
                         <input type="hidden" name="quantity" id="quantityHidden" value="1">
 
                         <button type="submit"
-                                class="btn-add-cart d-flex align-items-center justify-content-center
-               gap-2 px-4 py-2 fw-semibold rounded">
+                                class="btn-add-cart">
                             <i class="bi bi-cart-plus"></i>
-                            <span>Thêm vào giỏ hàng</span>
+                            Thêm vào giỏ hàng
                         </button>
                     </form>
 
+                    <!-- Nút mua ngay (có thể là form/post hoặc link) -->
+                    <form action="${pageContext.request.contextPath}/BuyNowServlet" method="post">
+                        <input type="hidden" name="productId" value="${product.id}">
+                        <input type="hidden" name="quantity" id="buyNowQuantity" value="1">
 
-                    <a href="delivery-info.jsp">
-                        <button class="btn-buy-now px-4 py-2 fw-semibold rounded">
+                        <button type="submit" class="btn-buy-now">
                             Mua Ngay
                         </button>
-                    </a>
+                    </form>
                 </div>
 
 
@@ -572,12 +574,14 @@
     const plusBtn = document.getElementById('plus');
     const qtyInput = document.getElementById('qty');
     const quantityHidden = document.getElementById('quantityHidden');
+    const buyNowQuantity = document.getElementById('buyNowQuantity');
 
     minusBtn.addEventListener('click', () => {
         let val = parseInt(qtyInput.value);
         if (val > 1) {
             qtyInput.value = val - 1;
             quantityHidden.value = qtyInput.value;
+            buyNowQuantity.value = qtyInput.value;
         }
     });
 
@@ -585,6 +589,7 @@
         let val = parseInt(qtyInput.value);
         qtyInput.value = val + 1;
         quantityHidden.value = qtyInput.value;
+        buyNowQuantity.value = qtyInput.value;
     });
 </script>
 
