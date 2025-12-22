@@ -316,7 +316,8 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Bảo hành</label>
-                        <input type="text" class="form-control" id="baoHanh" placeholder="Nhập thời gian bảo hành, ví dụ: 12 tháng">
+                        <input type="text" class="form-control" id="baoHanh"
+                               placeholder="Nhập thời gian bảo hành, ví dụ: 12 tháng">
                     </div>
 
                     <!-- Ảnh chính -->
@@ -464,10 +465,12 @@
         // Mở modal
         modalSanPham.show();
     });
-    // --- Xóa sản phẩm ---
+    //xoa san pham
     $(document).on('click', '.btn-danger', function (e) {
         e.preventDefault();
         let row = $(this).closest('tr');
+        let productId = $(this).data('id'); // Lấy id sản phẩm từ button
+
         Swal.fire({
             title: "Bạn chắc chắn muốn xóa?",
             text: "Hành động này không thể hoàn tác!",
@@ -479,14 +482,30 @@
             cancelButtonColor: "#6c757d"
         }).then((result) => {
             if (result.isConfirmed) {
-                table.row(row).remove().draw();
-                updatePageInfo();
-                Swal.fire({
-                    title: "Đã xóa!",
-                    text: "Sản phẩm đã được xóa.",
-                    icon: "success",
-                    confirmButtonColor: "#0d6efd"
-                });
+                // Gọi AJAX/Fetch xóa trên server
+                fetch(contextPath + '/admin/product-delete?id=' + productId, {
+                    method: 'POST'
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            table.row(row).remove().draw();
+                            updatePageInfo();
+                            Swal.fire({
+                                title: "Đã xóa!",
+                                text: "Sản phẩm đã được xóa.",
+                                icon: "success",
+                                confirmButtonColor: "#0d6efd"
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "Lỗi!",
+                                text: data.message,
+                                icon: "error",
+                                confirmButtonColor: "#0d6efd"
+                            });
+                        }
+                    });
             }
         });
     });
@@ -504,39 +523,113 @@
         $('#modalSanPham .modal-title').html('<i class="bi bi-plus-lg"></i> Thêm sản phẩm');
     });
 
-    // --- SỬA SẢN PHẨM ---
-    $(document).on('click', '.btn-warning', function () {
-        editRow = table.row($(this).closest('tr'));
+    $(document).on('click', '.btn-edit', function () {
+        const productId = $(this).data('id');
+        $('#productId').val(productId);
+        $('#formMode').val('edit');
 
-        let data = editRow.data();
+        fetch(contextPath + '/admin/product-get?id=' + productId)
+            .then(res => res.json())
+            .then(product => {
+                // Đổ dữ liệu vào form
+                $('#tenSP').val(product.productName);
+                $('#danhMuc').val(product.categoryId);
+                $('#thuongHieu').val(product.brandName);
+                $('#giaGoc').val(product.price);
+                $('#giaKM').val(product.finalPrice);
+                $('#soLuong').val(product.quantity);
+                $('#trangThai').val(product.status === 'active' ? 'Đang Kinh Doanh' :
+                    product.status === 'inactive' ? 'Ẩn' : 'Hết Hàng');
+                $('#baoHanh').val(product.warranty);
+                $('#moTa').val(product.description);
+                $('#thongSo').val(product.parameter);
+                $('#anhChinh').val(product.mainImage);
 
-        // Đổ dữ liệu vào form modal
-        $('#maSP').val(data[0]);
-        $('#tenSP').val(data[1]);
-        $('#danhMuc').val(data[2]);
-        $('#giaGoc').val(data[4]);
-        $('#giaKM').val(data[5]);
-        $('#trangThai').val($(data[6]).text().trim() === "Ẩn" ? "Ẩn" : "Đang Kinh Doanh");
+                $('#imageExtraContainer').empty();
 
-        // Đổi tiêu đề
-        $('#modalSanPham .modal-title').html('<i class="bi bi-pencil"></i> Chỉnh sửa sản phẩm');
+                if (product.images && product.images.length > 0) {
+                    product.images.forEach(img => {
+                        const $row = $('<div class="input-group mb-2 image-row"></div>');
+                        $row.append('<span class="input-group-text"><i class="bi bi-images"></i></span>');
 
-        // Mở modal
-        modalSanPham.show();
+                        const $input = $('<input type="url" class="form-control image-extra" placeholder="URL ảnh phụ">');
+                        $input.val(img.imageUrl); // bind giá trị an toàn
+                        $row.append($input);
+
+                        const $btnRemove = $(`
+            <button type="button" class="btn btn-outline-danger btn-remove-image">
+                <i class="bi bi-dash-lg"></i>
+            </button>
+        `);
+                        $row.append($btnRemove);
+
+                        $('#imageExtraContainer').append($row);
+                    });
+                } else {
+                    // Nếu không có ảnh phụ, giữ 1 input trống
+                    const $row = $(`
+        <div class="input-group mb-2 image-row">
+            <span class="input-group-text"><i class="bi bi-images"></i></span>
+            <input type="url" class="form-control image-extra" placeholder="URL ảnh phụ">
+            <button type="button" class="btn btn-outline-success btn-add-image">
+                <i class="bi bi-plus-lg"></i>
+            </button>
+        </div>
+    `);
+                    $('#imageExtraContainer').append($row);
+                }
+
+
+                // Set tiêu đề modal
+                $('#modalSanPham .modal-title').html('<i class="bi bi-pencil"></i> Chỉnh sửa sản phẩm');
+                modalSanPham.show();
+            });
     });
 
+
     // --- Toggle trạng thái ---
+    // --- Toggle trạng thái với AJAX ---
     $(document).on('click', '.btn-secondary', function () {
         const row = $(this).closest('tr');
         const statusCell = row.find('td:eq(6)');
+        const productId = $(this).data('id'); // Lấy id sản phẩm từ button
+        let newStatus;
+
+        // Xác định trạng thái mới
         if (statusCell.text().trim() === "Đang KD" || statusCell.text().trim() === "Đang Kinh Doanh") {
-            statusCell.html('<span class="badge bg-secondary">Ẩn</span>');
-            $(this).html('<i class="bi bi-eye"></i>');
+            newStatus = "inactive"; // chuyển sang ẩn
         } else {
-            statusCell.html('<span class="badge bg-success">Đang KD</span>');
-            $(this).html('<i class="bi bi-eye-slash"></i>');
+            newStatus = "active";   // chuyển sang đang KD
         }
+
+        // Gửi yêu cầu AJAX cập nhật status
+        fetch(contextPath + '/admin/product-toggle-status', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: productId, status: newStatus })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    // Cập nhật giao diện
+                    if (newStatus === "inactive") {
+                        statusCell.html('<span class="badge bg-secondary">Ẩn</span>');
+                        $(this).html('<i class="bi bi-eye"></i>');
+                    } else {
+                        statusCell.html('<span class="badge bg-success">Đang KD</span>');
+                        $(this).html('<i class="bi bi-eye-slash"></i>');
+                    }
+                } else {
+                    Swal.fire({
+                        title: "Lỗi!",
+                        text: data.message,
+                        icon: "error",
+                        confirmButtonColor: "#0d6efd"
+                    });
+                }
+            });
     });
+
 </script>
 <script>
     const contextPath = '<%= request.getContextPath() %>';

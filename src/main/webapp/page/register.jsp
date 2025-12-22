@@ -23,9 +23,11 @@
     <p class="subtitle">Đăng ký bằng tài khoản mạng xã hội</p>
     <div class="social-buttons">
         <div class="d-flex justify-content-center social-login">
-            <button type="button" class="social-btn">
-                <img src="https://www.svgrepo.com/show/355037/google.svg" width="20"> Đăng nhập bằng Google
-            </button>
+            <a href="${pageContext.request.contextPath}/google-register"
+               class="social-btn d-flex align-items-center justify-content-center">
+                <img src="https://www.svgrepo.com/show/355037/google.svg" width="20" class="me-2">
+                Đăng ký bằng Google
+            </a>
         </div>
     </div>
 
