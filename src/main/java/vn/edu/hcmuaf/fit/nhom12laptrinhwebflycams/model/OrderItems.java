@@ -6,6 +6,15 @@ public class OrderItems {
     private int orderId;
     private int quantity;
     private double price;
+    private Product product;
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     public int getId() {
         return id;

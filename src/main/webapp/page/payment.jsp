@@ -64,41 +64,73 @@
     </div>
 
     <!-- CỘT PHẢI -->
+    <!-- CỘT PHẢI -->
     <div class="right">
         <h5 class="fw-bold mb-4">Đơn hàng của bạn</h5>
 
-        <c:set var="item" value="${sessionScope.BUY_NOW_ITEM}" />
-        <c:set var="product" value="${sessionScope.BUY_NOW_PRODUCT}" />
-        <div class="d-flex align-items-center mb-3">
-            <img src="${product.images[0].imageUrl}"
-                 width="60" class="me-3 prod-img">
-            <div>
-                <p class="mb-0 fw-semibold">${product.productName}</p>
-                <small class="text-muted">Số lượng: ${item.quantity}</small>
-            </div>
-            <span class="ms-auto fw-semibold">
-        <fmt:formatNumber value="${item.price * item.quantity}"
-                          type="currency" currencySymbol="₫"/>
-    </span>
-        </div>
-        <c:set var="total" value="${item.price * item.quantity}" />
+        <c:set var="items" value="${sessionScope.BUY_NOW_ITEM}" />
 
-        <div class="d-flex justify-content-between">
-            <span>Tạm tính</span>
-            <span>
-        <fmt:formatNumber value="${total}" type="currency" currencySymbol="₫"/>
-    </span>
-        </div>
-        <div class="d-flex justify-content-between mb-2">
-            <span>Phí vận chuyển</span><span>Miễn phí</span>
-        </div>
-        <hr>
-        <div class="d-flex justify-content-between fw-bold total">
-            <span>Tổng cộng</span>
-            <span>
-        <fmt:formatNumber value="${total}" type="currency" currencySymbol="₫"/>
-    </span>
-        </div>
+        <c:if test="${not empty items}">
+
+            <!-- DANH SÁCH SẢN PHẨM -->
+            <c:forEach var="item" items="${items}">
+                <div class="d-flex align-items-center mb-3">
+
+                    <img src="${not empty item.product.images
+                    ? item.product.images[0].imageUrl
+                    : pageContext.request.contextPath.concat('/image/no-image.png')}"
+                         width="60" class="me-3 prod-img">
+
+                    <div>
+                        <p class="mb-0 fw-semibold">
+                                ${item.product.productName}
+                        </p>
+                        <small class="text-muted">
+                            Số lượng: ${item.quantity}
+                        </small>
+                    </div>
+
+                    <span class="ms-auto fw-semibold">
+                    <fmt:formatNumber
+                            value="${item.price * item.quantity}"
+                            type="number"/> ₫
+                </span>
+                </div>
+            </c:forEach>
+
+            <!-- TÍNH TỔNG -->
+            <c:set var="total" value="0"/>
+            <c:forEach var="item" items="${items}">
+                <c:set var="total"
+                       value="${total + (item.price * item.quantity)}"/>
+            </c:forEach>
+
+            <div class="d-flex justify-content-between">
+                <span>Tạm tính</span>
+                <span>
+                <fmt:formatNumber value="${total}" type="number"/> ₫
+            </span>
+            </div>
+
+            <div class="d-flex justify-content-between mb-2">
+                <span>Phí vận chuyển</span>
+                <span>Miễn phí</span>
+            </div>
+
+            <hr>
+
+            <div class="d-flex justify-content-between fw-bold total">
+                <span>Tổng cộng</span>
+                <span>
+                <fmt:formatNumber value="${total}" type="number"/> ₫
+            </span>
+            </div>
+
+        </c:if>
+
+        <c:if test="${empty items}">
+            <p class="text-muted">Không có sản phẩm nào</p>
+        </c:if>
     </div>
 </div>
 

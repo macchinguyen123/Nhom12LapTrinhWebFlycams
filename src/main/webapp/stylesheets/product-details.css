@@ -138,6 +138,20 @@ body {
     margin-bottom: 20px;
 }
 
+.buy-buttons > * {
+    flex: 1;            /* mỗi nút chiếm 50% */
+}
+
+.buy-buttons button,
+.buy-buttons a {
+    width: 100%;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
 /* --- Nút thêm giỏ hàng --- */
 .btn-add-cart {
     flex: 1;

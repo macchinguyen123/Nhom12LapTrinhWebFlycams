@@ -290,9 +290,14 @@ public class UserDAO {
     }
 
     public void insertGoogleUser(User user) {
+
         String sql = """
-        INSERT INTO users(email, fullName, role)
-        VALUES (?, ?, ?)
+        INSERT INTO users(
+            email, fullName, roleId,
+            birthDate, username, password,
+            phoneNumber, createdAt, updatedAt
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
     """;
 
         try (Connection con = DBConnection.getConnection();
@@ -301,10 +306,25 @@ public class UserDAO {
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getFullName());
             ps.setInt(3, user.getRoleId());
+
+            // Google KHÔNG có ngày sinh → gán tạm
+            ps.setDate(4, java.sql.Date.valueOf("2000-01-01"));
+
+            // username tự sinh từ email
+            ps.setString(5, user.getEmail().split("@")[0]);
+
+            // password giả (không dùng)
+            ps.setString(6, "GOOGLE");
+
+            // phoneNumber giả
+            ps.setString(7, "0000000000");
+
             ps.executeUpdate();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
 }

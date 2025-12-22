@@ -15,8 +15,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <link rel="stylesheet" href="../stylesheets/shoppingcart.css">
-    <link rel="stylesheet" href="../stylesheets/header.css">
-    <link rel="stylesheet" href="../stylesheets/footer.css">
 </head>
 
 <body>
@@ -115,9 +113,11 @@
                 <hr>
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="tong_cong text-danger m-0">Tổng cộng: 0 ₫</h5>
-                    <a href="delivery-info.jsp">
-                        <button class="btn btn-primary nut_thanh_toan">Mua ngay</button>
-                    </a>
+                    <button type="button"
+                            class="btn btn-primary nut_thanh_toan"
+                            id="btnMuaNgay">
+                        Mua ngay
+                    </button>
                 </div>
             </div>
         </div>
@@ -251,11 +251,41 @@
         }
     });
 </script>
-<%--<script>--%>
-<%--    // gọi khi trang load xong--%>
-<%--    window.addEventListener("load", () => {--%>
-<%--        capNhatTongTien();--%>
-<%--    });--%>
-<%--</script>--%>
+<script>
+    document.getElementById("btnMuaNgay").addEventListener("click", () => {
+
+        const checked = document.querySelectorAll(".chon_san_pham:checked");
+        if (checked.length === 0) {
+            alert("Vui lòng chọn ít nhất 1 sản phẩm");
+            return;
+        }
+
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "${pageContext.request.contextPath}/BuyNowFromCart";
+
+        checked.forEach(cb => {
+            const sp = cb.closest(".khung_san_pham");
+
+            const pid = document.createElement("input");
+            pid.type = "hidden";
+            pid.name = "productId";
+            pid.value = sp.dataset.id;
+
+            const qty = document.createElement("input");
+            qty.type = "hidden";
+            qty.name = "quantities";
+            qty.value = sp.querySelector(".o_so_luong").value;
+
+            form.appendChild(pid);
+            form.appendChild(qty);
+        });
+
+        document.body.appendChild(form);
+        form.submit(); // 👉 TRÌNH DUYỆT TỰ CHUYỂN TRANG
+    });
+</script>
+
+
 </body>
 </html>

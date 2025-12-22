@@ -87,7 +87,7 @@ public class GoogleRegisterCallbackServlet extends HttpServlet {
             userDAO.insertGoogleUser(user);
 
             // Login luôn
-            request.getSession().setAttribute("auth", user);
+            request.getSession().setAttribute("user", user);
 
             response.sendRedirect(request.getContextPath() + "/page/homepage.jsp");
 

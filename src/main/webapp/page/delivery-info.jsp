@@ -112,42 +112,62 @@
     </div>
 
     <!-- PHẢI -->
+        <c:set var="items" value="${sessionScope.BUY_NOW_ITEM}" />
     <div class="right">
-        <c:set var="item" value="${sessionScope.BUY_NOW_ITEM}" />
-        <c:set var="product" value="${sessionScope.BUY_NOW_PRODUCT}" />
-
         <h5 class="fw-bold mb-4">Đơn hàng của bạn</h5>
 
-        <c:if test="${not empty item && not empty product}">
-        <div class="d-flex align-items-center mb-3">
-            <img src="${product.images[0].imageUrl}"
-                 width="60" class="me-3 prod-img">
-            <div>
-                <p class="mb-0 fw-semibold">${product.productName}</p>
-                <small class="text-muted">Số lượng: ${item.quantity}</small>
+        <c:if test="${not empty items}">
+            <c:set var="total" value="0" />
+
+            <c:forEach var="item" items="${items}">
+                <div class="d-flex align-items-center mb-3">
+                    <img src="${item.product.images[0].imageUrl}"
+                         width="60" class="me-3 prod-img">
+
+                    <div>
+                        <p class="mb-0 fw-semibold">
+                                ${item.product.productName}
+                        </p>
+                        <small class="text-muted">
+                            Số lượng: ${item.quantity}
+                        </small>
+                    </div>
+
+                    <span class="ms-auto fw-semibold">
+                    <fmt:formatNumber
+                            value="${item.price * item.quantity}"
+                            type="number"/> ₫
+                </span>
+                </div>
+
+                <!-- cộng dồn -->
+                <c:set var="total"
+                       value="${total + (item.price * item.quantity)}"/>
+            </c:forEach>
+
+            <div class="d-flex justify-content-between">
+                <span>Tạm tính</span>
+                <span>
+                <fmt:formatNumber value="${total}" type="number"/> ₫
+            </span>
             </div>
-            <span class="ms-auto fw-semibold">
-             <fmt:formatNumber value="${item.price * item.quantity}" type="number"/>₫
+
+            <div class="d-flex justify-content-between mb-2">
+                <span>Phí vận chuyển</span>
+                <span>—</span>
+            </div>
+
+            <hr>
+
+            <div class="d-flex justify-content-between fw-bold total">
+                <span>Tổng cộng</span>
+                <span>
+                <fmt:formatNumber value="${total}" type="number"/> ₫
             </span>
-        </div>
-        <div class="d-flex justify-content-between">
-            <span>Tạm tính</span>
-            <span>
-            <fmt:formatNumber value="${item.price * item.quantity}" type="number"/>₫
-            </span>
-        </div>
-        <div class="d-flex justify-content-between mb-2">
-            <span>Phí vận chuyển</span><span>—</span>
-        </div>
-        <hr>
-        <div class="d-flex justify-content-between fw-bold total">
-            <span>Tổng cộng</span>
-            <span>
-            <fmt:formatNumber value="${item.price * item.quantity}" type="number"/>₫
-            </span>
-        </div>
+            </div>
         </c:if>
     </div>
+
 </div>
 <script>
     const data = {
