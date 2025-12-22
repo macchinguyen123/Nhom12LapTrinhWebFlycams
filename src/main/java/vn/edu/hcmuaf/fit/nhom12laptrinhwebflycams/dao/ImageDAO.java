@@ -35,5 +35,36 @@ public class ImageDAO {
 
         return list;
     }
+    public void insertImage(int productId, String url, String type)
+            throws SQLException {
+
+        String sql = """
+        INSERT INTO images(product_id, imageUrl, imageType)
+        VALUES (?, ?, ?)
+    """;
+
+        try (Connection c = DBConnection.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setInt(1, productId);
+            ps.setString(2, url);
+            ps.setString(3, type);
+            ps.executeUpdate();
+        }
+    }
+
+    public void deleteImagesByProduct(int productId)
+            throws SQLException {
+
+        String sql = "DELETE FROM images WHERE product_id=?";
+
+        try (Connection c = DBConnection.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setInt(1, productId);
+            ps.executeUpdate();
+        }
+    }
+
 
 }

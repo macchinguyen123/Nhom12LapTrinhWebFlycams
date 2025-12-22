@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -157,27 +159,80 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>SP001</td>
-                <td>FlyCam SkyMini</td>
-                <td>Drone Mini</td>
-                <td>
-                    <img src="${pageContext.request.contextPath}/image/superviseProduct/Flycam SkyView 4K Security.png"
-                         alt="Ảnh sản phẩm"
-                         class="img-thumbnail"
-                         style="width:60px; height:60px; object-fit:cover;">
-                </td>
+            <c:forEach var="p" items="${products}">
+                <tr>
+                    <!-- Mã SP -->
+                    <td>SP${p.id}</td>
 
+                    <!-- Tên SP -->
+                    <td>${p.productName}</td>
 
-                <td>2.000.000đ</td>
-                <td>1.800.000đ</td>
-                <td><span class="badge bg-success">Đang KD</span></td>
-                <td>
-                    <button class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></button>
-                    <button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button>
-                    <button class="btn btn-secondary btn-sm"><i class="bi bi-eye-slash"></i></button>
-                </td>
-            </tr>
+                    <!-- Danh mục -->
+                    <td>${p.categoryName}</td>
+
+                    <!-- Ảnh -->
+                    <td>
+                        <img src="${p.mainImage}"
+                             class="img-thumbnail"
+                             style="width:60px;height:60px;object-fit:cover;"
+                             alt="${p.productName}">
+                    </td>
+
+                    <!-- Giá gốc -->
+                    <td>
+                        <fmt:formatNumber value="${p.price}" type="number"/>đ
+                    </td>
+
+                    <!-- Giá KM -->
+                    <td>
+                        <fmt:formatNumber value="${p.finalPrice}" type="number"/>đ
+                    </td>
+
+                    <!-- Trạng thái -->
+                    <td>
+                        <c:choose>
+                            <c:when test="${p.status == 'active'}">
+                                <span class="badge bg-success">Đang KD</span>
+                            </c:when>
+
+                            <c:when test="${p.status == 'inactive'}">
+                                <span class="badge bg-secondary">Ẩn</span>
+                            </c:when>
+
+                            <c:when test="${p.status == 'soldout'}">
+                                <span class="badge bg-warning text-dark">Hết hàng</span>
+                            </c:when>
+
+                            <c:otherwise>
+                                <span class="badge bg-dark">Không xác định</span>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+
+                    <!-- Thao tác -->
+                    <td style="width:160px; text-align:center;">
+                        <button class="btn btn-warning btn-sm btn-edit" data-id="${p.id}">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+
+                        <button class="btn btn-danger btn-sm btn-delete" data-id="${p.id}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+
+                        <button class="btn btn-secondary btn-sm btn-toggle" data-id="${p.id}">
+                            <i class="bi ${p.status == 'active' ? 'bi-eye-slash' : 'bi-eye'}"></i>
+                        </button>
+                    </td>
+                </tr>
+            </c:forEach>
+
+            <c:if test="${empty products}">
+                <tr>
+                    <td colspan="8" class="text-center text-muted">
+                        Chưa có sản phẩm
+                    </td>
+                </tr>
+            </c:if>
             </tbody>
         </table>
         <div class="d-flex justify-content-end align-items-center mt-3">
@@ -202,9 +257,12 @@
 
             <div class="modal-body">
                 <form id="formSanPham" class="row g-3">
+                    <input type="hidden" id="productId">
+                    <input type="hidden" id="formMode" value="add"> <!-- add | edit -->
+                    <!-- Mã sản phẩm (không cho nhập) -->
                     <div class="col-md-6">
                         <label class="form-label">Mã sản phẩm</label>
-                        <input type="text" class="form-control" id="maSP" placeholder="Nhập mã sản phẩm">
+                        <input type="text" class="form-control" id="maSP" placeholder="Mã tự động" disabled>
                     </div>
 
                     <div class="col-md-6">
@@ -215,12 +273,12 @@
                     <div class="col-md-6">
                         <label class="form-label">Danh mục</label>
                         <select class="form-select" id="danhMuc">
-                            <option>Drone quay phim chuyên nghiệp</option>
-                            <option>Drone du lịch / vlog</option>
-                            <option> Drone thể thao tốc độ cao</option>
-                            <option> Drone nông nghiệp</option>
-                            <option> Drone giám sát / an ninh</option>
-                            <option>Drone mini / cỡ nhỏ</option>
+                            <option value="1001">Drone quay phim chuyên nghiệp</option>
+                            <option value="1006">Drone du lịch / vlog</option>
+                            <option value="1003">Drone thể thao tốc độ cao</option>
+                            <option value="1002">Drone nông nghiệp</option>
+                            <option value="1005">Drone giám sát / an ninh</option>
+                            <option value="1004">Drone mini / cỡ nhỏ</option>
                         </select>
                     </div>
                     <div class="col-md-6">
@@ -256,15 +314,53 @@
                         <label class="form-label">Đánh giá trung bình</label>
                         <input type="text" class="form-control" id="danhGia" value="Tự động tính" disabled>
                     </div>
-
-                    <div class="col-12">
-                        <label class="form-label">Ảnh chính</label>
-                        <input type="file" class="form-control" id="anhChinh">
+                    <div class="col-md-6">
+                        <label class="form-label">Bảo hành</label>
+                        <input type="text" class="form-control" id="baoHanh" placeholder="Nhập thời gian bảo hành, ví dụ: 12 tháng">
                     </div>
 
+                    <!-- Ảnh chính -->
                     <div class="col-12">
-                        <label class="form-label">Ảnh phụ (nhiều hình)</label>
-                        <input type="file" class="form-control" id="anhPhu" multiple>
+                        <label class="form-label fw-semibold">
+                            Ảnh chính
+                            <small class="text-muted">(URL)</small>
+                        </label>
+
+                        <div class="input-group">
+        <span class="input-group-text">
+            <i class="bi bi-image"></i>
+        </span>
+                            <input type="url"
+                                   class="form-control"
+                                   id="anhChinh"
+                                   placeholder="https://example.com/image-main.jpg">
+                        </div>
+                    </div>
+
+                    <!-- Ảnh phụ -->
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">
+                            Ảnh phụ
+                            <small class="text-muted">(có thể thêm nhiều)</small>
+                        </label>
+
+                        <div id="imageExtraContainer">
+                            <div class="input-group mb-2 image-row">
+            <span class="input-group-text">
+                <i class="bi bi-images"></i>
+            </span>
+
+                                <input type="url"
+                                       class="form-control image-extra"
+                                       placeholder="https://example.com/image-1.jpg">
+
+                                <button type="button"
+                                        class="btn btn-outline-success btn-add-image"
+                                        title="Thêm ảnh">
+                                    <i class="bi bi-plus-lg"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-12">
@@ -278,12 +374,15 @@
                         <textarea class="form-control" id="thongSo" rows="3"
                                   placeholder="Nhập thông số kỹ thuật..."></textarea>
                     </div>
+                    <div class="modal-footer col-12">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Hủy
+                        </button>
+                        <button type="button" class="btn btn-primary" id="btnSaveProduct">
+                            Lưu Thay Đổi
+                        </button>
+                    </div>
                 </form>
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button class="btn btn-primary">Lưu Thay Đổi</button>
             </div>
         </div>
     </div>
@@ -405,52 +504,6 @@
         $('#modalSanPham .modal-title').html('<i class="bi bi-plus-lg"></i> Thêm sản phẩm');
     });
 
-    // Khi nhấn Lưu Thay Đổi
-    $('#modalSanPham .btn-primary').on('click', function () {
-
-        const maSP = $('#maSP').val().trim();
-        const tenSP = $('#tenSP').val().trim();
-        const danhMuc = $('#danhMuc').val();
-        const giaGoc = $('#giaGoc').val().trim();
-        const giaKM = $('#giaKM').val().trim() || '';
-        const trangThaiVal = $('#trangThai').val();
-        const trangThai = (trangThaiVal === "Ẩn") ? "Ẩn" : "Đang KD";
-
-        if (!maSP || !tenSP || !giaGoc) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Thiếu thông tin',
-                text: 'Vui lòng nhập Mã SP, Tên SP và Giá gốc.'
-            });
-            return;
-        }
-
-        let imgHTML = '<img src="https://via.placeholder.com/60" class="img-thumbnail" style="width:60px;height:60px;object-fit:cover;">';
-
-        const data = [
-            maSP,
-            tenSP,
-            danhMuc,
-            imgHTML,
-            giaGoc,
-            giaKM,
-            `<span class="badge ${trangThai == "Đang KD" ? "bg-success" : "bg-secondary"}">${trangThai}</span>`,
-            '<button class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i></button> ' +
-            '<button class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></button> ' +
-            `<button class="btn btn-secondary btn-sm">${trangThai == "Đang KD" ? '<i class="bi bi-eye-slash"></i>' : '<i class="bi bi-eye"></i>'}</button>`
-        ];
-
-        if (editRow) {
-            editRow.data(data).draw();
-            editRow = null;
-        } else {
-            table.row.add(data).draw();
-        }
-
-        updatePageInfo();
-        modalSanPham.hide();
-    });
-
     // --- SỬA SẢN PHẨM ---
     $(document).on('click', '.btn-warning', function () {
         editRow = table.row($(this).closest('tr'));
@@ -485,6 +538,45 @@
         }
     });
 </script>
+<script>
+    const contextPath = '<%= request.getContextPath() %>';
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
 
+        document.addEventListener("click", function (e) {
+
+            if (e.target.closest(".btn-add-image")) {
+                const container = document.getElementById("imageExtraContainer");
+
+                const row = document.createElement("div");
+                row.className = "input-group mb-2 image-row";
+
+                row.innerHTML = `
+                <span class="input-group-text">
+                    <i class="bi bi-images"></i>
+                </span>
+                <input type="url"
+                       class="form-control image-extra"
+                       placeholder="https://example.com/image-x.jpg">
+                <button type="button"
+                        class="btn btn-outline-danger btn-remove-image">
+                    <i class="bi bi-dash-lg"></i>
+                </button>
+            `;
+                container.appendChild(row);
+            }
+
+            if (e.target.closest(".btn-remove-image")) {
+                e.target.closest(".image-row").remove();
+            }
+        });
+
+        const form = document.getElementById("formSanPham");
+        if (!form) return;
+
+    });
+</script>
+<script src="${pageContext.request.contextPath}/js/admin/product-management.js"></script>
 </body>
 </html>

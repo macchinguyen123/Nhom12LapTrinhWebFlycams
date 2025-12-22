@@ -36,7 +36,7 @@ public class ProductDAO {
                         rs.getDouble("finalPrice"),
                         rs.getString("warranty"),
                         rs.getInt("quantity"),
-                        rs.getBoolean("status")
+                        rs.getString("status")
                 );
 
                 // 🚀 Lấy danh sách ảnh theo product
@@ -123,7 +123,7 @@ public class ProductDAO {
                         rs.getDouble("finalPrice"),
                         rs.getString("warranty"),
                         rs.getInt("quantity"),
-                        rs.getBoolean("status")
+                        rs.getString("status")
                 );
                 p.setMainImage(rs.getString("imageUrl"));
                 list.add(p);
@@ -215,7 +215,7 @@ public class ProductDAO {
                         rs.getDouble("finalPrice"),
                         rs.getString("warranty"),
                         rs.getInt("quantity"),
-                        rs.getBoolean("status")
+                        rs.getString("status")
                 );
                 p.setMainImage(rs.getString("imageUrl"));
                 list.add(p);
@@ -251,7 +251,7 @@ public class ProductDAO {
                             rs.getDouble("finalPrice"),
                             rs.getString("warranty"),
                             rs.getInt("quantity"),
-                            rs.getInt("status") == 1
+                            rs.getString("status")
                     );
                     p.setImages(imageDAO.getImagesByProduct(p.getId()));
                     return p;
@@ -344,7 +344,7 @@ public class ProductDAO {
                         rs.getDouble("finalPrice"),
                         rs.getString("warranty"),
                         rs.getInt("quantity"),
-                        rs.getBoolean("status")
+                        rs.getString("status")
                 );
 
                 String imageUrl = rs.getString("imageUrl");
@@ -370,25 +370,26 @@ public class ProductDAO {
         System.out.println("===== [getRelatedProducts] END =====");
         return list;
     }
+
     public List<Product> getAllProductsForAdmin() {
         List<Product> list = new ArrayList<>();
 
         String sql = """
-        SELECT p.id,
-               p.productName,
-               p.brandName,
-               c.name AS categoryName,
-               p.price,
-               p.finalPrice,
-               p.quantity,
-               p.status,
-               i.imageUrl AS mainImage
-        FROM products p
-        JOIN categories c ON p.category_id = c.id
-        LEFT JOIN images i
-            ON p.id = i.product_id AND i.imageType = 'Chính'
-        ORDER BY p.createdAt DESC
-    """;
+                    SELECT p.id,
+                           p.productName,
+                           p.brandName,
+                           c.categoryName AS categoryName,
+                           p.price,
+                           p.finalPrice,
+                           p.quantity,
+                           p.status,
+                           i.imageUrl AS mainImage
+                    FROM products p
+                    JOIN categories c ON p.category_id = c.id
+                    LEFT JOIN images i
+                        ON p.id = i.product_id
+                      AND i.imageType = 'Chính'
+                """;
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -400,13 +401,12 @@ public class ProductDAO {
                 p.setId(rs.getInt("id"));
                 p.setProductName(rs.getString("productName"));
                 p.setBrandName(rs.getString("brandName"));
-                p.getCategory().setCategoryName(rs.getString("categoryName"));
+                p.setCategoryName(rs.getString("categoryName"));
                 p.setPrice(rs.getDouble("price"));
                 p.setFinalPrice(rs.getDouble("finalPrice"));
                 p.setQuantity(rs.getInt("quantity"));
-                p.setStatus(rs.getBoolean("status"));
+                p.setStatus(rs.getString("status"));
                 p.setMainImage(rs.getString("mainImage"));
-
                 list.add(p);
             }
 
