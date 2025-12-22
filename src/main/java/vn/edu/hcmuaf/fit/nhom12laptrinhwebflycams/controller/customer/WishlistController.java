@@ -48,11 +48,8 @@ public class WishlistController extends HttpServlet {
         }
 
         String action = request.getParameter("action");
-        String productIdRaw = request.getParameter("productId");
-
         System.out.println("[WISHLIST] UserId = " + user.getId());
         System.out.println("[WISHLIST] Action = " + action);
-        System.out.println("[WISHLIST] ProductId = " + productIdRaw);
 
         if (action == null || action.isBlank()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -60,36 +57,66 @@ public class WishlistController extends HttpServlet {
             return;
         }
 
-        if (productIdRaw == null || productIdRaw.isBlank()) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"success\":false,\"message\":\"PRODUCT_ID_NULL\"}");
-            return;
-        }
+        boolean success = false;
 
-        int productId;
-        try {
-            productId = Integer.parseInt(productIdRaw);
-        } catch (NumberFormatException e) {
-            System.out.println("[WISHLIST] ProductId không hợp lệ: " + productIdRaw);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"success\":false,\"message\":\"PRODUCT_ID_INVALID\"}");
-            return;
-        }
-
-        boolean success;
         switch (action) {
             case "add":
-                success = wishlistService.add(user.getId(), productId);
-                System.out.println("[WISHLIST] Add result = " + success);
-                break;
             case "remove":
-                success = wishlistService.remove(user.getId(), productId);
-                System.out.println("[WISHLIST] Remove result = " + success);
+            case "toggle": {
+                String productIdRaw = request.getParameter("productId");
+                System.out.println("[WISHLIST] ProductId = " + productIdRaw);
+
+                if (productIdRaw == null || productIdRaw.isBlank()) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("{\"success\":false,\"message\":\"PRODUCT_ID_NULL\"}");
+                    return;
+                }
+
+                int productId;
+                try {
+                    productId = Integer.parseInt(productIdRaw);
+                } catch (NumberFormatException e) {
+                    System.out.println("[WISHLIST] ProductId không hợp lệ: " + productIdRaw);
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("{\"success\":false,\"message\":\"PRODUCT_ID_INVALID\"}");
+                    return;
+                }
+
+                switch (action) {
+                    case "add":
+                        success = wishlistService.add(user.getId(), productId);
+                        break;
+                    case "remove":
+                        success = wishlistService.remove(user.getId(), productId);
+                        break;
+                    case "toggle":
+                        success = wishlistService.toggleWishlist(user.getId(), productId);
+                        break;
+                }
                 break;
-            case "toggle":
-                success = wishlistService.toggleWishlist(user.getId(), productId);
-                System.out.println("[WISHLIST] Toggle result = " + success);
+            }
+            case "removeSelected": {
+                String idsRaw = request.getParameter("productIds"); // chuỗi CSV từ JS
+                System.out.println("[WISHLIST] ProductIds = " + idsRaw);
+
+                if (idsRaw != null && !idsRaw.isBlank()) {
+                    String[] arr = idsRaw.split(",");
+                    success = true;
+                    for (String idStr : arr) {
+                        try {
+                            int id = Integer.parseInt(idStr.trim());
+                            boolean removed = wishlistService.remove(user.getId(), id);
+                            if (!removed) success = false; // nếu có cái nào xóa fail thì báo fail
+                        } catch (NumberFormatException e) {
+                            System.out.println("[WISHLIST] ProductId không hợp lệ: " + idStr);
+                            success = false;
+                        }
+                    }
+                } else {
+                    success = false;
+                }
                 break;
+            }
             default:
                 System.out.println("[WISHLIST] Action không hợp lệ: " + action);
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -99,4 +126,5 @@ public class WishlistController extends HttpServlet {
 
         response.getWriter().write("{\"success\":" + success + "}");
     }
+
 }
