@@ -8,12 +8,14 @@ import java.sql.*;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import static vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.DBConnection.getConnection;
+
 public class UserDAO {
 
     public User login(String input, String password) {
         String sql = "SELECT * FROM users WHERE (email = ? OR phoneNumber = ?) AND password = ?";
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, input);
@@ -46,7 +48,7 @@ public class UserDAO {
         String sql = "INSERT INTO users (roleId, fullName, birthDate, gender, email, username, password, phoneNumber, avatar, status, createdAt, updatedAt) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, user.getRoleId());
@@ -86,7 +88,7 @@ public class UserDAO {
 
     public boolean isUsernameExists(String username) {
         String sql = "SELECT id FROM users WHERE username = ?";
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
@@ -102,7 +104,7 @@ public class UserDAO {
 
     public boolean isEmailExists(String email) {
         String sql = "SELECT id FROM users WHERE email = ?";
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, email);
@@ -117,7 +119,7 @@ public class UserDAO {
 
     public User findById(int id) {
         String sql = "SELECT * FROM users WHERE id = ?";
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
@@ -160,7 +162,7 @@ public class UserDAO {
 
     public User getUserByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
@@ -178,7 +180,7 @@ public class UserDAO {
     }
     public boolean updatePassword(int userId, String newPassword) {
         String sql = "UPDATE users SET password = ? WHERE id = ?";
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newPassword);
             ps.setInt(2, userId);
@@ -194,7 +196,7 @@ public class UserDAO {
 
     public void update(Address addr) throws SQLException {
         String sql = "UPDATE addresses SET full_name=?, phone_number=?, address_line=?, province=?, district=?, is_default=? WHERE id=? AND user_id=?";
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, addr.getFullName());
@@ -210,31 +212,59 @@ public class UserDAO {
             System.out.println("DEBUG - Update address rows = " + rows);
         }
     }
-
-
-    public void updateProfile(User user) throws SQLException {
-        String sql = "UPDATE users SET username=?, full_name=?, phone_number=?, gender=?, birth_date=? WHERE id=?";
-        try (Connection conn = DBConnection.getConnection();
+    public void updateProfile(User user) {
+        String sql = "UPDATE users SET fullName=?, phoneNumber=?, gender=?, birthDate=? WHERE id=?";
+        try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, user.getUsername());
-            ps.setString(2, user.getFullName());
-            ps.setString(3, user.getPhoneNumber());
-            ps.setString(4, user.getGender());
+            ps.setString(1, user.getFullName());
+            ps.setString(2, user.getPhoneNumber());
+            ps.setString(3, user.getGender());
 
             if (user.getBirthDate() != null) {
-                ps.setDate(5, new java.sql.Date(user.getBirthDate().getTime()));
+                ps.setDate(4, new java.sql.Date(user.getBirthDate().getTime()));
             } else {
-                ps.setNull(5, java.sql.Types.DATE);
+                ps.setNull(4, java.sql.Types.DATE);
             }
 
-            ps.setInt(6, user.getId());
+            ps.setInt(5, user.getId());
 
             int rows = ps.executeUpdate();
-            System.out.println("DEBUG - updateProfile: rows updated = " + rows);
+            System.out.println("[DAO] Số dòng update=" + rows);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
+    public User getUserById(int id) {
+        String sql = "SELECT * FROM users WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
 
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setRoleId(rs.getInt("roleId"));
+                user.setFullName(rs.getString("fullName"));
+                user.setBirthDate(rs.getDate("birthDate")); // java.sql.Date -> java.util.Date
+                user.setGender(rs.getString("gender"));
+                user.setEmail(rs.getString("email"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setPhoneNumber(rs.getString("phoneNumber"));
+                user.setAvatar(rs.getString("avatar"));
+                user.setStatus(rs.getInt("status") == 1); // DB kiểu int, model kiểu boolean
+                user.setCreatedAt(rs.getTimestamp("createdAt"));
+                user.setUpdatedAt(rs.getTimestamp("updatedAt"));
+                return user;
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

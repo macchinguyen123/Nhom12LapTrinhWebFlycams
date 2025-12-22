@@ -174,45 +174,45 @@
             <h2>Hồ Sơ Của Tôi</h2>
             <p class="desc">Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
 
-            <form class="profile-form" action="${pageContext.request.contextPath}/UpdateProfileServlet" method="post">
-                <div class="form-left">
-                    <div class="form-group">
-                        <label>Tên đăng nhập</label>
-                        <input type="text" name="username" value="${user.username}">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Tên</label>
-                        <input type="text" name="fullName" value="${user.fullName}">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" value="${user.email}" readonly>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Số điện thoại</label>
-                        <input type="tel" name="phoneNumber" value="${user.phoneNumber}">
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-col">
-                            <label>Giới tính</label>
-                            <select name="gender">
-                                <option value="Nam" <c:if test="${user.gender eq 'Nam'}">selected</c:if>>Nam</option>
-                                <option value="Nữ" <c:if test="${user.gender eq 'Nữ'}">selected</c:if>>Nữ</option>
-                                <option value="Khác" <c:if test="${user.gender eq 'Khác'}">selected</c:if>>Khác</option>
-                            </select>
-                        </div>
-
-                        <div class="form-col">
-                            <label>Ngày sinh</label>
-                            <input type="date" name="birthDate" value="${birthDate}">
-                        </div>
-                    </div>
-                    <button class="save-btn" type="submit">Lưu</button>
+            <form action="${pageContext.request.contextPath}/UpdateProfileServlet" method="post">
+                <!-- Họ tên -->
+                <div class="form-group">
+                    <label for="fullName">Họ tên</label>
+                    <input type="text" name="fullName" id="fullName" value="${user.fullName}" required>
                 </div>
+                <div class="form-group">
+                    <label for="username">Tên đăng nhập</label>
+                    <input type="text" id="username" value="${user.username}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" value="${user.email}" readonly>
+                </div>
+
+                <!-- Số điện thoại -->
+                <div class="form-group">
+                    <label for="phoneNumber">Số điện thoại</label>
+                    <input type="text" name="phoneNumber" id="phoneNumber" value="${user.phoneNumber}" required>
+                </div>
+
+                <!-- Giới tính -->
+                <div class="form-group">
+                    <label for="gender">Giới tính</label>
+                    <select name="gender" id="gender">
+                        <option value="Nam" <c:if test="${user.gender eq 'Nam'}">selected</c:if>>Nam</option>
+                        <option value="Nữ" <c:if test="${user.gender eq 'Nữ'}">selected</c:if>>Nữ</option>
+                    </select>
+                </div>
+
+                <!-- Ngày sinh -->
+                <div class="form-group">
+                    <label for="birthDate">Ngày sinh</label>
+                    <input type="date" name="birthDate"
+                           value="<fmt:formatDate value='${user.birthDate}' pattern='yyyy-MM-dd'/>">
+
+
+                </div>
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
             </form>
 
 

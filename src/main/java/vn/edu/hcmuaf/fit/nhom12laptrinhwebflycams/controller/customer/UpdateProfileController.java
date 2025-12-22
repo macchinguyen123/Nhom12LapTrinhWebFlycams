@@ -18,53 +18,36 @@ public class UpdateProfileController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        User user = (User) req.getSession().getAttribute("user");
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
         if (user == null) {
             resp.sendRedirect("login.jsp");
             return;
         }
 
-        String username = req.getParameter("username");
         String fullName = req.getParameter("fullName");
         String phoneNumber = req.getParameter("phoneNumber");
         String gender = req.getParameter("gender");
-        String birthDateStr = req.getParameter("birthDate"); // yyyy-MM-dd
+        String birthDateStr = req.getParameter("birthDate");
 
         try {
-            // Debug log input
-            System.out.println("DEBUG - Input from form:");
-            System.out.println("username=" + username);
-            System.out.println("fullName=" + fullName);
-            System.out.println("phoneNumber=" + phoneNumber);
-            System.out.println("gender=" + gender);
-            System.out.println("birthDateStr=" + birthDateStr);
-
             if (birthDateStr != null && !birthDateStr.isEmpty()) {
                 Date birthDate = new SimpleDateFormat("yyyy-MM-dd").parse(birthDateStr);
                 user.setBirthDate(birthDate);
-                System.out.println("DEBUG - Parsed birthDate=" + birthDate);
+            } else {
+                user.setBirthDate(null);
             }
 
-            user.setUsername(username);
             user.setFullName(fullName);
             user.setPhoneNumber(phoneNumber);
             user.setGender(gender);
 
-            // Debug log before update
-            System.out.println("DEBUG - User object before DAO update: "
-                    + "id=" + user.getId()
-                    + ", username=" + user.getUsername()
-                    + ", fullName=" + user.getFullName()
-                    + ", phone=" + user.getPhoneNumber()
-                    + ", gender=" + user.getGender()
-                    + ", birthDate=" + user.getBirthDate());
-
             dao.updateProfile(user);
 
             // cập nhật lại session
-            req.getSession().setAttribute("user", user);
+            session.setAttribute("user", user);
 
-            resp.sendRedirect(req.getContextPath() + "/ProfileServlet");
+            resp.sendRedirect(req.getContextPath() + "/personal");
         } catch (Exception e) {
             e.printStackTrace();
             req.setAttribute("errorMessage", "Cập nhật thất bại!");
