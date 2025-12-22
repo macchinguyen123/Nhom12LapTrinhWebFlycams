@@ -154,9 +154,7 @@
                 <li class="active" data-section="profile-section"><a href="#">Tài Khoản Của Tôi</a></li>
                 <li data-section="repass-section"><a href="#">Đổi mật khẩu</a></li>
                 <li data-section="orders-section"><a href="#">Đơn Mua</a></li>
-                <li data-section="addresses-section"><a href="${pageContext.request.contextPath}/ListAddressServlet">Địa Chỉ Nhận Hàng</a>
-
-                </li>
+                <li data-section="addresses-section"><a href="${pageContext.request.contextPath}/ListAddressServlet">Địa Chỉ Nhận Hàng</a></li>
             </ul>
         </nav>
 
@@ -485,43 +483,46 @@
             <p class="instruction">Vui lòng nhập đầy đủ thông tin để đảm bảo đơn hàng được giao chính xác</p>
 
 
-            <button id="toggleAddressFormBtn" class="btn btn-outline">Thêm địa chỉ</button>
+            <button id="openPopup" class="btn btn-outline">Thêm địa chỉ</button>
 
+            <div id="popup" class="popup hidden">
+                <div class="popup-content">
+                    <span id="closePopup" class="close">&times;</span>
+                    <h2>Thêm địa chỉ</h2>
+                    <form action="${pageContext.request.contextPath}/AddAddressServlet" method="post">
+                        <div class="form-group">
+                            <label for="fullName">Họ tên</label>
+                            <input type="text" name="fullName" id="fullName" required>
+                        </div>
 
-            <div id="addAddressForm" class="hidden" style="margin-top: 16px;">
-                <form action="${pageContext.request.contextPath}/AddAddressServlet" method="post">
-                    <div class="form-group">
-                        <label for="fullName">Họ tên</label>
-                        <input type="text" name="fullName" id="fullName" required>
-                    </div>
+                        <div class="form-group">
+                            <label for="phoneNumber">Số điện thoại</label>
+                            <input type="text" name="phoneNumber" id="phoneNumber" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="phoneNumber">Số điện thoại</label>
-                        <input type="text" name="phoneNumber" id="phoneNumber" required>
-                    </div>
+                        <div class="form-group">
+                            <label for="addressLine">Địa chỉ</label>
+                            <input type="text" name="addressLine" id="addressLine" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="addressLine">Địa chỉ</label>
-                        <input type="text" name="addressLine" id="addressLine" required>
-                    </div>
+                        <div class="form-group">
+                            <label for="province">Tỉnh/Thành phố</label>
+                            <input type="text" name="province" id="province" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="province">Tỉnh/Thành phố</label>
-                        <input type="text" name="province" id="province" required>
-                    </div>
+                        <div class="form-group">
+                            <label for="district">Quận/Huyện</label>
+                            <input type="text" name="district" id="district" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="district">Quận/Huyện</label>
-                        <input type="text" name="district" id="district" required>
-                    </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" name="isDefault" id="isDefault">
+                            <label for="isDefault">Đặt làm địa chỉ mặc định</label>
+                        </div>
 
-                    <div class="checkbox-group">
-                        <input type="checkbox" name="isDefault" id="isDefault">
-                        <label for="isDefault">Đặt làm địa chỉ mặc định</label>
-                    </div>
-
-                    <button type="submit" class="green-button">Thêm địa chỉ</button>
-                </form>
+                        <button type="submit" class="green-button">Thêm địa chỉ</button>
+                    </form>
+                </div>
             </div>
         </section>
 
@@ -976,9 +977,9 @@
     function toggleEditForm(id) {
         const form = document.getElementById("editForm-" + id);
         if (form.style.display === "none" || form.style.display === "") {
-            form.style.display = "block"; // hiện ra khi bấm
+            form.style.display = "block";
         } else {
-            form.style.display = "none";  // ẩn lại nếu bấm lần nữa
+            form.style.display = "none";
         }
     }
 </script>
@@ -1013,5 +1014,29 @@
         });
     </script>
 </c:if>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const popup = document.getElementById("popup");
+        const openBtn = document.getElementById("openPopup");
+        const closeBtn = document.getElementById("closePopup");
+
+
+        openBtn.addEventListener("click", () => {
+            popup.classList.remove("hidden");
+        });
+
+        closeBtn.addEventListener("click", () => {
+            popup.classList.add("hidden");
+        });
+
+        popup.addEventListener("click", (e) => {
+            if (e.target === popup) {
+                popup.classList.add("hidden");
+            }
+        });
+    });
+
+</script>
 </body>
 </html>

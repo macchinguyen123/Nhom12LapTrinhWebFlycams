@@ -12,24 +12,24 @@ import java.util.List;
 
 @WebServlet("/DeleteAddressServlet")
 public class DeleteAddressServlet extends HttpServlet {
-    private AddressDAO dao = new AddressDAO();
+    private final AddressDAO dao = new AddressDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("user");
         if (user == null) {
-            resp.sendRedirect("login.jsp");
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
         }
 
         int id = Integer.parseInt(req.getParameter("id"));
         try {
             dao.delete(id, user.getId());
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        resp.sendRedirect(req.getContextPath() + "/ListAddressServlet#addresses-section");
+        resp.sendRedirect(req.getContextPath() + "/ListAddressServlet");
     }
 }
