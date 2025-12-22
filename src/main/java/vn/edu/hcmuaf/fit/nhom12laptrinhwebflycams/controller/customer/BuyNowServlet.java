@@ -3,11 +3,15 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.AddressDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Address;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.OrderItems;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +21,22 @@ public class BuyNowServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
+    private AddressDAO addressDAO = new AddressDAO();
+    private ProductDAO productDAO = new ProductDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
+        HttpSession session = req.getSession(false);
+
+        // ✅ Check login
+        if (session == null || session.getAttribute("user") == null) {
+            resp.sendRedirect(req.getContextPath() + "/Login");
+            return;
+        }
+
+        User user = (User) session.getAttribute("user");
 
         String productIdStr = req.getParameter("productId");
         String quantityStr = req.getParameter("quantity");
@@ -30,26 +46,48 @@ public class BuyNowServlet extends HttpServlet {
             return;
         }
 
-        int productId = Integer.parseInt(productIdStr);
-        int quantity = Integer.parseInt(quantityStr);
+        int productId;
+        int quantity;
 
-        ProductDAO productDAO = new ProductDAO();
+        try {
+            productId = Integer.parseInt(productIdStr);
+            quantity = Integer.parseInt(quantityStr);
+        } catch (NumberFormatException e) {
+            resp.sendRedirect(req.getContextPath() + "/index.jsp");
+            return;
+        }
+
+        // ✅ Lấy product
         Product product = productDAO.getProductById(productId);
+        if (product == null) {
+            resp.sendRedirect(req.getContextPath() + "/index.jsp");
+            return;
+        }
 
-        // 🔥 tạo item
+        // ✅ Tạo OrderItem
         OrderItems item = new OrderItems();
         item.setProductId(productId);
         item.setQuantity(quantity);
         item.setPrice(product.getFinalPrice());
-        item.setProduct(product); // 🔥 DÒNG QUAN TRỌNG
+        item.setProduct(product);
 
-        // 🔥 đưa vào LIST để dùng chung với cart
         List<OrderItems> items = new ArrayList<>();
         items.add(item);
 
-        HttpSession session = req.getSession();
+        // ✅ Lưu BUY NOW vào session
         session.setAttribute("BUY_NOW_ITEM", items);
 
-        resp.sendRedirect(req.getContextPath() + "/page/delivery-info.jsp");
+        // ✅ Lấy địa chỉ user
+        List<Address> addresses = null;
+        try {
+            addresses = addressDAO.findByUserId(user.getId());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        req.setAttribute("addresses", addresses);
+
+        // ✅ FORWARD (không redirect)
+        req.getRequestDispatcher("/page/delivery-info.jsp")
+                .forward(req, resp);
     }
 }

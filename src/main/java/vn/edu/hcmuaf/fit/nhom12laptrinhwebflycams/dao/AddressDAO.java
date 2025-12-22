@@ -28,6 +28,41 @@ public class AddressDAO {
         }
     }
 
+    public int insertID(Address address) throws SQLException {
+        String sql = """
+        INSERT INTO addresses
+        (user_id, fullName, phoneNumber, addressLine, province, district, isDefault)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(
+                     sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setInt(1, address.getUserId());
+            ps.setString(2, address.getFullName());
+            ps.setString(3, address.getPhoneNumber());
+            ps.setString(4, address.getAddressLine());
+            ps.setString(5, address.getProvince());
+            ps.setString(6, address.getDistrict());
+            ps.setBoolean(7, address.isDefaultAddress());
+
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows == 0) {
+                return -1;
+            }
+
+            // 👉 LẤY ID VỪA INSERT
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1); // addressId
+                }
+            }
+        }
+
+        return -1;
+    }
+
     public List<Address> findByUserId(int userId) throws SQLException {
         List<Address> list = new ArrayList<>();
         String sql = "SELECT * FROM addresses WHERE user_id = ?";

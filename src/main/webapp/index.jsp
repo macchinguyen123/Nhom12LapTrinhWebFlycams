@@ -1,3 +1,3 @@
 <%
-    response.sendRedirect("page/homepage.jsp");
+    response.sendRedirect(request.getContextPath() + "/home");
 %>
