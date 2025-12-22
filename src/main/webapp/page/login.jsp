@@ -55,10 +55,12 @@
                 <div class="divider text-center my-3">Hoặc đăng nhập bằng</div>
 
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-outline-secondary">
+                    <a href="${pageContext.request.contextPath}/google-login"
+                       class="btn btn-outline-secondary d-flex align-items-center justify-content-center">
                         <img src="https://www.svgrepo.com/show/355037/google.svg" width="20" class="me-2">
                         Google
-                    </button>
+                    </a>
+
                 </div>
 
                 <p class="text-center mt-3">

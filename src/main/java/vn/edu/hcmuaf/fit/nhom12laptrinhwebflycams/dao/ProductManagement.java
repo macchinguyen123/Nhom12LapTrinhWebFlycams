@@ -56,10 +56,17 @@ public class ProductManagement {
     public void updateProduct(Product p) throws SQLException {
         String sql = """
         UPDATE products SET
-        productName=?, brandName=?, category_id=?,
-        price=?, finalPrice=?, quantity=?, status=?,
-        description=?, parameter=?, warranty=?
-        WHERE id=?
+            productName = ?, 
+            brandName = ?, 
+            category_id = ?,
+            price = ?, 
+            finalPrice = ?, 
+            quantity = ?, 
+            status = ?,
+            description = ?, 
+            parameter = ?, 
+            warranty = ?
+        WHERE id = ?
     """;
 
         try (Connection c = DBConnection.getConnection();
@@ -74,10 +81,61 @@ public class ProductManagement {
             ps.setString(7, p.getStatus());
             ps.setString(8, p.getDescription());
             ps.setString(9, p.getParameter());
-            ps.setInt(10, p.getId());
-            ps.setString(11, p.getWarranty());
+            ps.setString(10, p.getWarranty());
+            ps.setInt(11, p.getId()); // id cuối cùng
 
             ps.executeUpdate();
         }
     }
+    public boolean deleteProduct(int productId) {
+        String sqlDeleteImages = "DELETE FROM images WHERE product_id = ?";
+        String sqlDeletePosts = "DELETE FROM posts WHERE product_id = ?";
+        String sqlDeleteProduct = "DELETE FROM products WHERE id = ?";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            // Bắt đầu transaction
+            conn.setAutoCommit(false);
+
+            // Xóa ảnh phụ và ảnh chính
+            try (PreparedStatement psImg = conn.prepareStatement(sqlDeleteImages)) {
+                psImg.setInt(1, productId);
+                psImg.executeUpdate();
+            }
+
+            // Xóa các bài viết liên quan
+            try (PreparedStatement psPosts = conn.prepareStatement(sqlDeletePosts)) {
+                psPosts.setInt(1, productId);
+                psPosts.executeUpdate();
+            }
+
+            // Xóa sản phẩm
+            try (PreparedStatement psProd = conn.prepareStatement(sqlDeleteProduct)) {
+                psProd.setInt(1, productId);
+                int affectedRows = psProd.executeUpdate();
+                if (affectedRows == 0) {
+                    conn.rollback();
+                    return false;
+                }
+            }
+
+            // Commit transaction
+            conn.commit();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public boolean updateProductStatus(int id, String status) throws SQLException {
+        String sql = "UPDATE products SET status = ? WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, status);
+            ps.setInt(2, id);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+
+
 }
