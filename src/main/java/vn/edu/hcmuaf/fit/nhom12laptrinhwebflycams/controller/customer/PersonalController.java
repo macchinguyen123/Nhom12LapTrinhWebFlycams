@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.util.TimeZone;
 
 @WebServlet(name = "Personal", value = "/personal")
 public class PersonalController extends HttpServlet {
+    private UserDAO dao = new UserDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -26,7 +28,11 @@ public class PersonalController extends HttpServlet {
             return;
         }
 
-        User user = (User) session.getAttribute("user");
+        User sessionUser = (User) session.getAttribute("user");
+        User user = dao.getUserById(sessionUser.getId()); // lấy từ DB
+        req.setAttribute("user", user);
+
+
 
         if (user.getBirthDate() != null) {
             Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));

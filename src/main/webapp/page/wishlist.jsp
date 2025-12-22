@@ -120,28 +120,24 @@
 <jsp:include page="/page/footer.jsp"/>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // xử lý nút xóa từng sản phẩm
         document.querySelectorAll('.nut_xoa').forEach(btn => {
             btn.addEventListener('click', e => {
                 e.preventDefault();
 
                 const productId = btn.getAttribute("data-product-id");
-                console.log("CLICK XÓA productId =", productId);
-
                 if (!productId || productId.trim() === "") {
                     alert("Không tìm thấy productId để xóa");
                     return;
                 }
 
-                // Tạo body chuẩn bằng URLSearchParams
                 const params = new URLSearchParams();
                 params.append("action", "remove");
                 params.append("productId", productId);
 
                 fetch('${pageContext.request.contextPath}/wishlist', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
                     body: params.toString()
                 })
                     .then(res => res.json())
@@ -158,7 +154,60 @@
                     });
             });
         });
+
+        // xử lý checkbox "Chọn tất cả"
+        const chonTatCa = document.getElementById('chon_tat_ca');
+        const checkboxes = document.querySelectorAll('.chon_san_pham');
+
+        chonTatCa.addEventListener('change', () => {
+            checkboxes.forEach(cb => {
+                cb.checked = chonTatCa.checked;
+            });
+        });
+
+        // xử lý nút "Xóa sản phẩm đã chọn"
+        const nutXoaDaChon = document.querySelector('.nut_xoa_da_chon');
+        nutXoaDaChon.addEventListener('click', e => {
+            e.preventDefault();
+
+            const checkedBoxes = document.querySelectorAll('.chon_san_pham:checked');
+            if (checkedBoxes.length === 0) {
+                alert('Bạn chưa chọn sản phẩm nào để xóa');
+                return;
+            }
+
+            const productIds = [];
+            checkedBoxes.forEach(cb => {
+                const productId = cb.closest('.khung_san_pham').getAttribute('data-product-id');
+                if (productId) productIds.push(productId);
+            });
+
+            const params = new URLSearchParams();
+            params.append("action", "removeSelected");
+            params.append("productIds", productIds.join(",")); // gửi danh sách id
+
+            fetch('${pageContext.request.contextPath}/wishlist', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+                body: params.toString()
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        checkedBoxes.forEach(cb => {
+                            cb.closest('.khung_san_pham')?.remove();
+                        });
+                    } else {
+                        alert('Xóa thất bại');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Lỗi kết nối server');
+                });
+        });
     });
+
 </script>
 
 
