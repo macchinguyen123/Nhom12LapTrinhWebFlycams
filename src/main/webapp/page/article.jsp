@@ -49,19 +49,56 @@
 
 
 
+
         <!-- Bài viết liên quan -->
-        <section class="related-posts">
-            <h3>Xem thêm bài viết khác:</h3>
-            <ul>
-                <c:forEach var="p" items="${relatedPosts}">
-                    <li>
-                        <a href="article?id=${p.id}">
+        <section class="related-posts mt-4">
+            <h3 class="mb-3">Xem thêm</h3>
+
+            <ul class="list-group list-group-flush">
+                <c:forEach var="p" items="${morePosts}">
+                    <li class="list-group-item px-0 d-flex align-items-center">
+                        <i class="bi bi-chevron-right me-2 text-primary"></i>
+
+                        <a href="${pageContext.request.contextPath}/article?id=${p.id}"
+                           class="text-decoration-none fw-semibold text-dark">
                                 ${p.title}
                         </a>
                     </li>
                 </c:forEach>
             </ul>
         </section>
+
+
+        <section class="related-articles mt-5">
+            <h3>Bài viết cùng chủ đề</h3>
+
+            <div class="row">
+                <c:forEach var="p" items="${relatedPosts}">
+                    <div class="col-md-4 col-6 mb-4">
+
+                        <a href="${pageContext.request.contextPath}/article?id=${p.id}"
+                           class="text-decoration-none text-dark">
+
+                            <img src="${p.image}" class="img-fluid rounded mb-2">
+
+                            <h6 class="fw-semibold">${p.title}</h6>
+
+                            <small class="text-muted">
+                                <fmt:formatDate value="${p.createdAt}" pattern="dd/MM/yyyy"/>
+                            </small>
+
+                            <p class="small text-muted mt-1">
+                                    ${fn:substring(p.content, 0, 120)}...
+                            </p>
+
+                        </a>
+                    </div>
+                </c:forEach>
+            </div>
+        </section>
+
+
+
 
         <!-- Phần bình luận -->
         <section class="comment-section">
@@ -86,22 +123,34 @@
                 </div>
             </c:forEach>
 
-
-            <!-- FORM BÌNH LUẬN -->
+            <!-- CHƯA ĐĂNG NHẬP -->
             <c:if test="${empty sessionScope.user}">
-                <p><b>Bạn cần đăng nhập để bình luận.</b></p>
+                <div class="alert alert-warning mt-3">
+                    <i class="bi bi-exclamation-circle me-1"></i>
+                    Bạn cần
+                    <a href="${pageContext.request.contextPath}/login"
+                       class="fw-semibold text-decoration-underline">
+                        đăng nhập
+                    </a>
+                    để bình luận bài viết này.
+                </div>
             </c:if>
 
+            <!-- ĐÃ ĐĂNG NHẬP -->
             <c:if test="${not empty sessionScope.user}">
                 <c:choose>
+
                     <c:when test="${hasReviewed}">
-                        <p class="text-success">✔ Bạn đã bình luận bài viết này.</p>
+                        <div class="alert alert-success mt-3">
+                            <i class="bi bi-check-circle-fill me-1"></i>
+                            Bạn đã bình luận bài viết này.
+                        </div>
                     </c:when>
 
                     <c:otherwise>
                         <form method="post"
                               action="${pageContext.request.contextPath}/BlogReview"
-                              class="card p-3 shadow-sm">
+                              class="card p-3 shadow-sm mt-3">
 
                             <input type="hidden" name="blogId" value="${post.id}"/>
 
@@ -121,6 +170,7 @@
                             </button>
                         </form>
                     </c:otherwise>
+
                 </c:choose>
             </c:if>
         </section>

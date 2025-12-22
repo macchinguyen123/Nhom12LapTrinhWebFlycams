@@ -9,7 +9,7 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 
 import java.io.IOException;
 
-@WebServlet(name = "Article", value = "/article")
+@WebServlet(name = "Article", value = "/article-detail")
 public class Article extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

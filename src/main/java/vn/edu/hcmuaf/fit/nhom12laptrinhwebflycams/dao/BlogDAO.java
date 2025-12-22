@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BlogDAO {
+public class BlogDAO extends  DBConnection{
 
     // Lấy tất cả bài viết để hiển thị danh sách
     public List<Post> getAllPosts() {
@@ -31,7 +31,6 @@ public class BlogDAO {
                         rs.getTimestamp("createdAt"),
                         rs.getInt("product_id")
                 );
-                System.out.println("Total posts: " + list.size());
                 list.add(p);
             }
 
@@ -97,6 +96,64 @@ public class BlogDAO {
             e.printStackTrace();
         }
     }
+
+    public List<Post> getMorePosts(int currentPostId) {
+        List<Post> list = new ArrayList<>();
+        String sql = """
+        SELECT id, title
+        FROM posts
+        WHERE id <> ?
+        ORDER BY createdAt DESC
+        LIMIT 5
+    """;
+
+        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+            ps.setInt(1, currentPostId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Post p = new Post();
+                p.setId(rs.getInt("id"));
+                p.setTitle(rs.getString("title"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // BÀI VIẾT CÙNG CHỦ ĐỀ
+    public List<Post> getRelatedPosts(int currentPostId) {
+        List<Post> list = new ArrayList<>();
+
+        String sql = """
+        SELECT id, title, content, image, createdAt
+        FROM posts
+        WHERE id <> ?
+        ORDER BY createdAt DESC
+        LIMIT 6
+    """;
+
+        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+            ps.setInt(1, currentPostId);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Post p = new Post();
+                p.setId(rs.getInt("id"));
+                p.setTitle(rs.getString("title"));
+                p.setContent(rs.getString("content"));
+                p.setImage(rs.getString("image"));
+                p.setCreatedAt(rs.getTimestamp("createdAt"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public List<Map<String, Object>> getReviewsByBlog(int blogId) {
         List<Map<String, Object>> list = new ArrayList<>();
 

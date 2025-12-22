@@ -33,16 +33,18 @@ public class BlogReview extends HttpServlet {
 
         BlogDAO dao = new BlogDAO();
 
-        // ✅ CHẶN BÌNH LUẬN LẦN 2
+        // CHẶN BÌNH LUẬN LẦN 2
         if (dao.hasReviewed(blogId, user.getId())) {
-            response.sendRedirect("article?id=" + blogId);
+            response.sendRedirect(request.getContextPath()+ "/article?id=" + blogId);
+
             return;
         }
 
-        // ✅ LƯU BÌNH LUẬN
+        // SAU KHI LƯU BÌNH LUẬN
         dao.insert(blogId, user.getId(), content);
+        response.sendRedirect(request.getContextPath() + "/article?id=" + blogId);
 
-        // ✅ QUAY LẠI BÀI VIẾT
-        response.sendRedirect("article?id=" + blogId);
+
+
     }
 }

@@ -140,14 +140,19 @@
                         <input type="hidden" name="productId" value="${product.id}">
                         <input type="hidden" name="quantity" id="quantityHidden" value="1">
 
-                        <button type="submit" class="btn-add-cart">
-                            <i class="bi bi-cart-fill"></i> Thêm Vào Giỏ Hàng
+                        <button type="submit"
+                                class="btn-add-cart d-flex align-items-center justify-content-center
+               gap-2 px-4 py-2 fw-semibold rounded">
+                            <i class="bi bi-cart-plus"></i>
+                            <span>Thêm vào giỏ hàng</span>
                         </button>
                     </form>
 
 
                     <a href="delivery-info.jsp">
-                        <button class="btn-buy-now">Mua Ngay</button>
+                        <button class="btn-buy-now px-4 py-2 fw-semibold rounded">
+                            Mua Ngay
+                        </button>
                     </a>
                 </div>
 
