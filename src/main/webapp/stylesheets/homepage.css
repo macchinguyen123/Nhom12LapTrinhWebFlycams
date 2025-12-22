@@ -145,6 +145,8 @@ body {
 }
 
 /* --- Nút mua ngay --- */
+
+/* --- Nút mua ngay --- */
 .nut-mua-ngay {
     background-color: #0051c6;
     color: white;
@@ -153,9 +155,11 @@ body {
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.9rem;
-    margin-top: auto; /* luôn đẩy nút xuống đáy */
-    margin-bottom: 10px; /* nhích lên khỏi mép dưới một chút */
+    margin-top: auto;
+    margin-bottom: 10px;
     align-self: center;
+    display: block;
+    margin: 0 auto;   /* căn giữa */
     transition: background-color 0.3s, transform 0.2s;
 }
 

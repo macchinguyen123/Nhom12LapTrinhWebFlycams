@@ -49,7 +49,7 @@ public class Login extends HttpServlet {
         if (user.getRoleId() == 1) {
             response.sendRedirect(request.getContextPath() + "/admin/dashboard");
         } else {
-            response.sendRedirect("page/homepage.jsp");
+            response.sendRedirect(request.getContextPath() + "/home");
         }
     }
 }

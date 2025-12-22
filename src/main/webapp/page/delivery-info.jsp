@@ -10,7 +10,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../stylesheets/delivery-info.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/delivery-info.css">
 
 </head>
 <body>
@@ -49,17 +49,30 @@
               method="post">
 
             <!-- Địa chỉ đã lưu -->
+            <!-- Địa chỉ đã lưu -->
             <div class="mb-3">
-                <select id="savedAddress" class="form-select">
-                    <option value="">Thêm địa chỉ mới...</option>
-                    <option>0948088315, 70000, Việt Nam</option>
-                    <option>0948088315, Xã Trần Hợi, Huyện Trần Văn Thời, Cà Mau</option>
+                <select id="savedAddress" name="savedAddress" class="form-select">
+                <option value="">Thêm địa chỉ mới...</option>
+
+                    <c:forEach items="${addresses}" var="a">
+                        <option
+                                value="${a.id}"
+                                data-name="${a.fullName}"
+                                data-phone="${a.phoneNumber}"
+                                data-address="${a.addressLine}"
+                                data-province="${a.province}"
+                                data-district="${a.district}"
+                            ${a.defaultAddress ? "selected" : ""}
+                        >
+                                ${a.phoneNumber}, ${a.addressLine}, ${a.district}, ${a.province}
+                        </option>
+                    </c:forEach>
                 </select>
             </div>
 
             <!-- Họ tên -->
             <div class="mb-3">
-                <input type="text"
+                <input id="fullName" type="text"
                        name="fullName"
                        class="form-control"
                        placeholder="Họ và tên"
@@ -68,7 +81,7 @@
 
             <!-- Số điện thoại -->
             <div class="mb-3">
-                <input type="tel"
+                <input id="phoneNumber" type="tel"
                        name="phone"
                        class="form-control"
                        placeholder="Số điện thoại"
@@ -77,7 +90,7 @@
 
             <!-- Địa chỉ cụ thể -->
             <div class="mb-3">
-                <input type="text"
+                <input id="addressLine" type="text"
                        name="address"
                        class="form-control"
                        placeholder="Địa chỉ cụ thể (Số nhà, đường...)"
@@ -303,6 +316,23 @@
         ward.value = info.ward;
     });
 </script>
+<script>
+    document.getElementById("savedAddress").addEventListener("change", function () {
+        const opt = this.options[this.selectedIndex];
 
+        if (!opt.value) {
+            // chọn "Thêm địa chỉ mới"
+            document.querySelectorAll("#fullName, #phoneNumber, #addressLine, #province, #district")
+                .forEach(i => i.value = "");
+            return;
+        }
+
+        document.getElementById("fullName").value = opt.dataset.name;
+        document.getElementById("phoneNumber").value = opt.dataset.phone;
+        document.getElementById("addressLine").value = opt.dataset.address;
+        document.getElementById("province").value = opt.dataset.province;
+        document.getElementById("district").value = opt.dataset.district;
+    });
+</script>
 </body>
 </html>

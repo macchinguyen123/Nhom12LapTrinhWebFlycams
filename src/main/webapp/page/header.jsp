@@ -20,7 +20,7 @@
     <div class="header-wrapper">
         <header class="top-header">
             <!-- LOGO -->
-            <a href="homepage.jsp">
+            <a href="${pageContext.request.contextPath}/home">
                 <div class="logo">
                     <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
                     <h2>SkyDrone</h2>
@@ -48,29 +48,36 @@
 
             <!-- HÀNH ĐỘNG HEADER -->
             <div class="header-actions">
+
+                <!-- YÊU THÍCH -->
                 <a href="${pageContext.request.contextPath}/wishlist">
-                    <div class="icon-btn" title="Yêu thích">
+                    <div class="icon-btn ${currentPage.contains('/wishlist') ? 'active' : ''}"
+                         title="Yêu thích">
                         <i class="bi bi-heart"></i>
                         <span>Yêu thích</span>
                     </div>
                 </a>
 
-
-                <a href="shoppingcart.jsp">
-                    <div class="icon-btn" title="Giỏ hàng">
+                <!-- GIỎ HÀNG -->
+                <a href="${pageContext.request.contextPath}/page/shoppingcart.jsp">
+                    <div class="icon-btn ${currentPage.contains('shoppingcart') ? 'active' : ''}"
+                         title="Giỏ hàng">
                         <i class="bi bi-cart3"></i>
                         <span>Giỏ hàng</span>
                     </div>
                 </a>
 
+                <!-- TÀI KHOẢN -->
                 <a href="${pageContext.request.contextPath}/personal">
-                    <div class="icon-btn ${currentPage.endsWith('personal-page.jsp') ? 'active' : ''}"
+                    <div class="icon-btn ${currentPage.contains('/personal') ? 'active' : ''}"
                          title="Tài khoản">
                         <i class="bi bi-person-circle"></i>
                         <span>Tài khoản</span>
                     </div>
                 </a>
+
             </div>
+
         </header>
     </div>
 </div>
@@ -80,7 +87,7 @@
     <div class="header-wrapper">
         <nav class="main-nav">
 
-            <a href="homepage.jsp">
+            <a href="${pageContext.request.contextPath}/home">
                 <button class="nav-item ${currentPage.endsWith('homepage.jsp') ? 'active' : ''}">
                     <i class="bi bi-house-door"></i>Trang chủ
                 </button>
@@ -90,25 +97,25 @@
                 <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
             </button>
 
-            <a href="promotion.jsp">
+            <a href="${pageContext.request.contextPath}/page/promotion.jsp">
                 <button class="nav-item ${currentPage.endsWith('promotion.jsp') ? 'active' : ''}">
                     <i class="bi bi-gift"></i>Khuyến mãi
                 </button>
             </a>
 
-            <a href="warranty.jsp">
+            <a href="${pageContext.request.contextPath}/page/warranty.jsp">
                 <button class="nav-item ${currentPage.endsWith('warranty.jsp') ? 'active' : ''}">
                     <i class="bi bi-tools"></i>Bảo hành
                 </button>
             </a>
 
-            <a href="payment-policy.jsp">
+            <a href="${pageContext.request.contextPath}/page/payment-policy.jsp">
                 <button class="nav-item ${currentPage.endsWith('payment-policy.jsp') ? 'active' : ''}">
                     <i class="bi bi-credit-card"></i>Thanh toán
                 </button>
             </a>
 
-            <a href="support.jsp">
+            <a href="${pageContext.request.contextPath}/page/support.jsp">
                 <button class="nav-item ${currentPage.endsWith('support.jsp') ? 'active' : ''}">
                     <i class="bi bi-headset"></i>Hỗ trợ
                 </button>
@@ -126,35 +133,29 @@
     <!-- MENU TRÁI ẨN MẶC ĐỊNH -->
     <div class="menu-left-1" id="menuLeft">
         <ul>
-            <li><a href="category/film-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucQuayPhim.png"
-                     class="menu-icon">Drone quay phim chuyên nghiệp
+            <li><a href="${pageContext.request.contextPath}/Category?id=1001">
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
             </a>
             </li>
 
-            <li><a href="category/tourism-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucDuLich.png"
-                     class="menu-icon">Drone du lịch, vlog
+            <li><a href="${pageContext.request.contextPath}/Category?id=1006">
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
             </a>
             </li>
-            <li><a href="category/sport-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucTheThao.png"
-                     class="menu-icon">Drone thể thao tốc độ cao
+            <li><a href="${pageContext.request.contextPath}/Category?id=1003">
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
             </a>
             </li>
-            <li><a href="category/agriculture-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucNongNghiep.png"
-                     class="menu-icon">Drone nông nghiệp
+            <li><a href="${pageContext.request.contextPath}/Category?id=1002">
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
             </a>
             </li>
-            <li><a href="category/monitor-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucAnNinh.png"
-                     class="menu-icon">Drone giám sát, an ninh
+            <li><a href="/${pageContext.request.contextPath}/Category?id=1005">
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
             </a>
             </li>
-            <li><a href="category/mini-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone
-                mini, cỡ nhỏ
+            <li><a href="${pageContext.request.contextPath}/Category?id=1004">
+                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
             </a>
             </li>
         </ul>
