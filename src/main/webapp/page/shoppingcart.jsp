@@ -45,7 +45,7 @@
                 </div>
                 <button type="button"
                         class="btn btn-outline-danger btn-sm nut_xoa_da_chon">
-                <i class="bi bi-trash"></i> Xóa sản phẩm đã chọn
+                    <i class="bi bi-trash"></i> Xóa sản phẩm đã chọn
                 </button>
             </div>
 
@@ -56,64 +56,72 @@
                 </c:if>
 
                 <c:forEach var="item" items="${cart.items}">
-                <div class="khung_san_pham d-flex align-items-center justify-content-between"
-                     data-id="${item.product.id}">
+                    <div class="khung_san_pham d-flex justify-content-between align-items-center
+            border rounded shadow-sm p-3 mb-3 bg-white"
+                         data-id="${item.product.id}">
 
-                    <!-- TRÁI: checkbox + ảnh + info -->
-                    <div class="d-flex align-items-center">
+                        <!-- TRÁI: checkbox + ảnh + info -->
+                        <div class="d-flex align-items-center gap-3">
                         <input type="checkbox"
-                               class="chon_san_pham form-check-input me-3">
+                                   class="chon_san_pham form-check-input me-3">
 
-                        <img src="${not empty item.product.images
+                            <img src="${not empty item.product.images
           ? item.product.images[0].imageUrl
           : pageContext.request.contextPath.concat('/image/no-image.png')}"
-                             class="anh_san_pham me-3"
-                             width="120">
+                                 class="anh_san_pham me-3"
+                                 width="120">
 
-                        <div>
-                            <h5 class="ten_san_pham mb-2">
-                                    ${item.product.productName}
-                            </h5>
+                            <div>
+                                <h6 class="ten_san_pham mb-1 fw-semibold text-truncate" style="max-width: 260px;">
+                                ${item.product.productName}
+                                </h6>
 
-                            <span class="gia_hien_tai text-danger fw-bold">
+                                <span class="gia_hien_tai text-danger fw-bold">
                 <fmt:formatNumber value="${item.product.finalPrice}" type="number"/> ₫
             </span>
+                            </div>
+                        </div>
+
+                        <!-- PHẢI: số lượng -->
+                        <div class="d-flex align-items-center gap-2">
+
+                        <button class="btn btn-outline-secondary btn-sm nut_giam">−</button>
+
+                            <input type="text"
+                                   class="form-control text-center o_so_luong mx-1"
+                                   value="${item.quantity}"
+                                   style="width:50px;"
+                                   readonly>
+
+                            <button class="btn btn-outline-secondary btn-sm nut_tang">+</button>
+                            <!-- ICON XÓA -->
+                            <button class="btn btn-outline-danger btn-sm nut_xoa_1"
+                                    title="Xóa sản phẩm">
+                                <i class="bi bi-trash"></i>
+                            </button>
+
                         </div>
                     </div>
 
-                    <!-- PHẢI: số lượng -->
-                    <div class="d-flex align-items-center">
-                        <button class="btn btn-outline-secondary btn-sm nut_giam">−</button>
-
-                        <input type="text"
-                               class="form-control text-center o_so_luong mx-1"
-                               value="${item.quantity}"
-                               style="width:50px;"
-                               readonly>
-
-                        <button class="btn btn-outline-secondary btn-sm nut_tang">+</button>
-                    </div>
-                </div>
-
-            </c:forEach>
-        </div>
-
-        <!-- Tổng tiền -->
-        <div class="card p-3 shadow-sm">
-            <div class="d-flex justify-content-between">
-                <span class="fw-bold">Tạm tính:</span>
-                <span class="so_tien">0 ₫</span>
+                </c:forEach>
             </div>
-            <hr>
-            <div class="d-flex justify-content-between align-items-center">
-                <h5 class="tong_cong text-danger m-0">Tổng cộng: 0 ₫</h5>
-                <a href="delivery-info.jsp">
-                    <button class="btn btn-primary nut_thanh_toan">Mua ngay</button>
-                </a>
+
+            <!-- Tổng tiền -->
+            <div class="card p-3 shadow-sm">
+                <div class="d-flex justify-content-between">
+                    <span class="fw-bold">Tạm tính:</span>
+                    <span class="so_tien">0 ₫</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="tong_cong text-danger m-0">Tổng cộng: 0 ₫</h5>
+                    <a href="delivery-info.jsp">
+                        <button class="btn btn-primary nut_thanh_toan">Mua ngay</button>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 <jsp:include page="/page/footer.jsp"/>
 <script>
@@ -177,6 +185,26 @@
         }
     });
 
+    // ✅ XÓA 1 SẢN PHẨM
+    danhSach.addEventListener("click", e => {
+        if (e.target.closest(".nut_xoa_1")) {
+
+            const sp = e.target.closest(".khung_san_pham");
+            const productId = sp.dataset.id;
+
+            fetch("${pageContext.request.contextPath}/RemoveFromCart", {
+                method: "POST",
+                headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                body: "productId=" + productId
+            }).then(res => {
+                if (res.ok) {
+                    sp.remove();
+                    capNhatTongTien();
+                }
+            });
+        }
+    });
+
     // ✅ XÓA CÁC SẢN PHẨM ĐÃ CHỌN (XÓA THẬT TRONG SESSION)
     nutXoaDaChon.addEventListener("click", () => {
         const ids = [];
@@ -192,7 +220,7 @@
 
         fetch("${pageContext.request.contextPath}/RemoveMultiFromCart", {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
             body: body
         }).then(res => {
             if (res.ok) {
