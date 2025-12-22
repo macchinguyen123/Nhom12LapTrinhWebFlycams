@@ -15,7 +15,7 @@ public class Product implements Serializable {
     private double finalPrice;
     private String warranty;
     private int quantity;
-    private boolean status;
+    private String status;
     private List<Image> images;
     private String mainImage; // NEW FIELD
     private Integer reviewCount;
@@ -36,7 +36,7 @@ public class Product implements Serializable {
     // Constructor đầy đủ
     public Product(int id, int categoryId, String brandName, String productName,
                    String description, String parameter, double price,
-                   double finalPrice, String warranty, int quantity, boolean status) {
+                   double finalPrice, String warranty, int quantity, String status) {
         this.id = id;
         this.categoryId = categoryId;
         this.brandName = brandName;
@@ -135,11 +135,11 @@ public class Product implements Serializable {
         this.quantity = quantity;
     }
 
-    public boolean isStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -166,8 +166,13 @@ public class Product implements Serializable {
     public void setReviewCount(Integer reviewCount) {
         this.reviewCount = reviewCount;
     }
-    private Categories categoryName;
-    public Categories getCategory() {
+    private String categoryName;
+
+    public String getCategoryName() {
         return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }

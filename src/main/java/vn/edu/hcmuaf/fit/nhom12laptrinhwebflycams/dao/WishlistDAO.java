@@ -72,7 +72,7 @@ public class WishlistDAO {
                         rs.getDouble("finalPrice"),
                         rs.getString("warranty"),
                         rs.getInt("quantity"),
-                        rs.getBoolean("status")
+                        rs.getString("status")
                 );
                 p.setMainImage(rs.getString("imageUrl"));
                 list.add(p);
