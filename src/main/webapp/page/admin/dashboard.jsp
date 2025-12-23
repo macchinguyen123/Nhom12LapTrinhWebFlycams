@@ -92,7 +92,7 @@
                 </ul>
             </li>
 
-            <a href="blog-manage.jsp">
+            <a href="${pageContext.request.contextPath}/admin/blog-manage">
                 <li><i class="bi bi-journal-text"></i> Quản Lý Blog</li>
             </a>
             <a href="promotion-manage.jsp">
