@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,7 @@
     <title>Quản Trị - SkyDrone</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../stylesheets/admin/comfirmed-order-manage.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/admin/comfirmed-order-manage.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -168,49 +169,42 @@
             </tr>
             </thead>
             <tbody class="text-center" id="orderTableBody">
+            <c:forEach var="o" items="${orders}">
+                <tr>
+                    <!-- Mã VC -->
+                    <td>${o.shippingCode}</td>
 
-            <tr>
-                <td>GHN123</td>
-                <td>HD001</td>
-                <td>KH001</td>
-                <td>123 Nguyễn Trãi, Q.1, TP.HCM</td>
-                <td>08/11/2025</td>
-                <td><span class="badge bg-warning text-dark">Đang xử lý</span></td>
-                <td>
-                    <button class="btn btn-primary btn-sm view" data-id="HD001">
-                        <i class="bi bi-eye"></i> Xem / Cập Nhật
-                    </button>
-                </td>
-            </tr>
+                    <!-- Mã ĐH -->
+                    <td>HD${o.id}</td>
 
-            <tr>
-                <td>GHTK456</td>
-                <td>HD002</td>
-                <td>KH002</td>
-                <td>45 Lê Lợi, TP. Huế</td>
-                <td>07/11/2025</td>
-                <td><span class="badge bg-primary">Đang giao hàng</span></td>
-                <td>
-                    <button class="btn btn-primary btn-sm view" data-id="HD002">
-                        <i class="bi bi-eye"></i> Xem / Cập Nhật
-                    </button>
-                </td>
-            </tr>
+                    <!-- Mã KH -->
+                    <td>KH${o.userId}</td>
 
-            <tr>
-                <td>VNP789</td>
-                <td>HD003</td>
-                <td>KH003</td>
-                <td>78 Trần Hưng Đạo, Q.5, TP.HCM</td>
-                <td>06/11/2025</td>
-                <td><span class="badge bg-success">Giao thành công</span></td>
-                <td>
-                    <button class="btn btn-primary btn-sm view" data-id="HD003">
-                        <i class="bi bi-eye"></i> Xem / Cập Nhật
-                    </button>
-                </td>
-            </tr>
+                    <!-- Địa chỉ -->
+                    <td>${o.fullAddress}</td>
 
+                    <!-- Ngày nhận -->
+                    <td>
+                        <fmt:formatDate value="${o.createdAt}"
+                                        pattern="dd/MM/yyyy"/>
+                    </td>
+
+                    <!-- Trạng thái -->
+                    <td>
+                <span class="badge ${o.statusClass}">
+                        ${o.statusLabel}
+                </span>
+                    </td>
+
+                    <!-- Thao tác -->
+                    <td>
+                        <button class="btn btn-primary btn-sm view"
+                                data-id="${o.id}">
+                            <i class="bi bi-eye"></i> Xem / Cập Nhật
+                        </button>
+                    </td>
+                </tr>
+            </c:forEach>
             </tbody>
 
         </table>

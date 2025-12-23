@@ -83,10 +83,10 @@
                     <i class="bi bi-chevron-right arrow"></i>
                 </div>
                 <ul class="submenu">
-                    <a href="uncomfirmed-order-manage.jsp">
+                    <a href="${pageContext.request.contextPath}/admin/unconfirmed-orders">
                         <li>Chưa Xác Nhận</li>
                     </a>
-                    <a href="comfirmed-order-manage.jsp">
+                    <a href="${pageContext.request.contextPath}/admin/order-manage">
                         <li>Đã Xác Nhận</li>
                     </a>
                 </ul>

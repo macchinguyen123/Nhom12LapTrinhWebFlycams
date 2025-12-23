@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Orders {
     private int id;
@@ -16,24 +17,29 @@ public class Orders {
     private String note;
 
     public enum Status {
-        PENDING, PROCESSING, OUT_FOR_DELIVERY, DELIVERED, CANCELLED;
+        PENDING("Xác nhận"),
+        PROCESSING("Đang xử lý"),
+        OUT_FOR_DELIVERY("Đang giao"),
+        DELIVERED("Hoàn thành"),
+        CANCELLED("Hủy");
 
-        // Map sang DB
+        private final String dbValue;
+
+        Status(String dbValue) {
+            this.dbValue = dbValue;
+        }
+
         public String toDB() {
-            switch (this) {
-                case PENDING:
-                    return "Xác nhận";
-                case PROCESSING:
-                    return "Đang xử lý";
-                case OUT_FOR_DELIVERY:
-                    return "Đang giao";
-                case DELIVERED:
-                    return "Hoàn thành";
-                case CANCELLED:
-                    return "Hủy";
-                default:
-                    return "Xác nhận";
+            return dbValue;
+        }
+
+        public static Status fromDB(String value) {
+            for (Status s : values()) {
+                if (s.dbValue.equals(value)) {
+                    return s;
+                }
             }
+            return PENDING;
         }
     }
 
@@ -155,4 +161,27 @@ public class Orders {
     public void setNote(String note) {
         this.note = note;
     }
+    // Thêm danh sách sản phẩm
+    private List<OrderItems> items;
+
+    // getters và setters
+    public List<OrderItems> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderItems> items) {
+        this.items = items;
+    }
+    // thêm để hiển thị (không map DB)
+    private String fullAddress;
+
+    // getter setter
+    public String getFullAddress() {
+        return fullAddress;
+    }
+
+    public void setFullAddress(String fullAddress) {
+        this.fullAddress = fullAddress;
+    }
+
 }
