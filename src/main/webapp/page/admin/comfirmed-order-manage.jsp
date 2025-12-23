@@ -199,7 +199,8 @@
                     <!-- Thao tác -->
                     <td>
                         <button class="btn btn-primary btn-sm view"
-                                data-id="${o.id}">
+                                data-id="${o.id}"
+                                onclick="loadOrderDetail(${o.id}) ">
                             <i class="bi bi-eye"></i> Xem / Cập Nhật
                         </button>
                     </td>
@@ -250,17 +251,32 @@
 
                                 <div class="info-row">
                                     <div class="info-label">Tên Khách Hàng:</div>
-                                    <div class="info-value" id="dh-tenkh">Nguyễn Văn A</div>
+                                    <div class="info-value">
+                                        <input type="text"
+                                               id="dh-tenkh"
+                                               class="form-control form-control-sm"
+                                               value="Nguyễn Văn A">
+                                    </div>
                                 </div>
 
                                 <div class="info-row">
                                     <div class="info-label">Số Điện Thoại:</div>
-                                    <div class="info-value" id="dh-sdt">0905123123</div>
+                                    <div class="info-value">
+                                        <input type="text"
+                                               id="dh-sdt"
+                                               class="form-control form-control-sm"
+                                               value="0905123123">
+                                    </div>
                                 </div>
 
                                 <div class="info-row">
                                     <div class="info-label">Email:</div>
-                                    <div class="info-value" id="dh-email">nguyenvana@gmail.com</div>
+                                    <div class="info-value">
+                                        <input type="email"
+                                               id="dh-email"
+                                               class="form-control form-control-sm"
+                                               value="nguyenvana@gmail.com">
+                                    </div>
                                 </div>
 
                                 <div class="info-row">
@@ -285,8 +301,8 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">Ngày Nhận Dự Kiến</label>
-                                    <input type="date" class="form-control" id="dh-ngaynhan" value="2025-02-20">
+                                    <label class="form-label">Ngày Hoàn Thành</label>
+                                    <input type="date" class="form-control" id="dh-ngaynhan" value="">
                                 </div>
 
                                 <div class="info-row">
@@ -349,10 +365,10 @@
                                 <div class="mb-3">
                                     <label class="form-label">Trạng Thái Vận Chuyển</label>
                                     <select class="form-select" id="dh-ttvc">
-                                        <option selected>Đang xử lý</option>
-                                        <option>Đang giao hàng</option>
-                                        <option>Giao thành công</option>
-                                        <option>Giao thất bại</option>
+                                        <option value="Đang xử lý">Đang xử lý</option>
+                                        <option value="Đang giao">Đang giao hàng</option>
+                                        <option value="Hoàn thành">Giao thành công</option>
+                                        <option value="Hủy">Giao thất bại</option>
                                     </select>
                                 </div>
 
@@ -385,6 +401,116 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+    let currentOrderId = null;
+    let currentUserId = null;
+
+    function loadOrderDetail(orderId) {
+        currentOrderId = orderId;
+
+        fetch('${pageContext.request.contextPath}/admin/order-detail?id=' + orderId)
+            .then(res => {
+                if (!res.ok) throw new Error("HTTP " + res.status);
+                return res.json();
+            })
+            .then(data => {
+                if (!data || !data.order) {
+                    alert("Không có dữ liệu đơn hàng");
+                    return;
+                }
+
+                const o = data.order;
+
+                // ===== THÔNG TIN HÓA ĐƠN =====
+                document.getElementById("dh-mahd").innerText = "HD" + o.id;
+                currentUserId = o.user_id;
+                document.getElementById("dh-makh").innerText = "KH" + o.user_id;
+
+                document.getElementById("dh-tenkh").value = o.customerName || "";
+                document.getElementById("dh-sdt").value = o.phoneNumber || "";
+                document.getElementById("dh-email").value = o.email || "";
+
+                document.getElementById("dh-ngaylap").innerText =
+                    formatDate(o.createdAt);
+
+                // ===== THÔNG TIN GIAO HÀNG =====
+                document.getElementById("dh-diachi").value =
+                    o.fullAddress || "";
+
+                document.getElementById("dh-mavc").innerText =
+                    o.shippingCode || "Chưa có";
+
+                // if (o.expectedDeliveryDate) {
+                //     document.getElementById("dh-ngaynhan").value =
+                //         o.expectedDeliveryDate.substring(0, 10);
+                // } else {
+                //     document.getElementById("dh-ngaynhan").value = "";
+                // }
+                document.getElementById("dh-ngaynhan").value =
+                    o.completedAt ? o.completedAt.substring(0, 10) : "";
+
+                document.getElementById("dh-phivc").innerText =
+                    o.shippingFee
+                        ? Number(o.shippingFee).toLocaleString("vi-VN") + "₫"
+                        : "0₫";
+
+                const items = data.items;
+                const tbody = document.getElementById("dh-sanpham");
+                tbody.innerHTML = "";
+
+                let total = 0;
+
+                items.forEach(item => {
+                    const tr = document.createElement("tr");
+
+                    const tdName = document.createElement("td");
+                    tdName.textContent = item.productName || "—";
+                    tr.appendChild(tdName);
+
+                    const tdQty = document.createElement("td");
+                    tdQty.textContent = item.quantity ?? "—";
+                    tr.appendChild(tdQty);
+
+                    const tdPrice = document.createElement("td");
+                    const priceNum = Number(item.price) || 0;
+                    tdPrice.textContent = priceNum.toLocaleString("vi-VN") + "₫";
+                    tr.appendChild(tdPrice);
+
+                    total += priceNum * (item.quantity || 1);
+
+                    tbody.appendChild(tr);
+                });
+
+                document.getElementById("dh-tong").innerText =
+                    total.toLocaleString("vi-VN") + "₫";
+
+                //thông tin thanh toán
+                document.getElementById("dh-httt").value =
+                    o.paymentMethod || "COD";
+
+                document.getElementById("dh-tttt").innerText =
+                    o.paymentMethod ? "Đã chọn" : "Chưa thanh toán";
+
+                //Trạng thái van chuyen
+                document.getElementById("dh-ttvc").value = o.status;
+
+                // ===== HIỆN MODAL =====
+                const modal = new bootstrap.Modal(
+                    document.getElementById("modalDonHang")
+                );
+                modal.show();
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Lỗi tải chi tiết đơn hàng");
+            });
+    }
+
+    function formatDate(dateStr) {
+        if (!dateStr) return "—";
+        const d = new Date(dateStr);
+        return d.toLocaleDateString("vi-VN");
+    }
+
     $(document).ready(function () {
         var table = $('#tblDonHang').DataTable({
             "paging": true,
@@ -439,13 +565,13 @@
             $("#nextPage").prop("disabled", info.page >= info.pages - 1);
         }
 
-            // Nút SAU
+        // Nút SAU
         $("#nextPage").on("click", function () {
             table.page("next").draw("page");
             updateCustomPagination();
         });
 
-            // Nút TRƯỚC
+        // Nút TRƯỚC
         $("#prevPage").on("click", function () {
             table.page("previous").draw("page");
             updateCustomPagination();
@@ -455,16 +581,16 @@
         table.on("draw", updateCustomPagination);
         updateCustomPagination();
 
-        // ======= MODAL =======
-        $(".view").on("click", function () {
-            new bootstrap.Modal(document.getElementById("modalDonHang")).show();
-        });
-
-        $("#formDonHang").on("submit", function (e) {
-            e.preventDefault();
-            alert("Lưu thành công (demo)!");
-            bootstrap.Modal.getInstance(document.getElementById("modalDonHang")).hide();
-        });
+        // // ======= MODAL =======
+        // $(".view").on("click", function () {
+        //     new bootstrap.Modal(document.getElementById("modalDonHang")).show();
+        // });
+        //
+        // $("#formDonHang").on("submit", function (e) {
+        //     e.preventDefault();
+        //     alert("Lưu thành công (demo)!");
+        //     bootstrap.Modal.getInstance(document.getElementById("modalDonHang")).hide();
+        // });
 
         // ======= LOGOUT =======
         $("#logoutBtn").on("click", function () {
@@ -477,6 +603,57 @@
     });
 
 
+</script>
+<script>
+    document.getElementById("formDonHang").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        if (!currentOrderId) {
+            alert("Không xác định đơn hàng");
+            return;
+        }
+
+        const payload = {
+            orderId: currentOrderId,
+            userId: document.getElementById("dh-makh").innerText.replace("KH", ""),
+            fullName: document.getElementById("dh-tenkh").value,
+            email: document.getElementById("dh-email").value,
+            phoneNumber: document.getElementById("dh-sdt").value,
+            fullAddress: document.getElementById("dh-diachi").value,
+            paymentMethod: document.getElementById("dh-httt").value,
+            status: document.getElementById("dh-ttvc").value,
+            note: document.getElementById("dh-note").value
+        };
+
+        fetch("${pageContext.request.contextPath}/admin/update-order", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Cập nhật thành công",
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+
+                    bootstrap.Modal.getInstance(
+                        document.getElementById("modalDonHang")
+                    ).hide();
+
+                    setTimeout(() => location.reload(), 800);
+                } else {
+                    Swal.fire("Lỗi", "Không cập nhật được đơn hàng", "error");
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                Swal.fire("Lỗi", "Lỗi hệ thống", "error");
+            });
+    });
 </script>
 
 </body>

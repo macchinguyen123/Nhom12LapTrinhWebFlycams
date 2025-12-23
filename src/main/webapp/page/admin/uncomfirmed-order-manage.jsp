@@ -359,7 +359,7 @@
                 document.getElementById("md_totalPrice").innerText =
                     Number(o.totalPrice).toLocaleString("vi-VN") + "₫";
 
-                document.getElementById("md_address").innerText = o.address || "—";
+                document.getElementById("md_address").innerText = o.fullAddress || "—";
                 document.getElementById("md_shippingCode").innerText =
                     o.shippingCode || "Chưa có";
                 document.getElementById("md_completedAt").innerText =
