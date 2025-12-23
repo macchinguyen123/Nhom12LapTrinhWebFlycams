@@ -33,15 +33,21 @@ public class Orders {
             return dbValue;
         }
 
-        public static Status fromDB(String value) {
-            for (Status s : values()) {
-                if (s.dbValue.equals(value)) {
-                    return s;
-                }
-            }
-            return PENDING;
+        public static Status fromDB(String dbValue) {
+            if (dbValue == null) return null;
+
+            return switch (dbValue) {
+                case "Xác nhận" -> PENDING;
+                case "Đang xử lý" -> PROCESSING;
+                case "Đang giao" -> OUT_FOR_DELIVERY;
+                case "Hoàn thành" -> DELIVERED;
+                case "Hủy" -> CANCELLED;
+                default -> PENDING;
+            };
         }
     }
+
+
 
     // getter/setter
     public int getId() {

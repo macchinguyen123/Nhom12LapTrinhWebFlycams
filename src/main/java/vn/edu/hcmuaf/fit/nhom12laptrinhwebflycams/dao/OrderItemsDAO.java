@@ -1,10 +1,14 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao;
 
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.OrderItems;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderItemsDAO {
 
@@ -27,5 +31,58 @@ public class OrderItemsDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List<OrderItems> getItemsByOrderId(int orderId) {
+        List<OrderItems> list = new ArrayList<>();
+
+        String sql = """
+    SELECT
+                             oi.id AS oi_id,
+                             oi.product_id,
+                             oi.order_id,
+                             oi.quantity,
+                             oi.price,
+                             p.productName,
+                         
+                             (
+                                 SELECT img.imageUrl
+                                 FROM images img
+                                 WHERE img.product_id = p.id
+                                 ORDER BY img.id
+                                 LIMIT 1
+                             ) AS imageUrl
+                         
+                         FROM order_items oi
+                         JOIN products p ON oi.product_id = p.id
+                         WHERE oi.order_id = ?
+""";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                OrderItems item = new OrderItems();
+                item.setId(rs.getInt("id"));
+                item.setOrderId(rs.getInt("order_id"));
+                item.setProductId(rs.getInt("product_id"));
+                item.setQuantity(rs.getInt("quantity"));
+                item.setPrice(rs.getDouble("price"));
+
+                Product product = new Product();
+                product.setId(rs.getInt("product_id"));
+                product.setProductName(rs.getString("productName"));
+                product.setMainImage(rs.getString("imageUrl")); // ⭐ BẮT BUỘC
+
+                item.setProduct(product);
+                list.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

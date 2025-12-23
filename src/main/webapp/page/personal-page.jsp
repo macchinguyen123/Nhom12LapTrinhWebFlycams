@@ -17,118 +17,7 @@
 
 </head>
 <body>
-<!-- ==== HEADER TRÊN ==== -->
-<div class="header-bg">
-    <div class="header-wrapper">
-        <header class="top-header">
-            <!-- LOGO -->
-            <a href="homepage.jsp">
-                <div class="logo">
-                    <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
-                    <h2>SkyDrone</h2>
-                </div>
-            </a>
-
-            <!-- THANH TÌM KIẾM -->
-            <a href="searching.jsp">
-                <div class="search-bar position-relative">
-                    <i class="bi bi-search"></i>
-                    <input id="searchInput" type="text" placeholder="Tìm kiếm drone, flycam..."
-                           autocomplete="off">
-
-                    <!-- Danh sách gợi ý xổ xuống -->
-                    <ul id="suggestList" class="list-group position-absolute w-100 shadow-sm"
-                        style="top: 100%; left: 0; z-index: 1000; display: none;">
-                    </ul>
-                </div>
-            </a>
-
-
-            <!-- HÀNH ĐỘNG HEADER -->
-            <div class="header-actions">
-                <a href="wishlist.jsp">
-                    <div class="icon-btn" title="Yêu thích">
-                        <i class="bi bi-heart"></i>
-                        <span>Yêu thích</span>
-                    </div>
-                </a>
-
-                <a href="shoppingcart.jsp">
-                    <div class="icon-btn" title="Giỏ hàng">
-                        <i class="bi bi-cart3"></i>
-                        <span>Giỏ hàng</span>
-                    </div>
-                </a>
-
-                <a href="personal-page.jsp">
-                    <div class="icon-btn active" title="Tài khoản">
-                        <i class="bi bi-person-circle"></i>
-                        <span>Tài khoản</span>
-                    </div>
-                </a>
-            </div>
-        </header>
-    </div>
-</div>
-
-<!-- ==== MENU DƯỚI ==== -->
-<div class="menu-bg">
-    <div class="header-wrapper">
-        <nav class="main-nav">
-            <a href="homepage.jsp">
-                <button class="nav-item"><i class="bi bi-house-door"></i>Trang chủ</button>
-            </a>
-            <button class="nav-item" id="btnDanhMuc">
-                <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
-            </button>
-            <a href="promotion.jsp">
-                <button class="nav-item"><i class="bi bi-gift"></i>Khuyến mãi</button>
-            </a>
-            <a href="warranty.jsp">
-                <button class="nav-item"><i class="bi bi-tools"></i>Bảo hành</button>
-            </a>
-            <a href="payment-policy.jsp">
-                <button class="nav-item"><i class="bi bi-credit-card"></i>Thanh toán</button>
-            </a>
-            <a href="support.jsp">
-                <button class="nav-item"><i class="bi bi-headset"></i>Hỗ trợ</button>
-            </a>
-            <a href="blog.jsp">
-                <button class="nav-item"><i class="bi bi-journal-text"></i>Bài viết</button>
-            </a>
-        </nav>
-    </div>
-    <!-- MENU TRÁI ẨN MẶC ĐỊNH -->
-    <div class="menu-left-1" id="menuLeft">
-        <ul>
-            <li><a href="category/film-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
-            </a>
-            </li>
-
-            <li><a href="category/tourism-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
-            </a>
-            </li>
-            <li><a href="category/sport-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
-            </a>
-            </li>
-            <li><a href="category/agriculture-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
-            </a>
-            </li>
-            <li><a href="category/monitor-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
-            </a>
-            </li>
-            <li><a href="category/mini-drone.jsp">
-                <img src="../image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
-            </a>
-            </li>
-        </ul>
-    </div>
-</div>
+<jsp:include page="/page/header.jsp"/>
 
 <div class="container">
     <aside class="sidebar">
@@ -199,19 +88,22 @@
                 <div class="form-group">
                     <label for="gender">Giới tính</label>
                     <select name="gender" id="gender">
-                        <option value="Nam" <c:if test="${user.gender eq 'Nam'}">selected</c:if>>Nam</option>
-                        <option value="Nữ" <c:if test="${user.gender eq 'Nữ'}">selected</c:if>>Nữ</option>
+                        <option value="Nam" ${user.gender eq 'Nam' ? 'selected' : ''}>Nam</option>
+                        <option value="Nữ" ${user.gender eq 'Nữ' ? 'selected' : ''}>Nữ</option>
+                        <option value="" ${empty user.gender ? 'selected' : ''}>Chưa chọn</option>
                     </select>
                 </div>
 
                 <!-- Ngày sinh -->
                 <div class="form-group">
                     <label for="birthDate">Ngày sinh</label>
-                    <input type="date" name="birthDate"
-                           value="<fmt:formatDate value='${user.birthDate}' pattern='yyyy-MM-dd'/>">
-
-
+                    <input type="date"
+                           name="birthDate"
+                           id="birthDate"
+                           value="<fmt:formatDate value='${user.birthDate}' pattern='yyyy-MM-dd'/>"
+                           max="<fmt:formatDate value='${now}' pattern='yyyy-MM-dd'/>">
                 </div>
+
                 <button type="submit" class="btn btn-primary">Cập nhật</button>
             </form>
 
@@ -277,25 +169,19 @@
         <section id="orders-section" class="section">
             <h2>Đơn Mua</h2>
             <!-- BẢNG DANH SÁCH HÓA ĐƠN -->
-            <div id="order-list" class="order-table">
+            <div id="order-list" class="order-table"
+                 style="display: ${not empty selectedOrder ? 'none' : 'block'}">
                 <!-- TABS LỌC TRẠNG THÁI -->
                 <div class="order-tabs">
-                    <button class="order-tab tab-cho active" data-status="cho">
-                        <i class="bi bi-clock-history"></i> Chờ xác nhận
-                    </button>
-
-                    <button class="order-tab tab-dang-giao" data-status="dang-giao">
-                        <i class="bi bi-truck"></i> Đang giao
-                    </button>
-
-                    <button class="order-tab tab-da-giao" data-status="da-giao">
-                        <i class="bi bi-check2-circle"></i> Đã giao
-                    </button>
-
-                    <button class="order-tab tab-da-huy" data-status="da-huy">
-                        <i class="bi bi-x-circle"></i> Đã huỷ
-                    </button>
+                    <button class="order-tab active" data-status="PENDING">Xác nhận</button>
+                    <button class="order-tab" data-status="PROCESSING">Đang xử lý</button>
+                    <button class="order-tab" data-status="OUT_FOR_DELIVERY">Đang giao</button>
+                    <button class="order-tab" data-status="DELIVERED">Hoàn thành</button>
+                    <button class="order-tab" data-status="CANCELLED">Hủy</button>
                 </div>
+
+
+
                 <h3>Hóa đơn gần đây</h3>
                 <table>
                     <thead>
@@ -309,104 +195,228 @@
                     </thead>
 
                     <tbody>
-                    <tr>
-                        <td>51</td>
-                        <td>2024-01-03 23:21:41</td>
-                        <td class="delivered">Đang giao</td>
-                        <td>70.999.990 ₫</td>
-                        <td class="thao-tac-col">
-                            <button class="btn btn-view btn-sm" onclick="showOrderDetail(51)">
-                                <i class="bi bi-eye"></i> Xem chi tiết
-                            </button>
+                    <c:if test="${empty orders}">
+                        <tr>
+                            <td colspan="5" class="text-center">Chưa có đơn hàng</td>
+                        </tr>
+                    </c:if>
 
-                            <button class="btn btn-cancel btn-sm" onclick="cancelOrder(51)">
-                                <i class="bi bi-trash"></i> Huỷ đơn hàng
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>51</td>
-                        <td>2024-01-03 23:21:41</td>
-                        <td class="delivered">Chờ xác nhận</td>
-                        <td>70.999.990 ₫</td>
-                        <td class="thao-tac-col">
-                            <button class="btn btn-view btn-sm" onclick="showOrderDetail(51)">
-                                <i class="bi bi-eye"></i> Xem chi tiết
-                            </button>
+                    <c:forEach var="o" items="${orders}">
+                        <tr>
+                            <!-- Mã đơn -->
+                            <td>${o.id}</td>
 
-                            <button class="btn btn-cancel btn-sm" onclick="cancelOrder(51)">
-                                <i class="bi bi-trash"></i> Huỷ đơn hàng
-                            </button>
-                        </td>
-                    </tr>
+                            <!-- Thời gian -->
+                            <td>
+                                <fmt:formatDate value="${o.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                            </td>
 
-                    <tr>
-                        <td>50</td>
-                        <td>2024-01-02 22:24:02</td>
-                        <td class="delivered">Đang giao</td>
-                        <td>70.999.990 ₫</td>
-                        <td class="thao-tac-col">
-                            <button class="btn btn-view btn-sm" onclick="showOrderDetail(51)">
-                                <i class="bi bi-eye"></i> Xem chi tiết
-                            </button>
+                            <!-- Trạng thái -->
+                            <td class="status-col" data-status="${o.status.name()}">
+                                <c:choose>
+                                    <c:when test="${o.status.name() eq 'PENDING'}">
+                                        <span class="badge bg-warning text-dark">Xác nhận</span>
+                                    </c:when>
+                                    <c:when test="${o.status.name() eq 'PROCESSING'}">
+                                        <span class="badge bg-primary">Đang xử lý</span>
+                                    </c:when>
+                                    <c:when test="${o.status.name() eq 'OUT_FOR_DELIVERY'}">
+                                        <span class="badge bg-info text-dark">Đang giao</span>
+                                    </c:when>
+                                    <c:when test="${o.status.name() eq 'DELIVERED'}">
+                                        <span class="badge bg-success">Hoàn thành</span>
+                                    </c:when>
+                                    <c:when test="${o.status.name() eq 'CANCELLED'}">
+                                        <span class="badge bg-danger">Đã huỷ</span>
+                                    </c:when>
+                                </c:choose>
 
-                            <button class="btn btn-cancel btn-sm" onclick="cancelOrder(51)">
-                                <i class="bi bi-trash"></i> Huỷ đơn hàng
-                            </button>
-                        </td>
-                    </tr>
+                            </td>
+
+                            <!-- Tổng tiền -->
+                            <td>
+                                <fmt:formatNumber value="${o.totalPrice}" type="number"/> ₫
+                            </td>
+
+                            <!-- Thao tác -->
+                            <td class="thao-tac-col">
+
+                                <!-- Xem chi tiết -->
+                                <a class="btn btn-view btn-sm"
+                                   href="${pageContext.request.contextPath}/personal?orderId=${o.id}">
+                                    <i class="bi bi-eye"></i> Xem chi tiết
+                                </a>
+
+                                <c:if test="${o.status.name() eq 'PENDING'}">
+                                    <form method="post"
+                                          action="${pageContext.request.contextPath}/personal"
+                                          style="display:inline"
+                                          onsubmit="return confirm('Bạn có chắc muốn huỷ đơn hàng #${o.id} ?');">
+
+                                        <input type="hidden" name="action" value="cancelOrder">
+                                        <input type="hidden" name="orderId" value="${o.id}">
+
+
+                                        <button type="button"
+                                                class="btn btn-danger btn-sm"
+                                                onclick="openCancelModal(${o.id})">
+                                            <i class="bi bi-trash"></i> Huỷ đơn
+                                        </button>
+                                    </form>
+                                </c:if>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
 
+            <div class="modal fade" id="cancelModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <form method="post" action="${pageContext.request.contextPath}/personal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Huỷ đơn hàng</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
 
-            <!-- 🔹 CHI TIẾT ĐƠN HÀNG (ẩn mặc định) -->
-            <div id="order-detail" class="order-card" style="display: none;">
-                <button class="back-btn" onclick="showOrderList()">Quay lại danh sách</button>
-                <p class="order-date">Mã vận chuyển: <strong> Z001 </strong></p>
-                <p class="order-date">Ngày nhận hàng dự kiến: <strong>03 tháng 11 năm 2025</strong></p>
+                            <div class="modal-body">
+                                <input type="hidden" name="action" value="cancelOrder">
+                                <input type="hidden" name="orderId" id="cancelOrderId">
 
-                <div class="order-progress">
-                    <div class="step active">ĐANG XỬ LÝ</div>
-                    <div class="step">ĐANG VẬN CHUYỂN</div>
-                    <div class="step">ĐÃ GIAO</div>
-                </div>
+                                <label>Lý do huỷ đơn (không bắt buộc)</label>
+                                <textarea class="form-control"
+                                          placeholder="Nhập lý do huỷ (tuỳ chọn)"></textarea>
+                                <!-- ❗ KHÔNG có name => KHÔNG gửi lên server -->
+                            </div>
 
-                <div class="order-item">
-                    <img src="../image/content/Flycam%20DJI%20Air%203.png" alt="Flycam DJI Air 3">
-                    <div class="item-info">
-                        <h4>Flycam DJI Air 3</h4>
-                        <p>Số lượng: 1</p>
-                        <p>Giá: <strong>31.000.000 ₫</strong></p>
-                    </div>
-                </div>
-
-                <div class="order-item">
-                    <img src="../image/content/Flycam%20DJl%20Inspire%203.png" alt="Flycam DJl Inspire 3">
-                    <div class="item-info">
-                        <h4>Flycam DJl Inspire 3</h4>
-                        <p>Số lượng: 1</p>
-                        <p>Giá: <strong>39.999.990 ₫</strong></p>
-                    </div>
-                </div>
-
-                <div class="order-summary-box">
-                    <div class="summary-left">
-                        <h4>Địa chỉ giao hàng</h4>
-                        <p><strong>Chí Nguyên</strong></p>
-                        <p>Tòa B, Ký túc xá Khu B</p>
-                        <p>033332234</p>
-                    </div>
-
-                    <div class="summary-right">
-                        <p>Tổng phụ thu: <strong>70.999.990 ₫</strong></p>
-                        <p>Phí vận chuyển: <strong>0 ₫</strong></p>
-                        <hr>
-                        <p><strong>Tổng: 70.999.990 ₫</strong></p>
-                        <p class="payment-note">Thanh toán bằng tiền mặt khi giao hàng</p>
-                    </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger">
+                                    Xác nhận huỷ
+                                </button>
+                                <button type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal">
+                                    Đóng
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
+
+
+            <!-- 🔹 CHI TIẾT ĐƠN HÀNG (ẩn mặc định) -->
+            <div id="order-detail" class="order-card"
+                 style="display: ${empty selectedOrder ? 'none' : 'block'}">
+
+                <!-- NÚT QUAY LẠI -->
+                <a href="${pageContext.request.contextPath}/personal?tab=orders"
+                   class="btn mb-3"
+                   style="background:#0051c6;color:white">
+                    ← Quay lại danh sách
+                </a>
+
+
+                <c:if test="${not empty selectedOrder}">
+
+                    <!-- MÃ VẬN CHUYỂN + NGÀY DỰ KIẾN -->
+                    <p>
+                        Mã vận chuyển:
+                        <strong>${selectedOrder.shippingCode}</strong>
+                    </p>
+                    <p>
+                        Ngày nhận hàng dự kiến:
+                        <strong>
+                            <fmt:formatDate value="${expectedDeliveryDate}" pattern="dd/MM/yyyy"/>
+                        </strong>
+                    </p>
+
+                    <!-- THANH TRẠNG THÁI -->
+                    <div class="order-progress">
+                        <div class="step ${selectedOrder.status.name() eq 'PROCESSING' ? 'active' : ''}">
+                            ĐANG XỬ LÝ
+                        </div>
+                        <div class="step ${selectedOrder.status.name() eq 'OUT_FOR_DELIVERY' ? 'active' : ''}">
+                            ĐANG VẬN CHUYỂN
+                        </div>
+                        <div class="step ${selectedOrder.status.name() eq 'DELIVERED' ? 'active' : ''}">
+                            ĐÃ GIAO
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- DANH SÁCH SẢN PHẨM -->
+                    <c:forEach var="item" items="${orderItems}">
+                        <div style="display:flex;gap:12px;margin-bottom:16px">
+
+                            <c:choose>
+                                <c:when test="${fn:startsWith(item.product.mainImage, 'http://') || fn:startsWith(item.product.mainImage, 'https://')}">
+                                    <img src="${item.product.mainImage}"
+                                         onerror="this.src='${pageContext.request.contextPath}/image/products/no-image.png'"
+                                         loading="lazy"
+                                         width="80"
+                                         height="80"
+                                         alt="${item.product.productName}"
+                                         style="border: 1px solid #ccc; object-fit: cover;">
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="${pageContext.request.contextPath}/${item.product.mainImage}"
+                                         onerror="this.src='${pageContext.request.contextPath}/image/products/no-image.png'"
+                                         loading="lazy"
+                                         width="80"
+                                         height="80"
+                                         alt="${item.product.productName}"
+                                         style="border: 1px solid #ccc; object-fit: cover;">
+                                </c:otherwise>
+                            </c:choose>
+
+                            <div>
+                                <div><strong>${item.product.productName}</strong></div>
+                                <div>Số lượng: ${item.quantity}</div>
+                                <div>
+                                    Giá: <fmt:formatNumber value="${item.price}" type="number"/> đ
+                                </div>
+                            </div>
+
+                        </div>
+                    </c:forEach>
+
+
+                    <hr>
+
+                    <!-- ĐỊA CHỈ + THANH TOÁN -->
+                    <div class="row">
+                        <!-- ĐỊA CHỈ -->
+                        <div class="col-md-6">
+                            <h5>Địa chỉ giao hàng</h5>
+                            <c:if test="${not empty selectedOrder}">
+                                <p>Người nhận: ${shippingInfo.recipientName}</p>
+                                <p>SĐT: ${shippingInfo.receiverPhone}</p>
+                                <p>Địa chỉ: ${shippingInfo.shippingAddress}</p>
+
+                            </c:if>
+                        </div>
+
+                        <!-- THANH TOÁN -->
+                        <div class="col-md-6 text-end">
+                            <p class="fs-5">
+                                <strong>
+                                    Tổng tiền:
+                                    <fmt:formatNumber value="${selectedOrder.totalPrice}" type="number"/> ₫
+                                </strong>
+                            </p>
+
+                            <p>Phương thức: ${selectedOrder.paymentMethod}</p>
+                        </div>
+
+                    </div>
+
+                </c:if>
+            </div>
+
+
         </section>
 
         <!-- === Địa chỉ nhận hàng === -->
@@ -529,117 +539,20 @@
 
     </main>
 </div>
-<footer class="footer">
-    <div class="footer-container">
-        <!-- Cột 1 -->
-        <div class="footer-column">
-            <h6>SKYDRONE VIỆT NAM</h6>
-            <img src="../image/dronefooter.png" alt="SKYDRONE Logo" class="mascot">
-            <p><strong>Công ty Cổ phần thương mại SKYDrone Việt Nam</strong></p>
-            <p>Địa chỉ: Số 1 Đường Số 1, Phường Linh Xuân, TP Hồ Chí Minh, Việt Nam</p>
-            <p><strong>Hotline:</strong> 0815.000.060</p>
-            <p>ĐKKD số 0108676636 do Sở KH&ĐT TP. Hồ Chí Minh cấp ngày 10/10/2025</p>
-
-            <div class="social-icons">
-                <a href="#"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="#"><i class="fa-solid fa-envelope"></i></a>
-            </div>
-        </div>
-
-        <!-- Cột 2 -->
-        <div class="footer-column">
-            <h6>SẢN PHẨM</h6>
-            <ul>
-                <li><a href="y/film-drone.html">Drone quay phim chuyên nghiệp</a></li>
-                <li><a href="y/tourism-drone.html">Drone du lịch / vlog</a></li>
-                <li><a href="y/sport-drone.html">Drone thể thao tốc độ cao</a></li>
-                <li><a href="y/agriculture-drone.html">Drone nông nghiệp</a></li>
-                <li><a href="y/monitor-drone.html">Drone giám sát / an ninh</a></li>
-                <li><a href="y/mini-drone.html">Drone mini / cở nhỏ</a></li>
-            </ul>
-
-            <h3>TƯ VẤN MUA HÀNG</h3>
-            <div class="hotline">
-                <i class="fa-solid fa-phone"></i>0813.660.666
-            </div>
-        </div>
-
-        <!-- Cột 3 -->
-        <div class="footer-column">
-            <h6>HỆ THỐNG PHÂN PHỐI</h6>
-            <ul>
-                <li><a href="#">SKYDrone Store</a></li>
-                <li><a href="#">Hà Nội</a></li>
-                <li><a href="#">TP. Hồ Chí Minh</a></li>
-                <li><a href="#">Đà Nẵng</a></li>
-                <li><a href="#">Nghệ An</a></li>
-
-            </ul>
-            <section class="payment-methods">
-                <h6>PHƯƠNG THỨC THANH TOÁN</h6>
-                <div class="payment-icons">
-                    <img src="https://tse3.mm.bing.net/th/id/OIP.kklIaX3TV97u5KnjU_Kr4wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
-                         alt="VNPay">
-                </div>
-            </section>
-        </div>
-        <!-- Cột 4 -->
-        <div class="footer-column">
-            <h6>THÔNG TIN VỀ CHÍNH SÁCH</h6>
-            <ul>
-                <li><a href="#">Mua hàng và thanh toán Online</a></li>
-                <li><a href="#">Chính sách giao hàng</a></li>
-                <li><a href="#">Chính sách đổi trả</a></li>
-                <li><a href="#">Tra thông tin bảo hành</a></li>
-                <li><a href="#">Thông tin hoá đơn mua hàng</a></li>
-            </ul>
-
-            <section class="social-connect">
-                <h6>KẾT NỐI VỚI SKYDRONE</h6>
-                <div class="social-icons">
-                    <a href="https://www.youtube.com/@F8VNOfficial"
-                       class="icon youtube" target="_blank" rel="noopener noreferrer">
-                        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
-                    </a>
-
-                    <a href="https://www.facebook.com/dhkcntt.nlu"
-                       class="icon facebook" target="_blank" rel="noopener noreferrer">
-                        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
-                    </a>
-
-                    <a href="https://www.instagram.com/truyenthongchinhphu/"
-                       class="icon instagram" target="_blank" rel="noopener noreferrer">
-                        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
-                    </a>
-
-                    <a href="https://www.tiktok.com/@nonglam.university"
-                       class="icon tiktok" target="_blank" rel="noopener noreferrer">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
-                    </a>
-
-                    <a href="https://zalo.me/0966089465"
-                       class="icon zalo" target="_blank" rel="noopener noreferrer">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo">
-                    </a>
-                </div>
-            </section>
-
-        </div>
-
-    </div>
-
-
-    <div class="footer-bottom">
-        <p>Copyright © 2025 © <strong>SKYDrone Việt Nam</strong></p>
-        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm
-            cấm.</p>
-    </div>
-</footer>
+<jsp:include page="/page/footer.jsp"/>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- ====== Script xử lý ====== -->
+<script>
+    function openCancelModal(orderId) {
+        document.getElementById("cancelOrderId").value = orderId;
+        const modal = new bootstrap.Modal(
+            document.getElementById("cancelModal")
+        );
+        modal.show();
+    }
+</script>
+
 <script>
     // === Xử lý địa chỉ ===
     const addBtn = document.getElementById("addAddressBtn");
@@ -789,80 +702,75 @@
         };
         reader.readAsDataURL(file);
     });
-    // Lọc đơn hàng theo tab
+
+
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const hasOrderDetail = ${selectedOrder != null ? "true" : "false"};
+        const activeTab = "${activeTab}";
+
+        // ✅ LẤY PARAM tab TỪ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabParam = urlParams.get('tab');
+
+        // ✅ NẾU CÓ orderId HOẶC tab=orders → ACTIVE TAB ĐƠN MUA
+        if (hasOrderDetail || activeTab === "orders" || tabParam === "orders") {
+            document.querySelectorAll(".menu li").forEach(li => li.classList.remove("active"));
+            const ordersMenuItem = document.querySelector('[data-section="orders-section"]');
+            if (ordersMenuItem) {
+                ordersMenuItem.classList.add("active");
+            }
+
+            document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+            const ordersSection = document.getElementById("orders-section");
+            if (ordersSection) {
+                ordersSection.classList.add("active");
+            }
+
+            // ✅ ẨN CHI TIẾT ĐƠN HÀNG, HIỆN DANH SÁCH
+            if (tabParam === "orders" && !hasOrderDetail) {
+                const orderList = document.getElementById("order-list");
+                const orderDetail = document.getElementById("order-detail");
+                if (orderList) orderList.style.display = "block";
+                if (orderDetail) orderDetail.style.display = "none";
+            }
+        }
+    });
+</script>
+
+<script>
     document.querySelectorAll(".order-tab").forEach(tab => {
         tab.addEventListener("click", function () {
 
-            // Bỏ active tất cả
-            document.querySelectorAll(".order-tab").forEach(t => t.classList.remove("active"));
-            this.classList.add("active");
+            // reset style
+            document.querySelectorAll(".order-tab").forEach(t => {
+                t.style.color = "black";
+                t.style.borderBottom = "none";
+            });
 
-            const status = this.getAttribute("data-status"); // trạng thái cần lọc
+            // active tab
+            this.style.color = "#0051c6";
+            this.style.borderBottom = "3px solid #0051c6";
+
+            const status = this.dataset.status;
             const rows = document.querySelectorAll("#order-list tbody tr");
+            if (rows.length === 0) return;
 
             rows.forEach(row => {
-                const statusText = row.querySelector("td:nth-child(3)").innerText.trim().toLowerCase();
-
-                // Mapping tiếng Việt → key lọc
-                const map = {
-                    "chờ xác nhận": "cho",
-                    "đang giao": "dang-giao",
-                    "đã giao": "da-giao",
-                    "đã huỷ": "da-huy"
-                };
-
-                const rowKey = map[statusText] || "";
-
-                // Ẩn/hiện theo trạng thái
-                if (rowKey === status) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
-                }
+                const rowStatus = row.querySelector(".status-col")?.dataset.status;
+                row.style.display = (rowStatus === status) ? "" : "none";
             });
         });
     });
 
-    function filterOrdersByStatus(status) {
-        const rows = document.querySelectorAll("#order-list tbody tr");
-
-        const map = {
-            "chờ xác nhận": "cho",
-            "đang giao": "dang-giao",
-            "đã giao": "da-giao",
-            "đã huỷ": "da-huy"
-        };
-
-        rows.forEach(row => {
-            const statusText = row.querySelector("td:nth-child(3)").innerText.trim().toLowerCase();
-            const rowKey = map[statusText] || "";
-
-            // Ẩn / hiện theo status
-            row.style.display = (rowKey === status) ? "" : "none";
-        });
-    }
-
-    // --- Sự kiện khi bấm tab ---
-    document.querySelectorAll(".order-tab").forEach(tab => {
-        tab.addEventListener("click", function () {
-            document.querySelectorAll(".order-tab").forEach(t => t.classList.remove("active"));
-            this.classList.add("active");
-
-            const status = this.getAttribute("data-status");
-            filterOrdersByStatus(status);
-        });
+    // click tab đầu tiên khi load
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelector(".order-tab")?.click();
     });
-
-    // --- Khi mới vào trang: chạy lọc mặc định theo tab active ---
-    window.addEventListener("load", () => {
-        const activeTab = document.querySelector(".order-tab.active");
-        if (activeTab) {
-            filterOrdersByStatus(activeTab.getAttribute("data-status"));
-        }
-    });
-
-
 </script>
+
 
 <script>
     const menuItems = document.querySelectorAll(".menu li");
@@ -870,60 +778,19 @@
 
     menuItems.forEach(item => {
         item.addEventListener("click", function (e) {
+
+            const target = this.getAttribute("data-section");
+            if (!target) return;
+
             e.preventDefault();
 
-            // Bỏ active
             menuItems.forEach(i => i.classList.remove("active"));
             this.classList.add("active");
 
-            // Ẩn tất cả section
             sections.forEach(sec => sec.classList.remove("active"));
-
-            // Hiện section tương ứng
-            const target = this.getAttribute("data-section");
             document.getElementById(target).classList.add("active");
         });
     });
-
-    // ==== Xem chi tiết đơn hàng ====
-    function showOrderDetail(orderId) {
-        document.getElementById("order-list").style.display = "none";
-        document.getElementById("order-detail").style.display = "block";
-
-        console.log("Xem chi tiết đơn:", orderId);
-    }
-
-    // ==== Quay lại danh sách ====
-    function showOrderList() {
-        document.getElementById("order-detail").style.display = "none";
-        document.getElementById("order-list").style.display = "block";
-    }
-
-    // ==== Huỷ đơn hàng ====
-    function cancelOrder(orderId) {
-        if (!confirm("Bạn có chắc muốn huỷ đơn hàng #" + orderId + " ?")) return;
-
-        const rows = document.querySelectorAll("#order-list tbody tr");
-
-        rows.forEach(row => {
-            const id = row.querySelector("td:first-child").innerText;
-
-            if (id == orderId) {
-                row.querySelector("td:nth-child(3)").innerText = "Đã huỷ";
-                row.querySelector(".btn-cancel").remove();
-            }
-        });
-
-        alert("Đã huỷ đơn hàng #" + orderId);
-
-        // Tự động lọc lại theo tab hiện tại
-        const activeTab = document.querySelector(".order-tab.active");
-        filterOrdersByStatus(activeTab.getAttribute("data-status"));
-    }
-
-
-
-
 
 </script>
 <script>

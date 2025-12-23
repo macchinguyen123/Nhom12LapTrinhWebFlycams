@@ -91,8 +91,13 @@ public class PaymentServlet extends HttpServlet {
             session.removeAttribute("BUY_NOW_ITEM");
             session.removeAttribute("note");
 
-            // 8. REDIRECT
-            resp.sendRedirect(req.getContextPath() + "/page/personal-page.jsp");
+            // 8. LOAD DANH SÁCH ĐƠN HÀNG MỚI
+            List<Orders> orders = ordersDAO.getOrdersByUser(user.getId());
+            req.setAttribute("orders", orders);
+
+            // 9. FORWARD VỀ PERSONAL PAGE
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/page/personal-page.jsp");
+            resp.sendRedirect(req.getContextPath() + "/personal?tab=orders");
 
         } catch (Exception e) {
             e.printStackTrace();
