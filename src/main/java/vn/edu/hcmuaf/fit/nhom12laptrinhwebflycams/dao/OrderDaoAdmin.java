@@ -3,9 +3,8 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Orders;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.DBConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,19 +15,19 @@ public class OrderDaoAdmin {
         List<Orders> list = new ArrayList<>();
 
         String sql = """
-        SELECT o.id,
-               o.shippingCode,
-               o.totalPrice,
-               o.status,
-               o.phoneNumber,
-               o.createdAt,
-               o.paymentMethod,
-               u.fullName
-        FROM orders o
-        JOIN users u ON o.user_id = u.id
-        WHERE o.status = 'Xác nhận'
-        ORDER BY o.createdAt DESC
-    """;
+                    SELECT o.id,
+                           o.shippingCode,
+                           o.totalPrice,
+                           o.status,
+                           o.phoneNumber,
+                           o.createdAt,
+                           o.paymentMethod,
+                           u.fullName
+                    FROM orders o
+                    JOIN users u ON o.user_id = u.id
+                    WHERE o.status = 'Xác nhận'
+                    ORDER BY o.createdAt DESC
+                """;
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
@@ -59,28 +58,35 @@ public class OrderDaoAdmin {
         }
         return list;
     }
+
     public Map<String, Object> getOrderDetail(int orderId) {
         Map<String, Object> map = new HashMap<>();
-
         String sql = """
-        SELECT 
-            o.id,
-            o.totalPrice,
-            o.phoneNumber,
-            o.createdAt,
-            o.shippingCode,
-            o.paymentMethod,
-            o.note,
-            o.status,
-            u.fullName,
-            u.email,
-            a.addressLine
-        FROM orders o
-        JOIN users u ON o.user_id = u.id
-        LEFT JOIN addresses a ON o.address_id = a.id
-        WHERE o.id = ?
-    """;
-
+                    SELECT 
+                        o.id,
+                        o.totalPrice,
+                        o.phoneNumber,
+                        o.createdAt,
+                        o.shippingCode,
+                        o.paymentMethod,
+                        o.note,
+                        o.status,
+                        o.user_id,
+                        u.fullName,
+                        u.email,
+                        o.completedAt,
+                        a.addressLine,
+                        CONCAT(
+                            a.addressLine, ', ',
+                            a.district, ', ',
+                            a.province
+                        ) AS fullAddress
+                
+                    FROM orders o
+                    JOIN users u ON o.user_id = u.id
+                    LEFT JOIN addresses a ON o.address_id = a.id
+                    WHERE o.id = ?
+                """;
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -99,6 +105,11 @@ public class OrderDaoAdmin {
                 map.put("note", rs.getString("note"));
                 map.put("status", rs.getString("status"));
                 map.put("address", rs.getString("addressLine"));
+                map.put("user_id", rs.getInt("user_id"));
+                // mới
+                map.put("fullAddress", rs.getString("fullAddress"));
+                // **Thêm completedAt**
+                map.put("completedAt", rs.getTimestamp("completedAt")); // <-- dòng này
             }
 
         } catch (Exception e) {
@@ -111,14 +122,14 @@ public class OrderDaoAdmin {
         List<Map<String, Object>> list = new ArrayList<>();
 
         String sql = """
-        SELECT 
-            p.productName,
-            oi.quantity,
-            oi.price
-        FROM order_items oi
-        JOIN products p ON oi.product_id = p.id
-        WHERE oi.order_id = ?
-    """;
+                    SELECT 
+                        p.productName,
+                        oi.quantity,
+                        oi.price
+                    FROM order_items oi
+                    JOIN products p ON oi.product_id = p.id
+                    WHERE oi.order_id = ?
+                """;
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -149,6 +160,7 @@ public class OrderDaoAdmin {
         }
         return list;
     }
+
     public boolean updateOrderStatus(int orderId, String status) {
         String sql = "UPDATE orders SET `status` = ? WHERE id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -169,26 +181,28 @@ public class OrderDaoAdmin {
             return false;
         }
     }
+
     public List<Orders> getOrdersForAdmin() {
         List<Orders> list = new ArrayList<>();
 
         String sql = """
-            SELECT 
-                o.id,
-                o.user_id,
-                o.shippingCode,
-                o.status,
-                o.createdAt,
-                CONCAT(
-                    a.addressLine, ', ',
-                    a.district, ', ',
-                    a.province
-                ) AS fullAddress
-            FROM orders o
-            LEFT JOIN addresses a ON o.address_id = a.id
-            WHERE o.status <> 'Xác nhận'
-            ORDER BY o.createdAt DESC
-        """;
+                    SELECT 
+                        o.id,
+                        o.user_id,
+                        o.shippingCode,
+                        o.status,
+                        o.createdAt,
+                        o.completedAt,
+                        CONCAT_WS(', ',
+                                            a.addressLine,
+                                            a.district,
+                                            a.province
+                                        ) AS fullAddress
+                    FROM orders o
+                    LEFT JOIN addresses a ON o.address_id = a.id
+                    WHERE o.status <> 'Xác nhận'
+                    ORDER BY o.createdAt DESC
+                """;
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
@@ -201,12 +215,15 @@ public class OrderDaoAdmin {
                 o.setUserId(rs.getInt("user_id"));
                 o.setShippingCode(rs.getString("shippingCode"));
 
-                // map status
-                Orders.Status status =
-                        Orders.Status.fromDB(rs.getString("status"));
+                Orders.Status status = Orders.Status.fromDB(rs.getString("status"));
                 o.setStatus(status);
 
                 o.setCreatedAt(rs.getTimestamp("createdAt"));
+
+                // Thêm completedAt
+                Timestamp completedTs = rs.getTimestamp("completedAt");
+                o.setCompletedAt(completedTs != null ? completedTs : null);
+
                 o.setFullAddress(rs.getString("fullAddress"));
 
                 // set label + class cho view
@@ -244,5 +261,99 @@ public class OrderDaoAdmin {
             }
         }
     }
+
+    public boolean updateOrderFull(
+            int orderId,
+            int userId,
+            String fullName,
+            String email,
+            String phoneNumber,
+            String addressLine,  // thay fullAddress
+            String province,     // thêm
+            String district,     // thêm
+            String paymentMethod,
+            String status,
+            String note,
+            LocalDate completedAt
+    ) {
+
+        Connection con = null;
+
+        try {
+            con = DBConnection.getConnection();
+            con.setAutoCommit(false);
+
+            /* ===== USERS ===== */
+            String sqlUser = """
+                        UPDATE users
+                        SET fullName = ?, email = ?
+                        WHERE id = ?
+                    """;
+            try (PreparedStatement ps = con.prepareStatement(sqlUser)) {
+                ps.setString(1, fullName);
+                ps.setString(2, email);
+                ps.setInt(3, userId);
+                ps.executeUpdate();
+            }
+
+            /* ===== ORDERS ===== */
+            String sqlOrder = """
+                        UPDATE orders
+                        SET phoneNumber = ?,
+                            paymentMethod = ?,
+                            status = ?,
+                            note = ?,
+                            completedAt = ?
+                        WHERE id = ?
+                    """;
+            try (PreparedStatement ps = con.prepareStatement(sqlOrder)) {
+                ps.setString(1, phoneNumber);
+                ps.setString(2, paymentMethod);
+                ps.setString(3, status);
+                ps.setString(4, note);
+
+                if (completedAt != null)
+                    ps.setTimestamp(5, Timestamp.valueOf(completedAt.atStartOfDay()));
+                else
+                    ps.setNull(5, Types.TIMESTAMP);
+
+                ps.setInt(6, orderId);
+                ps.executeUpdate();
+            }
+
+            /* ===== ADDRESS ===== */
+            String sqlAddress = """
+                        UPDATE addresses a
+                        JOIN orders o ON o.address_id = a.id
+                        SET a.addressLine = ?, a.province = ?, a.district = ?
+                        WHERE o.id = ?
+                    """;
+            try (PreparedStatement ps = con.prepareStatement(sqlAddress)) {
+                ps.setString(1, addressLine); // vd: "123 Nguyễn Trãi"
+                ps.setString(2, province);    // vd: "TP.HCM"
+                ps.setString(3, district);    // vd: "Quận 1"
+                ps.setInt(4, orderId);         // WHERE o.id = ?
+                ps.executeUpdate();
+            }
+
+            con.commit();
+            return true;
+
+        } catch (Exception e) {
+            try {
+                if (con != null) con.rollback();
+            } catch (Exception ignored) {
+            }
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con != null) con.setAutoCommit(true);
+            } catch (Exception ignored) {
+            }
+        }
+
+        return false;
+    }
+
 
 }
