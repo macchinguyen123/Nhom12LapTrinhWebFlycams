@@ -1,394 +1,413 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+            <html lang="en">
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Trang Quản Lý Khách Hàng</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../stylesheets/admin/customer-manage.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+            <head>
+                <meta charset="UTF-8">
+                <title>Trang Quản Lý Khách Hàng</title>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+                    rel="stylesheet">
+                <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/admin/customer-manage.css">
+                <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+                <style>
+                    /* CSS cho form chỉnh sửa */
+                    .edit-form-container {
+                        background: white;
+                        padding: 30px;
+                        border-radius: 10px;
+                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                        margin-top: 20px;
+                    }
 
+                    .form-section {
+                        margin-bottom: 25px;
+                        padding-bottom: 20px;
+                        border-bottom: 1px solid #e0e0e0;
+                    }
 
+                    .form-section:last-child {
+                        border-bottom: none;
+                    }
 
+                    .section-title {
+                        color: #2c3e50;
+                        font-weight: 600;
+                        margin-bottom: 15px;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
 
-</head>
-<body>
+                    .btn-save-custom {
+                        background: #28a745;
+                        color: white;
+                        padding: 10px 30px;
+                        border: none;
+                        border-radius: 5px;
+                        font-weight: 600;
+                    }
 
-<!-- ===== HEADER ===== -->
-<header class="main-header">
-    <div class="logo">
-        <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
-        <h2>SkyDrone Admin</h2>
-    </div>
-    <div class="header-right">
-        <!-- Icon admin + tên -->
-        <a href="profile-admin.jsp" class="text-decoration-none text-while">
-            <div class="thong-tin-admin d-flex align-items-center gap-2">
-                <i class="bi bi-person-circle fs-4"></i>
-                <span class="fw-semibold">Admin</span>
-            </div>
-        </a>
+                    .btn-save-custom:hover {
+                        background: #218838;
+                        color: white;
+                    }
 
-        <button class="logout-btn" id="logoutBtn" title="Đăng xuất">
-            <i class="bi bi-box-arrow-right"></i>
-        </button>
-    </div>
-    <div class="logout-modal" id="logoutModal">
-        <div class="logout-modal-content">
-            <p>Bạn có chắc muốn đăng xuất không?</p>
-            <div class="logout-actions">
-                <a href="../login.jsp">
-                    <button id="confirmLogout" class="confirm">Có</button>
-                </a>
-                <button id="cancelLogout" class="cancel">Không</button>
-            </div>
-        </div>
-    </div>
-</header>
+                    .status-toggle {
+                        display: flex;
+                        align-items: center;
+                        gap: 15px;
+                    }
 
-<div class="layout">
-    <aside class="sidebar">
-        <div class="user-info">
-            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+                    #successAlert {
+                        display: none;
+                    }
+                </style>
+            </head>
 
-            <h3>Mạc Nguyên</h3>
-            <p>Chào mừng bạn trở lại 👋</p>
-        </div>
-
-        <ul class="menu">
-            <a href="dashboard.jsp">
-                <li><i class="bi bi-speedometer2"></i> Tổng Quan</li>
-            </a>
-            <a href="customer-manage.jsp">
-                <li class="active"><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li>
-            </a>
-            <a href="product-management.jsp">
-                <li><i class="bi bi-box-seam"></i> Quản Lý Sản Phẩm</li>
-            </a>
-            <a href="category-manage.jsp">
-                <li><i class="bi bi-tags"></i> Quản Lý Danh Mục</li>
-            </a>
-
-            <li class="has-submenu">
-                <div class="menu-item">
-                    <i class="bi bi-truck"></i>
-                    <span>Quản Lý Đơn Hàng</span>
-                    <i class="bi bi-chevron-right arrow"></i>
-                </div>
-                <ul class="submenu">
-                    <a href="uncomfirmed-order-manage.jsp">
-                        <li>Chưa Xác Nhận</li>
-                    </a>
-                    <a href="comfirmed-order-manage.jsp">
-                        <li>Đã Xác Nhận</li>
-                    </a>
-                </ul>
-            </li>
-
-            <a href="blog-manage.jsp">
-                <li><i class="bi bi-journal-text"></i> Quản Lý Blog</li>
-            </a>
-            <a href="promotion-manage.jsp">
-                <li><i class="bi bi-megaphone"></i> Quản Lý Khuyến Mãi</li>
-            </a>
-            <a href="statistics.jsp">
-                <li><i class="bi bi-bar-chart"></i> Báo Cáo & Thống Kê</li>
-            </a>
-        </ul>
-    </aside>
-
-    <main class="main-content container-fluid p-4">
-        <div>
-            <h4 class="tieude"><i class="bi bi-person-lines-fill"></i><b> Quản Lý Khách Hàng</b></h4>
-
-            <div id="dskh" class="users-table mt-4">
-
-                <!-- Ô tìm kiếm -->
-                <div class="input-group custom-search shadow-sm mb-3">
-                    <span class="input-group-text">
-                        <i class="bi bi-search"></i>
-                    </span>
-                    <input id="search" type="search" class="form-control" placeholder="Tìm kiếm khách hàng...">
-                </div>
-
-                <section>
-                    <div class="d-flex justify-content-start align-items-center mb-2">
-                        <label class="me-2">Hiển thị</label>
-                        <select id="rowsPerPage" class="form-select d-inline-block" style="width:80px;">
-                            <option value="5" selected>5</option>
-                            <option value="10">10</option>
-                            <option value="20">20</option>
+            <body>
+                <!-- ===== HEADER ===== -->
+                <header class="main-header">
+                    <div class="logo">
+                        <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
+                        <h2>SkyDrone Admin</h2>
+                    </div>
+                    <div class="header-right">
+                        <a href="profile-admin.jsp" class="text-decoration-none text-while">
+                            <div class="thong-tin-admin d-flex align-items-center gap-2">
+                                <i class="bi bi-person-circle fs-4"></i>
+                                <span class="fw-semibold">Admin</span>
+                            </div>
+                        </a>
+                        <button class="logout-btn" id="logoutBtn" title="Đăng xuất">
+                            <i class="bi bi-box-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="logout-modal" id="logoutModal">
+                        <div class="logout-modal-content">
+                            <p>Bạn có chắc muốn đăng xuất không?</p>
+                            <div class="logout-actions">
+                                <a href="../login.jsp">
+                                    <button id="confirmLogout" class="confirm">Có</button>
+                                </a>
+                                <button id="cancelLogout" class="cancel">Không</button>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <div class="layout">
+                    <aside class="sidebar">
+                        <div class="user-info">
+                            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+                            <h3>Mạc Nguyên</h3>
+                            <p>Chào mừng bạn trở lại 👋</p>
+                        </div>
+                        <ul class="menu">
+                            <li class="active"><i class="bi bi-speedometer2"></i> Tổng Quan</li>
+                            <a href="${pageContext.request.contextPath}/admin/customer-manage">
+                                <li><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li>
+                            </a>
+                            <a href="${pageContext.request.contextPath}/admin/product-management">
+                                <li><i class="bi bi-box-seam"></i> Quản Lý Sản Phẩm</li>
+                            </a>
+                            <a href="category-manage.jsp">
+                                <li><i class="bi bi-tags"></i> Quản Lý Danh Mục</li>
+                            </a>
+                            <li class="has-submenu">
+                                <div class="menu-item">
+                                    <i class="bi bi-truck"></i>
+                                    <span>Quản Lý Đơn Hàng</span>
+                                    <i class="bi bi-chevron-right arrow"></i>
+                                </div>
+                                <ul class="submenu">
+                                    <a href="${pageContext.request.contextPath}/admin/unconfirmed-orders">
+                                        <li>Chưa Xác Nhận</li>
+                                    </a>
+                                    <a href="${pageContext.request.contextPath}/admin/order-manage">
+                                        <li>Đã Xác Nhận</li>
+                                    </a>
+                                </ul>
+                            </li>
+                            <a href="blog-manage.jsp">
+                                <li><i class="bi bi-journal-text"></i> Quản Lý Blog</li>
+                            </a>
+                            <a href="promotion-manage.jsp">
+                                <li><i class="bi bi-megaphone"></i> Quản Lý Khuyến Mãi</li>
+                            </a>
+                            <a href="statistics.jsp">
+                                <li><i class="bi bi-bar-chart"></i> Báo Cáo & Thống Kê</li>
+                            </a>
+                        </ul>
+                    </aside>
+                    <main class="main-content container-fluid p-4">
+                        <h4 class="tieude"><i class="bi bi-person-lines-fill"></i><b> Quản Lý Khách Hàng</b></h4>
+                        <!-- ✅ HIỂN THỊ BẢNG DANH SÁCH KHI showDetail = false -->
+                        <c:if test="${empty showDetail or showDetail == false}">
+                            <div class="users-table mt-4">
+                                <!-- Ô tìm kiếm -->
+                                <div class="input-group custom-search shadow-sm mb-3">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-search"></i>
+                                    </span>
+                                    <input id="search" type="search" class="form-control"
+                                        placeholder="Tìm kiếm khách hàng...">
+                                </div>
+                                <div class="d-flex justify-content-start align-items-center mb-2">
+                                    <label class="me-2">Hiển thị</label>
+                                    <select id="rowsPerPage" class="form-select d-inline-block" style="width:80px;">
+                                        <option value="5" selected>5</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                    </select>
+                                    <label class="ms-2">khách hàng</label>
+                                </div>
+                                <table id="tableKhachHang" class="table table-striped table-bordered">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Mã KH</th>
+                                            <th>Họ tên</th>
+                                            <th>Tên đăng nhập</th>
+                                            <th>Email</th>
+                                            <th>Số điện thoại</th>
+                                            <th>Địa chỉ</th>
+                                            <th>Khóa tài khoản</th>
+                                            <th>Chi tiết</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${users}" var="u">
+                                            <tr>
+                                                <td>${u.id}</td>
+                                                <td>${u.fullName}</td>
+                                                <td>${u.username}</td>
+                                                <td>${u.email}</td>
+                                                <td>${u.phoneNumber}</td>
+                                                <td>${u.address}</td>
+                                                <td class="text-center">
+                                                    <button
+                                                        class="btn btn-sm ${u.status ? 'btn-success' : 'btn-danger'}"
+                                                        onclick="toggleLock(this, ${u.id})">
+                                                        <i
+                                                            class="bi ${u.status ? 'bi-unlock-fill' : 'bi-lock-fill'}"></i>
+                                                    </button>
+                                                </td>
+                                                <td class="text-center">
+                                                    <a href="${pageContext.request.contextPath}/admin/customer-detail?id=${u.id}"
+                                                        class="btn btn-warning btn-sm">
+                                                        <i class="bi bi-pencil-square"></i> Sửa
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                                <div class="d-flex justify-content-end align-items-center mt-3">
+                                    <button id="prevPage" class="btn btn-outline-primary btn-sm">Trước</button>
+                                    <span id="pageInfo" class="mx-2">1 / 1</span>
+                                    <button id="nextPage" class="btn btn-outline-primary btn-sm">Sau</button>
+                                </div>
+                            </div>
+                        </c:if>
+                        <!-- ✅ HIỂN THỊ CHI TIẾT KHI showDetail = true -->
+                        <c:if test="${showDetail}">
+                            <div class="order-card mt-4">
+                                <a href="${pageContext.request.contextPath}/admin/customer-manage"
+                                    class="btn btn-secondary mb-3">⬅ Quay lại</a>
+                                <!-- ✨ THÊM MỚI: Form chỉnh sửa thông tin -->
+                                <div class="edit-form-container">
+                                    <h5 class="mb-4"><i class="bi bi-pencil-square"></i> Chỉnh Sửa Thông Tin</h5>
+                                    <form id="editCustomerForm" method="POST"
+                                        action="${pageContext.request.contextPath}/admin/update-customer">
+                                        <input type="hidden" name="id" value="${detailUser.id}">
+                                        <!-- Thông tin cơ bản -->
+                                        <div class="form-section">
+                                            <div class="section-title">
+                                                <i class="bi bi-person-badge"></i>
+                                                Thông Tin Cơ Bản
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label fw-semibold">Họ và Tên <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" name="fullName"
+                                                        value="${detailUser.fullName}" required>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label fw-semibold">Quyền Hạn (Role) <span
+                                                            class="text-danger">*</span></label>
+                                                    <select class="form-select" name="roleId" required>
+                                                        <option value="1" <c:if test="${detailUser.roleId == 1}">
+                                                            selected
+                        </c:if>>1 - Admin (Quản trị viên)</option>
+                        <option value="2" <c:if test="${detailUser.roleId == 2}">selected</c:if>>2 - User (Người dùng)
+                        </option>
                         </select>
-                        <label class="ms-2">khách hàng</label>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Tên đăng nhập <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="username" value="${detailUser.username}" required>
                     </div>
-                    <table id="tableKhachHang" class="table table-striped table-bordered">
-                        <thead class="table-dark">
-                        <tr>
-                            <th>Mã KH</th>
-                            <th>Họ tên</th>
-                            <th>Tên đăng nhập</th>
-                            <th>Email</th>
-                            <th>Số điện thoại</th>
-                            <th>Địa chỉ</th>
-                            <th>Khóa tài khoản</th>
-                            <th>Chi tiết</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>KH01</td>
-                            <td>Mạc Chí Nguyên</td>
-                            <td>chinguyen123</td>
-                            <td>chinguyenmac2@gmail.com</td>
-                            <td>0956392931</td>
-                            <td>Toà B, Ký túc xá khu B, Đại Học Quốc Gia TP.HCM</td>
-                            <td>
-                                <button class="btn btn-lock locked btn-sm" onclick="toggleLock(this)"><i
-                                        class="bi bi-lock-fill"></i></button>
-                            </td>
-                            <td>
-                                <button class="btn btn-info btn-sm" onclick="showUserPro('KH01')"><i
-                                        class="bi bi-eye"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>KH02</td>
-                            <td>Trần Minh Huy</td>
-                            <td>huytran99</td>
-                            <td>huytran99@gmail.com</td>
-                            <td>0987654321</td>
-                            <td>123 Nguyễn Trãi, Quận 1, TP.HCM</td>
-                            <td>
-                                <button class="btn btn-lock unlocked btn-sm" onclick="toggleLock(this)"><i
-                                        class="bi bi-unlock-fill"></i></button>
-                            </td>
-                            <td>
-                                <button class="btn btn-info btn-sm" onclick="showUserPro('KH02')"><i
-                                        class="bi bi-eye"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>KH03</td>
-                            <td>Đặng Ngọc Quyên</td>
-                            <td>cdangngocquyen123</td>
-                            <td>ngocquin@gmail.com</td>
-                            <td>0956391234</td>
-                            <td>Toà E, Ký túc xá khu B, Đại Học Quốc Gia TP.HCM</td>
-                            <td>
-                                <button class="btn btn-lock locked btn-sm" onclick="toggleLock(this)"><i
-                                        class="bi bi-lock-fill"></i></button>
-                            </td>
-                            <td>
-                                <button class="btn btn-info btn-sm" onclick="showUserPro('KH01')"><i
-                                        class="bi bi-eye"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>KH04</td>
-                            <td>Lê Hữu Phước</td>
-                            <td>hphuoc23</td>
-                            <td>phuocle@gmail.com</td>
-                            <td>0924348431</td>
-                            <td>Nội Hóa 2, Đông Hòa, TP.HCM</td>
-                            <td>
-                                <button class="btn btn-lock locked btn-sm" onclick="toggleLock(this)"><i
-                                        class="bi bi-lock-fill"></i></button>
-                            </td>
-                            <td>
-                                <button class="btn btn-info btn-sm" onclick="showUserPro('KH01')"><i
-                                        class="bi bi-eye"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>KH05</td>
-                            <td>Mạc Chí Nguyên</td>
-                            <td>chinguyen123</td>
-                            <td>chinguyenmac2@gmail.com</td>
-                            <td>0956392931</td>
-                            <td>Toà B, Ký túc xá khu B, Đại Học Quốc Gia TP.HCM</td>
-                            <td>
-                                <button class="btn btn-lock locked btn-sm" onclick="toggleLock(this)"><i
-                                        class="bi bi-lock-fill"></i></button>
-                            </td>
-                            <td>
-                                <button class="btn btn-info btn-sm" onclick="showUserPro('KH01')"><i
-                                        class="bi bi-eye"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>KH06</td>
-                            <td>Mạc Chí Nguyên</td>
-                            <td>chinguyen123</td>
-                            <td>chinguyenmac2@gmail.com</td>
-                            <td>0956392931</td>
-                            <td>Toà B, Ký túc xá khu B, Đại Học Quốc Gia TP.HCM</td>
-                            <td>
-                                <button class="btn btn-lock locked btn-sm" onclick="toggleLock(this)"><i
-                                        class="bi bi-lock-fill"></i></button>
-                            </td>
-                            <td>
-                                <button class="btn btn-info btn-sm" onclick="showUserPro('KH01')"><i
-                                        class="bi bi-eye"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>KH07</td>
-                            <td>Mạc Chí Nguyên</td>
-                            <td>chinguyen123</td>
-                            <td>chinguyenmac2@gmail.com</td>
-                            <td>0956392931</td>
-                            <td>Toà B, Ký túc xá khu B, Đại Học Quốc Gia TP.HCM</td>
-                            <td>
-                                <button class="btn btn-lock locked btn-sm" onclick="toggleLock(this)"><i
-                                        class="bi bi-lock-fill"></i></button>
-                            </td>
-                            <td>
-                                <button class="btn btn-info btn-sm" onclick="showUserPro('KH01')"><i
-                                        class="bi bi-eye"></i></button>
-                            </td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-
-
-                    <div class="d-flex justify-content-end align-items-center mt-3">
-                        <button id="prevPage" class="btn btn-outline-primary btn-sm">Trước</button>
-                        <span id="pageInfo" class="mx-2">1 / 1</span>
-                        <button id="nextPage" class="btn btn-outline-primary btn-sm">Sau</button>
-                    </div>
-
-                </section>
-            </div>
-
-            <!-- CHI TIẾT KHÁCH HÀNG -->
-            <section>
-                <div id="order-detail" class="order-card" style="display: none;">
-                    <button class="btn btn-secondary mb-3" onclick="showUsers()">⬅ Quay lại</button>
-                    <div>
-                        <table class="table table-bordered user-table">
-                            <tr>
-                                <td>Mã khách hàng</td>
-                                <td id="makh">KH001</td>
-                            </tr>
-                            <tr>
-                                <td>Tên đăng nhập</td>
-                                <td id="tendn">nguyenvana</td>
-                            </tr>
-                            <tr>
-                                <td>Email</td>
-                                <td id="email">vana.nguyen@example.com</td>
-                            </tr>
-                            <tr>
-                                <td>Số điện thoại</td>
-                                <td id="sdt">0912345678</td>
-                            </tr>
-                            <tr>
-                                <td>Ngày sinh</td>
-                                <td id="ngaysinh">12/08/2000</td>
-                            </tr>
-                            <tr>
-                                <td>Giới tính</td>
-                                <td id="gioitinh">Nam</td>
-                            </tr>
-                            <tr>
-                                <td>Địa chỉ</td>
-                                <td id="diachi">123 Nguyễn Trãi, Quận 1, TP.HCM</td>
-                            </tr>
-                            <tr>
-                                <td>Ngày đăng ký</td>
-                                <td id="ngaydangky">05/02/2022</td>
-                            </tr>
-                            <tr>
-                                <td>Tổng số đơn hàng</td>
-                                <td id="tongdon">15</td>
-                            </tr>
-                            <tr>
-                                <td>Tổng tiền đã mua</td>
-                                <td id="tongtien">45.560.000₫</td>
-                            </tr>
-                        </table>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Mật khẩu</label>
+                        <input type="text" class="form-control" name="password" value="${detailUser.password}">
                     </div>
                 </div>
-            </section>
-        </div>
-    </main>
-</div>
-
-
-
-<script>
-    // Toggle submenu
-    document.querySelectorAll('.has-submenu .menu-item').forEach(item => {
-        item.addEventListener('click', () => {
-            item.parentElement.classList.toggle('open');
-        });
-    });
-
-    // Toggle khóa / mở khóa
-    function toggleLock(btn) {
-        const icon = btn.querySelector('i');
-
-        if (btn.classList.contains('locked')) {
-            // Mở khóa
-            btn.classList.remove('locked');
-            btn.classList.add('unlocked');
-            icon.classList.remove('bi-lock-fill');
-            icon.classList.add('bi-unlock-fill');
-        } else {
-            // Khóa lại
-            btn.classList.remove('unlocked');
-            btn.classList.add('locked');
-            icon.classList.remove('bi-unlock-fill');
-            icon.classList.add('bi-lock-fill');
-        }
-    }
-
-    // Hiển thị chi tiết khách hàng
-    function showUserPro(id) {
-        document.getElementById("dskh").style.display = "none";
-        document.getElementById("order-detail").style.display = "block";
-    }
-
-    function showUsers() {
-        document.getElementById("dskh").style.display = "block";
-        document.getElementById("order-detail").style.display = "none";
-    }
-
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const logoutBtn = document.getElementById("logoutBtn");
-        const logoutModal = document.getElementById("logoutModal");
-        const cancelLogout = document.getElementById("cancelLogout");
-
-        // Mở popup
-        logoutBtn.addEventListener("click", function () {
-            logoutModal.style.display = "flex";
-        });
-
-        // Đóng popup
-        cancelLogout.addEventListener("click", function () {
-            logoutModal.style.display = "none";
-        });
-    });
-
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label fw-semibold">Avatar URL</label>
+                        <input type="text" class="form-control" name="avatar" value="${detailUser.avatar}">
+                    </div>
+                </div>
+                </div>
+                <!-- Thông tin liên hệ -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="bi bi-envelope"></i>
+                        Thông Tin Liên Hệ
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Email <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" name="email" value="${detailUser.email}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Số Điện Thoại <span
+                                    class="text-danger">*</span></label>
+                            <input type="tel" class="form-control" name="phoneNumber" value="${detailUser.phoneNumber}"
+                                required pattern="[0-9]{10,11}">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label fw-semibold">Địa chỉ</label>
+                            <input type="text" class="form-control" name="address" value="${detailUser.address}">
+                        </div>
+                    </div>
+                </div>
+                <!-- Thông tin cá nhân -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="bi bi-calendar-heart"></i>
+                        Thông Tin Cá Nhân
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Ngày Sinh</label>
+                            <fmt:formatDate value="${detailUser.birthDate}" pattern="yyyy-MM-dd"
+                                var="birthDateFormatted" />
+                            <input type="date" class="form-control" name="birthDate"
+                                value="${birthDateFormatted != null ? birthDateFormatted : ''}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-semibold">Giới Tính</label>
+                            <select class="form-select" name="gender">
+                                <option value="">-- Chưa chọn --</option>
+                                <option value="Nam" <c:if test="${detailUser.gender eq 'Nam'}">
+                                    selected
+                                    </c:if>>Nam</option>
+                                <option value="Nữ" <c:if test="${detailUser.gender eq 'Nữ'}">selected</c:if>>Nữ</option>
+                                <option value="Khác" <c:if test="${detailUser.gender eq 'Khác'}">selected</c:if>>Khác
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- Trạng thái tài khoản -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="bi bi-shield-check"></i>
+                        Trạng Thái Tài Khoản
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label fw-semibold">Trạng Thái</label>
+                            <div class="status-toggle">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="statusSwitch" name="status"
+                                        value="true" ${detailUser.status ? 'checked' : '' }>
+                                    <label class="form-check-label" for="statusSwitch">
+                                        <span id="statusText"
+                                            class="badge ${detailUser.status ? 'bg-success' : 'bg-danger'}">
+                                            ${detailUser.status ? 'Hoạt động' : 'Bị khóa'}
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Nút hành động -->
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <a href="${pageContext.request.contextPath}/admin/customer-manage" class="btn btn-secondary">
+                        <i class="bi bi-x-circle"></i> Hủy
+                    </a>
+                    <button type="submit" class="btn btn-save-custom">
+                        <i class="bi bi-check-circle"></i> Lưu Thay Đổi
+                    </button>
+                </div>
+                </form>
+                </div>
+                </div>
+                </c:if>
+                </main>
+                </div>
+                <script>
+                    // Toggle submenu
+                    document.querySelectorAll('.has-submenu .menu-item').forEach(item => {
+                        item.addEventListener('click', () => {
+                            item.parentElement.classList.toggle('open');
+                        });
+                    });
+                    // Toggle khóa / mở khóa
+                    function toggleLock(btn, userId) {
+                        const icon = btn.querySelector("i");
+                        const isLocked = btn.classList.contains("btn-danger");
+                        const newStatus = isLocked ? 1 : 0;
+                        fetch("toggle-user-status", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                            body: "id=" + userId + "&status=" + newStatus
+                        });
+                        if (isLocked) {
+                            btn.classList.remove("btn-danger");
+                            btn.classList.add("btn-success");
+                            icon.classList.remove("bi-lock-fill");
+                            icon.classList.add("bi-unlock-fill");
+                        } else {
+                            btn.classList.remove("btn-success");
+                            btn.classList.add("btn-danger");
+                            icon.classList.remove("bi-unlock-fill");
+                            icon.classList.add("bi-lock-fill");
+                        }
+                    }
+                    // Logout modal
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const logoutBtn = document.getElementById("logoutBtn");
+                        const logoutModal = document.getElementById("logoutModal");
+                        const cancelLogout = document.getElementById("cancelLogout");
+                        logoutBtn.addEventListener("click", function () {
+                            logoutModal.style.display = "flex";
+                        });
+                        cancelLogout.addEventListener("click", function () {
+                            logoutModal.style.display = "none";
+                        });
+                    });
+    // DataTable - chỉ chạy khi KHÔNG ở chế độ chi tiết
+    <c:if test="${empty showDetail or showDetail == false}">
     $(document).ready(function () {
-        // Khởi tạo DataTable
         var table = $('#tableKhachHang').DataTable({
             "paging": true,
-            "lengthChange": false, // dùng custom select
+            "lengthChange": false,
             "pageLength": 5,
-            "searching": true,     // vẫn dùng search riêng
+            "searching": true,
             "ordering": true,
-            "info": false,         // ẩn info mặc định
-            "dom": 't',            // chỉ hiển thị table, ẩn search + pagination mặc định
+            "info": false,
+            "dom": 't',
             "columnDefs": [
-                { orderable: false, targets: [6, 7] } // cột khóa & chi tiết không sắp xếp
+                { orderable: false, targets: [6, 7] }
             ],
             "language": {
                 "emptyTable": "Không có dữ liệu",
@@ -401,53 +420,101 @@
                     "previous": "Trước"
                 }
             }
-
         });
-
-        // ===== CUSTOM SEARCH =====
         $("#search").on("keyup", function () {
             table.search(this.value).draw();
             updatePageInfo();
         });
-
-        // ===== CUSTOM ROWS PER PAGE =====
         $("#rowsPerPage").on("change", function () {
             table.page.len($(this).val()).draw();
             updatePageInfo();
         });
-
-        // ===== CUSTOM PAGINATION BUTTONS =====
         $("#prevPage").click(function () {
             table.page('previous').draw('page');
             updatePageInfo();
         });
-
         $("#nextPage").click(function () {
             table.page('next').draw('page');
             updatePageInfo();
         });
-
-        // ======= LOGOUT =======
-        $("#logoutBtn").on("click", function () {
-            $("#logoutModal").css("display", "flex");
-        });
-
-        $("#cancelLogout").on("click", function () {
-            $("#logoutModal").hide();
-        });
-
-
-        // ===== UPDATE PAGE INFO =====
         function updatePageInfo() {
             var info = table.page.info();
             $('#pageInfo').text((info.page + 1) + " / " + info.pages);
         }
-
         table.on('draw', updatePageInfo);
         updatePageInfo();
     });
+    </c:if>
+    // ✨ THÊM MỚI: JavaScript cho form chỉnh sửa
+    // ✨ THÊM MỚI: JavaScript cho form chỉnh sửa
+    <c:if test="${showDetail}">
+    // Toggle status text
+    document.getElementById('statusSwitch').addEventListener('change', function() {
+        const statusText = document.getElementById('statusText');
+        if (this.checked) {
+            statusText.textContent = 'Hoạt động';
+            statusText.className = 'badge bg-success';
+        } else {
+            statusText.textContent = 'Bị khóa';
+            statusText.className = 'badge bg-danger';
+        }
+    });
+    // Toast Notification logic
+    function showToast(message, type) {
+        // Remove existing toasts
+        const existingToasts = document.querySelectorAll('.custom-toast-container');
+        existingToasts.forEach(t => t.remove());
+        // Create new toast container
+        const toastContainer = document.createElement('div');
+        toastContainer.className = 'custom-toast-container position-fixed top-50 start-50 translate-middle p-3';
+        toastContainer.style.zIndex = '1055';
+        const toastHtml = `
+            <div id="liveToast" class="toast align-items-center text-white bg-` + (type === 'success' ? 'success' : 'danger') + ` border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="bi ` + (type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill') + ` me-2"></i>
+                        ` + message + `
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        `;
+        toastContainer.innerHTML = toastHtml;
+        document.body.appendChild(toastContainer);
+        const toastElement = document.getElementById('liveToast');
+        const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
+        toast.show();
+    }
+    // Xử lý submit form
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById('editCustomerForm');
+        if(form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // ngăn reload trang
+                const formData = new FormData(this);
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showToast('Thông tin đã được cập nhật thành công!', 'success');
+                            // Không cần scroll lên đầu nữa vì dùng Toast
+                        } else {
+                            showToast(data.msg || 'Cập nhật thất bại', 'error');
+                        }
+                    })
+                    .catch(err => {
+                        showToast('Có lỗi xảy ra khi cập nhật.', 'error');
+                        console.error(err);
+                    });
+            });
+        }
+    });
+    </c:if>
+                </script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+            </body>
 
-
-</script>
-</body>
-</html>
+            </html>
