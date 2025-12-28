@@ -3,27 +3,22 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Address;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.DBConnection;
-
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
-
 import static vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.DBConnection.getConnection;
 
 public class UserDAO {
-
     public User login(String input, String password) {
         String sql = "SELECT * FROM users WHERE (email = ? OR phoneNumber = ?) AND password = ?";
-
         try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, input);
             ps.setString(2, input);
             ps.setString(3, password);
-
             ResultSet rs = ps.executeQuery();
-
             if (rs.next()) {
                 User user = new User();
                 user.setId(rs.getInt("id"));
@@ -36,64 +31,47 @@ public class UserDAO {
                 user.setStatus(rs.getBoolean("status"));
                 return user;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
-    public boolean insertUser(User user) {
 
+    public boolean insertUser(User user) {
         String sql = "INSERT INTO users (roleId, fullName, birthDate, gender, email, username, password, phoneNumber, avatar, status, createdAt, updatedAt) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
-
         try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, user.getRoleId());
             ps.setString(2, user.getFullName());
-
             // birthDate
             if (user.getBirthDate() != null) {
                 ps.setDate(3, new java.sql.Date(user.getBirthDate().getTime()));
             } else {
                 ps.setNull(3, Types.DATE);
             }
-
             // gender
             ps.setString(4, user.getGender() == null ? "OTHER" : user.getGender());
-
             ps.setString(5, user.getEmail());
             ps.setString(6, user.getUsername());
             ps.setString(7, user.getPassword());
             ps.setString(8, user.getPhoneNumber());
-
             // avatar
             ps.setString(9, user.getAvatar() == null ? "default.png" : user.getAvatar());
-
             ps.setBoolean(10, user.isStatus());
-
             return ps.executeUpdate() > 0;
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return false;
     }
-
-
-
 
     public boolean isUsernameExists(String username) {
         String sql = "SELECT id FROM users WHERE username = ?";
         try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
-
             return rs.next(); // nếu có → username đã tồn tại
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,15 +79,12 @@ public class UserDAO {
         return false;
     }
 
-
     public boolean isEmailExists(String email) {
         String sql = "SELECT id FROM users WHERE email = ?";
         try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
-
             return rs.next(); // nếu có dòng → email đã tồn tại
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,52 +93,65 @@ public class UserDAO {
     }
 
     public User findById(int id) {
+        User u = null;
         String sql = "SELECT * FROM users WHERE id = ?";
         try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                User u = new User();
-                u.setId(rs.getInt("id"));
-                u.setRoleId(rs.getInt("role_id"));
-                u.setFullName(rs.getString("full_name"));
-
-                Date date = rs.getDate("birth_date");
-
-                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
-                cal.setTime(date);
-
-                // ÉP GIỜ VỀ 12:00 TRƯA (tránh nhảy ngày)
-                cal.set(Calendar.HOUR_OF_DAY, 12);
-                cal.set(Calendar.MINUTE, 0);
-                cal.set(Calendar.SECOND, 0);
-                cal.set(Calendar.MILLISECOND, 0);
-
-                u.setBirthDate(cal.getTime());
-
-                u.setGender(rs.getString("gender"));
-                u.setEmail(rs.getString("email"));
-                u.setUsername(rs.getString("username"));
-                u.setPhoneNumber(rs.getString("phone_number"));
-                u.setAvatar(rs.getString("avatar"));
-                u.setStatus(rs.getBoolean("status"));
-                u.setCreatedAt(rs.getTimestamp("created_at"));
-                u.setUpdatedAt(rs.getTimestamp("updated_at"));
-                return u;
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    u = new User();
+                    u.setId(rs.getInt("id"));
+                    u.setRoleId(rs.getInt("roleId"));
+                    u.setFullName(rs.getString("fullName"));
+                    Date date = rs.getDate("birthDate");
+                    if (date != null) {
+                        u.setBirthDate(new java.util.Date(date.getTime()));
+                    }
+                    u.setGender(rs.getString("gender"));
+                    u.setEmail(rs.getString("email"));
+                    u.setUsername(rs.getString("username"));
+                    u.setPhoneNumber(rs.getString("phoneNumber"));
+                    u.setPassword(rs.getString("password"));
+                    u.setAvatar(rs.getString("avatar"));
+                    u.setStatus(rs.getBoolean("status"));
+                    u.setCreatedAt(rs.getTimestamp("createdAt"));
+                    u.setUpdatedAt(rs.getTimestamp("updatedAt"));
+                    u.setAddress(""); // Default
+                }
+            }
+            // Fetch Address if user found
+            if (u != null) {
+                // Modified query: Get ANY address, prefer default
+                String sqlAddr = "SELECT addressLine, district, province FROM addresses WHERE user_id = ? ORDER BY isDefault DESC LIMIT 1";
+                try (PreparedStatement psAddr = conn.prepareStatement(sqlAddr)) {
+                    psAddr.setInt(1, u.getId());
+                    try (ResultSet rsAddr = psAddr.executeQuery()) {
+                        if (rsAddr.next()) {
+                            String addr = rsAddr.getString("addressLine");
+                            if (addr != null) {
+                                String dist = rsAddr.getString("district");
+                                String prov = rsAddr.getString("province");
+                                if (dist != null)
+                                    addr += ", " + dist;
+                                if (prov != null)
+                                    addr += ", " + prov;
+                                u.setAddress(addr);
+                            }
+                        }
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return u;
     }
 
     public User getUserByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
         try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -178,15 +166,14 @@ public class UserDAO {
         }
         return null;
     }
+
     public boolean updatePassword(int userId, String newPassword) {
         String sql = "UPDATE users SET password = ? WHERE id = ?";
         try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, newPassword);
             ps.setInt(2, userId);
             int rows = ps.executeUpdate();
-            System.out.println("Updating userId=" + userId + " newPassword=" + newPassword);
-            System.out.println("Rows updated: " + rows);
             return rows > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -197,8 +184,7 @@ public class UserDAO {
     public void update(Address addr) throws SQLException {
         String sql = "UPDATE addresses SET full_name=?, phone_number=?, address_line=?, province=?, district=?, is_default=? WHERE id=? AND user_id=?";
         try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, addr.getFullName());
             ps.setString(2, addr.getPhoneNumber());
             ps.setString(3, addr.getAddressLine());
@@ -207,43 +193,123 @@ public class UserDAO {
             ps.setBoolean(6, addr.isDefaultAddress());
             ps.setInt(7, addr.getId());
             ps.setInt(8, addr.getUserId());
-
-            int rows = ps.executeUpdate();
-            System.out.println("DEBUG - Update address rows = " + rows);
+            ps.executeUpdate();
         }
     }
+
     public void updateProfile(User user) {
         String sql = "UPDATE users SET fullName=?, phoneNumber=?, gender=?, birthDate=? WHERE id=?";
         try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user.getFullName());
             ps.setString(2, user.getPhoneNumber());
             ps.setString(3, user.getGender());
-
             if (user.getBirthDate() != null) {
                 ps.setDate(4, new java.sql.Date(user.getBirthDate().getTime()));
             } else {
                 ps.setNull(4, java.sql.Types.DATE);
             }
-
             ps.setInt(5, user.getId());
-
-            int rows = ps.executeUpdate();
-            System.out.println("[DAO] Số dòng update=" + rows);
-
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    public List<User> getAllCustomers() {
+        List<User> list = new ArrayList<>();
+        String sql = "SELECT * FROM users WHERE roleId = 2";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            // 1. Fetch Users
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    User u = new User();
+                    u.setId(rs.getInt("id"));
+                    u.setFullName(rs.getString("fullName"));
+                    u.setUsername(rs.getString("username"));
+                    u.setEmail(rs.getString("email"));
+                    u.setPhoneNumber(rs.getString("phoneNumber"));
+                    u.setStatus(rs.getBoolean("status"));
+                    u.setAddress("Chưa cập nhật");
+                    list.add(u);
+                }
+            }
+            // 2. Fetch Addresses Sequentially
+            // Modified query: Get ANY address, prefer default
+            String sqlAddr = "SELECT addressLine, district, province FROM addresses WHERE user_id = ? ORDER BY isDefault DESC LIMIT 1";
+            try (PreparedStatement psAddr = conn.prepareStatement(sqlAddr)) {
+                for (User u : list) {
+                    psAddr.setInt(1, u.getId());
+                    try (ResultSet rsAddr = psAddr.executeQuery()) {
+                        if (rsAddr.next()) {
+                            String addr = rsAddr.getString("addressLine");
+                            if (addr != null) {
+                                String dist = rsAddr.getString("district");
+                                String prov = rsAddr.getString("province");
+                                if (dist != null)
+                                    addr += ", " + dist;
+                                if (prov != null)
+                                    addr += ", " + prov;
+                                u.setAddress(addr);
+                            }
+                        }
+                    } catch (Exception ex) {
+                        // ignore single error
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public boolean updateUser(User user) {
+        String sql = "UPDATE users SET roleId=?, fullName=?, birthDate=?, gender=?, email=?, username=?, password=?, phoneNumber=?, avatar=?, status=?, updatedAt=NOW() WHERE id=?";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, user.getRoleId());
+            ps.setString(2, user.getFullName());
+            if (user.getBirthDate() != null) {
+                ps.setDate(3, new java.sql.Date(user.getBirthDate().getTime()));
+            } else {
+                ps.setNull(3, Types.DATE);
+            }
+            ps.setString(4, user.getGender());
+            ps.setString(5, user.getEmail());
+            ps.setString(6, user.getUsername());
+            ps.setString(7, user.getPassword());
+            ps.setString(8, user.getPhoneNumber());
+            ps.setString(9, user.getAvatar());
+            ps.setBoolean(10, user.isStatus());
+            ps.setInt(11, user.getId());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateStatus(int userId, boolean status) {
+        String sql = "UPDATE users SET status=? WHERE id=?";
+        try (Connection conn = getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setBoolean(1, status);
+            ps.setInt(2, userId);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public User getUserById(int id) {
         String sql = "SELECT * FROM users WHERE id = ?";
         try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-
             if (rs.next()) {
                 User user = new User();
                 user.setId(rs.getInt("id"));
@@ -261,20 +327,18 @@ public class UserDAO {
                 user.setUpdatedAt(rs.getTimestamp("updatedAt"));
                 return user;
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
+
     public User findByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
+                PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
-
             if (rs.next()) {
                 User user = new User();
                 user.setId(rs.getInt("id"));
@@ -290,41 +354,92 @@ public class UserDAO {
     }
 
     public void insertGoogleUser(User user) {
-
         String sql = """
-        INSERT INTO users(
-            email, fullName, roleId,
-            birthDate, username, password,
-            phoneNumber, createdAt, updatedAt
-        )
-        VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
-    """;
-
+                    INSERT INTO users(
+                        email, fullName, roleId,
+                        birthDate, username, password,
+                        phoneNumber, createdAt, updatedAt
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+                """;
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
+                PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getFullName());
             ps.setInt(3, user.getRoleId());
-
             // Google KHÔNG có ngày sinh → gán tạm
             ps.setDate(4, java.sql.Date.valueOf("2000-01-01"));
-
             // username tự sinh từ email
             ps.setString(5, user.getEmail().split("@")[0]);
-
             // password giả (không dùng)
             ps.setString(6, "GOOGLE");
-
             // phoneNumber giả
             ps.setString(7, "0000000000");
-
             ps.executeUpdate();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public boolean updateUserAddress(int userId, String address) {
+        // Check if ANY address exists
+        int addressId = -1;
+        String sqlCheck = "SELECT id FROM addresses WHERE user_id = ? ORDER BY isDefault DESC LIMIT 1";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sqlCheck)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    addressId = rs.getInt("id");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (addressId != -1) {
+            // UPDATE existing address
+            String sqlUpdate = "UPDATE addresses SET addressLine = ? WHERE id = ?";
+            try (Connection conn = DBConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(sqlUpdate)) {
+                ps.setString(1, address);
+                ps.setInt(2, addressId);
+                return ps.executeUpdate() > 0;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            // INSERT new address
+            String sqlInsert = "INSERT INTO addresses (user_id, fullName, phoneNumber, addressLine, province, district, isDefault) "
+                    +
+                    "VALUES (?, ?, ?, ?, ?, ?, 1)";
+            try (Connection conn = DBConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(sqlInsert)) {
 
+                // Safe defaults
+                String uName = "Khách hàng";
+                String uPhone = "";
+                try {
+                    User u = getUserById(userId);
+                    if (u != null) {
+                        if (u.getFullName() != null)
+                            uName = u.getFullName();
+                        if (u.getPhoneNumber() != null)
+                            uPhone = u.getPhoneNumber();
+                    }
+                } catch (Exception ignore) {
+                }
+
+                ps.setInt(1, userId);
+                ps.setString(2, uName);
+                ps.setString(3, uPhone);
+                ps.setString(4, address);
+                ps.setString(5, "");
+                ps.setString(6, "");
+                return ps.executeUpdate() > 0;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
 }

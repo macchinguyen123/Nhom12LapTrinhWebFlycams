@@ -66,7 +66,7 @@
 
         <ul class="menu">
             <li class="active"><i class="bi bi-speedometer2"></i> Tổng Quan</li>
-            <a href="customer-manage.jsp">
+            <a href="${pageContext.request.contextPath}/admin/customer-manage">
                 <li><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li>
             </a>
             <a href="${pageContext.request.contextPath}/admin/product-management">
