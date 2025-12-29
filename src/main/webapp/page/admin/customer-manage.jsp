@@ -106,14 +106,14 @@
                             <p>Chào mừng bạn trở lại 👋</p>
                         </div>
                         <ul class="menu">
-                            <li class="active"><i class="bi bi-speedometer2"></i> Tổng Quan</li>
+                            <li><i class="bi bi-speedometer2"></i> Tổng Quan</li>
                             <a href="${pageContext.request.contextPath}/admin/customer-manage">
-                                <li><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li>
+                                <li class="active"><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li>
                             </a>
                             <a href="${pageContext.request.contextPath}/admin/product-management">
                                 <li><i class="bi bi-box-seam"></i> Quản Lý Sản Phẩm</li>
                             </a>
-                            <a href="category-manage.jsp">
+                            <a href="${pageContext.request.contextPath}/admin/category-manage">
                                 <li><i class="bi bi-tags"></i> Quản Lý Danh Mục</li>
                             </a>
                             <li class="has-submenu">
@@ -143,18 +143,26 @@
                         </ul>
                     </aside>
                     <main class="main-content container-fluid p-4">
-                        <h4 class="tieude"><i class="bi bi-person-lines-fill"></i><b> Quản Lý Khách Hàng</b></h4>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-primary fw-bold"><i class="bi bi-person-lines-fill"></i> Quản Lý Khách Hàng
+                            </h4>
+                            <div class="d-flex align-items-center gap-2">
+                                <!-- THANH TÌM KIẾM -->
+                                <form class="d-flex" role="search" style="max-width: 300px;">
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-primary text-white">
+                                            <i class="bi bi-search"></i>
+                                        </span>
+                                        <input id="search" type="search" class="form-control"
+                                            placeholder="Tìm kiếm khách hàng..." aria-label="Tìm kiếm">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
                         <!-- ✅ HIỂN THỊ BẢNG DANH SÁCH KHI showDetail = false -->
                         <c:if test="${empty showDetail or showDetail == false}">
                             <div class="users-table mt-4">
-                                <!-- Ô tìm kiếm -->
-                                <div class="input-group custom-search shadow-sm mb-3">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-search"></i>
-                                    </span>
-                                    <input id="search" type="search" class="form-control"
-                                        placeholder="Tìm kiếm khách hàng...">
-                                </div>
                                 <div class="d-flex justify-content-start align-items-center mb-2">
                                     <label class="me-2">Hiển thị</label>
                                     <select id="rowsPerPage" class="form-select d-inline-block" style="width:80px;">
@@ -421,7 +429,7 @@
                 }
             }
         });
-        $("#search").on("keyup", function () {
+        $("#search").on("keyup search", function () {
             table.search(this.value).draw();
             updatePageInfo();
         });

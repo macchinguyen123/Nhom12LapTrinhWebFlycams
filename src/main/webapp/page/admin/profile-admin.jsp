@@ -31,86 +31,98 @@
                 <i class="bi bi-person-circle fs-4"></i>
                 <span class="fw-semibold">Admin</span>
             </div>
-        </a>
-
-        <button class="logout-btn" id="logoutBtn" title="Đăng xuất">
-            <i class="bi bi-box-arrow-right"></i>
-        </button>
-    </div>
-    <div class="logout-modal" id="logoutModal">
-        <div class="logout-modal-content">
-            <p>Bạn có chắc muốn đăng xuất không?</p>
-            <div class="logout-actions">
-                <a href="../login.jsp">
-                    <button id="confirmLogout" class="confirm">Có</button>
+            <div class="header-right">
+                <!-- Icon admin + tên -->
+                <a href="profile-admin.html" class="text-decoration-none text-while">
+                    <div class="thong-tin-admin d-flex align-items-center gap-2">
+                        <i class="bi bi-person-circle fs-4"></i>
+                        <span class="fw-semibold">Admin</span>
+                    </div>
                 </a>
-                <button id="cancelLogout" class="cancel">Không</button>
+
+                <button class="logout-btn" id="logoutBtn" title="Đăng xuất">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
             </div>
-        </div>
-    </div>
-</header>
-
-<!-- ===== LAYOUT ===== -->
-<div class="layout">
-    <!-- === SIDEBAR === -->
-    <aside class="sidebar">
-        <div class="user-info">
-            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
-
-            <h3>Mạc Nguyên</h3>
-            <p>Chào mừng bạn trở lại 👋</p>
-        </div>
-
-        <ul class="menu">
-            <li class="active"><i class="bi bi-speedometer2"></i> Tổng Quan</li>
-            <a href="customer-manage.jsp">
-                <li><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li>
-            </a>
-            <a href="product-management.jsp">
-                <li><i class="bi bi-box-seam"></i> Quản Lý Sản Phẩm</li>
-            </a>
-            <a href="category-manage.jsp">
-                <li><i class="bi bi-tags"></i> Quản Lý Danh Mục</li>
-            </a>
-
-            <li class="has-submenu">
-                <div class="menu-item">
-                    <i class="bi bi-truck"></i>
-                    <span>Quản Lý Đơn Hàng</span>
-                    <i class="bi bi-chevron-right arrow"></i>
+            <div class="logout-modal" id="logoutModal">
+                <div class="logout-modal-content">
+                    <p>Bạn có chắc muốn đăng xuất không?</p>
+                    <div class="logout-actions">
+                        <a href="../login.jsp">
+                            <button id="confirmLogout" class="confirm">Có</button>
+                        </a>
+                        <button id="cancelLogout" class="cancel">Không</button>
+                    </div>
                 </div>
-                <ul class="submenu">
-                    <a href="uncomfirmed-order-manage.jsp">
-                        <li>Chưa Xác Nhận</li>
+            </div>
+        </header>
+
+        <!-- ===== LAYOUT ===== -->
+        <div class="layout">
+            <!-- === SIDEBAR === -->
+            <aside class="sidebar">
+                <div class="user-info">
+                    <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+
+                    <h3>Mạc Nguyên</h3>
+                    <p>Chào mừng bạn trở lại 👋</p>
+                </div>
+
+                <ul class="menu">
+                    <li class="active"><i class="bi bi-speedometer2"></i> Tổng Quan</li>
+                    <a href="${pageContext.request.contextPath}/admin/customer-manage">
+                        <li><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li>
                     </a>
-                    <a href="comfirmed-order-manage.jsp">
-                        <li>Đã Xác Nhận</li>
+                    <a href="${pageContext.request.contextPath}/admin/product-management">
+                        <li><i class="bi bi-box-seam"></i> Quản Lý Sản Phẩm</li>
+                    </a>
+                    <a href="${pageContext.request.contextPath}/admin/category-manage">
+                        <li><i class="bi bi-tags"></i> Quản Lý Danh Mục</li>
+                    </a>
+
+                    <li class="has-submenu">
+                        <div class="menu-item">
+                            <i class="bi bi-truck"></i>
+                            <span>Quản Lý Đơn Hàng</span>
+                            <i class="bi bi-chevron-right arrow"></i>
+                        </div>
+                        <ul class="submenu">
+                            <a href="uncomfirmed-order-manage.jsp">
+                                <li>Chưa Xác Nhận</li>
+                            </a>
+                            <a href="comfirmed-order-manage.jsp">
+                                <li>Đã Xác Nhận</li>
+                            </a>
+                        </ul>
+                    </li>
+
+                    <a href="blog-manage.jsp">
+                        <li><i class="bi bi-journal-text"></i> Quản Lý Blog</li>
+                    </a>
+                    <a href="promotion-manage.jsp">
+                        <li><i class="bi bi-megaphone"></i> Quản Lý Khuyến Mãi</li>
+                    </a>
+                    <a href="statistics.jsp">
+                        <li><i class="bi bi-bar-chart"></i> Báo Cáo & Thống Kê</li>
                     </a>
                 </ul>
-            </li>
-
-            <a href="blog-manage.jsp">
-                <li><i class="bi bi-journal-text"></i> Quản Lý Blog</li>
-            </a>
-            <a href="promotion-manage.jsp">
-                <li><i class="bi bi-megaphone"></i> Quản Lý Khuyến Mãi</li>
-            </a>
-            <a href="statistics.jsp">
-                <li><i class="bi bi-bar-chart"></i> Báo Cáo & Thống Kê</li>
-            </a>
-        </ul>
-    </aside>
+            </aside>
 
 
-    <div class="profile-page">
-        <!-- LEFT SIDE -->
-        <div class="profile-left">
-            <div class="avatar-box">
-                <div class="avatar-wrapper">
-                    <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar" class="avatar-img">
-                    <span class="avatar-camera">
-        <i class="bi bi-camera-fill"></i>
-    </span>
+            <div class="profile-page">
+                <!-- LEFT SIDE -->
+                <div class="profile-left">
+                    <div class="avatar-box">
+                        <div class="avatar-wrapper">
+                            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar"
+                                class="avatar-img">
+                            <span class="avatar-camera">
+                                <i class="bi bi-camera-fill"></i>
+                            </span>
+                        </div>
+                        <input type="file" id="avatar-upload" accept="image/*" hidden>
+                    </div>
+                    <h3>Mạc Nguyên</h3>
                 </div>
                 <input type="file" id="avatar-upload" accept="image/*" hidden>
             </div>
@@ -152,7 +164,6 @@
                     Lưu thay đổi
                 </button>
             </div>
-        </form>
 
 
         <hr>
