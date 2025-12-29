@@ -18,11 +18,18 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-        <!-- ===== HEADER ===== -->
-        <header class="main-header">
-            <div class="logo">
-                <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
-                <h2>SkyDrone Admin</h2>
+<!-- ===== HEADER ===== -->
+<header class="main-header">
+    <div class="logo">
+        <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
+        <h2>SkyDrone Admin</h2>
+    </div>
+    <div class="header-right">
+        <!-- Icon admin + tên -->
+        <a href="profile-admin.html" class="text-decoration-none text-while">
+            <div class="thong-tin-admin d-flex align-items-center gap-2">
+                <i class="bi bi-person-circle fs-4"></i>
+                <span class="fw-semibold">Admin</span>
             </div>
             <div class="header-right">
                 <!-- Icon admin + tên -->
@@ -117,7 +124,11 @@
                     </div>
                     <h3>Mạc Nguyên</h3>
                 </div>
+                <input type="file" id="avatar-upload" accept="image/*" hidden>
             </div>
+            <h3>Mạc Nguyên</h3>
+        </div>
+    </div>
 
     <!-- RIGHT SIDE -->
     <div class="profile-right">
@@ -153,7 +164,6 @@
                     Lưu thay đổi
                 </button>
             </div>
-        </form>
 
 
         <hr>
@@ -374,6 +384,5 @@
 </script>
 
 
-    </body>
-
-    </html>
+</body>
+</html>

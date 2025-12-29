@@ -1,43 +1,26 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-            <!DOCTYPE html>
-            <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Quản Trị - SkyDrone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Bootstrap Bundle (gồm cả Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery (BẮT BUỘC TRƯỚC) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
 
-            <head>
-                <meta charset="UTF-8">
-                <title>Trang Quản Trị - SkyDrone</title>
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-                    rel="stylesheet">
-                <!-- Bootstrap Bundle (gồm cả Popper) -->
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-                <!-- jQuery (BẮT BUỘC TRƯỚC) -->
-                <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-                <!-- DataTables -->
-                <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
-                <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/admin/dashboard.css">
+</head>
+<body>
 
-                <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/admin/dashboard.css">
-            </head>
-
-            <body>
-
-                <!-- ===== HEADER ===== -->
-                <header class="main-header">
-                    <div class="logo">
-                        <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
-                        <h2>SkyDrone Admin</h2>
-                    </div>
-                    <div class="header-right">
-                        <!-- Icon admin + tên -->
-                        <a href="profile-admin.jsp" class="text-decoration-none text-while">
-                            <div class="thong-tin-admin d-flex align-items-center gap-2">
-                                <i class="bi bi-person-circle fs-4"></i>
-                                <span class="fw-semibold">Admin</span>
-                            </div>
-                        </a>
 <!-- ===== HEADER ===== -->
 <header class="main-header">
     <div class="logo">
@@ -52,6 +35,93 @@
                 <span class="fw-semibold">Admin</span>
             </div>
         </a>
+
+        <button class="logout-btn" id="logoutBtn" title="Đăng xuất">
+            <i class="bi bi-box-arrow-right"></i>
+        </button>
+    </div>
+    <div class="logout-modal" id="logoutModal">
+        <div class="logout-modal-content">
+            <p>Bạn có chắc muốn đăng xuất không?</p>
+            <div class="logout-actions">
+                <a href="../login.jsp">
+                    <button id="confirmLogout" class="confirm">Có</button>
+                </a>
+                <button id="cancelLogout" class="cancel">Không</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ===== LAYOUT ===== -->
+<div class="layout">
+    <!-- === SIDEBAR === -->
+    <aside class="sidebar">
+        <div class="user-info">
+            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+
+            <h3>Mạc Nguyên</h3>
+            <p>Chào mừng bạn trở lại 👋</p>
+        </div>
+
+        <ul class="menu">
+            <li class="active"><i class="bi bi-speedometer2"></i> Tổng Quan</li>
+            <a href="${pageContext.request.contextPath}/admin/customer-manage">
+                <li><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li>
+            </a>
+            <a href="${pageContext.request.contextPath}/admin/product-management">
+                <li><i class="bi bi-box-seam"></i> Quản Lý Sản Phẩm</li>
+            </a>
+            <a href="category-manage.jsp">
+                <li><i class="bi bi-tags"></i> Quản Lý Danh Mục</li>
+            </a>
+
+            <li class="has-submenu">
+                <div class="menu-item">
+                    <i class="bi bi-truck"></i>
+                    <span>Quản Lý Đơn Hàng</span>
+                    <i class="bi bi-chevron-right arrow"></i>
+                </div>
+                <ul class="submenu">
+                    <a href="${pageContext.request.contextPath}/admin/unconfirmed-orders">
+                        <li>Chưa Xác Nhận</li>
+                    </a>
+                    <a href="${pageContext.request.contextPath}/admin/order-manage">
+                        <li>Đã Xác Nhận</li>
+                    </a>
+                </ul>
+            </li>
+
+            <a href="${pageContext.request.contextPath}/admin/blog-manage">
+                <li><i class="bi bi-journal-text"></i> Quản Lý Blog</li>
+            </a>
+            <a href="promotion-manage.jsp">
+                <li><i class="bi bi-megaphone"></i> Quản Lý Khuyến Mãi</li>
+            </a>
+            <a href="statistics.jsp">
+                <li><i class="bi bi-bar-chart"></i> Báo Cáo & Thống Kê</li>
+            </a>
+        </ul>
+    </aside>
+    <!-- === MAIN CONTENT === -->
+    <main class="main-content">
+        <!-- === THỐNG KÊ NHANH === -->
+        <div class="stats">
+            <div class="card-stat stat-blue">
+                <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
+                <div class="stat-info">
+                    <h6>Tổng khách hàng</h6>
+                    <div class="value">
+                        <fmt:formatNumber value="${totalUsers}" type="number"/>
+                    </div>
+                    <div class="header-right">
+                        <!-- Icon admin + tên -->
+                        <a href="profile-admin.jsp" class="text-decoration-none text-while">
+                            <div class="thong-tin-admin d-flex align-items-center gap-2">
+                                <i class="bi bi-person-circle fs-4"></i>
+                                <span class="fw-semibold">Admin</span>
+                            </div>
+                        </a>
 
                         <button class="logout-btn" id="logoutBtn" title="Đăng xuất">
                             <i class="bi bi-box-arrow-right"></i>
