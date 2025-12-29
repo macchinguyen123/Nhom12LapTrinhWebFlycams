@@ -370,6 +370,11 @@
                                     o.shippingCode || "Chưa có";
                                 document.getElementById("md_completedAt").innerText =
                                     o.completedAt ? formatDate(o.completedAt) : "Chưa giao";
+                document.getElementById("md_address").innerText = o.fullAddress || "—";
+                document.getElementById("md_shippingCode").innerText =
+                    o.shippingCode || "Chưa có";
+                document.getElementById("md_completedAt").innerText =
+                    o.completedAt ? formatDate(o.completedAt) : "Chưa giao";
 
                                 const items = data.items;
                                 const tbody = document.getElementById("md_productList");
