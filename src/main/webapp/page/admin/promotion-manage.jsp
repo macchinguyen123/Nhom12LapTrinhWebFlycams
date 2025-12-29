@@ -82,7 +82,7 @@
             <a href="${pageContext.request.contextPath}/admin/product-management">
                 <li><i class="bi bi-box-seam"></i> Quản Lý Sản Phẩm</li>
             </a>
-            <a href="category-manage.jsp">
+            <a href="${pageContext.request.contextPath}/admin/category-manage">
                 <li><i class="bi bi-tags"></i> Quản Lý Danh Mục</li>
             </a>
 
@@ -108,7 +108,7 @@
             <a href="${pageContext.request.contextPath}/admin/promotion-manage">
                 <li class="active"><i class="bi bi-megaphone"></i> Quản Lý Khuyến Mãi</li>
             </a>
-            <a href="statistics.jsp">
+            <a href="${pageContext.request.contextPath}/admin/statistics">
                 <li><i class="bi bi-bar-chart"></i> Báo Cáo & Thống Kê</li>
             </a>
         </ul>

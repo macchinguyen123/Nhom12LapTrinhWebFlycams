@@ -76,7 +76,8 @@
                         <h2>SkyDrone Admin</h2>
                     </div>
                     <div class="header-right">
-                        <a href="profile-admin.jsp" class="text-decoration-none text-while">
+                        <a href="${pageContext.request.contextPath}/admin/profile"
+                            class="text-decoration-none text-while">
                             <div class="thong-tin-admin d-flex align-items-center gap-2">
                                 <i class="bi bi-person-circle fs-4"></i>
                                 <span class="fw-semibold">Admin</span>
@@ -106,7 +107,9 @@
                             <p>Chào mừng bạn trở lại 👋</p>
                         </div>
                         <ul class="menu">
-                            <li><i class="bi bi-speedometer2"></i> Tổng Quan</li>
+                            <a href="${pageContext.request.contextPath}/admin/dashboard">
+                                <li><i class="bi bi-speedometer2"></i> Tổng Quan</li>
+                            </a>
                             <a href="${pageContext.request.contextPath}/admin/customer-manage">
                                 <li class="active"><i class="bi bi-person-lines-fill"></i> Quản Lý Tài Khoản</li>
                             </a>
@@ -131,13 +134,13 @@
                                     </a>
                                 </ul>
                             </li>
-                            <a href="blog-manage.jsp">
+                            <a href="${pageContext.request.contextPath}/admin/blog-manage">
                                 <li><i class="bi bi-journal-text"></i> Quản Lý Blog</li>
                             </a>
-                            <a href="promotion-manage.jsp">
+                            <a href="${pageContext.request.contextPath}/admin/promotion-manage">
                                 <li><i class="bi bi-megaphone"></i> Quản Lý Khuyến Mãi</li>
                             </a>
-                            <a href="statistics.jsp">
+                            <a href="${pageContext.request.contextPath}/admin/statistics">
                                 <li><i class="bi bi-bar-chart"></i> Báo Cáo & Thống Kê</li>
                             </a>
                         </ul>

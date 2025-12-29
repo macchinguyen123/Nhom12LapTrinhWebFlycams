@@ -1,8 +1,13 @@
 /* === RESET === */
-* {
+*,
+::before,
+::after {
+    box-sizing: border-box;
+}
+
+body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     font-family: "Segoe UI", sans-serif;
 }
 
@@ -10,6 +15,7 @@ body {
     background-color: #ffffff;
     /*color: #ffffff;*/
 }
+
 /* Ẩn ô tìm kiếm mặc định + phân trang mặc định của DataTables */
 .dataTables_filter,
 .dataTables_paginate {
@@ -114,19 +120,23 @@ table.dataTable thead th {
     bottom: 0;
     display: flex;
     flex-direction: column;
-    align-items: center; /*Căn toàn bộ sang trái */
+    align-items: center;
+    /*Căn toàn bộ sang trái */
     padding: 20px 0;
     border-top-right-radius: 12px;
     /*Cuộn*/
-    overflow-y: auto; /* 🔹 Cho phép trượt */
+    overflow-y: auto;
+    /* 🔹 Cho phép trượt */
     overflow-x: hidden;
-    scrollbar-width: thin; /* Firefox */
+    scrollbar-width: thin;
+    /* Firefox */
 }
 
 /* === USER INFO === */
 .user-info {
     width: 100%;
-    text-align: center; /*  Căn chữ sang trái */
+    text-align: center;
+    /*  Căn chữ sang trái */
 }
 
 .user-info img {
@@ -137,7 +147,8 @@ table.dataTable thead th {
     object-fit: cover;
     box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
     display: block;
-    margin: 0 auto; /* căn giữa ảnh */
+    margin: 0 auto;
+    /* căn giữa ảnh */
 }
 
 
@@ -157,16 +168,21 @@ table.dataTable thead th {
 .menu {
     list-style: none;
     width: 100%;
-    padding-left: 0; /* bỏ thụt */
+    padding-left: 0;
+    /* bỏ thụt */
 }
 
 .menu li {
-    width: calc(100% - 20px); /*  Full width trừ khoảng lề hai bên */
-    padding: 12px 18px; /* Trái = Phải */
-    margin: 4px 10px; /* Khoảng cách đều */
+    width: calc(100% - 20px);
+    /*  Full width trừ khoảng lề hai bên */
+    padding: 12px 18px;
+    /* Trái = Phải */
+    margin: 4px 10px;
+    /* Khoảng cách đều */
     border-radius: 8px;
     display: flex;
-    align-items: center; /* Icon + chữ thẳng hàng */
+    align-items: center;
+    /* Icon + chữ thẳng hàng */
     gap: 12px;
     cursor: pointer;
     transition: 0.3s;
@@ -175,7 +191,8 @@ table.dataTable thead th {
 
 .menu li i {
     font-size: 18px;
-    min-width: 20px; /* giữ icon thẳng hàng */
+    min-width: 20px;
+    /* giữ icon thẳng hàng */
 }
 
 .menu li span {
@@ -302,14 +319,16 @@ h4 {
     font-weight: 600;
 }
 
-.cards-container {
+
+/* Summary Statistics Section (When enabled) */
+.summary-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
     justify-items: center;
 }
 
-.card {
+.summary-card {
     width: 220px;
     height: 140px;
     border: 2px solid #0073ff;
@@ -318,30 +337,32 @@ h4 {
     padding: 20px 10px;
     color: #0f172a;
     transition: all 0.3s ease;
+    background-color: #fff;
 }
 
-.card i {
+.summary-card i {
     font-size: 30px;
     color: #0073ff;
     margin-bottom: 8px;
 }
 
-.card h3 {
+.summary-card h3 {
     font-size: 16px;
     color: #333;
     margin-bottom: 5px;
 }
 
-.card p {
+.summary-card p {
     font-size: 14px;
     color: #555;
 }
 
-.card:hover {
+.summary-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 4px 10px rgba(0, 160, 160, 0.2);
     border-color: #0073ff;
 }
+
 
 .logout-modal {
     position: fixed;
@@ -388,18 +409,47 @@ h4 {
     padding: 8px 15px;
     border-radius: 8px;
     cursor: pointer;
-    border: 2px solid #0051c6; /* THÊM DÒNG NÀY */
+    border: 2px solid #0051c6;
+    /* THÊM DÒNG NÀY */
 }
 
 /* Header bảng đơn hàng */
-table#tableDonTrongNgay > thead.table-primary {
-    background-color: #0051c6 !important; /* Nền xanh đậm */
+table#tableDonTrongNgay>thead.table-primary {
+    background-color: #0051c6 !important;
+    /* Nền xanh đậm */
 }
 
-table#tableDonTrongNgay > thead.table-primary th {
-    background-color: #0051c6 !important; /* Nền từng ô */
-    color: #fff !important; /* Chữ trắng */
-    border-color: #0047a3 !important; /* Viền đậm */
+table#tableDonTrongNgay>thead.table-primary th {
+    background-color: #0051c6 !important;
+    /* Nền từng ô */
+    color: #fff !important;
+    /* Chữ trắng */
+    border-color: #0047a3 !important;
+    /* Viền đậm */
 }
 
+/* Action button styling - kept simple to avoid conflicts */
+.btn-outline-primary {
+    transition: all 0.3s ease;
+}
 
+.btn-outline-primary:hover {
+    transform: scale(1.1);
+}
+
+/* Modal styling fixes */
+.modal-header {
+    background: linear-gradient(180deg, #0051c6, #0073ff);
+}
+
+.modal-title {
+    color: white;
+}
+
+.modal-body {
+    color: #333;
+}
+
+.table-light {
+    background-color: #f8f9fa;
+}

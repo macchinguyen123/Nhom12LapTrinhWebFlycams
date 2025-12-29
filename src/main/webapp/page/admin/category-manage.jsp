@@ -39,7 +39,7 @@
                 </div>
                 <div class="header-right">
                     <!-- Icon admin + tên -->
-                    <a href="profile-admin.jsp" class="text-decoration-none text-while">
+                    <a href="${pageContext.request.contextPath}/admin/profile" class="text-decoration-none text-while">
                         <div class="thong-tin-admin d-flex align-items-center gap-2">
                             <i class="bi bi-person-circle fs-4"></i>
                             <span class="fw-semibold">Admin</span>
@@ -98,19 +98,23 @@
                                 <i class="bi bi-chevron-right arrow"></i>
                             </div>
                             <ul class="submenu">
-                                <li><a href="uncomfirmed-order-manage.jsp">Chưa Xác Nhận</a></li>
-                                <li><a href="comfirmed-order-manage.jsp">Đã Xác Nhận</a></li>
+                                <li><a href="${pageContext.request.contextPath}/admin/unconfirmed-orders">Chưa Xác
+                                        Nhận</a></li>
+                                <li><a href="${pageContext.request.contextPath}/admin/order-manage">Đã Xác Nhận</a></li>
                             </ul>
                         </li>
 
                         <li>
-                            <a href="blog-manage.jsp"><i class="bi bi-journal-text"></i> Quản Lý Blog</a>
+                            <a href="${pageContext.request.contextPath}/admin/blog-manage"><i
+                                    class="bi bi-journal-text"></i> Quản Lý Blog</a>
                         </li>
                         <li>
-                            <a href="promotion-manage.jsp"><i class="bi bi-megaphone"></i> Quản Lý Khuyến Mãi</a>
+                            <a href="${pageContext.request.contextPath}/admin/promotion-manage"><i
+                                    class="bi bi-megaphone"></i> Quản Lý Khuyến Mãi</a>
                         </li>
                         <li>
-                            <a href="statistics.jsp"><i class="bi bi-bar-chart"></i> Báo Cáo & Thống Kê</a>
+                            <a href="${pageContext.request.contextPath}/admin/statistics"><i
+                                    class="bi bi-bar-chart"></i> Báo Cáo & Thống Kê</a>
                         </li>
                     </ul>
                 </aside>
