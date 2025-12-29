@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +12,7 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../stylesheets/admin/profile-admin.css">
-
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/admin/profile-admin.css">
 </head>
 <body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -122,63 +122,146 @@
     <div class="profile-right">
         <!-- Thông tin cơ bản -->
         <h4>Thông tin cơ bản</h4>
-        <form id="profileForm">
+
+        <form id="profileForm"
+              action="${pageContext.request.contextPath}/admin/profile?action=update-info"
+              method="post"
+              enctype="multipart/form-data">
+
             <label>Họ tên
-                <input name="fullname" value="Mạc Nguyên">
+                <input name="fullName"
+                       value="${admin.fullName}"
+                       required>
             </label>
+
             <label>Email
-                <input type="email" name="email" value="macnguyen123@gmail.com">
+                <input type="email"
+                       name="email"
+                       value="${admin.email}"
+                       required>
             </label>
+
             <label>Số điện thoại
-                <input name="phone" value="0123456789">
+                <input name="phone"
+                       value="${admin.phoneNumber}"
+                       required>
             </label>
+
             <div class="actions">
-                <button type="submit" class="btn">Lưu thay đổi</button>
+                <button type="submit" class="btn btn-primary">
+                    Lưu thay đổi
+                </button>
             </div>
         </form>
+
 
         <hr>
 
         <h4 class="fw-bold">Thông tin ngân hàng</h4>
-        <div class="bank-info" id="bankView">
-            <div class="bank-details"><p><strong>Ngân hàng:</strong> <span id="bankNameText">Vietcombank</span></p>
-                <p><strong>Số tài khoản:</strong> <span id="acctMasked">**** **** 1234</span></p>
-                <p><strong>Chủ tài khoản:</strong> <span id="acctNameText">Mạc Nguyên</span></p></div>
-            <button id="btn-edit-bank" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square"></i>
-            </button>
-            <div class="bank-qr"><p><strong>Mã QR thanh toán</strong></p> <img src="${pageContext.request.contextPath}/image/qr/qr.png" alt="QR Code">
 
+        <div class="bank-info" id="bankView">
+            <div class="bank-details">
+                <p>
+                    <strong>Ngân hàng:</strong>
+                    <span id="bankNameText">${bank.bankName}</span>
+                </p>
+
+                <p>
+                    <strong>Số tài khoản:</strong>
+                    <span id="acctMasked">
+                **** **** ${fn:substring(bank.accountNumber, bank.accountNumber.length()-4, bank.accountNumber.length())}
+            </span>
+                </p>
+
+                <p>
+                    <strong>Chủ tài khoản:</strong>
+                    <span id="acctNameText">${bank.accountName}</span>
+                </p>
+            </div>
+
+            <button id="btn-edit-bank" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-pencil-square"></i>
+            </button>
+
+            <div class="bank-qr">
+                <p><strong>Mã QR thanh toán</strong></p>
+                <img src="${pageContext.request.contextPath}/uploads/qr/${bank.qrCodeImage}"
+                     alt="QR Code"
+                     onerror="this.src='${pageContext.request.contextPath}/image/qr/qr.png'">
             </div>
         </div>
 
+
         <!-- Bản chỉnh sửa -->
         <div class="bank-info-edit p-3 border rounded mb-3 d-none" id="bankEdit">
-            <form id="bankForm"><label>Ngân hàng <select name="bankName" id="bankName" class="form-select" required>
-                <option value="">-- Chọn ngân hàng --</option>
-                <option value="Momo">Momo</option>
-                <option value="Vietcombank">Vietcombank</option>
-                <option value="Techcombank">Techcombank</option>
-            </select> </label> <label>Số tài khoản
-                <div class="input-group"><input name="accountNumber" id="accountNumber" value="12341234" required
-                                                class="form-control"> <span class="input-group-text" id="toggleEye"><i
-                        class="bi bi-eye"></i></span></div>
-            </label> <label>Chủ tài khoản <input name="accountHolder" id="accountHolder" value="Mạc Nguyên" required
-                                                 class="form-control"> </label> <label class="mt-2">Mã QR thanh
-                toán</label>
-                <div class="mt-2"><img id="qrPreviewImg" src="" width="140" class="border rounded d-none">
-                    <div class="border rounded p-4 d-inline-block mt-2" id="khungThemQR" style="cursor:pointer;"><i
-                            class="bi bi-plus-lg fs-3"></i></div>
-                    <input type="file" id="qrUpload" accept="image/*" hidden></div>
+
+            <form id="bankForm"
+                  action="${pageContext.request.contextPath}/admin/profile?action=update-bank"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <label>Ngân hàng
+                    <select name="bankName" class="form-select" required>
+                        <option value="">-- Chọn ngân hàng --</option>
+                        <option value="Momo" ${bank.bankName == 'Momo' ? 'selected' : ''}>Momo</option>
+                        <option value="Vietcombank" ${bank.bankName == 'Vietcombank' ? 'selected' : ''}>Vietcombank
+                        </option>
+                        <option value="Techcombank" ${bank.bankName == 'Techcombank' ? 'selected' : ''}>Techcombank
+                        </option>
+                    </select>
+                </label>
+
+                <label>Số tài khoản
+                    <div class="input-group">
+                        <input id="accountNumber"
+                               name="accountNumber"
+                               class="form-control"
+                               value="${bank.accountNumber}"
+                               required>
+
+                        <span class="input-group-text" id="toggleEye" style="cursor:pointer">
+            <i class="bi bi-eye"></i>
+        </span>
+                    </div>
+                </label>
+
+
+                <label>Chủ tài khoản
+                    <input name="accountName"
+                           class="form-control"
+                           value="${bank.accountName}"
+                           required>
+                </label>
+
+                <label class="mt-2">Mã QR thanh toán</label>
+
+                <input type="file"
+                       id="qrUpload"
+                       name="qr"
+                       accept="image/*"
+                       class="form-control d-none">
+
+                <img id="qrPreviewImg"
+                     class="border rounded mt-2 d-none"
+                     width="140">
+
+                <div id="khungThemQR"
+                     class="border rounded p-3 mt-2"
+                     style="cursor:pointer">
+                    <i class="bi bi-plus-lg"></i> Thêm QR
+                </div>
+
                 <div class="mt-3 d-flex gap-2">
                     <button type="submit" class="btn btn-primary">Lưu</button>
                     <button type="button" id="btnCancelBank" class="btn btn-secondary">Hủy</button>
                 </div>
             </form>
         </div>
-
         <!-- Đổi mật khẩu -->
         <h4>Đổi mật khẩu</h4>
-        <form id="changePassForm">
+        <form id="changePassForm"
+              action="${pageContext.request.contextPath}/admin/profile?action=change-password"
+              method="post">
             <small class="password-hint">
                 Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.
             </small>
@@ -203,156 +286,89 @@
 </div>
 </div>
 <script>
-    document.querySelectorAll('.has-submenu .menu-item').forEach(item => {
-        item.addEventListener('click', () => {
-            item.parentElement.classList.toggle('open');
-        });
-    });
-
-
     document.addEventListener("DOMContentLoaded", function () {
-        // =============================
-// UPLOAD ẢNH AVATAR
-// =============================
+
+        /* =============================
+           SIDEBAR
+        ==============================*/
+        document.querySelectorAll('.has-submenu .menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.parentElement.classList.toggle('open');
+            });
+        });
+
+        /* =============================
+           AVATAR PREVIEW
+        ==============================*/
         const avatarWrapper = document.querySelector(".avatar-wrapper");
         const avatarUpload = document.getElementById("avatar-upload");
         const avatarImg = document.querySelector(".avatar-img");
 
-// Khi bấm vào icon camera => mở chọn file
-        avatarWrapper.addEventListener("click", () => {
-            avatarUpload.click();
-        });
+        if (avatarWrapper && avatarUpload) {
+            avatarWrapper.addEventListener("click", () => avatarUpload.click());
 
-// Hiển thị avatar preview sau khi chọn ảnh
-        avatarUpload.addEventListener("change", function () {
-            const file = this.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                avatarImg.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        });
-
+            avatarUpload.addEventListener("change", function () {
+                const file = this.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = e => avatarImg.src = e.target.result;
+                reader.readAsDataURL(file);
+            });
+        }
 
         /* =============================
-           KHỞI TẠO BIẾN
+           BANK EDIT TOGGLE (QUAN TRỌNG)
         ==============================*/
         const bankView = document.getElementById("bankView");
         const bankEdit = document.getElementById("bankEdit");
         const btnEdit = document.getElementById("btn-edit-bank");
         const btnCancel = document.getElementById("btnCancelBank");
-        const bankForm = document.getElementById("bankForm");
 
-        const accountNumberInput = document.getElementById("accountNumber");
-        const toggleEye = document.getElementById("toggleEye").querySelector("i");
-        const acctMaskedText = document.getElementById("acctMasked");
+        if (btnEdit && bankView && bankEdit) {
+            btnEdit.addEventListener("click", () => {
+                bankView.classList.add("d-none");
+                bankEdit.classList.remove("d-none");
+            });
+        }
 
+        if (btnCancel && bankView && bankEdit) {
+            btnCancel.addEventListener("click", () => {
+                bankEdit.classList.add("d-none");
+                bankView.classList.remove("d-none");
+            });
+        }
+
+        /* =============================
+           QR PREVIEW
+        ==============================*/
         const qrUpload = document.getElementById("qrUpload");
         const qrPreviewImg = document.getElementById("qrPreviewImg");
         const khungThemQR = document.getElementById("khungThemQR");
 
-        // Dữ liệu thật
-        let actualAcct = accountNumberInput.value || "12341234";
-        let isMasked = true;
-
-
-        // ======= LOGOUT =======
-        $("#logoutBtn").on("click", function () {
-            $("#logoutModal").css("display", "flex");
-        });
-
-        $("#cancelLogout").on("click", function () {
-            $("#logoutModal").hide();
-        });
-
-        /* =============================
-           MASK SỐ TÀI KHOẢN
-        ==============================*/
-        function maskAccount(acct) {
-            const s = acct.toString().replace(/\D/g, "");
-            if (!s) return "----";
-            const last4 = s.slice(-4);
-            const masked = s.slice(0, -4).replace(/\d/g, "*");
-            return (masked + last4).replace(/(.{4})/g, "$1 ").trim();
+        if (khungThemQR && qrUpload) {
+            khungThemQR.addEventListener("click", () => qrUpload.click());
         }
 
-        function updateMaskedDisplay() {
-            acctMaskedText.textContent = maskAccount(actualAcct);
+        if (qrUpload && qrPreviewImg) {
+            qrUpload.addEventListener("change", () => {
+                const file = qrUpload.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = e => {
+                    qrPreviewImg.src = e.target.result;
+                    qrPreviewImg.classList.remove("d-none");
+                };
+                reader.readAsDataURL(file);
+            });
         }
 
-
         /* =============================
-           TOGGLE EYE HIỆN / ẨN
+           LOGOUT
         ==============================*/
-        toggleEye.addEventListener("click", () => {
-            isMasked = !isMasked;
-
-            if (isMasked) {
-                accountNumberInput.value = maskAccount(actualAcct);
-                toggleEye.className = "bi bi-eye";      // đang ẩn => eye
-            } else {
-                accountNumberInput.value = actualAcct;
-                toggleEye.className = "bi bi-eye-slash"; // đang hiện => eye slash
-            }
-        });
-
-
-        /* =============================
-           MỞ FORM CHỈNH SỬA
-        ==============================*/
-        btnEdit.addEventListener("click", () => {
-            bankView.classList.add("d-none");
-            bankEdit.classList.remove("d-none");
-
-            // Reset số tài khoản
-            accountNumberInput.value = isMasked ? maskAccount(actualAcct) : actualAcct;
-            toggleEye.className = isMasked ? "bi bi-eye" : "bi bi-eye-slash";
-        });
-
-
-        /* =============================
-           NÚT HỦY
-        ==============================*/
-        btnCancel.addEventListener("click", () => {
-            bankEdit.classList.add("d-none");
-            bankView.classList.remove("d-none");
-
-            // Reset QR preview
-            qrUpload.value = "";
-            qrPreviewImg.classList.add("d-none");
-            qrPreviewImg.src = "";
-        });
-
-
-        /* =============================
-           TẢI ẢNH QR (Preview)
-        ==============================*/
-        khungThemQR.addEventListener("click", () => qrUpload.click());
-
-        qrUpload.addEventListener("change", () => {
-            const file = qrUpload.files[0];
-            if (!file) {
-                qrPreviewImg.classList.add("d-none");
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = e => {
-                qrPreviewImg.src = e.target.result;
-                qrPreviewImg.classList.remove("d-none");
-            };
-            reader.readAsDataURL(file);
-        });
-
-
-        /* =============================
-           KHỞI TẠO BAN ĐẦU
-        ==============================*/
-        updateMaskedDisplay();
-
-
+        if (window.$) {
+            $("#logoutBtn").on("click", () => $("#logoutModal").css("display", "flex"));
+            $("#cancelLogout").on("click", () => $("#logoutModal").hide());
+        }
     });
 </script>
 

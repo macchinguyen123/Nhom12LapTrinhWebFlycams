@@ -29,7 +29,7 @@
     </div>
     <div class="header-right">
         <!-- Icon admin + tên -->
-        <a href="profile-admin.jsp" class="text-decoration-none text-while">
+        <a href="${pageContext.request.contextPath}/admin/profile" class="text-decoration-none text-while">
             <div class="thong-tin-admin d-flex align-items-center gap-2">
                 <i class="bi bi-person-circle fs-4"></i>
                 <span class="fw-semibold">Admin</span>
