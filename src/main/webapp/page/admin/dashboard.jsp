@@ -38,6 +38,20 @@
                                 <span class="fw-semibold">Admin</span>
                             </div>
                         </a>
+<!-- ===== HEADER ===== -->
+<header class="main-header">
+    <div class="logo">
+        <img src="${pageContext.request.contextPath}/image/logoo2.png" alt="Logo">
+        <h2>SkyDrone Admin</h2>
+    </div>
+    <div class="header-right">
+        <!-- Icon admin + tên -->
+        <a href="${pageContext.request.contextPath}/admin/profile" class="text-decoration-none text-while">
+            <div class="thong-tin-admin d-flex align-items-center gap-2">
+                <i class="bi bi-person-circle fs-4"></i>
+                <span class="fw-semibold">Admin</span>
+            </div>
+        </a>
 
                         <button class="logout-btn" id="logoutBtn" title="Đăng xuất">
                             <i class="bi bi-box-arrow-right"></i>
