@@ -390,13 +390,27 @@ a {
 
 /* Header bảng khuyến mãi */
 table#bangKhuyenMai > thead.table-primary {
-    background-color: #0051c6 !important; /* Nền xanh đậm */
+    background-color: #0051c6 !important;
 }
 
 table#bangKhuyenMai > thead.table-primary th {
-    background-color: #0051c6 !important; /* Nền từng ô */
+    background-color: #0051c6 !important;
     color: #fff !important; /* Chữ trắng */
     border-color: #0047a3 !important; /* Viền đậm */
 }
+.toolbar-blog {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
+.toolbar-blog .search-box {
+    flex: 0 0 250px;
+    max-width: 250px;
+
+}
+
+.toolbar-blog .btn-add {
+    flex-shrink: 0;
+}
 
