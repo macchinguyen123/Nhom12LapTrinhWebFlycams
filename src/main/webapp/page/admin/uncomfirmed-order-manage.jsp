@@ -25,7 +25,8 @@
                     </div>
                     <div class="header-right">
                         <!-- Icon admin + tên -->
-                        <a href="profile-admin.jsp" class="text-decoration-none text-while">
+                        <a href="${pageContext.request.contextPath}/admin/profile"
+                            class="text-decoration-none text-while">
                             <div class="thong-tin-admin d-flex align-items-center gap-2">
                                 <i class="bi bi-person-circle fs-4"></i>
                                 <span class="fw-semibold">Admin</span>
@@ -81,22 +82,22 @@
                                     <i class="bi bi-chevron-right arrow"></i>
                                 </div>
                                 <ul class="submenu">
-                                    <a href="uncomfirmed-order-manage.html">
+                                    <a href="${pageContext.request.contextPath}/admin/unconfirmed-orders">
                                         <li class="active">Chưa Xác Nhận</li>
                                     </a>
-                                    <a href="comfirmed-order-manage.jsp">
+                                    <a href="${pageContext.request.contextPath}/admin/order-manage">
                                         <li>Đã Xác Nhận</li>
                                     </a>
                                 </ul>
                             </li>
 
-                            <a href="blog-manage.jsp">
+                            <a href="${pageContext.request.contextPath}/admin/blog-manage">
                                 <li><i class="bi bi-journal-text"></i> Quản Lý Blog</li>
                             </a>
-                            <a href="promotion-manage.jsp">
+                            <a href="${pageContext.request.contextPath}/admin/promotion-manage">
                                 <li><i class="bi bi-megaphone"></i> Quản Lý Khuyến Mãi</li>
                             </a>
-                            <a href="statistics.jsp">
+                            <a href="${pageContext.request.contextPath}/admin/statistics">
                                 <li><i class="bi bi-bar-chart"></i> Báo Cáo & Thống Kê</li>
                             </a>
                         </ul>
@@ -370,11 +371,11 @@
                                     o.shippingCode || "Chưa có";
                                 document.getElementById("md_completedAt").innerText =
                                     o.completedAt ? formatDate(o.completedAt) : "Chưa giao";
-                document.getElementById("md_address").innerText = o.fullAddress || "—";
-                document.getElementById("md_shippingCode").innerText =
-                    o.shippingCode || "Chưa có";
-                document.getElementById("md_completedAt").innerText =
-                    o.completedAt ? formatDate(o.completedAt) : "Chưa giao";
+                                document.getElementById("md_address").innerText = o.fullAddress || "—";
+                                document.getElementById("md_shippingCode").innerText =
+                                    o.shippingCode || "Chưa có";
+                                document.getElementById("md_completedAt").innerText =
+                                    o.completedAt ? formatDate(o.completedAt) : "Chưa giao";
 
                                 const items = data.items;
                                 const tbody = document.getElementById("md_productList");

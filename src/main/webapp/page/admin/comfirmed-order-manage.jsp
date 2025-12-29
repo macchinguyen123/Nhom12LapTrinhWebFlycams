@@ -33,7 +33,8 @@
                     </div>
                     <div class="header-right">
                         <!-- Icon admin + tên -->
-                        <a href="profile-admin.jsp" class="text-decoration-none text-while">
+                        <a href="${pageContext.request.contextPath}/admin/profile"
+                            class="text-decoration-none text-while">
                             <div class="thong-tin-admin d-flex align-items-center gap-2">
                                 <i class="bi bi-person-circle fs-4"></i>
                                 <span class="fw-semibold">Admin</span>
@@ -89,22 +90,22 @@
                                     <i class="bi bi-chevron-right arrow"></i>
                                 </div>
                                 <ul class="submenu">
-                                    <a href="uncomfirmed-order-manage.jsp">
+                                    <a href="${pageContext.request.contextPath}/admin/unconfirmed-orders">
                                         <li>Chưa Xác Nhận</li>
                                     </a>
-                                    <a href="comfirmed-order-manage.jsp">
+                                    <a href="${pageContext.request.contextPath}/admin/order-manage">
                                         <li class="active">Đã Xác Nhận</li>
                                     </a>
                                 </ul>
                             </li>
 
-                            <a href="blog-manage.jsp">
+                            <a href="${pageContext.request.contextPath}/admin/blog-manage">
                                 <li><i class="bi bi-journal-text"></i> Quản Lý Blog</li>
                             </a>
-                            <a href="promotion-manage.jsp">
+                            <a href="${pageContext.request.contextPath}/admin/promotion-manage">
                                 <li><i class="bi bi-megaphone"></i> Quản Lý Khuyến Mãi</li>
                             </a>
-                            <a href="statistics.jsp">
+                            <a href="${pageContext.request.contextPath}/admin/statistics">
                                 <li><i class="bi bi-bar-chart"></i> Báo Cáo & Thống Kê</li>
                             </a>
                         </ul>
@@ -333,10 +334,10 @@
                                                     </tbody>
                                                 </table>
 
-                                <div class="total-row">
-                                    Tổng Tiền: <span id="dh-tong">3,400,000₫</span>
-                                </div>
-                            </div>
+                                                <div class="total-row">
+                                                    Tổng Tiền: <span id="dh-tong">3,400,000₫</span>
+                                                </div>
+                                            </div>
 
                                             <!-- Thông tin thanh toán -->
                                             <div class="info-card">
@@ -400,282 +401,282 @@
                             "searching": true,
                             "ordering": true,
                             "info": true,
-<script>
-    let currentOrderId = null;
-    let currentUserId = null;
+< script >
+                            let currentOrderId = null;
+                        let currentUserId = null;
 
-    function loadOrderDetail(orderId) {
-        currentOrderId = orderId;
+                        function loadOrderDetail(orderId) {
+                            currentOrderId = orderId;
 
-        fetch('${pageContext.request.contextPath}/admin/order-detail?id=' + orderId)
-            .then(res => {
-                if (!res.ok) throw new Error("HTTP " + res.status);
-                return res.json();
-            })
-            .then(data => {
-                if (!data || !data.order) {
-                    alert("Không có dữ liệu đơn hàng");
-                    return;
-                }
+                            fetch('${pageContext.request.contextPath}/admin/order-detail?id=' + orderId)
+                                .then(res => {
+                                    if (!res.ok) throw new Error("HTTP " + res.status);
+                                    return res.json();
+                                })
+                                .then(data => {
+                                    if (!data || !data.order) {
+                                        alert("Không có dữ liệu đơn hàng");
+                                        return;
+                                    }
 
-                const o = data.order;
+                                    const o = data.order;
 
-                // ===== THÔNG TIN HÓA ĐƠN =====
-                document.getElementById("dh-mahd").innerText = "HD" + o.id;
-                currentUserId = o.user_id;
-                document.getElementById("dh-makh").innerText = "KH" + o.user_id;
+                                    // ===== THÔNG TIN HÓA ĐƠN =====
+                                    document.getElementById("dh-mahd").innerText = "HD" + o.id;
+                                    currentUserId = o.user_id;
+                                    document.getElementById("dh-makh").innerText = "KH" + o.user_id;
 
-                document.getElementById("dh-tenkh").value = o.customerName || "";
-                document.getElementById("dh-sdt").value = o.phoneNumber || "";
-                document.getElementById("dh-email").value = o.email || "";
+                                    document.getElementById("dh-tenkh").value = o.customerName || "";
+                                    document.getElementById("dh-sdt").value = o.phoneNumber || "";
+                                    document.getElementById("dh-email").value = o.email || "";
 
-                document.getElementById("dh-ngaylap").innerText =
-                    formatDate(o.createdAt);
+                                    document.getElementById("dh-ngaylap").innerText =
+                                        formatDate(o.createdAt);
 
-                // ===== THÔNG TIN GIAO HÀNG =====
-                document.getElementById("dh-diachi").value =
-                    o.fullAddress || "";
+                                    // ===== THÔNG TIN GIAO HÀNG =====
+                                    document.getElementById("dh-diachi").value =
+                                        o.fullAddress || "";
 
-                document.getElementById("dh-mavc").innerText =
-                    o.shippingCode || "Chưa có";
+                                    document.getElementById("dh-mavc").innerText =
+                                        o.shippingCode || "Chưa có";
 
-                // if (o.expectedDeliveryDate) {
-                //     document.getElementById("dh-ngaynhan").value =
-                //         o.expectedDeliveryDate.substring(0, 10);
-                // } else {
-                //     document.getElementById("dh-ngaynhan").value = "";
-                // }
-                document.getElementById("dh-ngaynhan").value =
-                    o.completedAt ? o.completedAt.substring(0, 10) : "";
+                                    // if (o.expectedDeliveryDate) {
+                                    //     document.getElementById("dh-ngaynhan").value =
+                                    //         o.expectedDeliveryDate.substring(0, 10);
+                                    // } else {
+                                    //     document.getElementById("dh-ngaynhan").value = "";
+                                    // }
+                                    document.getElementById("dh-ngaynhan").value =
+                                        o.completedAt ? o.completedAt.substring(0, 10) : "";
 
-                document.getElementById("dh-phivc").innerText =
-                    o.shippingFee
-                        ? Number(o.shippingFee).toLocaleString("vi-VN") + "₫"
-                        : "0₫";
+                                    document.getElementById("dh-phivc").innerText =
+                                        o.shippingFee
+                                            ? Number(o.shippingFee).toLocaleString("vi-VN") + "₫"
+                                            : "0₫";
 
-                const items = data.items;
-                const tbody = document.getElementById("dh-sanpham");
-                tbody.innerHTML = "";
+                                    const items = data.items;
+                                    const tbody = document.getElementById("dh-sanpham");
+                                    tbody.innerHTML = "";
 
-                let total = 0;
+                                    let total = 0;
 
-                items.forEach(item => {
-                    const tr = document.createElement("tr");
+                                    items.forEach(item => {
+                                        const tr = document.createElement("tr");
 
-                    const tdName = document.createElement("td");
-                    tdName.textContent = item.productName || "—";
-                    tr.appendChild(tdName);
+                                        const tdName = document.createElement("td");
+                                        tdName.textContent = item.productName || "—";
+                                        tr.appendChild(tdName);
 
-                    const tdQty = document.createElement("td");
-                    tdQty.textContent = item.quantity ?? "—";
-                    tr.appendChild(tdQty);
+                                        const tdQty = document.createElement("td");
+                                        tdQty.textContent = item.quantity ?? "—";
+                                        tr.appendChild(tdQty);
 
-                    const tdPrice = document.createElement("td");
-                    const priceNum = Number(item.price) || 0;
-                    tdPrice.textContent = priceNum.toLocaleString("vi-VN") + "₫";
-                    tr.appendChild(tdPrice);
+                                        const tdPrice = document.createElement("td");
+                                        const priceNum = Number(item.price) || 0;
+                                        tdPrice.textContent = priceNum.toLocaleString("vi-VN") + "₫";
+                                        tr.appendChild(tdPrice);
 
-                    total += priceNum * (item.quantity || 1);
+                                        total += priceNum * (item.quantity || 1);
 
-                    tbody.appendChild(tr);
-                });
+                                        tbody.appendChild(tr);
+                                    });
 
-                document.getElementById("dh-tong").innerText =
-                    total.toLocaleString("vi-VN") + "₫";
+                                    document.getElementById("dh-tong").innerText =
+                                        total.toLocaleString("vi-VN") + "₫";
 
-                //thông tin thanh toán
-                document.getElementById("dh-httt").value =
-                    o.paymentMethod || "COD";
+                                    //thông tin thanh toán
+                                    document.getElementById("dh-httt").value =
+                                        o.paymentMethod || "COD";
 
-                document.getElementById("dh-tttt").innerText =
-                    o.paymentMethod ? "Đã chọn" : "Chưa thanh toán";
+                                    document.getElementById("dh-tttt").innerText =
+                                        o.paymentMethod ? "Đã chọn" : "Chưa thanh toán";
 
-                //Trạng thái van chuyen
-                document.getElementById("dh-ttvc").value = o.status;
+                                    //Trạng thái van chuyen
+                                    document.getElementById("dh-ttvc").value = o.status;
 
-                // ===== HIỆN MODAL =====
-                const modal = new bootstrap.Modal(
-                    document.getElementById("modalDonHang")
-                );
-                modal.show();
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Lỗi tải chi tiết đơn hàng");
-            });
-    }
-
-    function formatDate(dateStr) {
-        if (!dateStr) return "—";
-        const d = new Date(dateStr);
-        return d.toLocaleDateString("vi-VN");
-    }
-
-    $(document).ready(function () {
-        var table = $('#tblDonHang').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "pageLength": 10,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-
-                            // ẨN THANH SEARCH MẶC ĐỊNH
-                            dom: "tr", // t = table, r = info (ẩn search & paginate mặc định)
-
-                            "language": {
-                                "paginate": { "previous": "Trước", "next": "Sau" },
-                                "info": "Trang _PAGE_ / _PAGES_",
-                                "zeroRecords": "Không tìm thấy dữ liệu"
-                            }
-                        });
-
-
-                        // ======= SEARCH MÀU XANH =======
-                        $("#search").on("keyup", function () {
-                            table.search(this.value).draw();
-                        });
-
-                        // ======= ROW PER PAGE =======
-                        $("#rowsPerPage").on("change", function () {
-                            table.page.len($(this).val()).draw();
-                        });
-
-                        // ======= FILTER TRẠNG THÁI =======
-                        $(".filter").on("click", function () {
-                            $(".filter").removeClass("active");
-                            $(this).addClass("active");
-
-                            const status = $(this).data("status");
-                            if (status === "all") table.column(5).search("").draw();
-                            else table.column(5).search(status).draw();
-
-                            updatePagination();
-                        });
-
-                        // ======= PAGINATION CUSTOM =======
-                        function updateCustomPagination() {
-                            var info = table.page.info();
-                            $("#pageInfo").text((info.page + 1) + " / " + info.pages);
-
-                            // Ẩn nút Trước khi đang ở trang đầu
-                            $("#prevPage").prop("disabled", info.page === 0);
-
-                            // Ẩn nút Sau khi đang ở trang cuối
-                            $("#nextPage").prop("disabled", info.page >= info.pages - 1);
+                                    // ===== HIỆN MODAL =====
+                                    const modal = new bootstrap.Modal(
+                                        document.getElementById("modalDonHang")
+                                    );
+                                    modal.show();
+                                })
+                                .catch(err => {
+                                    console.error(err);
+                                    alert("Lỗi tải chi tiết đơn hàng");
+                                });
                         }
 
-                        // Nút SAU
-                        $("#nextPage").on("click", function () {
-                            table.page("next").draw("page");
+                        function formatDate(dateStr) {
+                            if (!dateStr) return "—";
+                            const d = new Date(dateStr);
+                            return d.toLocaleDateString("vi-VN");
+                        }
+
+                        $(document).ready(function () {
+                            var table = $('#tblDonHang').DataTable({
+                                "paging": true,
+                                "lengthChange": false,
+                                "pageLength": 10,
+                                "searching": true,
+                                "ordering": true,
+                                "info": true,
+
+                                // ẨN THANH SEARCH MẶC ĐỊNH
+                                dom: "tr", // t = table, r = info (ẩn search & paginate mặc định)
+
+                                "language": {
+                                    "paginate": { "previous": "Trước", "next": "Sau" },
+                                    "info": "Trang _PAGE_ / _PAGES_",
+                                    "zeroRecords": "Không tìm thấy dữ liệu"
+                                }
+                            });
+
+
+                            // ======= SEARCH MÀU XANH =======
+                            $("#search").on("keyup", function () {
+                                table.search(this.value).draw();
+                            });
+
+                            // ======= ROW PER PAGE =======
+                            $("#rowsPerPage").on("change", function () {
+                                table.page.len($(this).val()).draw();
+                            });
+
+                            // ======= FILTER TRẠNG THÁI =======
+                            $(".filter").on("click", function () {
+                                $(".filter").removeClass("active");
+                                $(this).addClass("active");
+
+                                const status = $(this).data("status");
+                                if (status === "all") table.column(5).search("").draw();
+                                else table.column(5).search(status).draw();
+
+                                updatePagination();
+                            });
+
+                            // ======= PAGINATION CUSTOM =======
+                            function updateCustomPagination() {
+                                var info = table.page.info();
+                                $("#pageInfo").text((info.page + 1) + " / " + info.pages);
+
+                                // Ẩn nút Trước khi đang ở trang đầu
+                                $("#prevPage").prop("disabled", info.page === 0);
+
+                                // Ẩn nút Sau khi đang ở trang cuối
+                                $("#nextPage").prop("disabled", info.page >= info.pages - 1);
+                            }
+
+                            // Nút SAU
+                            $("#nextPage").on("click", function () {
+                                table.page("next").draw("page");
+                                updateCustomPagination();
+                            });
+                            // Nút SAU
+                            $("#nextPage").on("click", function () {
+                                table.page("next").draw("page");
+                                updateCustomPagination();
+                            });
+
+                            // Nút TRƯỚC
+                            $("#prevPage").on("click", function () {
+                                table.page("previous").draw("page");
+                                updateCustomPagination();
+                            });
+                            // Nút TRƯỚC
+                            $("#prevPage").on("click", function () {
+                                table.page("previous").draw("page");
+                                updateCustomPagination();
+                            });
+
+                            // Cập nhật khi load
+                            table.on("draw", updateCustomPagination);
                             updateCustomPagination();
-                        });
-        // Nút SAU
-        $("#nextPage").on("click", function () {
-            table.page("next").draw("page");
-            updateCustomPagination();
-        });
 
-                        // Nút TRƯỚC
-                        $("#prevPage").on("click", function () {
-                            table.page("previous").draw("page");
-                            updateCustomPagination();
-                        });
-        // Nút TRƯỚC
-        $("#prevPage").on("click", function () {
-            table.page("previous").draw("page");
-            updateCustomPagination();
-        });
+                            // ======= MODAL =======
+                            $(".view").on("click", function () {
+                                new bootstrap.Modal(document.getElementById("modalDonHang")).show();
+                            });
 
-                        // Cập nhật khi load
-                        table.on("draw", updateCustomPagination);
-                        updateCustomPagination();
+                            $("#formDonHang").on("submit", function (e) {
+                                e.preventDefault();
+                                alert("Lưu thành công (demo)!");
+                                bootstrap.Modal.getInstance(document.getElementById("modalDonHang")).hide();
+                            });
+                            // // ======= MODAL =======
+                            // $(".view").on("click", function () {
+                            //     new bootstrap.Modal(document.getElementById("modalDonHang")).show();
+                            // });
+                            //
+                            // $("#formDonHang").on("submit", function (e) {
+                            //     e.preventDefault();
+                            //     alert("Lưu thành công (demo)!");
+                            //     bootstrap.Modal.getInstance(document.getElementById("modalDonHang")).hide();
+                            // });
 
-                        // ======= MODAL =======
-                        $(".view").on("click", function () {
-                            new bootstrap.Modal(document.getElementById("modalDonHang")).show();
-                        });
+                            // ======= LOGOUT =======
+                            $("#logoutBtn").on("click", function () {
+                                $("#logoutModal").css("display", "flex");
+                            });
 
-                        $("#formDonHang").on("submit", function (e) {
-                            e.preventDefault();
-                            alert("Lưu thành công (demo)!");
-                            bootstrap.Modal.getInstance(document.getElementById("modalDonHang")).hide();
+                            $("#cancelLogout").on("click", function () {
+                                $("#logoutModal").hide();
+                            });
                         });
-        // // ======= MODAL =======
-        // $(".view").on("click", function () {
-        //     new bootstrap.Modal(document.getElementById("modalDonHang")).show();
-        // });
-        //
-        // $("#formDonHang").on("submit", function (e) {
-        //     e.preventDefault();
-        //     alert("Lưu thành công (demo)!");
-        //     bootstrap.Modal.getInstance(document.getElementById("modalDonHang")).hide();
-        // });
-
-                        // ======= LOGOUT =======
-                        $("#logoutBtn").on("click", function () {
-                            $("#logoutModal").css("display", "flex");
-                        });
-
-                        $("#cancelLogout").on("click", function () {
-                            $("#logoutModal").hide();
-                        });
-                    });
 
 
                 </script>
-</script>
-<script>
-    document.getElementById("formDonHang").addEventListener("submit", function (e) {
-        e.preventDefault();
+                </script>
+                <script>
+                        document.getElementById("formDonHang").addEventListener("submit", function (e) {
+                            e.preventDefault();
 
-        if (!currentOrderId) {
-            alert("Không xác định đơn hàng");
-            return;
-        }
+                            if (!currentOrderId) {
+                                alert("Không xác định đơn hàng");
+                                return;
+                            }
 
-        const payload = {
-            orderId: currentOrderId,
-            userId: document.getElementById("dh-makh").innerText.replace("KH", ""),
-            fullName: document.getElementById("dh-tenkh").value,
-            email: document.getElementById("dh-email").value,
-            phoneNumber: document.getElementById("dh-sdt").value,
-            fullAddress: document.getElementById("dh-diachi").value,
-            paymentMethod: document.getElementById("dh-httt").value,
-            status: document.getElementById("dh-ttvc").value,
-            note: document.getElementById("dh-note").value
-        };
+                            const payload = {
+                                orderId: currentOrderId,
+                                userId: document.getElementById("dh-makh").innerText.replace("KH", ""),
+                                fullName: document.getElementById("dh-tenkh").value,
+                                email: document.getElementById("dh-email").value,
+                                phoneNumber: document.getElementById("dh-sdt").value,
+                                fullAddress: document.getElementById("dh-diachi").value,
+                                paymentMethod: document.getElementById("dh-httt").value,
+                                status: document.getElementById("dh-ttvc").value,
+                                note: document.getElementById("dh-note").value
+                            };
 
-        fetch("${pageContext.request.contextPath}/admin/update-order", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Cập nhật thành công",
-                        timer: 1500,
-                        showConfirmButton: false
-                    });
+                            fetch("${pageContext.request.contextPath}/admin/update-order", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify(payload)
+                            })
+                                .then(res => res.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "Cập nhật thành công",
+                                            timer: 1500,
+                                            showConfirmButton: false
+                                        });
 
-                    bootstrap.Modal.getInstance(
-                        document.getElementById("modalDonHang")
-                    ).hide();
+                                        bootstrap.Modal.getInstance(
+                                            document.getElementById("modalDonHang")
+                                        ).hide();
 
-                    setTimeout(() => location.reload(), 800);
-                } else {
-                    Swal.fire("Lỗi", "Không cập nhật được đơn hàng", "error");
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                Swal.fire("Lỗi", "Lỗi hệ thống", "error");
-            });
-    });
-</script>
+                                        setTimeout(() => location.reload(), 800);
+                                    } else {
+                                        Swal.fire("Lỗi", "Không cập nhật được đơn hàng", "error");
+                                    }
+                                })
+                                .catch(err => {
+                                    console.error(err);
+                                    Swal.fire("Lỗi", "Lỗi hệ thống", "error");
+                                });
+                        });
+                </script>
 
             </body>
 

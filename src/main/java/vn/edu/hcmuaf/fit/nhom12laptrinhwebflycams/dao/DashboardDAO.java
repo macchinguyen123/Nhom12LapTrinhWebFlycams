@@ -19,9 +19,10 @@ public class DashboardDAO {
     public int getTotalUsers() {
         String sql = "SELECT COUNT(*) FROM users";
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) return rs.getInt(1);
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            if (rs.next())
+                return rs.getInt(1);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -32,9 +33,10 @@ public class DashboardDAO {
     public int getTotalProducts() {
         String sql = "SELECT COUNT(*) FROM products";
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) return rs.getInt(1);
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            if (rs.next())
+                return rs.getInt(1);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,9 +47,10 @@ public class DashboardDAO {
     public int getTotalOrders() {
         String sql = "SELECT COUNT(*) FROM orders";
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) return rs.getInt(1);
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            if (rs.next())
+                return rs.getInt(1);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,128 +60,141 @@ public class DashboardDAO {
     // Doanh thu tháng hiện tại
     public double getMonthlyRevenue() {
         String sql = """
-            SELECT IFNULL(SUM(totalPrice),0)
-            FROM orders
-            WHERE MONTH(createdAt) = MONTH(CURRENT_DATE())
-              AND YEAR(createdAt) = YEAR(CURRENT_DATE())
-              AND status = 'Hoàn thành'
-        """;
+                    SELECT IFNULL(SUM(totalPrice),0)
+                    FROM orders
+                    WHERE MONTH(createdAt) = MONTH(CURRENT_DATE())
+                      AND YEAR(createdAt) = YEAR(CURRENT_DATE())
+                      AND status = 'Hoàn thành'
+                """;
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) return rs.getDouble(1);
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            if (rs.next())
+                return rs.getDouble(1);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
     }
+
     public Map<String, Double> getRevenueLast30Days() {
         Map<String, Double> data = new LinkedHashMap<>();
 
         String sql = """
-            SELECT DATE(createdAt) AS day,
-                   SUM(totalPrice) AS revenue
-            FROM orders
-            WHERE status = 'Hoàn thành'
-              AND createdAt >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
-            GROUP BY DATE(createdAt)
-            ORDER BY day
-        """;
+                    SELECT DATE(createdAt) AS day,
+                           SUM(totalPrice) AS revenue
+                    FROM orders
+                    WHERE status = 'Hoàn thành'
+                      AND createdAt >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+                    GROUP BY DATE(createdAt)
+                    ORDER BY day
+                """;
 
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 data.put(
                         rs.getString("day"),
-                        rs.getDouble("revenue")
-                );
+                        rs.getDouble("revenue"));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return data;
     }
+
     public int getUsersThisWeek() {
         String sql = """
-        SELECT COUNT(*)
-        FROM users
-        WHERE createdAt >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-    """;
+                    SELECT COUNT(*)
+                    FROM users
+                    WHERE createdAt >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+                """;
 
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) return rs.getInt(1);
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            if (rs.next())
+                return rs.getInt(1);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
     }
+
     public int getUsersLastWeek() {
         String sql = """
-        SELECT COUNT(*)
-        FROM users
-        WHERE createdAt >= DATE_SUB(CURDATE(), INTERVAL 14 DAY)
-          AND createdAt < DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-    """;
+                    SELECT COUNT(*)
+                    FROM users
+                    WHERE createdAt >= DATE_SUB(CURDATE(), INTERVAL 14 DAY)
+                      AND createdAt < DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+                """;
 
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) return rs.getInt(1);
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            if (rs.next())
+                return rs.getInt(1);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
     }
+
     public double getUserGrowthRate() {
         int thisWeek = getUsersThisWeek();
         int lastWeek = getUsersLastWeek();
 
-        if (lastWeek == 0) return 100; // tránh chia cho 0
+        if (lastWeek == 0)
+            return 100; // tránh chia cho 0
 
         return ((double) (thisWeek - lastWeek) / lastWeek) * 100;
     }
+
     public int getTotalCategories() {
         String sql = "SELECT COUNT(*) FROM categories";
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) return rs.getInt(1);
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            if (rs.next())
+                return rs.getInt(1);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
     }
+
     public int getProcessingOrders() {
         String sql = "SELECT COUNT(*) FROM orders WHERE status = 'Đang xử lý'";
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) return rs.getInt(1);
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            if (rs.next())
+                return rs.getInt(1);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
     }
+
     public double getMonthlyTarget() {
         return 500_000_000;
     }
+
     public List<User> getNewUsersLast7Days() {
         List<User> list = new ArrayList<>();
 
         String sql = """
-        SELECT fullName, phoneNumber, createdAt
-        FROM users
-        WHERE createdAt >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-        ORDER BY createdAt DESC
-    """;
+                    SELECT fullName, phoneNumber, createdAt
+                    FROM users
+                    WHERE createdAt >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+                    ORDER BY createdAt DESC
+                """;
 
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 User u = new User();
@@ -192,23 +208,24 @@ public class DashboardDAO {
         }
         return list;
     }
+
     public List<Orders> getRecentOrders() {
         List<Orders> list = new ArrayList<>();
 
         String sql = """
-        SELECT o.shippingCode,
-               u.fullName AS customerName,
-               o.status,
-               o.totalPrice
-        FROM orders o
-        JOIN users u ON o.user_id = u.id
-        ORDER BY o.createdAt DESC
-        LIMIT 10
-    """;
+                    SELECT o.shippingCode,
+                           u.fullName AS customerName,
+                           o.status,
+                           o.totalPrice
+                    FROM orders o
+                    JOIN users u ON o.user_id = u.id
+                    ORDER BY o.createdAt DESC
+                    LIMIT 10
+                """;
 
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Orders o = new Orders();
@@ -252,7 +269,123 @@ public class DashboardDAO {
         return list;
     }
 
+    // Lấy danh sách đơn hàng trong ngày hiện tại
+    public List<Orders> getTodayOrders() {
+        List<Orders> list = new ArrayList<>();
 
+        String sql = """
+                    SELECT o.id,
+                           o.shippingCode,
+                           u.fullName AS customerName,
+                           o.createdAt,
+                           o.totalPrice,
+                           o.status
+                    FROM orders o
+                    JOIN users u ON o.user_id = u.id
+                    WHERE DATE(o.createdAt) = CURDATE()
+                    ORDER BY o.createdAt DESC
+                """;
 
+        try (Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
+            while (rs.next()) {
+                Orders o = new Orders();
+                o.setId(rs.getInt("id"));
+                o.setShippingCode(rs.getString("shippingCode"));
+                o.setCustomerName(rs.getString("customerName"));
+                o.setCreatedAt(rs.getTimestamp("createdAt"));
+                o.setTotalPrice(rs.getDouble("totalPrice"));
+
+                String status = rs.getString("status");
+
+                // Map status cho hiển thị
+                switch (status) {
+                    case "Xác nhận" -> {
+                        o.setStatusLabel("Chờ xác nhận");
+                        o.setStatusClass("bg-warning text-dark");
+                    }
+                    case "Đang xử lý" -> {
+                        o.setStatusLabel("Đang xử lý");
+                        o.setStatusClass("bg-info");
+                    }
+                    case "Đang giao" -> {
+                        o.setStatusLabel("Đang giao");
+                        o.setStatusClass("bg-primary");
+                    }
+                    case "Hoàn thành" -> {
+                        o.setStatusLabel("Đã giao");
+                        o.setStatusClass("bg-success");
+                    }
+                    default -> {
+                        o.setStatusLabel("Hủy");
+                        o.setStatusClass("bg-danger");
+                    }
+                }
+
+                list.add(o);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    // Tổng số đơn hôm nay
+    public int getTotalOrdersToday() {
+        String sql = "SELECT COUNT(*) FROM orders WHERE DATE(createdAt) = CURDATE()";
+        try (Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            if (rs.next())
+                return rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // Số đơn đang chờ xác nhận hôm nay
+    public int getProcessingOrdersToday() {
+        String sql = "SELECT COUNT(*) FROM orders WHERE status = 'Xác nhận' AND DATE(createdAt) = CURDATE()";
+        try (Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            if (rs.next())
+                return rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // Doanh thu hôm nay
+    public double getRevenueToday() {
+        String sql = "SELECT IFNULL(SUM(totalPrice),0) FROM orders WHERE status = 'Hoàn thành' AND DATE(createdAt) = CURDATE()";
+        try (Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            if (rs.next())
+                return rs.getDouble(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // Khách hàng mới hôm nay
+    public int getNewCustomersToday() {
+        String sql = "SELECT COUNT(*) FROM users WHERE DATE(createdAt) = CURDATE()";
+        try (Connection con = DBConnection.getConnection();
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+            if (rs.next())
+                return rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
