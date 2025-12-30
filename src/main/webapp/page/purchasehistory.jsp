@@ -161,29 +161,19 @@
                 <!-- Sản phẩm -->
                 <td>
                     <c:if test="${not empty order.items}">
-                        <c:set var="item" value="${order.items[0]}"/>
-                        <div class="san-pham">
+                        <c:forEach var="item" items="${order.items}">
                             <img
                                     src="${pageContext.request.contextPath}/${item.product.mainImage}"
-                                    class="anh_san_pham me-3"
-                                    width="120"
                                     alt="${item.product.productName}"
+                                    class="anh-san-pham"
+                                    width="80"
+                                    style="margin: 4px; border-radius: 6px;"
                             >
-                            <div>
-                                <div class="ten-san-pham">
-                                        ${item.product.productName}
-                                </div>
-                                <a href="${pageContext.request.contextPath}/product-details.jsp?id=${item.product.id}"
-                                   class="nut-xem-chi-tiet">
-                                    Xem chi tiết
-                                </a>
-                            </div>
-                        </div>
+                        </c:forEach>
                     </c:if>
                 </td>
 
 
-                <!-- Giá -->
                 <td class="gia">
                     <fmt:formatNumber value="${order.totalPrice}"
                                       type="currency"
@@ -196,24 +186,24 @@
                                     pattern="dd/MM/yyyy"/>
                 </td>
 
-                <!-- Trạng thái -->
                 <td class="trang-thai">
                     <span class="status ${order.statusClass}">
                             ${order.statusLabel}
                     </span>
                 </td>
 
-
-                <!-- Thao tác -->
                 <td>
-                    <a href="purchasehistory?action=buyAgain&id=${order.id}">
-                        <button class="nut-mua-lai">Mua lại</button>
+                    <a href="${pageContext.request.contextPath}/rebuy?orderId=${order.id}">
+                        <button type="button" class="nut-mua-lai">
+                            Mua lại
+                        </button>
                     </a>
                 </td>
+
+
             </tr>
         </c:forEach>
         </tbody>
-
     </table>
 </div>
 

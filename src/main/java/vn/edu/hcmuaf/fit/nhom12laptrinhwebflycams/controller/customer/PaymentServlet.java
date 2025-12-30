@@ -31,7 +31,11 @@ public class PaymentServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         HttpSession session = req.getSession();
 
-        // 1. USER
+
+        List<OrderItems> items =
+                (List<OrderItems>) session.getAttribute("BUY_NOW_ITEM");
+
+
         User user = (User) session.getAttribute("user");
         if (user == null) {
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
@@ -42,13 +46,8 @@ public class PaymentServlet extends HttpServlet {
         String phone = (String) session.getAttribute("phone");
         String note = (String) session.getAttribute("note");
 
-        // 2. PAYMENT METHOD
         String paymentMethod = req.getParameter("paymentMethod");
         if (paymentMethod == null) paymentMethod = "COD";
-
-        // 3. LẤY DANH SÁCH SẢN PHẨM
-        List<OrderItems> items =
-                (List<OrderItems>) session.getAttribute("BUY_NOW_ITEM");
 
         if (items == null || items.isEmpty()) {
             resp.sendRedirect(req.getContextPath() + "/shopping-cart.jsp");
@@ -56,13 +55,11 @@ public class PaymentServlet extends HttpServlet {
         }
 
         try {
-            // 4. TÍNH TỔNG TIỀN
             double totalPrice = 0;
             for (OrderItems item : items) {
                 totalPrice += item.getPrice() * item.getQuantity();
             }
 
-            // 5. INSERT ORDER
             Orders order = new Orders();
             order.setUserId(user.getId());
             order.setAddressId(addressId);
@@ -80,22 +77,18 @@ public class PaymentServlet extends HttpServlet {
                 throw new Exception("Insert order failed");
             }
 
-            // 6. INSERT ORDER ITEMS
             OrderItemsDAO orderItemsDAO = new OrderItemsDAO();
             for (OrderItems item : items) {
                 item.setOrderId(orderId);
                 orderItemsDAO.insert(item);
             }
 
-            // 7. CLEAR SESSION
             session.removeAttribute("BUY_NOW_ITEM");
             session.removeAttribute("note");
 
-            // 8. LOAD DANH SÁCH ĐƠN HÀNG MỚI
             List<Orders> orders = ordersDAO.getOrdersByUser(user.getId());
             req.setAttribute("orders", orders);
 
-            // 9. FORWARD VỀ PERSONAL PAGE
             RequestDispatcher dispatcher = req.getRequestDispatcher("/page/personal-page.jsp");
             resp.sendRedirect(req.getContextPath() + "/personal?tab=orders");
 

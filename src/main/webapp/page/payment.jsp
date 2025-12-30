@@ -28,7 +28,6 @@
                 <span class="current">Phương thức thanh toán</span>
             </nav>
         </div>
-
         <h5 class="mb-4 fw-bold">Phương Thức Thanh Toán</h5>
 
         <!-- FORM THANH TOÁN -->
