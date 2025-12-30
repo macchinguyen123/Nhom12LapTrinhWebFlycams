@@ -1,3 +1,8 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,9 +13,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../stylesheets/purchasehistory.css">
-    <link rel="stylesheet" href="../stylesheets/header.css">
-    <link rel="stylesheet" href="../stylesheets/footer.css">
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/searching.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/footer.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/purchasehistory.css">
 
 </head>
 <body>
@@ -128,6 +135,7 @@
     </div>
 </div>
 
+
 <div id="lich-su-mua-hang">
     <h2>Đơn hàng đã mua gần đây</h2>
 
@@ -143,55 +151,72 @@
         </tr>
         </thead>
         <tbody>
+        <c:forEach var="order" items="${orders}">
+            <tr>
+                <!-- Mã đơn -->
+                <td>
+                    <a href="#" class="ma-don">#${order.id}</a>
+                </td>
 
-        <!-- Đơn hàng 1 -->
-        <tr id="don-hang-1">
-            <td><a href="#" class="ma-don">#5432177</a></td>
-            <td>
-                <div class="san-pham">
-                    <img src="../image/content/DJI%20Mini%203.png" alt="DJI Mini 3" class="anh_san_pham me-3" width="120">
-                    <div>
-                        <div class="ten-san-pham">DJI Mini 3</div>
+                <!-- Sản phẩm -->
+                <td>
+                    <c:if test="${not empty order.items}">
+                        <c:set var="item" value="${order.items[0]}"/>
+                        <div class="san-pham">
+                            <img
+                                    src="${pageContext.request.contextPath}/${item.product.mainImage}"
+                                    class="anh_san_pham me-3"
+                                    width="120"
+                                    alt="${item.product.productName}"
+                            >
+                            <div>
+                                <div class="ten-san-pham">
+                                        ${item.product.productName}
+                                </div>
+                                <a href="${pageContext.request.contextPath}/product-details.jsp?id=${item.product.id}"
+                                   class="nut-xem-chi-tiet">
+                                    Xem chi tiết
+                                </a>
+                            </div>
+                        </div>
+                    </c:if>
+                </td>
 
-                        <a href="product-details.jsp" class="nut-xem-chi-tiet">Xem chi tiết</a>
-                    </div>
-                </div>
-            </td>
-            <td class="gia">8.990.000₫</td>
-            <td>05/11/2025</td>
-            <td class="trang-thai da-huy">Đã hủy</td>
 
-            <td><a href="delivery-info.jsp">
-                <button class="nut-mua-lai">Mua lại</button>
-            </a></td>
+                <!-- Giá -->
+                <td class="gia">
+                    <fmt:formatNumber value="${order.totalPrice}"
+                                      type="currency"
+                                      currencySymbol="₫"/>
+                </td>
 
-        </tr>
+                <!-- Ngày đặt -->
+                <td>
+                    <fmt:formatDate value="${order.createdAt}"
+                                    pattern="dd/MM/yyyy"/>
+                </td>
 
-        <!-- Đơn hàng 2 -->
-        <tr id="don-hang-2">
-            <td><a href="#" class="ma-don">#5432152</a></td>
-            <td>
-                <div class="san-pham">
-                    <img src="../image/content/DJI%20Mini%204K.png" alt="DJI Mini 4K" class="anh_san_pham me-3" width="120">
-                    <div>
-                        <div class="ten-san-pham">DJI Mini 4K</div>
-                        <a href="product-details.jsp" class="nut-xem-chi-tiet">Xem chi tiết</a>
-                    </div>
-                </div>
-            </td>
-            <td class="gia">9.607.000₫</td>
-            <td>10/11/2025</td>
-            <td class="trang-thai da-nhan-hang">Đã nhận hàng</td>
-            <a href="delivery-info.jsp">
-                <td><a href="payment.jsp">
-                    <button class="nut-mua-lai">Mua lại</button>
-                </a></td>
-            </a>
-        </tr>
+                <!-- Trạng thái -->
+                <td class="trang-thai">
+                    <span class="status ${order.statusClass}">
+                            ${order.statusLabel}
+                    </span>
+                </td>
 
+
+                <!-- Thao tác -->
+                <td>
+                    <a href="purchasehistory?action=buyAgain&id=${order.id}">
+                        <button class="nut-mua-lai">Mua lại</button>
+                    </a>
+                </td>
+            </tr>
+        </c:forEach>
         </tbody>
+
     </table>
 </div>
+
 
 <footer class="footer">
     <div class="footer-container">
@@ -319,3 +344,4 @@
     });
 </script>
 </html>
+
