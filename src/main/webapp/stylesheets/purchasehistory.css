@@ -341,3 +341,35 @@ td.trang-thai {
         grid-template-columns: 1fr;
     }
 }
+/* căn giữa dọc cho ô */
+.trang-thai {
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* badge trạng thái */
+.status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    text-align: center;
+    padding: 6px 14px;
+    border-radius: 20px;
+
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;              /* tránh bị dính trên */
+    white-space: nowrap;
+}
+
+/* từng trạng thái */
+.da-nhan-hang {
+    background: #d4f3dc;
+    color: #1f7a3f;
+}
+
+.xac-nhan {
+    background: transparent;
+    color: #000;
+}

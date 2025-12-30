@@ -49,9 +49,10 @@
 
         <!-- 🧾 Nút đăng xuất -->
         <div class="logout-section">
-            <a href="purchasehistory.jsp">
+            <a href="${pageContext.request.contextPath}/purchasehistory">
                 <button id="logoutBtn1">Lịch sử mua hàng</button>
             </a>
+
             <a href="homepage-visitors.jsp">
                 <button id="logoutBtn">Đăng Xuất</button>
             </a>
