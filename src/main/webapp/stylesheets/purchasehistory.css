@@ -137,54 +137,6 @@ tbody tr:hover {
     color: #0056b3;
 }
 
-/* ==== TRẠNG THÁI ==== */
-.trang-thai {
-    display: inline-block;
-    font-weight: 600;
-    font-size: 14px;
-    padding: 8px 18px;
-    border-radius: 20px;
-    line-height: 1.2;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    min-width: 110px;
-    transition: all 0.2s ease;
-    margin: 0;
-}
-
-.trang-thai.da-huy {
-    background-color: #ffe4e4;
-    color: #d9534f;
-    margin: 70px 15px
-
-}
-
-/* ==== CỘT TRẠNG THÁI ==== */
-td.trang-thai {
-    text-align: center;
-    vertical-align: middle;
-}
-
-.trang-thai.dang-xu-ly {
-    background-color: #fff3cd;
-    color: #856404;
-}
-
-.trang-thai.da-nhan-hang {
-    background-color: #d4edda;
-    color: #155724;
-    text-align: center;
-    margin: 50px 5px;
-    display: inline-flex; /* inline-flex giúp nằm giữa trong ô */
-    align-items: center; /* căn giữa chữ theo chiều dọc */
-    justify-content: center; /* căn giữa chữ theo chiều ngang */
-    height: 36px; /* chiều cao cố định */
-    padding: 0 20px;
-    border-radius: 20px;
-    font-weight: 600;
-    min-width: 130px; /* cho badge đều với các loại khác */
-}
 
 /* ==== NÚT MUA LẠI ==== */
 .nut-mua-lai {
@@ -341,35 +293,74 @@ td.trang-thai {
         grid-template-columns: 1fr;
     }
 }
-/* căn giữa dọc cho ô */
-.trang-thai {
-    vertical-align: middle;
-    text-align: center;
+
+.san-pham {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    background-color: #fafafa;
 }
 
-/* badge trạng thái */
+.anh-san-pham {
+    width: 120px;
+    height: auto;
+    border-radius: 4px;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.thong-tin-san-pham {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ten-san-pham {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.nut-xem-chi-tiet {
+    display: inline-block;
+    font-size: 13px;
+    color: #2196F3;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nut-xem-chi-tiet:hover {
+    color: #1976D2;
+    text-decoration: underline;
+}
+
+.anh-san-pham {
+    height: auto;
+    object-fit: cover;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.anh-san-pham:hover {
+    transform: scale(1.05);
+}
+
 .status {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    vertical-align: middle;
-    text-align: center;
     padding: 6px 14px;
     border-radius: 20px;
-
     font-size: 14px;
     font-weight: 600;
-    line-height: 1;              /* tránh bị dính trên */
+    height: 32px;
+    min-width: 100px;
+    text-align: center;
     white-space: nowrap;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
 
-/* từng trạng thái */
-.da-nhan-hang {
-    background: #d4f3dc;
-    color: #1f7a3f;
-}
-
-.xac-nhan {
-    background: transparent;
-    color: #000;
-}

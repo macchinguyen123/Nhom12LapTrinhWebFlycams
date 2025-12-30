@@ -37,26 +37,24 @@ public class OrderItemsDAO {
         List<OrderItems> list = new ArrayList<>();
 
         String sql = """
-    SELECT
-                             oi.id AS oi_id,
-                             oi.product_id,
-                             oi.order_id,
-                             oi.quantity,
-                             oi.price,
-                             p.productName,
-                         
-                             (
-                                 SELECT img.imageUrl
-                                 FROM images img
-                                 WHERE img.product_id = p.id
-                                 ORDER BY img.id
-                                 LIMIT 1
-                             ) AS imageUrl
-                         
-                         FROM order_items oi
-                         JOIN products p ON oi.product_id = p.id
-                         WHERE oi.order_id = ?
-""";
+        SELECT
+            oi.id AS oi_id,
+            oi.product_id,
+            oi.order_id,
+            oi.quantity,
+            oi.price,
+            p.productName,
+            (
+                SELECT img.imageUrl
+                FROM images img
+                WHERE img.product_id = p.id
+                ORDER BY img.id
+                LIMIT 1
+            ) AS imageUrl
+        FROM order_items oi
+        JOIN products p ON oi.product_id = p.id
+        WHERE oi.order_id = ?
+    """;
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -66,7 +64,8 @@ public class OrderItemsDAO {
 
             while (rs.next()) {
                 OrderItems item = new OrderItems();
-                item.setId(rs.getInt("id"));
+
+                item.setId(rs.getInt("oi_id"));
                 item.setOrderId(rs.getInt("order_id"));
                 item.setProductId(rs.getInt("product_id"));
                 item.setQuantity(rs.getInt("quantity"));
@@ -75,14 +74,16 @@ public class OrderItemsDAO {
                 Product product = new Product();
                 product.setId(rs.getInt("product_id"));
                 product.setProductName(rs.getString("productName"));
-                product.setMainImage(rs.getString("imageUrl")); // ⭐ BẮT BUỘC
+                product.setMainImage(rs.getString("imageUrl"));
 
                 item.setProduct(product);
                 list.add(item);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
+
 }
