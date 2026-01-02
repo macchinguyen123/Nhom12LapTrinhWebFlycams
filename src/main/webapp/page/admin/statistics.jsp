@@ -48,7 +48,9 @@
                             <div class="logout-actions">
                                 <a href="${pageContext.request.contextPath}/Login"><button id="confirmLogout"
                                         class="confirm">Có</button></a>
-                                <button id="cancelLogout" class="cancel">Không</button>
+                                <a href="${pageContext.request.contextPath}/Logout">
+                                    <button id="confirmLogout" class="confirm">Có</button>
+                                </a>
                             </div>
                         </div>
                     </div>

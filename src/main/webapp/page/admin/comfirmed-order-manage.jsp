@@ -49,7 +49,7 @@
                         <div class="logout-modal-content">
                             <p>Bạn có chắc muốn đăng xuất không?</p>
                             <div class="logout-actions">
-                                <a href="../login.jsp">
+                                <a href="${pageContext.request.contextPath}/Logout">
                                     <button id="confirmLogout" class="confirm">Có</button>
                                 </a>
                                 <button id="cancelLogout" class="cancel">Không</button>
