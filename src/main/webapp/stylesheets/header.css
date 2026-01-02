@@ -33,9 +33,10 @@ a {
     width: 100%;
     padding: 8px 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    position: sticky; /* <<< chính là dòng này */
-    top: 0; /* dính lên đầu */
-    z-index: 199;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    /* Tăng z-index để không bị phần tử khác chèn lên khi scroll */
 }
 
 .top-header {
@@ -112,7 +113,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
     background-color: rgba(255, 255, 255, 0.25);
     color: #fff;
     padding: 8px 12px;
@@ -121,14 +122,25 @@ a {
     transition: all 0.3s ease;
     font-weight: 500;
     user-select: none;
+    width: 120px !important;
+    /* Kích thước cố định chuẩn */
+    flex-shrink: 0;
 }
 
 .icon-btn i {
     font-size: 18px;
+    flex-shrink: 0;
 }
 
 .icon-btn span {
-    font-size: 14px;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 70px;
+    /* Giới hạn để không làm lệch icon */
+    text-align: center;
 }
 
 .icon-btn:hover {
@@ -154,8 +166,8 @@ a {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 66px;
-    z-index: 99;
-
+    z-index: 9998;
+    /* Đảm bảo menu cũng nằm dưới header nhưng trên các thành phần khác */
 }
 
 .main-nav {
@@ -214,7 +226,8 @@ a {
     flex-direction: column;
     animation: fadeIn 0.25s ease-in-out;
     list-style: none;
-    margin: 0; /* xóa khoảng cách mặc định */
+    margin: 0;
+    /* xóa khoảng cách mặc định */
     padding: 0;
 }
 
@@ -229,6 +242,7 @@ a {
         opacity: 0;
         transform: translateY(-5px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -237,8 +251,10 @@ a {
 
 .menu-left-1 li {
     list-style: none;
-    width: 100%; /* chiếm toàn chiều ngang */
-    box-sizing: border-box; /* tính luôn border/padding */
+    width: 100%;
+    /* chiếm toàn chiều ngang */
+    box-sizing: border-box;
+    /* tính luôn border/padding */
     padding: 15px 18px;
     display: flex;
     align-items: center;
@@ -251,8 +267,10 @@ a {
 }
 
 .menu-left-1 li:hover {
-    background: #e7f0ff; /* nền hover */
-    padding-left: 24px; /* giữ nguyên để không bị giật */
+    background: #e7f0ff;
+    /* nền hover */
+    padding-left: 24px;
+    /* giữ nguyên để không bị giật */
     color: #0051c6;
 }
 
@@ -263,7 +281,10 @@ a {
 }
 
 ul {
-    list-style: none; /* bỏ chấm tròn mặc định */
-    padding-left: 0; /* bỏ thụt lề mặc định */
-    margin: 0; /* bỏ khoảng cách ngoài */
+    list-style: none;
+    /* bỏ chấm tròn mặc định */
+    padding-left: 0;
+    /* bỏ thụt lề mặc định */
+    margin: 0;
+    /* bỏ khoảng cách ngoài */
 }

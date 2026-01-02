@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.cart.Carts;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrderItemsDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrdersDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.OrderItems;
@@ -20,7 +21,8 @@ import java.util.List;
 @WebServlet(name = "PaymentServlet", value = "/PaymentServlet")
 public class PaymentServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 
@@ -31,10 +33,7 @@ public class PaymentServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         HttpSession session = req.getSession();
 
-
-        List<OrderItems> items =
-                (List<OrderItems>) session.getAttribute("BUY_NOW_ITEM");
-
+        List<OrderItems> items = (List<OrderItems>) session.getAttribute("BUY_NOW_ITEM");
 
         User user = (User) session.getAttribute("user");
         if (user == null) {
@@ -47,7 +46,8 @@ public class PaymentServlet extends HttpServlet {
         String note = (String) session.getAttribute("note");
 
         String paymentMethod = req.getParameter("paymentMethod");
-        if (paymentMethod == null) paymentMethod = "COD";
+        if (paymentMethod == null)
+            paymentMethod = "COD";
 
         if (items == null || items.isEmpty()) {
             resp.sendRedirect(req.getContextPath() + "/shopping-cart.jsp");
@@ -78,9 +78,20 @@ public class PaymentServlet extends HttpServlet {
             }
 
             OrderItemsDAO orderItemsDAO = new OrderItemsDAO();
+            Carts cart = (Carts) session.getAttribute("cart");
+
             for (OrderItems item : items) {
                 item.setOrderId(orderId);
                 orderItemsDAO.insert(item);
+
+                // XÓA KHỎI GIỎ HÀNG SAU KHI ĐẶT THÀNH CÔNG
+                if (cart != null) {
+                    cart.removeItem(item.getProductId());
+                }
+            }
+
+            if (cart != null) {
+                session.setAttribute("cart", cart);
             }
 
             session.removeAttribute("BUY_NOW_ITEM");

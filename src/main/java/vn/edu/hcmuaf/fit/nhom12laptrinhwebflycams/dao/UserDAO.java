@@ -442,4 +442,17 @@ public class UserDAO {
         }
         return false;
     }
+
+    public boolean updateAvatar(int userId, String avatar) {
+        String sql = "UPDATE users SET avatar = ? WHERE id = ?";
+        try (Connection conn = getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, avatar);
+            ps.setInt(2, userId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

@@ -38,7 +38,8 @@ body {
 }
 
 .address-select-item {
-    flex: 1; /* chia đều 50% */
+    flex: 1;
+    /* chia đều 50% */
 }
 
 .address-select-item select {
@@ -77,7 +78,8 @@ form {
 .user-info {
     text-align: center;
     margin-bottom: 30px;
-    position: relative; /* để avatar-camera có thể định vị tuyệt đối */
+    position: relative;
+    /* để avatar-camera có thể định vị tuyệt đối */
 }
 
 .user-info .avatar-wrapper {
@@ -94,24 +96,6 @@ form {
     height: 100%;
     object-fit: cover;
     display: block;
-}
-
-.avatar-camera {
-    position: absolute;
-    bottom: 70px; /* đẩy lên gần avatar */
-    right: calc(50% - 30px); /* 50% là giữa user-info, 45px = nửa avatar (90/2) */
-    transform: translate(50%, 0);
-    width: 32px;
-    height: 32px;
-    background: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    z-index: 20;
 }
 
 
@@ -396,7 +380,8 @@ form {
     text-align: left;
 }
 
-.order-table th, .order-table td {
+.order-table th,
+.order-table td {
     padding: 12px;
     border-bottom: 1px solid #eee;
 }
@@ -451,6 +436,7 @@ form {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -500,16 +486,19 @@ form {
     background: #fff;
     border: 3px solid #ccc;
     border-radius: 50%;
-    width: 59px; /* 🔹 Tăng kích thước vòng tròn */
+    width: 59px;
+    /* 🔹 Tăng kích thước vòng tròn */
     height: 59px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px; /* 🔹 Cỡ chữ vừa hơn */
+    font-size: 11px;
+    /* 🔹 Cỡ chữ vừa hơn */
     color: #999;
     transition: all 0.3s;
     text-align: center;
-    font-weight: 600; /* 🔹 Chữ đậm hơn cho dễ đọc */
+    font-weight: 600;
+    /* 🔹 Chữ đậm hơn cho dễ đọc */
     line-height: 1.2;
 }
 
@@ -526,7 +515,8 @@ form {
     top: 50%;
     left: 12%;
     width: 76%;
-    height: 4px; /* Tăng nhẹ độ dày thanh */
+    height: 4px;
+    /* Tăng nhẹ độ dày thanh */
     background: #ddd;
     transform: translateY(-50%);
     z-index: 0;
@@ -569,7 +559,8 @@ form {
     flex-wrap: wrap;
 }
 
-.summary-left, .summary-right {
+.summary-left,
+.summary-right {
     flex: 1;
     min-width: 250px;
 }
@@ -616,7 +607,8 @@ form {
     text-align: left;
 }
 
-.order-table th, .order-table td {
+.order-table th,
+.order-table td {
     padding: 12px 14px;
     border-bottom: 1px solid #eee;
 }
@@ -645,7 +637,8 @@ form {
 .order-table td:last-child {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* hoặc center nếu muốn nút căn giữa */
+    align-items: flex-start;
+    /* hoặc center nếu muốn nút căn giữa */
     gap: 4px;
 }
 
@@ -693,7 +686,8 @@ form {
     width: 20px;
     height: 20px;
     cursor: pointer;
-    accent-color: #0051c6; /* Màu xanh đồng bộ */
+    accent-color: #0051c6;
+    /* Màu xanh đồng bộ */
 }
 
 .address-select-group {
@@ -727,13 +721,15 @@ form {
 
 /* Kích thước nút bằng nhau */
 .thao-tac-col .btn {
-    width: 150px; /* 2 nút bằng nhau */
+    width: 150px;
+    /* 2 nút bằng nhau */
     padding: 8px 14px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    border-radius: 25px; /* Bo tròn kiểu pill */
+    border-radius: 25px;
+    /* Bo tròn kiểu pill */
     font-size: 14px;
     font-weight: 500;
     transition: 0.25s ease;
@@ -772,6 +768,48 @@ form {
     transform: translateY(1px);
 }
 
+
+/* Restore Default Bootstrap Badges */
+.badge {
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+
+.avatar-camera {
+    position: absolute !important;
+    bottom: -5px !important;
+    right: -5px !important;
+    top: auto !important;
+    left: auto !important;
+    width: 32px;
+    height: 32px;
+    background: #0051c6 !important;
+    /* Tech Blue */
+    color: #fff !important;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.2s ease-in-out;
+}
+
+.avatar-camera:hover {
+    background: #003e99 !important;
+    transform: scale(1.1);
+}
+
 .order-tabs {
     display: flex;
     gap: 12px;
@@ -779,60 +817,47 @@ form {
 }
 
 .order-tab {
-    display: flex; /* flex để icon + text nằm ngang */
-    align-items: center; /* căn giữa theo chiều dọc */
-    justify-content: center; /* căn giữa text */
-    gap: 6px; /* khoảng cách icon và text */
-    padding: 10px 16px; /* padding đều cho tất cả */
+    display: flex;
+    /* flex để icon + text nằm ngang */
+    align-items: center;
+    /* căn giữa theo chiều dọc */
+    justify-content: center;
+    /* căn giữa text */
+    gap: 6px;
+    /* khoảng cách icon và text */
+    padding: 10px 16px;
+    /* padding đều cho tất cả */
     border-radius: 25px;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    min-height: 42px; /* chiều cao đồng nhất */
+    min-height: 42px;
+    /* chiều cao đồng nhất */
     border: 1px solid transparent;
     transition: 0.25s;
 }
 
-/* Hover */
-.order-tab:hover {
-    opacity: 0.85;
-}
-
-/* Active */
+/* Active State - Solid Blue for ALL tabs */
 .order-tab.active {
-    color: #fff;
+    background-color: #0051c6 !important;
+    background: #0051c6 !important;
+    color: #ffffff !important;
+    border-color: #0051c6 !important;
+    box-shadow: none !important;
+    font-weight: 700;
 }
 
-/* Các màu riêng từng trạng thái */
-.tab-cho.active {
-    background-color: #f0ad4e;
-    border-color: #f0ad4e;
-}
-
-.tab-dang-giao.active {
-    background-color: #0051c6;
-    border-color: #0051c6;
-}
-
-.tab-da-giao.active {
-    background-color: #28a745;
-    border-color: #28a745;
-}
-
-.tab-da-huy.active {
-    background-color: #dc3545;
-    border-color: #dc3545;
-}
-
-/* Icon màu trắng khi active */
 .order-tab.active i {
-    color: #fff;
+    color: #ffffff !important;
 }
 
 ul {
-    list-style: none; /* bỏ chấm tròn mặc định */
-    padding-left: 0; /* bỏ thụt lề mặc định */
-    margin: 0; /* bỏ khoảng cách ngoài */
+    list-style: none;
+    /* bỏ chấm tròn mặc định */
+    padding-left: 0;
+    /* bỏ thụt lề mặc định */
+    margin: 0;
+    /* bỏ khoảng cách ngoài */
 }
 
 a {
@@ -840,9 +865,11 @@ a {
     color: inherit;
     display: contents;
 }
+
 /* Nhóm OTP */
 .otp-group {
-    display: none; /* mặc định ẩn */
+    display: none;
+    /* mặc định ẩn */
     margin-top: 15px;
     padding: 12px;
     border: 1px solid #ddd;
@@ -884,12 +911,14 @@ a {
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.2s;
-    display: none; /* mặc định ẩn */
+    display: none;
+    /* mặc định ẩn */
 }
 
 #confirmChangeBtn:hover {
     background-color: #0056b3;
 }
+
 #sendOtpBtn {
     margin-top: 10px;
     padding: 8px 16px;
@@ -905,13 +934,14 @@ a {
 #sendOtpBtn:hover {
     background-color: #014bb5;
 }
+
 .add-address-container {
     max-width: 500px;
     margin: 40px auto;
     padding: 30px;
     background: #fff;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: "Segoe UI", sans-serif;
 }
 
@@ -990,6 +1020,7 @@ a {
 .green-button:hover {
     background: #0051c6;
 }
+
 .address-list {
     margin-top: 20px;
     padding: 10px;
@@ -1027,6 +1058,7 @@ a {
     border-radius: 6px;
     cursor: pointer;
 }
+
 .form-row {
     display: flex;
     gap: 20px;
@@ -1050,23 +1082,29 @@ a {
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 100%; /* sửa lại dòng này */
+    width: 100%;
+    /* sửa lại dòng này */
     box-sizing: border-box;
 }
+
 .address-item__edit {
     display: none;
     margin-top: 10px;
     padding-top: 10px;
     border-top: 1px dashed #e5e5e5;
 }
+
 .hidden {
     display: none !important;
 }
 
 .popup {
     position: fixed;
-    top:0; left:0; right:0; bottom:0;
-    background: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
