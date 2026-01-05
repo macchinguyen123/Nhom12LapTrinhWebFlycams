@@ -42,6 +42,7 @@ public class EditAddressServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        resp.sendRedirect(req.getContextPath() + "/ListAddressServlet");
+        // Tương tự, redirect về /personal?tab=addresses
+        resp.sendRedirect(req.getContextPath() + "/personal?tab=addresses");
     }
 }

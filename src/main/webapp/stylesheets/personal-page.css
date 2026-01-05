@@ -1021,30 +1021,30 @@ a {
     background: #0051c6;
 }
 
-.address-list {
-    margin-top: 20px;
-    padding: 10px;
-    border-top: 1px solid #ddd;
-}
+/*.address-list {*/
+/*    margin-top: 20px;*/
+/*    padding: 10px;*/
+/*    border-top: 1px solid #ddd;*/
+/*}*/
 
-.address-list ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+/*.address-list ul {*/
+/*    list-style: none;*/
+/*    padding: 0;*/
+/*    margin: 0;*/
+/*}*/
 
-.address-list li {
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
-    font-size: 14px;
-    color: #333;
-}
+/*.address-list li {*/
+/*    padding: 8px 0;*/
+/*    border-bottom: 1px solid #eee;*/
+/*    font-size: 14px;*/
+/*    color: #333;*/
+/*}*/
 
-.default-tag {
-    color: #28a745;
-    font-weight: 600;
-    margin-left: 6px;
-}
+/*.default-tag {*/
+/*    color: #28a745;*/
+/*    font-weight: 600;*/
+/*    margin-left: 6px;*/
+/*}*/
 
 .hidden {
     display: none;
@@ -1097,7 +1097,6 @@ a {
 .hidden {
     display: none !important;
 }
-
 .popup {
     position: fixed;
     top: 0;
@@ -1108,21 +1107,343 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999;
+    z-index: 10000; /* Tăng cao hơn header (header có z-index: 9999) */
 }
 
 .popup-content {
     background: #fff;
-    padding: 20px;
+    padding: 30px;
     border-radius: 8px;
-    width: 400px;
+    width: 90%;
+    max-width: 500px;
     position: relative;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    max-height: 90vh;
+    overflow-y: auto;
+    z-index: 10001;
 }
 
 .close {
     position: absolute;
-    right: 10px;
-    top: 10px;
+    right: 15px;
+    top: 15px;
     cursor: pointer;
+    font-size: 28px;
+    font-weight: bold;
+    color: #999;
+    transition: color 0.2s;
+    z-index: 10002;
+}
+
+.close:hover {
+    color: #333;
+}
+/* Cải thiện layout địa chỉ */
+.address-item {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+.address-item__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.address-item__info {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.address-item__actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0; /* Không cho co lại */
+}
+
+.address-item__default {
+    display: inline-block;
+    margin-left: 8px;
+    color: #28a745;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* Style cho các nút */
+.btn {
+    padding: 6px 14px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.btn-sm {
+    padding: 5px 12px;
+    font-size: 13px;
+}
+
+.btn-primary {
+    background: #0051c6;
+    color: #fff;
+    border: 1px solid #0051c6;
+}
+
+.btn-primary:hover {
+    background: #003e99;
+    border-color: #003e99;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: #fff;
+    border: 1px solid #dc3545;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+    border-color: #bd2130;
+}
+/* Nút Thêm địa chỉ - Modern Style */
+#openPopup {
+    background: linear-gradient(135deg, #0051c6 0%, #0066ff 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 81, 198, 0.25);
+    margin-top: 20px;
+}
+
+#openPopup:hover {
+    background: linear-gradient(135deg, #003e99 0%, #0051c6 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 81, 198, 0.4);
+}
+
+#openPopup:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 81, 198, 0.3);
+}
+
+/* Thêm icon vào nút (nếu muốn) */
+#openPopup::before {
+    content: '+';
     font-size: 20px;
+    font-weight: bold;
+    line-height: 1;
+}
+/* Tiêu đề Địa Chỉ Nhận Hàng - Modern Style */
+#addresses-section h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 25px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e5e5e5;
+    position: relative;
+}
+/* Tiêu đề Địa Chỉ Nhận Hàng - Modern Style */
+#addresses-section h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 8px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+    position: relative;
+    display: inline-block;
+}
+
+#addresses-section h2::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, #0051c6 0%, #0066ff 100%);
+    border-radius: 2px;
+}
+
+#addresses-section h2::after {
+    margin-left: 12px;
+    font-size: 26px;
+    vertical-align: middle;
+}
+
+/* Subtitle */
+#addresses-section .desc {
+    color: #666;
+    font-size: 14px;
+    margin-top: -5px;
+    margin-bottom: 30px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+/* Khung danh sách địa chỉ - Rộng & Đẹp */
+.address-list {
+    background: #ffffff;
+    padding: 30px 35px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 25px;
+    border: 1px solid #f0f0f0;
+}
+
+.address-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Item địa chỉ */
+.address-item {
+    background: #f8f9fa;
+    margin-bottom: 15px;
+    padding: 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.address-item:hover {
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 81, 198, 0.1);
+    border-color: #0051c6;
+    transform: translateY(-2px);
+}
+
+.address-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Header của item */
+.address-item__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+/* Thông tin địa chỉ */
+.address-item__info {
+    flex: 1;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #333;
+}
+
+.address-item__info strong {
+    font-size: 16px;
+    color: #222;
+    font-weight: 600;
+}
+
+/* Tag mặc định */
+.address-item__default {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 3px 10px;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(40, 167, 69, 0.3);
+}
+
+/* Nút hành động */
+/* Nút hành động - Đặt bên phải và hơi thấp xuống */
+.address-item__actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+    align-self: center; /* Căn giữa theo chiều dọc thay vì flex-start */
+    margin-top: 5px; /* Thêm khoảng cách xuống phía dưới */
+}
+
+/* Message khi không có địa chỉ */
+.address-list > p {
+    text-align: center;
+    color: #999;
+    font-size: 15px;
+    padding: 40px 0;
+    margin: 0;
+}
+/* Container cho section */
+#addresses-section {
+    position: relative;
+}
+
+/* Tiêu đề */
+#addresses-section h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+    position: relative;
+    display: inline-block;
+}
+
+#addresses-section h2::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, #0051c6 0%, #0066ff 100%);
+    border-radius: 2px;
+}
+
+/* Nút Thêm địa chỉ - Đặt bên phải */
+#openPopup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(135deg, #0051c6 0%, #0066ff 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 81, 198, 0.25);
+    margin: 0;
+}
+
+#openPopup:hover {
+    background: linear-gradient(135deg, #003e99 0%, #0051c6 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 81, 198, 0.4);
+}
+
+#openPopup::before {
+    content: '+';
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1;
 }
