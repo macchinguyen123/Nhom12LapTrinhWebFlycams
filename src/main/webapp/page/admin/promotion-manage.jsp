@@ -271,12 +271,28 @@
 
                                     <div class="col-md-6">
                                         <label class="form-label">Áp dụng</label>
-                                        <select name="scope" class="form-select">
+                                        <select name="scope" id="add-scope" class="form-select">
                                             <option value="ALL">Tất cả</option>
                                             <option value="PRODUCT">Sản phẩm</option>
                                             <option value="CATEGORY">Danh mục</option>
                                         </select>
                                     </div>
+
+                                    <!-- Áp cho sản phẩm -->
+                                    <div class="col-md-6 d-none" id="add-product-box">
+                                        <label class="form-label">Mã sản phẩm</label>
+                                        <input type="text" name="productIds" class="form-control"
+                                               placeholder="VD: 1,2,3 hoặc SP001,SP002">
+                                    </div>
+
+
+                                    <!-- Áp cho danh mục -->
+                                    <div class="col-md-6 d-none" id="add-category-box">
+                                        <label class="form-label">Mã danh mục</label>
+                                        <input type="text" name="categoryId" class="form-control"
+                                               placeholder="VD: DM001">
+                                    </div>
+
 
                                     <div class="col-md-6">
                                         <label class="form-label">Ngày bắt đầu</label>
@@ -348,6 +364,19 @@
                                         </select>
                                     </div>
 
+
+                                    <div class="col-md-6 d-none" id="edit-product-box">
+                                        <label class="form-label">Mã sản phẩm</label>
+                                        <input type="text" name="productId" id="edit-product" class="form-control"
+                                               placeholder="VD: 1,2,3">
+                                    </div>
+
+                                    <div class="col-md-6 d-none" id="edit-category-box">
+                                        <label class="form-label">Mã danh mục</label>
+                                        <input type="text" name="categoryId" id="edit-category" class="form-control">
+                                    </div>
+
+
                                     <div class="col-md-6">
                                         <label class="form-label">Ngày bắt đầu</label>
                                         <input type="date" name="startDate" id="edit-start" class="form-control"
@@ -392,6 +421,19 @@
                     });
                 </script>
                 <script>
+                    function toggleEditScope(scope) {
+                        document.getElementById("edit-product-box").classList.add("d-none");
+                        document.getElementById("edit-category-box").classList.add("d-none");
+
+                        if (scope === "PRODUCT") {
+                            document.getElementById("edit-product-box").classList.remove("d-none");
+                        }
+
+                        if (scope === "CATEGORY") {
+                            document.getElementById("edit-category-box").classList.remove("d-none");
+                        }
+                    }
+
                     document.querySelectorAll('.btn-edit').forEach(btn => {
                         btn.addEventListener('click', () => {
 
@@ -402,17 +444,39 @@
                             document.getElementById('edit-start').value = btn.dataset.start;
                             document.getElementById('edit-end').value = btn.dataset.end;
 
-                            const scopeText = btn.dataset.scope.toLowerCase();
                             let scope = "ALL";
-                            if (scopeText.includes("sản phẩm")) scope = "PRODUCT";
-                            else if (scopeText.includes("danh mục")) scope = "CATEGORY";
+                            const text = btn.dataset.scope.toLowerCase();
+                            if (text.includes("sản phẩm")) scope = "PRODUCT";
+                            if (text.includes("danh mục")) scope = "CATEGORY";
 
-                            document.getElementById('edit-scope').value = scope;
+                            document.getElementById("edit-scope").value = scope;
+                            toggleEditScope(scope);
 
                             new bootstrap.Modal(
                                 document.getElementById('modalEditPromotion')
                             ).show();
                         });
+                    });
+
+                    document.getElementById("edit-scope").addEventListener("change", function () {
+                        toggleEditScope(this.value);
+                    });
+                </script>
+
+                <script>
+                    document.getElementById("add-scope").addEventListener("change", function () {
+                        const scope = this.value;
+
+                        document.getElementById("add-product-box").classList.add("d-none");
+                        document.getElementById("add-category-box").classList.add("d-none");
+
+                        if (scope === "PRODUCT") {
+                            document.getElementById("add-product-box").classList.remove("d-none");
+                        }
+
+                        if (scope === "CATEGORY") {
+                            document.getElementById("add-category-box").classList.remove("d-none");
+                        }
                     });
                 </script>
 
