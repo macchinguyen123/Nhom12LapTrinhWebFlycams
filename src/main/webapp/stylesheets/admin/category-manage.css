@@ -211,6 +211,15 @@ a {
     display: contents;
 }
 
+/*Sort category*/
+#tableDanhMuc tbody tr {
+    cursor: grab;
+}
+
+.sortable-ghost {
+    opacity: 0.5;
+}
+
 /* === MAIN CONTENT === */
 .main-content {
     margin-left: 270px;

@@ -8,6 +8,7 @@ public class Categories implements Serializable {
     private String categoryName;
     private String image;
     private String status;
+    private int sortOrder;
 
     // Constructor không tham số (BẮT BUỘC CHO JAVABEAN)
     public Categories() {
@@ -54,4 +55,6 @@ public class Categories implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public int getSortOrder() { return sortOrder; }
 }

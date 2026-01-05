@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 
         <!DOCTYPE html>
         <html lang="en">
@@ -17,6 +18,7 @@
             <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
             <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/admin/category-manage.css">
 
             <style>
@@ -148,15 +150,32 @@
                     </div>
 
 
-                    <div class="d-flex justify-content-start align-items-center mb-2">
-                        <label class="me-2">Hiển thị</label>
-                        <select id="rowsPerPage" class="form-select d-inline-block" style="width:80px;">
-                            <option value="5">5</option>
-                            <option value="10" selected>10</option>
-                            <option value="20">20</option>
-                        </select>
-                        <label class="ms-2">danh mục</label>
+                    <div class="d-flex justify-content-start align-items-center mb-2 gap-3 flex-wrap">
+                        <!-- HIỂN THỊ -->
+                        <div class="d-flex align-items-center">
+                            <label class="me-2">Hiển thị</label>
+                            <select id="rowsPerPage" class="form-select d-inline-block" style="width:80px;">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="20">20</option>
+                            </select>
+                            <label class="ms-2">danh mục</label>
+                        </div>
+
+                        <!-- SẮP XẾP -->
+                        <div class="d-flex align-items-center">
+                            <label class="me-2">Sắp xếp</label>
+                            <select id="sortSelect" class="form-select" style="width:220px;">
+                                <option value="">-- Tùy chọn --</option>
+                                <option value="name-asc">Tên A → Z</option>
+                                <option value="name-desc">Tên Z → A</option>
+                                <option value="id-asc">Mã DM ↑ (Thấp → Cao)</option>
+                                <option value="id-desc">Mã DM ↓ (Cao → Thấp)</option>
+                                <option value="custom">Theo ý admin</option>
+                            </select>
+                        </div>
                     </div>
+
 
                     <!-- === BẢNG DANH MỤC === -->
                     <table id="tableDanhMuc" class="table table-striped table-bordered">
@@ -171,8 +190,8 @@
                         </thead>
                         <tbody>
                             <c:forEach items="${categories}" var="c">
-                                <tr>
-                                    <td>${c.id}</td>
+                                <tr data-id="${c.id}">
+                                <td>${c.id}</td>
                                     <td>${c.categoryName}</td>
                                     <td>
                                         <img src="${pageContext.request.contextPath}/${c.image}" alt="Ảnh danh mục"
@@ -262,6 +281,8 @@
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <!-- === SCRIPT === -->
             <script>
+                let allowSaveOrder = false;
+
                 $(document).ready(function () {
                     // === KHỞI TẠO DATATABLE ===
                     var table = $('#tableDanhMuc').DataTable({
@@ -270,10 +291,122 @@
                         lengthChange: false,
                         searching: true,
                         pageLength: 10,
+                        ordering: true,
+                        order: [],
                         language: {
                             zeroRecords: "Không tìm thấy kết quả"
                         }
                     });
+
+
+
+
+                    let sortable;
+
+                    function enableDragSort() {
+                        table.page.len(-1).draw(); // HIỂN THỊ TẤT CẢ
+                        if (sortable) return;
+
+                        sortable = new Sortable(document.querySelector("#tableDanhMuc tbody"), {
+                            animation: 150,
+                            ghostClass: "bg-warning",
+                            onEnd: function () {
+                                let order = [];
+                                $("#tableDanhMuc tbody tr").each(function (index) {
+                                    order.push({
+                                        id: $(this).data("id"),
+                                        sortOrder: index + 1
+                                    });
+                                });
+
+                                saveSortOrder(order);
+                            }
+                        });
+                    }
+
+                    function disableDragSort() {
+                        if (sortable) {
+                            sortable.destroy();
+                            sortable = null;
+                        }
+                    }
+
+                    function saveSortOrder(order) {
+                        $.ajax({
+                            url: "${pageContext.request.contextPath}/admin/category-sort",
+                            method: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify(order),
+                            success: function () {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Đã lưu thứ tự",
+                                    timer: 1200,
+                                    showConfirmButton: false
+                                });
+                            },
+                            error: function () {
+                                Swal.fire("Lỗi", "Không thể lưu thứ tự", "error");
+                            }
+                        });
+                    }
+
+
+                    $("#sortSelect").change(function () {
+                        let value = $(this).val();
+                        disableDragSort();
+
+                        allowSaveOrder = true; // ✅ admin chủ động
+
+                        switch (value) {
+                            case "name-asc":
+                                table.order([1, 'asc']).draw();
+                                break;
+
+                            case "name-desc":
+                                table.order([1, 'desc']).draw();
+                                break;
+
+                            case "id-asc":
+                                table.order([0, 'asc']).draw();
+                                break;
+
+                            case "id-desc":
+                                table.order([0, 'desc']).draw();
+                                break;
+
+                            case "custom":
+                                table.order([]).draw();
+                                enableDragSort();
+                                break;
+                        }
+                    });
+
+                    table.on('draw', function () {
+                        if (!allowSaveOrder) return;
+
+                        let order = collectFullOrder();
+                        if (order.length === 0) return;
+
+                        saveSortOrder(order);
+                        allowSaveOrder = false;
+                    });
+
+
+
+                    function collectFullOrder() {
+                        let order = [];
+                        let data = table.rows({ order: 'applied' }).nodes();
+
+                        $(data).each(function (index) {
+                            order.push({
+                                id: $(this).data("id"),
+                                sortOrder: index + 1
+                            });
+                        });
+
+                        return order;
+                    }
 
                     // Search & Pagination Logic
                     function updatePageInfo() {
@@ -343,4 +476,3 @@
         </body>
 
         </html>
-        ```

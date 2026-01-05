@@ -130,42 +130,21 @@
                 <!-- MENU TRÁI ẨN MẶC ĐỊNH -->
                 <div class="menu-left-1" id="menuLeft">
                     <ul>
-                        <li><a href="${pageContext.request.contextPath}/Category?id=1001">
-                                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucQuayPhim.png"
-                                    class="menu-icon">Drone quay phim chuyên nghiệp
-                            </a>
-                        </li>
-
-                        <li><a href="${pageContext.request.contextPath}/Category?id=1006">
-                                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucDuLich.png"
-                                    class="menu-icon">Drone du lịch, vlog
-                            </a>
-                        </li>
-                        <li><a href="${pageContext.request.contextPath}/Category?id=1003">
-                                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucTheThao.png"
-                                    class="menu-icon">Drone thể thao tốc độ cao
-                            </a>
-                        </li>
-                        <li><a href="${pageContext.request.contextPath}/Category?id=1002">
-                                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucNongNghiep.png"
-                                    class="menu-icon">Drone nông nghiệp
-                            </a>
-                        </li>
-                        <li><a href="/${pageContext.request.contextPath}/Category?id=1005">
-                                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucAnNinh.png"
-                                    class="menu-icon">Drone giám sát, an ninh
-                            </a>
-                        </li>
-                        <li><a href="${pageContext.request.contextPath}/Category?id=1004">
-                                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucMini.png"
-                                    class="menu-icon">Drone mini, cỡ nhỏ
-                            </a>
-                        </li>
+                        <c:forEach items="${headerCategories}" var="cat">
+                            <li>
+                                <a href="${pageContext.request.contextPath}/Category?id=${cat.id}">
+                                    <img src="${pageContext.request.contextPath}/${cat.image}"
+                                         class="menu-icon">
+                                        ${cat.categoryName}
+                                </a>
+                            </li>
+                        </c:forEach>
                     </ul>
                 </div>
             </div>
 
-            <!-- Bootstrap JS -->
+
+                <!-- Bootstrap JS -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
             <script>

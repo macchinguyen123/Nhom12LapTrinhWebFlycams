@@ -12,7 +12,11 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Categories;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @WebServlet(name = "CategoryManageServlet", value = "/admin/category-manage")
@@ -59,16 +63,26 @@ public class CategoryManageServlet extends HttpServlet {
         Part filePart = req.getPart("image");
         if (filePart != null && filePart.getSize() > 0) {
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-            // Basic filename sanitization
-            fileName = System.currentTimeMillis() + "_" + fileName.replaceAll("\\s+", "_");
 
-            String uploadPath = req.getServletContext().getRealPath("/image");
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists())
-                uploadDir.mkdir();
 
-            filePart.write(uploadPath + File.separator + fileName);
-            imagePath = "image/" + fileName; // Relative path for DB
+            String projectPath = System.getProperty("user.dir");
+
+            Path uploadDir = Paths.get(projectPath,
+                    "src", "main", "webapp",
+                    "image", "logoCategory");
+
+            Files.createDirectories(uploadDir);
+
+            Path destination = uploadDir.resolve(fileName);
+
+            try (InputStream input = filePart.getInputStream()) {
+                Files.copy(input, destination, StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            imagePath = "image/logoCategory/" + fileName;
+
+
+
         }
 
         Categories c = new Categories();
@@ -80,7 +94,9 @@ public class CategoryManageServlet extends HttpServlet {
         resp.sendRedirect(req.getContextPath() + "/admin/category-manage");
     }
 
-    private void handleUpdate(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    private void handleUpdate(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException, ServletException {
+
         int id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("categoryName");
         String status = req.getParameter("status");
@@ -88,23 +104,40 @@ public class CategoryManageServlet extends HttpServlet {
 
         String imagePath = oldImage;
         Part filePart = req.getPart("image");
+
         if (filePart != null && filePart.getSize() > 0) {
-            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-            fileName = System.currentTimeMillis() + "_" + fileName.replaceAll("\\s+", "_");
+            String fileName = Paths.get(filePart.getSubmittedFileName())
+                    .getFileName().toString();
 
-            String uploadPath = req.getServletContext().getRealPath("/image");
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists())
-                uploadDir.mkdir();
 
-            filePart.write(uploadPath + File.separator + fileName);
-            imagePath = "image/" + fileName;
+            String projectPath = System.getProperty("user.dir");
+
+            Path uploadDir = Paths.get(projectPath,
+                    "src", "main", "webapp",
+                    "image", "logoCategory");
+
+            Files.createDirectories(uploadDir);
+
+            Path destination = uploadDir.resolve(fileName);
+
+            try (InputStream input = filePart.getInputStream()) {
+                Files.copy(input, destination, StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            imagePath = "image/logoCategory/" + fileName;
+            if (!oldImage.equals("default.png")) {
+                Path oldPath = Paths.get(projectPath, "src", "main", "webapp", oldImage);
+                Files.deleteIfExists(oldPath);
+            }
+
         }
 
         Categories c = new Categories(id, name, imagePath, status);
         categoryDAO.update(c);
+
         resp.sendRedirect(req.getContextPath() + "/admin/category-manage");
     }
+
 
     private void handleDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String idStr = req.getParameter("id");
