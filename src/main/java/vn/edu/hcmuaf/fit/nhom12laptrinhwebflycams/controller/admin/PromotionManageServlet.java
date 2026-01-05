@@ -8,6 +8,7 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Promotion;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,13 +44,17 @@ public class PromotionManageServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         String action = req.getParameter("action");
 
-        if ("add".equals(action)) {
+        if ("add".equals(action) || "edit".equals(action)) {
+
             Promotion p = new Promotion();
+            if ("edit".equals(action)) {
+                p.setId(Integer.parseInt(req.getParameter("id")));
+            }
+
             p.setName(req.getParameter("name"));
             p.setDiscountValue(Double.parseDouble(req.getParameter("discountValue")));
             p.setDiscountType(req.getParameter("discountType"));
@@ -58,30 +63,35 @@ public class PromotionManageServlet extends HttpServlet {
 
             String scope = req.getParameter("scope");
 
-            promotionDAO.insertPromotion(p, scope);
-        }
-        else if ("delete".equals(action)) {
+            // Tách nhiều productIds
+            List<String> productIdsList = new ArrayList<>();
+            String productIdsParam = req.getParameter("productIds");
+            if (productIdsParam != null && !productIdsParam.isEmpty()) {
+                for (String id : productIdsParam.split(",")) productIdsList.add(id.trim());
+            }
 
+            // Tách nhiều categoryIds
+            List<String> categoryIdsList = new ArrayList<>();
+            String categoryIdsParam = req.getParameter("categoryId");
+            if (categoryIdsParam != null && !categoryIdsParam.isEmpty()) {
+                for (String id : categoryIdsParam.split(",")) categoryIdsList.add(id.trim());
+            }
+
+            if ("add".equals(action)) {
+                promotionDAO.insertPromotion(p, scope, productIdsList, categoryIdsList);
+            } else {
+                promotionDAO.updatePromotionWithScope(p, scope, productIdsList, categoryIdsList);
+            }
+
+        } else if ("delete".equals(action)) {
             int id = Integer.parseInt(req.getParameter("id"));
             promotionDAO.deleteById(id);
-        }
-        else if ("edit".equals(action)) {
-
-            Promotion p = new Promotion();
-            p.setId(Integer.parseInt(req.getParameter("id")));
-            p.setName(req.getParameter("name"));
-            p.setDiscountValue(
-                    Double.parseDouble(req.getParameter("discountValue"))
-            );
-            p.setDiscountType(req.getParameter("discountType"));
-            p.setStartDate(Date.valueOf(req.getParameter("startDate")));
-            p.setEndDate(Date.valueOf(req.getParameter("endDate")));
-
-            promotionDAO.update(p);
         }
 
         resp.sendRedirect(req.getContextPath() + "/admin/promotion-manage");
     }
+
+
 }
 
 

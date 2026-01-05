@@ -159,11 +159,15 @@
 
                     <!-- Giá (luôn hiển thị div.gia giống mẫu) -->
                     <div class="gia">
-                        <b>  ${formatter.format(p.finalPrice)} ₫</b>
-                        <c:if test="${p.price >= p.finalPrice}">
-                            <span class="gia-goc">  ${formatter.format(p.price)} ₫</span>
+                        <b>${formatter.format(p.finalPrice)} ₫</b>
+
+                        <c:if test="${p.price > p.finalPrice}">
+                            <span class="gia-goc">
+                                ${formatter.format(p.price)} ₫
+                            </span>
                         </c:if>
                     </div>
+
                 </a>
 
                 <!-- Đánh giá mẫu -->
