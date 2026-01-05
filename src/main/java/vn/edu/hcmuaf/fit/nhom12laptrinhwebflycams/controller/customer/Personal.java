@@ -3,13 +3,16 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.AddressDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrdersDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Address;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.OrderItems;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Orders;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -21,6 +24,7 @@ public class Personal extends HttpServlet {
 
     private final UserDAO userDAO = new UserDAO();
     private final OrdersDAO ordersDAO = new OrdersDAO();
+    private final AddressDAO addressDAO = new AddressDAO(); // 🔹 THÊM AddressDAO
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -70,6 +74,17 @@ public class Personal extends HttpServlet {
         System.out.println("⏱️ getOrdersByUser: " + (System.currentTimeMillis() - t2) + "ms | Orders: " + orders.size());
         request.setAttribute("orders", orders);
 
+        // 🔹 LẤY DANH SÁCH ĐỊA CHỈ
+        try {
+            long t6 = System.currentTimeMillis();
+            List<Address> addresses = addressDAO.findByUserId(user.getId());
+            System.out.println("⏱️ getAddressesByUserId: " + (System.currentTimeMillis() - t6) + "ms | Addresses: " + addresses.size());
+            request.setAttribute("addresses", addresses);
+        } catch (SQLException e) {
+            System.err.println("❌ Error loading addresses: " + e.getMessage());
+            e.printStackTrace();
+        }
+
         // 🔹 XEM CHI TIẾT ĐƠN HÀNG (NẾU CÓ orderId)
         String orderIdParam = request.getParameter("orderId");
         Orders selectedOrder = null;
@@ -118,6 +133,8 @@ public class Personal extends HttpServlet {
         String tabParam = request.getParameter("tab");
         if ("orders".equals(tabParam)) {
             request.setAttribute("activeTab", "orders");
+        } else if ("addresses".equals(tabParam)) {
+            request.setAttribute("activeTab", "addresses");
         }
 
         // 🔹 SET ATTRIBUTE CHO JSP

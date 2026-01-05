@@ -9,7 +9,6 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
 @WebServlet("/AddAddressServlet")
 public class AddAddressServlet extends HttpServlet {
     private final AddressDAO dao = new AddressDAO();
@@ -17,6 +16,9 @@ public class AddAddressServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
+        req.setCharacterEncoding("UTF-8");
+
         User user = (User) req.getSession().getAttribute("user");
         if (user == null) {
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
@@ -37,10 +39,13 @@ public class AddAddressServlet extends HttpServlet {
                 dao.resetDefault(user.getId());
             }
             dao.insert(addr);
+            req.getSession().setAttribute("success", "Thêm địa chỉ thành công!");
         } catch (SQLException e) {
             e.printStackTrace();
+            req.getSession().setAttribute("error", "Lỗi khi thêm địa chỉ!");
         }
 
-        resp.sendRedirect(req.getContextPath() + "/ListAddressServlet");
+        // ✅ REDIRECT VỀ PERSONAL VỚI TAB ADDRESSES
+        resp.sendRedirect(req.getContextPath() + "/personal?tab=addresses");
     }
 }
