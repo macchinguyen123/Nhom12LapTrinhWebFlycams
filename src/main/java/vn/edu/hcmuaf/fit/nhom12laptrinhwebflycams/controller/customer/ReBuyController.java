@@ -46,6 +46,6 @@ public class ReBuyController extends HttpServlet {
         HttpSession session = req.getSession();
         session.setAttribute("BUY_NOW_ITEM", items);
 
-        resp.sendRedirect(req.getContextPath() + "/page/payment.jsp");
+        resp.sendRedirect(req.getContextPath() + "/page/delivery-info.jsp");
     }
 }

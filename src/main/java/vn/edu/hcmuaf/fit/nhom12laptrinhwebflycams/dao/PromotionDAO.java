@@ -278,4 +278,8 @@ public class PromotionDAO {
         if (types.contains("danh mục")) return "Danh mục";
         return "—";
     }
+
+
+
+
 }

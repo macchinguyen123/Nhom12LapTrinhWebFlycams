@@ -339,28 +339,55 @@ tbody tr:hover {
 }
 
 .anh-san-pham {
-    height: auto;
-    object-fit: cover;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
+    width: 80px;       /* kích thước ngang */
+    height: 80px;      /* kích thước dọc để vuông */
+    object-fit: cover; /* cắt vừa khung */
+    border-radius: 6px; /* bo góc nhẹ */
 }
+
 
 .anh-san-pham:hover {
     transform: scale(1.05);
 }
 
+
+/* Các trạng thái đơn hàng */
 .status {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 600;
-    height: 32px;
-    min-width: 100px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    min-width: 90px;
     text-align: center;
-    white-space: nowrap;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    font-size: 0.9rem;
 }
 
+/* Chờ xác nhận */
+.status.cho-xac-nhan {
+    background-color: #fff3cd; /* vàng nhạt */
+    color: #856404; /* vàng đậm */
+}
+
+/* Đang xử lý */
+.status.dang-xu-ly {
+    background-color: #cce5ff; /* xanh dương nhạt */
+    color: #004085; /* xanh dương đậm */
+}
+
+/* Đang giao */
+.status.dang-giao {
+    background-color: #d1ecf1; /* xanh da trời nhạt */
+    color: #0c5460; /* xanh da trời đậm */
+}
+
+/* Đã nhận hàng */
+.status.da-nhan-hang {
+    background-color: #d4edda; /* xanh lá nhạt */
+    color: #155724; /* xanh lá đậm */
+}
+
+/* Đã hủy */
+.status.da-huy {
+    background-color: #f8d7da; /* đỏ nhạt */
+    color: #721c24; /* đỏ đậm */
+}
