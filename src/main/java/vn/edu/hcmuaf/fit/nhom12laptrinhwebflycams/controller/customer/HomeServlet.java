@@ -7,6 +7,7 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.CategoryDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.HomeDao;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ReviewsDAO;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Categories;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Post;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
@@ -52,6 +53,12 @@ public class HomeServlet extends HttpServlet {
                     wishlistService.getWishlistProductIds(user.getId());
             request.setAttribute("wishlistProductIds", wishlistProductIds);
         }
+
+        CategoryDAO categoryDAO = new CategoryDAO();
+
+        List<Categories> headerCategories = categoryDAO.getCategoriesForHeader();
+        request.setAttribute("headerCategories", headerCategories);
+
 
         request.setAttribute("latestPosts", latestPosts);
         request.setAttribute("quayPhim", quayPhim);

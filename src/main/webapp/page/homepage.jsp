@@ -27,33 +27,18 @@
     <!-- MENU TRÁI -->
     <div class="menu-left">
         <ul>
-            <li><a href="${pageContext.request.contextPath}/Category?id=1001">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
-            </a>
-            </li>
-
-            <li><a href="${pageContext.request.contextPath}/Category?id=1006">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
-            </a>
-            </li>
-            <li><a href="${pageContext.request.contextPath}/Category?id=1003">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
-            </a>
-            </li>
-            <li><a href="${pageContext.request.contextPath}/Category?id=1002">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
-            </a>
-            </li>
-            <li><a href="/${pageContext.request.contextPath}/Category?id=1005">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
-            </a>
-            </li>
-            <li><a href="${pageContext.request.contextPath}/Category?id=1004">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucMini.png" class="menu-icon">Drone mini, cỡ nhỏ
-            </a>
-            </li>
+            <c:forEach items="${headerCategories}" var="cat">
+                <li>
+                    <a href="${pageContext.request.contextPath}/Category?id=${cat.id}">
+                        <img src="${pageContext.request.contextPath}/${cat.image}"
+                             class="menu-icon">
+                            ${cat.categoryName}
+                    </a>
+                </li>
+            </c:forEach>
         </ul>
     </div>
+
 
     <!-- SLIDER PHẢI -->
     <div class="banner-right">
@@ -191,51 +176,20 @@
 
 <section class="danh-muc">
     <h2>DANH MỤC NỔI BẬT</h2>
-    <div class="danh-muc-list">
-        <div class="item">
-            <a href="category/film-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucQuayPhim.png"
-                     alt="Drone quay phim">
-                <p>Drone quay phim chuyên nghiệp</p>
-            </a>
-        </div>
 
+    <div class="danh-muc-list">
+        <c:forEach items="${headerCategories}" var="cat">
         <div class="item">
-            <a href="category/tourism-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucDuLich.png"
-                     alt="Drone du lịch">
-                <p>Drone du lịch / vlog</p>
-            </a>
-        </div>
-        <div class="item">
-            <a href="category/sport-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucTheThao.png"
-                     alt="Drone thể thao">
-                <p>Drone thể thao tốc độ cao</p>
-            </a>
-        </div>
-        <div class="item">
-            <a href="category/agriculture-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucNongNghiep.png"
-                     alt="Drone nông nghiệp">
-                <p>Drone nông nghiệp</p>
-            </a>
-        </div>
-        <div class="item">
-            <a href="category/monitor-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucAnNinh.png"
-                     alt="Drone giám sát">
-                <p>Drone giám sát / an ninh</p>
-            </a>
-        </div>
-        <div class="item">
-            <a href="category/mini-drone.jsp">
-                <img src="${pageContext.request.contextPath}/image/logoCategory/logoDanhMucMini.png" alt="Drone mini">
-                <p>Drone mini / cỡ nhỏ</p>
-            </a>
-        </div>
+                <a href="${pageContext.request.contextPath}/Category?id=${cat.id}">
+                    <img src="${pageContext.request.contextPath}/${cat.image}"
+                         alt="${cat.categoryName}">
+                    <p>${cat.categoryName}</p>
+                </a>
+            </div>
+        </c:forEach>
     </div>
 </section>
+
 
 <!-- Sản phẩm nổi bật -->
 <section class="phan-san-pham-noi-bat">
