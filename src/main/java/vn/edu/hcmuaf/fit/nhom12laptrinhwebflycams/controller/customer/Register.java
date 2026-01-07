@@ -6,14 +6,17 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PasswordUtil;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.validate.Validator;
 
 
 import java.io.IOException;
 import java.sql.Date;
 
+
 @WebServlet(name = "Register", value = "/Register")
 public class Register extends HttpServlet {
+    private final UserDAO userDAO = new UserDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,6 +34,13 @@ public class Register extends HttpServlet {
         String email = request.getParameter("email");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        // HASH
+        String hashedPassword = PasswordUtil.hashPassword(password);
+
+        // LƯU DB
+        User user = new User();
+        user.setPassword(hashedPassword);
+        userDAO.insertUser(user);
         String confirmPassword = request.getParameter("confirm"); // NEW
         String phone = request.getParameter("phoneNumber");
         String birthdayStr = request.getParameter("birthday");
@@ -107,7 +117,6 @@ public class Register extends HttpServlet {
         }
 
         // ------------------ TẠO USER ------------------
-        User user = new User();
         user.setFullName(fullName);
         user.setEmail(email);
         user.setUsername(username);
