@@ -59,7 +59,7 @@ public class UserDAO {
         String sql = "INSERT INTO users (roleId, fullName, birthDate, gender, email, username, password, phoneNumber, avatar, status, createdAt, updatedAt) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, user.getRoleId());
             ps.setString(2, user.getFullName());
             // birthDate
@@ -87,7 +87,7 @@ public class UserDAO {
     public boolean isUsernameExists(String username) {
         String sql = "SELECT id FROM users WHERE username = ?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             return rs.next(); // nếu có → username đã tồn tại
@@ -100,7 +100,7 @@ public class UserDAO {
     public boolean isEmailExists(String email) {
         String sql = "SELECT id FROM users WHERE email = ?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             return rs.next(); // nếu có dòng → email đã tồn tại
@@ -114,7 +114,7 @@ public class UserDAO {
         User u = null;
         String sql = "SELECT * FROM users WHERE id = ?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -169,7 +169,7 @@ public class UserDAO {
     public User getUserByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -202,7 +202,7 @@ public class UserDAO {
     public void update(Address addr) throws SQLException {
         String sql = "UPDATE addresses SET full_name=?, phone_number=?, address_line=?, province=?, district=?, is_default=? WHERE id=? AND user_id=?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, addr.getFullName());
             ps.setString(2, addr.getPhoneNumber());
             ps.setString(3, addr.getAddressLine());
@@ -215,25 +215,65 @@ public class UserDAO {
         }
     }
 
-    public void updateProfile(User user) {
-        String sql = "UPDATE users SET fullName=?, phoneNumber=?, gender=?, birthDate=? WHERE id=?";
+    public boolean updateProfileAdmin(User user) {
+        String sql = "UPDATE users SET fullName=?, email=?, phoneNumber=?, avatar=?, gender=?, birthDate=?, updatedAt=NOW() WHERE id=?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setString(1, user.getFullName());
-            ps.setString(2, user.getPhoneNumber());
-            ps.setString(3, user.getGender());
-            if (user.getBirthDate() != null) {
-                ps.setDate(4, new java.sql.Date(user.getBirthDate().getTime()));
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPhoneNumber());
+
+            // Xử lý avatar - nếu null thì giữ nguyên giá trị cũ
+            if (user.getAvatar() != null && !user.getAvatar().trim().isEmpty()) {
+                ps.setString(4, user.getAvatar());
             } else {
-                ps.setNull(4, java.sql.Types.DATE);
+                ps.setString(4, "default.png");
             }
-            ps.setInt(5, user.getId());
-            ps.executeUpdate();
+
+            // Xử lý gender
+            ps.setString(5, user.getGender() != null ? user.getGender() : "OTHER");
+
+            // Xử lý birthDate - cho phép null
+            if (user.getBirthDate() != null) {
+                ps.setDate(6, new java.sql.Date(user.getBirthDate().getTime()));
+            } else {
+                ps.setNull(6, java.sql.Types.DATE);
+            }
+
+            ps.setInt(7, user.getId());
+
+            int rowsAffected = ps.executeUpdate();
+            System.out.println("Update rows affected: " + rowsAffected); // Debug
+            return rowsAffected > 0;
+
         } catch (SQLException e) {
+            System.err.println("Error in updateProfileAdmin:");
             e.printStackTrace();
+            return false;
         }
     }
 
+    public boolean updateProfile(User user) {
+        String sql = "UPDATE users SET fullName=?, email=?, phoneNumber=?, avatar=?, gender=?, updatedAt=NOW() WHERE id=?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, user.getFullName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPhoneNumber());
+            ps.setString(4, user.getAvatar());
+            ps.setString(5, user.getGender());
+            ps.setInt(6, user.getId());
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
     public List<User> getAllCustomers() {
         List<User> list = new ArrayList<>();
         String sql = "SELECT * FROM users WHERE roleId = 2";
