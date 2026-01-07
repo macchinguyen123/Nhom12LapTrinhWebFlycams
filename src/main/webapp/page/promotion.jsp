@@ -1,22 +1,21 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
     <title>Khuyến mãi Flycam</title>
 
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap" rel="stylesheet">
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/promotion.css">
 </head>
 <body>
 <jsp:include page="/page/header.jsp"/>
+
 <header class="khung-tieu-de">
     <h1 id="ten-chuong-trinh">KHUYẾN MÃI FLYCAM THÁNG NÀY</h1>
     <p class="mo-ta-chuong-trinh">
@@ -25,284 +24,162 @@
 </header>
 
 <main class="khung-noi-dung">
-    <section class="danh-sach-flycam" id="danh-sach-flycam">
 
-        <!-- Mỗi sản phẩm -->
-        <article class="the-san-pham">
-            <img class="anh-san-pham" src="../image/promotion/Flycam%20Pro%20X.png" alt="Flycam Pro X">
-            <div class="noi-dung-san-pham">
-                <h2 class="ten-san-pham">Flycam Pro X</h2>
-                <p class="mo-ta-san-pham">Cảm biến 4K, 3 trục, tầm bay 7km, pin 32 phút.</p>
-                <div class="gia-block">
-                    <span class="gia-moi">12.900.000₫</span>
-                    <span class="gia-cu">16.500.000₫</span>
-                </div>
-                <div class="hang-danh-gia">
-                    <div class="danh-gia-sao">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star"></i>
+    <c:if test="${empty promotionMap}">
+        <div style="text-align:center; padding:50px; color:white">
+            <h2>Hiện tại chưa có chương trình khuyến mãi</h2>
+        </div>
+    </c:if>
+
+    <c:forEach var="entry" items="${promotionMap}">
+
+        <!-- ===== TÊN CHƯƠNG TRÌNH ===== -->
+        <section class="khung-tieu-de">
+            <h2 class="ten-chuong-trinh-promo"
+                style="color: #ffffff; text-align: center; font-weight: 700;">
+                    ${entry.key.name}
+            </h2>
+
+            <p class="mo-ta-chuong-trinh">
+                Áp dụng từ
+                <fmt:formatDate value="${entry.key.startDate}" pattern="dd/MM/yyyy"/>
+                đến
+                <fmt:formatDate value="${entry.key.endDate}" pattern="dd/MM/yyyy"/>
+            </p>
+        </section>
+
+        <!-- ===== GRID SẢN PHẨM ===== -->
+        <section class="danh-sach-flycam">
+
+            <c:forEach var="p" items="${entry.value}">
+                <article class="the-san-pham">
+
+                    <a href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
+                        <img class="anh-san-pham"
+                             src="${empty p.mainImage ? '/assets/no-image.png' : p.mainImage}"
+                             alt="${p.productName}">
+                    </a>
+
+                    <div class="noi-dung-san-pham">
+
+                        <!-- Tên sản phẩm -->
+                        <h3 class="ten-san-pham">
+                                ${p.productName}
+                        </h3>
+
+                        <!-- Giá -->
+                        <div class="gia-block">
+                    <span class="gia-moi">
+                        <fmt:formatNumber value="${p.finalPrice}" type="number"/> ₫
+                    </span>
+
+                            <c:if test="${p.price > p.finalPrice}">
+                        <span class="gia-cu">
+                            <fmt:formatNumber value="${p.price}" type="number"/> ₫
+                        </span>
+                            </c:if>
+                        </div>
+
+                        <!-- ===== SAO ĐÁNH GIÁ + TIM ===== -->
+                        <c:set var="fullStars" value="${p.avgRating.intValue()}"/>
+                        <c:set var="hasHalfStar" value="${p.avgRating - fullStars >= 0.5}"/>
+
+                        <div class="hang-danh-gia">
+                            <div class="danh-gia-sao">
+
+                                <!-- Sao đầy -->
+                                <c:forEach begin="1" end="${fullStars}">
+                                    <i class="bi bi-star-fill"></i>
+                                </c:forEach>
+
+                                <!-- Nửa sao -->
+                                <c:if test="${hasHalfStar}">
+                                    <i class="bi bi-star-half"></i>
+                                </c:if>
+
+                                <!-- Sao rỗng -->
+                                <c:forEach begin="1"
+                                           end="${5 - fullStars - (hasHalfStar ? 1 : 0)}">
+                                    <i class="bi bi-star"></i>
+                                </c:forEach>
+
+                            </div>
+
+                            <!-- Tim yêu thích -->
+                            <c:choose>
+                                <c:when test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
+                                    <i class="bi bi-heart-fill tim-yeu-thich yeu-thich"
+                                       data-product-id="${p.id}"></i>
+                                </c:when>
+                                <c:otherwise>
+                                    <i class="bi bi-heart tim-yeu-thich"
+                                       data-product-id="${p.id}"></i>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+
+                        <!-- Số đánh giá -->
+                        <div class="so-danh-gia">
+                            (${empty p.reviewCount ? 0 : p.reviewCount} đánh giá)
+                        </div>
+
+                        <!-- Nút mua ngay -->
+                        <form action="${pageContext.request.contextPath}/BuyNowServlet" method="post">
+                            <input type="hidden" name="productId" value="${p.id}">
+                            <input type="hidden" name="quantity" value="1">
+                            <button class="nut-mua-ngay">Mua Ngay</button>
+                        </form>
 
                     </div>
-                    <i class="bi bi-heart tim-yeu-thich"></i>
-                </div>
-                <span class="so-danh-gia">(204 đánh giá)</span>
-                <a href="product-details.jsp">
-                    <button class="nut-mua-ngay">Mua Ngay</button>
-                </a>
-            </div>
-        </article>
+                </article>
+            </c:forEach>
 
-        <article class="the-san-pham">
-            <img class="anh-san-pham" src="../image/promotion/Flycam%20Mini%20S.png" alt="Flycam Mini S">
-            <div class="noi-dung-san-pham">
-                <h2 class="ten-san-pham">Flycam Mini S</h2>
-                <p class="mo-ta-san-pham">Nhỏ gọn, quay 2.7K, hợp du lịch, pin 20 phút.</p>
-                <div class="gia-block">
-                    <span class="gia-moi">14.490.000₫</span>
-                    <span class="gia-cu">15.990.000₫</span>
-                </div>
-                <div class="hang-danh-gia">
-                    <div class="danh-gia-sao">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star"></i>
-                    </div>
-                    <i class="bi bi-heart tim-yeu-thich"></i>
-                </div>
-                <span class="so-danh-gia">(128 đánh giá)</span>
-                <a href="product-details.jsp">
-                    <button class="nut-mua-ngay">Mua Ngay</button>
-                </a>
-            </div>
-        </article>
-
-        <article class="the-san-pham">
-            <img class="anh-san-pham" src="../image/promotion/Flycam%20Ultra%20Max.png" alt="Flycam Ultra Max">
-            <div class="noi-dung-san-pham">
-                <h2 class="ten-san-pham">Flycam Ultra Max</h2>
-                <p class="mo-ta-san-pham">Cảm biến 1 inch, quay 8K, truyền ảnh 12km.</p>
-                <div class="gia-block">
-                    <span class="gia-moi">49.900.000₫</span>
-                    <span class="gia-cu">56.000.000₫</span>
-                </div>
-                <div class="hang-danh-gia">
-                    <div class="danh-gia-sao">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star"></i>
-                    </div>
-                    <i class="bi bi-heart tim-yeu-thich"></i>
-                </div>
-                <span class="so-danh-gia">(97 đánh giá)</span>
-                <a href="product-details.jsp">
-                    <button class="nut-mua-ngay">Mua Ngay</button>
-                </a>
-            </div>
-        </article>
-
-        <article class="the-san-pham">
-            <img class="anh-san-pham" src="../image/promotion/Flycam%20Sky%20Lite.png" alt="Flycam Sky Lite">
-            <div class="noi-dung-san-pham">
-                <h2 class="ten-san-pham">Flycam Sky Lite</h2>
-                <p class="mo-ta-san-pham">Flycam tầm trung, quay Full HD, dễ điều khiển.</p>
-                <div class="gia-block">
-                    <span class="gia-moi">13.990.000₫</span>
-                    <span class="gia-cu">15.200.000₫</span>
-                </div>
-                <div class="hang-danh-gia">
-                    <div class="danh-gia-sao">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star"></i>
-                    </div>
-                    <i class="bi bi-heart tim-yeu-thich"></i>
-                </div>
-                <span class="so-danh-gia">(112 đánh giá)</span>
-                <a href="product-details.jsp">
-                    <button class="nut-mua-ngay">Mua Ngay</button>
-                </a>
-            </div>
-        </article>
-
-        <article class="the-san-pham">
-            <img class="anh-san-pham" src="../image/promotion/Flycam%20Explorer%205G.png" alt="Flycam Explorer 5G">
-            <div class="noi-dung-san-pham">
-                <h2 class="ten-san-pham">Flycam Explorer 5G</h2>
-                <p class="mo-ta-san-pham">Truyền ảnh 5G, quay góc rộng 120°, pin 30 phút.</p>
-                <div class="gia-block">
-                    <span class="gia-moi">19.800.000₫</span>
-                    <span class="gia-cu">22.200.000₫</span>
-                </div>
-                <div class="hang-danh-gia">
-                    <div class="danh-gia-sao">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star"></i>
-                    </div>
-                    <i class="bi bi-heart tim-yeu-thich"></i>
-                </div>
-                <span class="so-danh-gia">(156 đánh giá)</span>
-                <a href="product-details.jsp">
-                    <button class="nut-mua-ngay">Mua Ngay</button>
-                </a>
-            </div>
-        </article>
-
-        <!-- 6. Flycam Vision Air -->
-        <article class="the-san-pham">
-            <img class="anh-san-pham" src="../image/promotion/Flycam%20Vision%20Air.png" alt="Flycam Vision Air">
-            <div class="noi-dung-san-pham">
-                <h2 class="ten-san-pham">Flycam Vision Air</h2>
-                <p class="mo-ta-san-pham">Quay 6K, cảm biến tránh vật cản toàn hướng, pin 35 phút.</p>
-                <div class="gia-block">
-                    <span class="gia-moi">22.900.000₫</span>
-                    <span class="gia-cu">27.000.000₫</span>
-                </div>
-                <div class="hang-danh-gia">
-                    <div class="danh-gia-sao">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-half"></i>
-                    </div>
-                    <i class="bi bi-heart tim-yeu-thich"></i>
-                </div>
-                <span class="so-danh-gia">(87 đánh giá)</span>
-                <a href="product-details.jsp">
-                    <button class="nut-mua-ngay">Mua Ngay</button>
-                </a>
-            </div>
-        </article>
-
-        <!-- 7. Flycam Nano Z -->
-        <article class="the-san-pham">
-            <img class="anh-san-pham" src="../image/promotion/Flycam%20Nano%20Z.png" alt="Flycam Nano Z">
-            <div class="noi-dung-san-pham">
-                <h2 class="ten-san-pham">Flycam Nano Z</h2>
-                <p class="mo-ta-san-pham">Cực nhẹ chỉ 249g, quay 2.7K, phù hợp cho người mới.</p>
-                <div class="gia-block">
-                    <span class="gia-moi">8.990.000₫</span>
-                    <span class="gia-cu">10.500.000₫</span>
-                </div>
-                <div class="hang-danh-gia">
-                    <div class="danh-gia-sao">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star"></i>
-                        <i class="bi bi-star"></i>
-                    </div>
-                    <i class="bi bi-heart tim-yeu-thich"></i>
-                </div>
-                <span class="so-danh-gia">(65 đánh giá)</span>
-                <a href="product-details.jsp">
-                    <button class="nut-mua-ngay">Mua Ngay</button>
-                </a>
-            </div>
-        </article>
-
-        <!-- 8. Flycam Storm X -->
-        <article class="the-san-pham">
-            <img class="anh-san-pham" src="../image/promotion/Flycam%20Storm%20X.png" alt="Flycam Storm X">
-            <div class="noi-dung-san-pham">
-                <h2 class="ten-san-pham">Flycam Storm X</h2>
-                <p class="mo-ta-san-pham">Bay trong gió mạnh, chống nước, pin siêu bền 45 phút.</p>
-                <div class="gia-block">
-                    <span class="gia-moi">26.500.000₫</span>
-                    <span class="gia-cu">31.000.000₫</span>
-                </div>
-                <div class="hang-danh-gia">
-                    <div class="danh-gia-sao">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star"></i>
-                    </div>
-                    <i class="bi bi-heart tim-yeu-thich"></i>
-                </div>
-                <span class="so-danh-gia">(143 đánh giá)</span>
-                <a href="product-details.jsp">
-                    <button class="nut-mua-ngay">Mua Ngay</button>
-                </a>
-            </div>
-        </article>
-
-        <!-- 9. Flycam Phantom V -->
-        <article class="the-san-pham">
-            <img class="anh-san-pham" src="../image/promotion/Flycam%20Phantom%20V.png" alt="Flycam Phantom V">
-            <div class="noi-dung-san-pham">
-                <h2 class="ten-san-pham">Flycam Phantom V</h2>
-                <p class="mo-ta-san-pham">Phiên bản nâng cấp Phantom 4, quay 5.2K, pin 38 phút.</p>
-                <div class="gia-block">
-                    <span class="gia-moi">39.900.000₫</span>
-                    <span class="gia-cu">44.500.000₫</span>
-                </div>
-                <div class="hang-danh-gia">
-                    <div class="danh-gia-sao">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
-                        <i class="bi bi-star"></i>
-                    </div>
-                    <i class="bi bi-heart tim-yeu-thich"></i>
-                </div>
-                <span class="so-danh-gia">(172 đánh giá)</span>
-                <a href="product-details.jsp">
-                    <button class="nut-mua-ngay">Mua Ngay</button>
-                </a>
-            </div>
-        </article>
-
-        <!-- 10. Flycam Infinity One -->
-        <article class="the-san-pham">
-            <img class="anh-san-pham" src="../image/promotion/Flycam%20Infinity%20One.png" alt="Flycam Infinity One">
-            <div class="noi-dung-san-pham">
-                <h2 class="ten-san-pham">Flycam Infinity One</h2>
-                <p class="mo-ta-san-pham">Flagship cao cấp, cảm biến Leica 1 inch, quay 8K HDR.</p>
-                <div class="gia-block">
-                    <span class="gia-moi">69.900.000₫</span>
-                    <span class="gia-cu">79.000.000₫</span>
-                </div>
-                <div class="hang-danh-gia">
-                    <div class="danh-gia-sao">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                    </div>
-                    <i class="bi bi-heart tim-yeu-thich"></i>
-                </div>
-                <span class="so-danh-gia">(312 đánh giá)</span>
-                <a href="product-details.jsp">
-                    <button class="nut-mua-ngay">Mua Ngay</button>
-                </a>
-            </div>
-        </article>
+        </section>
 
 
-    </section>
-
+    </c:forEach>
 
 </main>
 
+
+
 <jsp:include page="/page/footer.jsp"/>
+
 <script>
     document.querySelectorAll('.tim-yeu-thich').forEach(btn => {
-        btn.addEventListener('click', () => {
-            btn.classList.toggle('bi-heart');
-            btn.classList.toggle('bi-heart-fill');
-            btn.classList.toggle('yeu-thich');
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const productId = btn.dataset.productId;
+
+            fetch('${pageContext.request.contextPath}/wishlist', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'action=toggle&productId=' + productId
+            })
+                .then(res => {
+                    if (res.status === 401) {
+                        alert('Vui lòng đăng nhập');
+                        return null;
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    if (!data || !data.success) return;
+
+                    const isActive = btn.classList.contains('bi-heart');
+
+                    btn.classList.toggle('bi-heart', !isActive);
+                    btn.classList.toggle('bi-heart-fill', isActive);
+                    btn.classList.toggle('yeu-thich', isActive);
+                });
         });
     });
 
-    const btnDanhMuc = document.getElementById('btnDanhMuc');
-    const menuLeft = document.getElementById('menuLeft');
-
-    btnDanhMuc.addEventListener('click', () => {
-        menuLeft.classList.toggle('show');
-    });
-
-    // Ẩn menu khi click ra ngoài
-    document.addEventListener('click', (e) => {
-        if (!menuLeft.contains(e.target) && !btnDanhMuc.contains(e.target)) {
-            menuLeft.classList.remove('show');
-        }
-    });
 </script>
+
 </body>
 </html>
