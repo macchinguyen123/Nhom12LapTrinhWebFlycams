@@ -12,35 +12,48 @@ import java.util.stream.Collectors;
 
 public class ProductDAO {
 
-    public List<Product> getProductsByCategory(int categoryId) {
+    public List<Product> getProductsOnPromotion() {
         List<Product> list = new ArrayList<>();
-        ImageDAO imageDAO = new ImageDAO();
 
-        String sql = "SELECT * FROM products WHERE category_id = ?";
+        String sql = """
+        SELECT DISTINCT
+            p.id,
+            p.productName,
+            p.price,
+            p.finalPrice,
+            img.imageUrl AS mainImage,
+            0 AS avgRating,
+            0 AS reviewCount
+        FROM products p
+        JOIN promotion_target pt
+            ON (
+                (pt.targetType = 'sản phẩm' AND pt.product_id = p.id)
+                OR
+                (pt.targetType = 'danh mục' AND pt.category_id = p.category_id)
+            )
+        JOIN promotion pr
+            ON pr.id = pt.promotion_id
+        LEFT JOIN images img
+            ON img.product_id = p.id
+           AND img.imageType = 'Chính'
+        WHERE
+            NOW() BETWEEN pr.startDate AND pr.endDate
+        """;
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, categoryId);
-            ResultSet rs = ps.executeQuery();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                Product p = new Product(
-                        rs.getInt("id"),
-                        rs.getInt("category_id"),
-                        rs.getString("brandName"),
-                        rs.getString("productName"),
-                        rs.getString("description"),
-                        rs.getString("parameter"),
-                        rs.getDouble("price"),
-                        rs.getDouble("finalPrice"),
-                        rs.getString("warranty"),
-                        rs.getInt("quantity"),
-                        rs.getString("status")
-                );
+                Product p = new Product();
 
-                // 🚀 Lấy danh sách ảnh theo product
-                p.setImages(imageDAO.getImagesByProduct(p.getId()));
+                p.setId(rs.getInt("id"));
+                p.setProductName(rs.getString("productName"));
+                p.setPrice(rs.getDouble("price"));
+                p.setFinalPrice(rs.getDouble("finalPrice"));
+                p.setMainImage(rs.getString("mainImage"));
+                p.setAvgRating(rs.getDouble("avgRating"));
+                p.setReviewCount(rs.getInt("reviewCount"));
 
                 list.add(p);
             }
@@ -51,6 +64,59 @@ public class ProductDAO {
 
         return list;
     }
+
+    public List<Product> getProductsByPromotion(int promotionId) {
+        List<Product> list = new ArrayList<>();
+
+        String sql = """
+        SELECT DISTINCT
+            p.id,
+            p.productName,
+            p.price,
+            p.finalPrice,
+            img.imageUrl AS mainImage,
+            0 AS avgRating,
+            0 AS reviewCount
+        FROM products p
+        JOIN promotion_target pt
+            ON (
+                (pt.targetType = 'sản phẩm' AND pt.product_id = p.id)
+                OR
+                (pt.targetType = 'danh mục' AND pt.category_id = p.category_id)
+            )
+        JOIN promotion pr
+            ON pr.id = pt.promotion_id
+        LEFT JOIN images img
+            ON img.product_id = p.id
+           AND img.imageType = 'Chính'
+        WHERE pr.id = ?
+    """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, promotionId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Product p = new Product();
+                p.setId(rs.getInt("id"));
+                p.setProductName(rs.getString("productName"));
+                p.setPrice(rs.getDouble("price"));
+                p.setFinalPrice(rs.getDouble("finalPrice"));
+                p.setMainImage(rs.getString("mainImage"));
+                p.setAvgRating(rs.getDouble("avgRating"));
+                p.setReviewCount(rs.getInt("reviewCount"));
+                list.add(p);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
 
 
     public List<Product> searchProducts(String keyword,

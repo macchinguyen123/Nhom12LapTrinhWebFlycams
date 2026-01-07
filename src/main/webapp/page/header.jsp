@@ -94,8 +94,8 @@
                 <i class="bi bi-grid"></i>Danh mục<i class="bi bi-caret-down-fill ms-1"></i>
             </button>
 
-            <a href="${pageContext.request.contextPath}/page/promotion.jsp">
-                <button class="nav-item ${currentPage.endsWith('promotion.jsp') ? 'active' : ''}">
+            <a href="${pageContext.request.contextPath}/promotion">
+            <button class="nav-item ${currentPage.endsWith('promotion.jsp') ? 'active' : ''}">
                     <i class="bi bi-gift"></i>Khuyến mãi
                 </button>
             </a>

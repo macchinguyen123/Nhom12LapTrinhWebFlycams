@@ -49,6 +49,7 @@ public class HomeServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         User user = session != null ? (User) session.getAttribute("user") : null;
         if (user != null) {
+
             List<Integer> wishlistProductIds =
                     wishlistService.getWishlistProductIds(user.getId());
             request.setAttribute("wishlistProductIds", wishlistProductIds);

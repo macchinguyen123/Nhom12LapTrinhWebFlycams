@@ -9,6 +9,7 @@ import java.util.List;
 
 public class PromotionDAO {
 
+
     // ================== GET ALL ==================
     public List<Promotion> getAllPromotions() {
         List<Promotion> list = new ArrayList<>();
@@ -97,6 +98,40 @@ public class PromotionDAO {
         }
     }
 
+
+
+        public List<Promotion> getActivePromotions() {
+            List<Promotion> list = new ArrayList<>();
+
+            String sql = """
+            SELECT id, name, discountValue, discountType, startDate, endDate
+            FROM promotion
+            WHERE NOW() BETWEEN startDate AND endDate
+            ORDER BY startDate DESC
+        """;
+
+            try (Connection conn = DBConnection.getConnection();
+                 PreparedStatement ps = conn.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    Promotion p = new Promotion();
+                    p.setId(rs.getInt("id"));
+                    p.setName(rs.getString("name"));
+                    p.setDiscountValue(rs.getDouble("discountValue"));
+                    p.setDiscountType(rs.getString("discountType"));
+                    p.setStartDate(rs.getDate("startDate"));
+                    p.setEndDate(rs.getDate("endDate"));
+                    list.add(p);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return list;
+        }
+
     // ================== UPDATE ==================
     public void updatePromotionWithScope(Promotion p, String scope,
                                          List<String> productIds, List<String> categoryIds) {
@@ -172,46 +207,114 @@ public class PromotionDAO {
         try (Connection conn = DBConnection.getConnection()) {
 
             if ("ALL".equals(scope)) {
-                String sql = "UPDATE products SET finalPrice = CASE WHEN ? = '%' THEN price * (1 - ? / 100) ELSE price - ? END";
+                // RESET tất cả về price gốc trước
+                String resetSql = "UPDATE products SET finalPrice = price";
+                try (PreparedStatement psReset = conn.prepareStatement(resetSql)) {
+                    psReset.executeUpdate();
+                }
+
+                // Apply promotion mới
+                String sql = "UPDATE products SET finalPrice = CASE WHEN ? = '%' THEN price * (1 - ? / 100) ELSE price - ? END WHERE finalPrice - ? >= 0";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
                     ps.setString(1, p.getDiscountType());
                     ps.setDouble(2, p.getDiscountValue());
                     ps.setDouble(3, p.getDiscountValue());
-                    ps.executeUpdate();
+                    ps.setDouble(4, p.getDiscountValue());
+                    int rowsUpdated = ps.executeUpdate();
+                    System.out.println("✅ Updated " + rowsUpdated + " products (ALL)");
                 }
 
             } else if ("PRODUCT".equals(scope) && !productIds.isEmpty()) {
-                String placeholders = String.join(",", productIds.stream().map(id -> "?").toArray(String[]::new));
-                String sql = "UPDATE products SET finalPrice = CASE WHEN ? = '%' THEN price * (1 - ? / 100) ELSE price - ? END WHERE id IN (" + placeholders + ")";
+                // RESET các sản phẩm cụ thể về giá gốc
+                String placeholders = String.join(",", productIds);
+                String resetSql = "UPDATE products SET finalPrice = price WHERE id IN (" + placeholders + ")";
+                try (PreparedStatement psReset = conn.prepareStatement(resetSql)) {
+                    psReset.executeUpdate();
+                }
+
+                // Apply promotion
+                String sql = "UPDATE products SET finalPrice = CASE WHEN ? = '%' THEN price * (1 - ? / 100) ELSE GREATEST(price - ?, 0) END WHERE id IN (" + placeholders + ")";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
                     ps.setString(1, p.getDiscountType());
                     ps.setDouble(2, p.getDiscountValue());
                     ps.setDouble(3, p.getDiscountValue());
-                    for (int i = 0; i < productIds.size(); i++) {
-                        ps.setInt(4 + i, Integer.parseInt(productIds.get(i).trim()));
-                    }
-                    ps.executeUpdate();
+                    int rowsUpdated = ps.executeUpdate();
+                    System.out.println("✅ Updated " + rowsUpdated + " products (PRODUCT)");
                 }
 
             } else if ("CATEGORY".equals(scope) && !categoryIds.isEmpty()) {
-                String placeholders = String.join(",", categoryIds.stream().map(id -> "?").toArray(String[]::new));
-                String sql = "UPDATE products SET finalPrice = CASE WHEN ? = '%' THEN price * (1 - ? / 100) ELSE price - ? END WHERE category_id IN (" + placeholders + ")";
+                // RESET category về giá gốc
+                String placeholders = String.join(",", categoryIds);
+                String resetSql = "UPDATE products SET finalPrice = price WHERE category_id IN (" + placeholders + ")";
+                try (PreparedStatement psReset = conn.prepareStatement(resetSql)) {
+                    psReset.executeUpdate();
+                }
+
+                // Apply promotion
+                String sql = "UPDATE products SET finalPrice = CASE WHEN ? = '%' THEN price * (1 - ? / 100) ELSE GREATEST(price - ?, 0) END WHERE category_id IN (" + placeholders + ")";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
                     ps.setString(1, p.getDiscountType());
                     ps.setDouble(2, p.getDiscountValue());
                     ps.setDouble(3, p.getDiscountValue());
-                    for (int i = 0; i < categoryIds.size(); i++) {
-                        ps.setInt(4 + i, Integer.parseInt(categoryIds.get(i).trim()));
-                    }
-                    ps.executeUpdate();
+                    int rowsUpdated = ps.executeUpdate();
+                    System.out.println("✅ Updated " + rowsUpdated + " products in category");
                 }
             }
 
         } catch (Exception e) {
+            System.out.println("❌ Error applying promotion:");
             e.printStackTrace();
         }
     }
 
+    // ================== BETTER VERSION: Chỉ apply promotion tốt nhất ==================
+    private void applyBestPromotionToAllProducts() {
+        String sql = """
+        UPDATE products p
+        SET finalPrice = (
+            SELECT CASE
+                WHEN pr.discountType = '%' 
+                THEN p.price * (1 - pr.discountValue / 100)
+                ELSE GREATEST(p.price - pr.discountValue, 0)
+            END
+            FROM promotion pr
+            JOIN promotion_target pt ON pr.id = pt.promotion_id
+            WHERE NOW() BETWEEN pr.startDate AND pr.endDate
+              AND (
+                  pt.targetType = 'tất cả'
+                  OR (pt.targetType = 'sản phẩm' AND pt.product_id = p.id)
+                  OR (pt.targetType = 'danh mục' AND pt.category_id = p.category_id)
+              )
+            ORDER BY (
+                CASE
+                    WHEN pr.discountType = '%' 
+                    THEN p.price * pr.discountValue / 100
+                    ELSE pr.discountValue
+                END
+            ) DESC
+            LIMIT 1
+        )
+        WHERE EXISTS (
+            SELECT 1
+            FROM promotion pr
+            JOIN promotion_target pt ON pr.id = pt.promotion_id
+            WHERE NOW() BETWEEN pr.startDate AND pr.endDate
+              AND (
+                  pt.targetType = 'tất cả'
+                  OR (pt.targetType = 'sản phẩm' AND pt.product_id = p.id)
+                  OR (pt.targetType = 'danh mục' AND pt.category_id = p.category_id)
+              )
+        )
+    """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            int rows = ps.executeUpdate();
+            System.out.println("✅ Applied best promotion to " + rows + " products");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     // ================== DELETE ==================
     public void deleteById(int promotionId) {
         resetFinalPrice(promotionId);
