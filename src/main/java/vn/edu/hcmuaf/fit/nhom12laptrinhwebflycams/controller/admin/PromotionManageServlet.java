@@ -5,6 +5,8 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.PromotionDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Promotion;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Categories;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -28,16 +30,42 @@ public class PromotionManageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        // Get all promotions
         List<Promotion> promotions = promotionDAO.getAllPromotions();
 
+        // Get scope map for each promotion
         Map<Integer, String> scopeMap = new HashMap<>();
         for (Promotion p : promotions) {
             scopeMap.put(p.getId(),
                     promotionDAO.getPromotionScope(p.getId()));
         }
 
+        // Get all products for selection
+        List<Product> allProducts = promotionDAO.getAllProducts();
+
+        // Get all categories for selection
+        List<Categories> allCategories = promotionDAO.getAllCategories();
+
+        // Get product IDs map for each promotion
+        Map<Integer, List<Integer>> promotionProductsMap = new HashMap<>();
+        for (Promotion p : promotions) {
+            List<Integer> productIds = promotionDAO.getProductIdsForPromotion(p.getId());
+            promotionProductsMap.put(p.getId(), productIds);
+        }
+
+        // Get category IDs map for each promotion
+        Map<Integer, List<Integer>> promotionCategoriesMap = new HashMap<>();
+        for (Promotion p : promotions) {
+            List<Integer> categoryIds = promotionDAO.getCategoryIdsForPromotion(p.getId());
+            promotionCategoriesMap.put(p.getId(), categoryIds);
+        }
+
         req.setAttribute("promotions", promotions);
         req.setAttribute("scopeMap", scopeMap);
+        req.setAttribute("allProducts", allProducts);
+        req.setAttribute("allCategories", allCategories);
+        req.setAttribute("promotionProductsMap", promotionProductsMap);
+        req.setAttribute("promotionCategoriesMap", promotionCategoriesMap);
 
         req.getRequestDispatcher("/page/admin/promotion-manage.jsp")
                 .forward(req, resp);
@@ -67,14 +95,24 @@ public class PromotionManageServlet extends HttpServlet {
             List<String> productIdsList = new ArrayList<>();
             String productIdsParam = req.getParameter("productIds");
             if (productIdsParam != null && !productIdsParam.isEmpty()) {
-                for (String id : productIdsParam.split(",")) productIdsList.add(id.trim());
+                for (String id : productIdsParam.split(",")) {
+                    String trimmedId = id.trim();
+                    if (!trimmedId.isEmpty()) {
+                        productIdsList.add(trimmedId);
+                    }
+                }
             }
 
-            // Tách nhiều categoryIds
+            // Tách nhiều categoryIds từ checkbox selection
             List<String> categoryIdsList = new ArrayList<>();
-            String categoryIdsParam = req.getParameter("categoryId");
+            String categoryIdsParam = req.getParameter("categoryIds");
             if (categoryIdsParam != null && !categoryIdsParam.isEmpty()) {
-                for (String id : categoryIdsParam.split(",")) categoryIdsList.add(id.trim());
+                for (String id : categoryIdsParam.split(",")) {
+                    String trimmedId = id.trim();
+                    if (!trimmedId.isEmpty()) {
+                        categoryIdsList.add(trimmedId);
+                    }
+                }
             }
 
             if ("add".equals(action)) {
@@ -90,8 +128,4 @@ public class PromotionManageServlet extends HttpServlet {
 
         resp.sendRedirect(req.getContextPath() + "/admin/promotion-manage");
     }
-
-
 }
-
-

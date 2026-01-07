@@ -414,3 +414,389 @@ table#bangKhuyenMai > thead.table-primary th {
     flex-shrink: 0;
 }
 
+/* === PRODUCT SELECTION STYLES === */
+.product-list-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f8fafc;
+}
+
+.product-item {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.product-item:hover {
+    border-color: #0051c6;
+    box-shadow: 0 2px 8px rgba(0, 81, 198, 0.1);
+}
+
+.product-item.selected {
+    background-color: #e0f2fe;
+    border-color: #0284c7;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.2);
+}
+
+.product-checkbox-label {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.product-checkbox-label input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.product-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: 12px;
+}
+
+.product-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.no-image {
+    color: #94a3b8;
+    font-size: 24px;
+}
+
+.product-details {
+    flex: 1;
+}
+
+.product-name {
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.product-id {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+.product-price {
+    font-size: 13px;
+    color: #0284c7;
+    font-weight: 600;
+}
+
+/* Selected Products Preview */
+.selected-products-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.selected-product-tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: #0284c7;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    gap: 8px;
+}
+
+.selected-product-tag span {
+    flex: 1;
+}
+
+.remove-product-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    padding: 0;
+}
+
+.remove-product-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.remove-product-btn i {
+    font-size: 14px;
+}
+
+/* Scrollbar styling */
+.product-list-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.product-list-container::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+.product-list-container::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.product-list-container::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+/* === FIX MODAL SCROLLABLE - UPDATED === */
+
+/* Modal dialog */
+#modalAddPromotion .modal-dialog,
+#modalEditPromotion .modal-dialog {
+    max-height: 90vh;
+    margin: 1.75rem auto;
+}
+
+/* Modal content */
+#modalAddPromotion .modal-content,
+#modalEditPromotion .modal-content {
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Modal header - SỬA MÀU */
+#modalAddPromotion .modal-header,
+#modalEditPromotion .modal-header {
+    flex-shrink: 0;
+    border-bottom: 1px solid #dee2e6;
+    padding: 1rem;
+    /* BỎ BACKGROUND XA */
+}
+
+/* Giữ màu xanh cho nút X đóng modal */
+#modalAddPromotion .modal-header .btn-close,
+#modalEditPromotion .modal-header .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+/* Modal body scrollable */
+#modalAddPromotion .modal-body,
+#modalEditPromotion .modal-body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1 1 auto;
+    padding: 1.5rem;
+    max-height: calc(90vh - 130px);
+}
+
+/* Footer cố định */
+#modalAddPromotion .modal-footer,
+#modalEditPromotion .modal-footer {
+    flex-shrink: 0;
+    border-top: 1px solid #dee2e6;
+    background: white;
+    padding: 1rem;
+}
+
+/* Product list container */
+.product-list-container {
+    max-height: 350px;
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f8fafc;
+}
+
+/* Custom scrollbar */
+#modalAddPromotion .modal-body::-webkit-scrollbar,
+#modalEditPromotion .modal-body::-webkit-scrollbar,
+.product-list-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+#modalAddPromotion .modal-body::-webkit-scrollbar-track,
+#modalEditPromotion .modal-body::-webkit-scrollbar-track,
+.product-list-container::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+#modalAddPromotion .modal-body::-webkit-scrollbar-thumb,
+#modalEditPromotion .modal-body::-webkit-scrollbar-thumb,
+.product-list-container::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+#modalAddPromotion .modal-body::-webkit-scrollbar-thumb:hover,
+#modalEditPromotion .modal-body::-webkit-scrollbar-thumb:hover,
+.product-list-container::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Fix product item trong modal */
+.product-item {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.product-checkbox-label {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    cursor: pointer;
+    margin: 0;
+    width: 100%;
+}
+/* === FIX MODAL BACKDROP & Z-INDEX === */
+/* === FIX MODAL BACKDROP & Z-INDEX === */
+
+/* Header có z-index: 1000, nên modal phải cao hơn */
+.main-header {
+    z-index: 1000 !important;
+}
+
+/* Backdrop phải cao hơn header */
+.modal-backdrop {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 1055 !important; /* Cao hơn header (1000) */
+    width: 100vw !important;
+    height: 100vh !important;
+    background-color: #000 !important;
+}
+
+.modal-backdrop.show {
+    opacity: 0.5 !important;
+}
+
+/* Đảm bảo chỉ có 1 backdrop tồn tại */
+.modal-backdrop + .modal-backdrop {
+    display: none !important;
+}
+
+/* Modal phải nằm trên backdrop - TĂNG MẠNH Z-INDEX */
+.modal {
+    z-index: 1070 !important; /* Cao hơn nữa */
+    position: fixed !important;
+}
+
+/* Đảm bảo modal dialog cũng có z-index đúng */
+.modal-dialog {
+    z-index: 1070 !important;
+    position: relative !important;
+}
+
+/* Modal content */
+.modal-content {
+    z-index: 1070 !important;
+    position: relative !important;
+}
+
+/* Modal header phải nằm trên cùng */
+.modal-header {
+    z-index: 1071 !important;
+    position: relative !important;
+}
+
+/* Modal body */
+.modal-body {
+    z-index: 1070 !important;
+    position: relative !important;
+}
+
+/* Modal footer */
+.modal-footer {
+    z-index: 1070 !important;
+    position: relative !important;
+}
+
+/* Fix cho logout modal (nếu có) */
+.logout-modal {
+    z-index: 10000 !important;
+}
+
+/* Đảm bảo body không bị ảnh hưởng */
+body.modal-open {
+    overflow: hidden !important;
+}
+
+/* Fix cụ thể cho modal Add và Edit */
+#modalAddPromotion,
+#modalEditPromotion {
+    z-index: 1070 !important;
+}
+
+#modalAddPromotion .modal-dialog,
+#modalEditPromotion .modal-dialog {
+    z-index: 1070 !important;
+}
+
+#modalAddPromotion .modal-content,
+#modalEditPromotion .modal-content {
+    z-index: 1070 !important;
+}
+
+/* Header của modal Add - màu xanh primary */
+#modalAddPromotion .modal-header {
+    z-index: 1071 !important;
+    background-color: #0d6efd !important; /* Màu xanh Bootstrap primary */
+    color: white !important;
+}
+
+#modalAddPromotion .modal-header .modal-title {
+    color: white !important;
+}
+
+#modalAddPromotion .modal-header .btn-close {
+    filter: brightness(0) invert(1) !important;
+}
+
+/* Header của modal Edit - màu vàng warning */
+#modalEditPromotion .modal-header {
+    z-index: 1071 !important;
+    background-color: #ffc107 !important; /* Màu vàng Bootstrap warning */
+    color: #000 !important; /* Chữ đen cho nền vàng */
+}
+
+#modalEditPromotion .modal-header .modal-title {
+    color: #000 !important;
+}
+
+#modalEditPromotion .modal-header .btn-close {
+    filter: brightness(0) !important; /* Nút X màu đen cho nền vàng */
+}
