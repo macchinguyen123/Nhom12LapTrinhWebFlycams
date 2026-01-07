@@ -12,6 +12,7 @@ import java.io.IOException;
 @WebServlet(name = "AddCart", value = "/add-cart")
 public class AddCart extends HttpServlet {
     private ProductService productService = new ProductService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -40,12 +41,24 @@ public class AddCart extends HttpServlet {
             session.setAttribute("cart", cart);
         }
 
-        response.sendRedirect(request.getContextPath() + "/page/shoppingcart.jsp");
+        // Kiểm tra xem request có phải từ AJAX không
+        String ajaxHeader = request.getHeader("X-Requested-With");
+        boolean isAjax = "XMLHttpRequest".equals(ajaxHeader);
+
+        if (isAjax) {
+            // Trả về JSON response cho AJAX
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write("{\"success\":true,\"cartSize\":" + cart.getItems().size() + "}");
+        } else {
+            // Redirect như bình thường nếu không phải AJAX
+            response.sendRedirect(request.getContextPath() + "/page/shoppingcart.jsp");
+        }
     }
 
-
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Forward POST request sang GET để xử lý
+        doGet(request, response);
     }
 }
