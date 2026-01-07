@@ -52,12 +52,30 @@
 
                     <div class="share-icons mt-3">
                         <span>Chia sẻ:</span>
-                        <i class="bi bi-messenger"></i>
-                        <i class="bi bi-facebook"></i>
-                        <i class="bi bi-pinterest"></i>
-                        <i class="bi bi-twitter-x"></i>
+                        <i class="bi bi-messenger share-icon"
+                           onclick="shareOnMessenger()"
+                           title="Chia sẻ qua Messenger"></i>
+                        <i class="bi bi-facebook share-icon"
+                           onclick="shareOnFacebook()"
+                           title="Chia sẻ lên Facebook"></i>
+                        <i class="bi bi-pinterest share-icon"
+                           onclick="shareOnPinterest()"
+                           title="Chia sẻ lên Pinterest"></i>
+                        <i class="bi bi-twitter-x share-icon"
+                           onclick="shareOnTwitter()"
+                           title="Chia sẻ lên Twitter/X"></i>
                         <span class="ms-2 heart-btn">
-                            <i class="bi bi-heart tim-yeu-thich"></i> Yêu thích
+                            <c:choose>
+                                <c:when test="${wishlistProductIds != null && wishlistProductIds.contains(product.id)}">
+                                    <i class="bi bi-heart-fill tim-yeu-thich yeu-thich"
+                                       data-product-id="${product.id}"></i>
+                                </c:when>
+                                <c:otherwise>
+                                    <i class="bi bi-heart tim-yeu-thich"
+                                       data-product-id="${product.id}"></i>
+                                </c:otherwise>
+                            </c:choose>
+                            Yêu thích
                         </span>
                     </div>
                 </div>
@@ -248,7 +266,9 @@
                      data-star="${r.rating}"
                      data-comment="${not empty r.content}">
                     <div class="review-avatar">
-                        <img src="${r.avatar}" alt="${r.username}">
+                        <img src="${pageContext.request.contextPath}/image/avatar/${r.avatar}"
+                             alt="${r.username}"
+                             onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=${r.username}&background=007bff&color=fff&size=50'">
                     </div>
 
                     <div class="review-content">
@@ -307,10 +327,48 @@
 
         </div>
 
-        <button class="write-review-btn"
-                data-product-id="${product.id}">
-            Viết đánh giá
-        </button>
+        <!-- ============= NÚT VIẾT ĐÁNH GIÁ - ĐÃ CẬP NHẬT ============= -->
+        <c:choose>
+            <%-- Trường hợp 1: Chưa đăng nhập --%>
+            <c:when test="${!isLoggedIn}">
+                <button class="write-review-btn"
+                        onclick="redirectToLogin()">
+                    <i class="bi bi-star"></i> Viết đánh giá
+                </button>
+                <p class="text-muted text-center review-status-message">
+                    <small><i class="bi bi-info-circle"></i> Bạn cần đăng nhập để đánh giá</small>
+                </p>
+            </c:when>
+
+            <%-- Trường hợp 2: Đã đăng nhập nhưng đã đánh giá rồi --%>
+            <c:when test="${isLoggedIn && hasReviewed}">
+                <button class="write-review-btn" disabled title="Bạn đã đánh giá sản phẩm này rồi">
+                    <i class="bi bi-check-circle"></i> Đã đánh giá
+                </button>
+                <p class="text-success text-center review-status-message">
+                    <small><i class="bi bi-check-circle-fill"></i> Bạn đã đánh giá sản phẩm này</small>
+                </p>
+            </c:when>
+
+            <%-- Trường hợp 3: Đã đăng nhập nhưng chưa mua --%>
+            <c:when test="${isLoggedIn && !canReview && !hasReviewed}">
+                <button class="write-review-btn" disabled title="Bạn chỉ có thể đánh giá sản phẩm đã mua">
+                    <i class="bi bi-star"></i> Viết đánh giá
+                </button>
+                <p class="text-muted text-center review-status-message">
+                    <small><i class="bi bi-info-circle"></i> Bạn cần mua sản phẩm này để có thể đánh giá</small>
+                </p>
+            </c:when>
+
+            <%-- Trường hợp 4: Đã đăng nhập, đã mua, chưa đánh giá - có thể đánh giá --%>
+            <c:otherwise>
+                <button class="write-review-btn" data-product-id="${product.id}">
+                    <i class="bi bi-star"></i> Viết đánh giá
+                </button>
+            </c:otherwise>
+        </c:choose>
+        <!-- ============================================================= -->
+
     </section>
 </div>
 <c:if test="${not empty relatedProducts}">
@@ -457,6 +515,59 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    // Function redirect đến trang login
+    function redirectToLogin() {
+        if (confirm('Bạn cần đăng nhập để đánh giá sản phẩm. Chuyển đến trang đăng nhập?')) {
+            window.location.href = '${pageContext.request.contextPath}/login.jsp';
+        }
+    }
+    // ============= SHARE FUNCTIONS =============
+    // Lấy thông tin sản phẩm
+    const productUrl = window.location.href;
+    const productTitle = "${product.productName}";
+    const productImage = "${not empty product.images ? product.images[0].imageUrl : ''}";
+    const productPrice = "${formatter.format(product.finalPrice)} ₫";
+    const productDescription = "Xem chi tiết sản phẩm ${product.productName} với giá ${formatter.format(product.finalPrice)} ₫";
+
+    // Chia sẻ lên Facebook
+    function shareOnFacebook() {
+        const facebookUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(productUrl);
+        window.open(facebookUrl, 'facebook-share', 'width=600,height=400');
+    }
+
+    // Chia sẻ qua Messenger
+    function shareOnMessenger() {
+        const messengerUrl = 'fb-messenger://share?link=' + encodeURIComponent(productUrl);
+        // Fallback cho desktop
+        if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            alert('Messenger chỉ khả dụng trên thiết bị di động. Bạn có thể copy link để chia sẻ: ' + productUrl);
+            // Copy link to clipboard
+            navigator.clipboard.writeText(productUrl).then(() => {
+                console.log('Link đã được copy!');
+            });
+        } else {
+            window.location.href = messengerUrl;
+        }
+    }
+
+    // Chia sẻ lên Twitter/X
+    function shareOnTwitter() {
+        const twitterText = productTitle + ' - ' + productPrice;
+        const twitterUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(twitterText) +
+            '&url=' + encodeURIComponent(productUrl);
+        window.open(twitterUrl, 'twitter-share', 'width=600,height=400');
+    }
+
+    // Chia sẻ lên Pinterest
+    function shareOnPinterest() {
+        const fullImageUrl = window.location.origin + '${pageContext.request.contextPath}' + productImage;
+        const pinterestUrl = 'https://pinterest.com/pin/create/button/?url=' + encodeURIComponent(productUrl) +
+            '&media=' + encodeURIComponent(fullImageUrl) +
+            '&description=' + encodeURIComponent(productDescription);
+        window.open(pinterestUrl, 'pinterest-share', 'width=750,height=550');
+    }
+    // ============= END SHARE FUNCTIONS =============
+
     // Chuyển ảnh chính
     const thumbs = document.querySelectorAll('.thumb');
     const displayImg = document.getElementById('displayImg');
@@ -486,16 +597,50 @@
     });
 
 
-    document.querySelectorAll('.tim-yeu-thich').forEach(btn => {
-        btn.addEventListener('click', () => {
-            btn.classList.toggle('liked');
+    document.querySelectorAll('.tim-yeu-thich').forEach(tim => {
+        tim.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
 
-            // chỉ đổi icon, không ảnh hưởng layout
-            if (btn.classList.contains('bi-heart')) {
-                btn.classList.replace('bi-heart', 'bi-heart-fill');
-            } else {
-                btn.classList.replace('bi-heart-fill', 'bi-heart');
+            const productId = this.getAttribute('data-product-id');
+            const isLiked = this.classList.contains('yeu-thich');
+            const action = isLiked ? 'remove' : 'add';
+
+            console.log('SEND:', action, productId);
+
+            if (!productId) {
+                console.error('productId is null');
+                return;
             }
+
+            fetch('${pageContext.request.contextPath}/wishlist', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    action: action,
+                    productId: productId
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        // Toggle icon và class
+                        this.classList.toggle('bi-heart');
+                        this.classList.toggle('bi-heart-fill');
+                        this.classList.toggle('yeu-thich');
+                    } else if (data.error === 'login_required') {
+                        // Nếu chưa đăng nhập
+                        if (confirm('Bạn cần đăng nhập để sử dụng tính năng này. Chuyển đến trang đăng nhập?')) {
+                            window.location.href = '${pageContext.request.contextPath}/login.jsp';
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.error('Error:', err);
+                });
         });
     });
 

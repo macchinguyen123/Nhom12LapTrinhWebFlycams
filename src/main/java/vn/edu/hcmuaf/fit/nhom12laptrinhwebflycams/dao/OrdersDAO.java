@@ -288,5 +288,37 @@ public class OrdersDAO {
         }
         return "Không có địa chỉ";
     }
+    /**
+     * Kiểm tra xem user đã mua sản phẩm này chưa
+     * @param userId ID của user
+     * @param productId ID của sản phẩm
+     * @return true nếu đã mua, false nếu chưa
+     */
+    public boolean hasUserPurchasedProduct(int userId, int productId) {
+        String sql = """
+            SELECT COUNT(*) > 0
+            FROM orders o
+            JOIN order_items oi ON o.id = oi.order_id
+            WHERE o.user_id = ? 
+              AND oi.product_id = ?
+              AND o.status IN ('Đang xử lý', 'Đang giao', 'Hoàn thành')
+            """;
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ps.setInt(2, productId);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getBoolean(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }

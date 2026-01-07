@@ -425,13 +425,6 @@ body {
     border-bottom: 1px solid #eee;
 }
 
-.review-avatar {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: #ddd;
-}
-
 .review-content {
     flex: 1;
 }
@@ -1026,3 +1019,84 @@ a {
     border-radius: 2px;
 }
 
+/* CSS cho nút đánh giá disabled */
+.write-review-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.write-review-btn:disabled:hover {
+    background-color: #ccc;
+    transform: none;
+}
+
+/* CSS cho thông báo trạng thái */
+.review-status-message {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+.review-status-message i {
+    font-size: 1rem;
+}
+
+
+
+/* ========================================
+   CSS CHO AVATAR TRONG REVIEW SECTION
+   Thêm vào file product-details.css
+   ======================================== */
+
+/* Avatar container */
+.review-avatar {
+    width: 50px !important;
+    height: 50px !important;
+    min-width: 50px;
+    min-height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Avatar image */
+.review-avatar img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 50px;
+    max-height: 50px;
+    object-fit: cover !important;
+    display: block;
+    border: none;
+}
+
+/* Review layout */
+.review {
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.review-content {
+    flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .review-avatar {
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px;
+        min-height: 40px;
+    }
+
+    .review-avatar img {
+        max-width: 40px;
+        max-height: 40px;
+    }
+}
