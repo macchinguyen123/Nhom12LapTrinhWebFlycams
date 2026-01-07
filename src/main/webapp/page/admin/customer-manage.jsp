@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-        <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
             <html lang="en">
 
             <head>
@@ -163,7 +165,7 @@
                             </div>
                         </div>
 
-                        <!-- ✅ HIỂN THỊ BẢNG DANH SÁCH KHI showDetail = false -->
+                        <!-- HIỂN THỊ BẢNG DANH SÁCH KHI showDetail = false -->
                         <c:if test="${empty showDetail or showDetail == false}">
                             <div class="users-table mt-4">
                                 <div class="d-flex justify-content-start align-items-center mb-2">
@@ -222,7 +224,7 @@
                                 </div>
                             </div>
                         </c:if>
-                        <!-- ✅ HIỂN THỊ CHI TIẾT KHI showDetail = true -->
+                        <!-- HIỂN THỊ CHI TIẾT KHI showDetail = true -->
                         <c:if test="${showDetail}">
                             <div class="order-card mt-4">
                                 <a href="${pageContext.request.contextPath}/admin/customer-manage"
@@ -263,9 +265,35 @@
                         <label class="form-label fw-semibold">Tên đăng nhập <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="username" value="${detailUser.username}" required>
                     </div>
+                    <!-- Mật khẩu đã mã hóa -->
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-semibold">Mật khẩu</label>
-                        <input type="text" class="form-control" name="password" value="${detailUser.password}">
+                        <label class="form-label fw-semibold">
+                            Mật khẩu (đã mã hóa)
+                        </label>
+                        <c:set var="pw" value="${detailUser.password}" />
+                        <input type="text"
+                               class="form-control"
+                               value="${fn:substring(pw, 0, 20)}...${fn:substring(pw, fn:length(pw)-10, fn:length(pw))}"
+                               title="${pw}"
+                               readonly
+                               style="font-family: monospace; font-size: 13px; background:#f5f5f5;">
+                        <small class="text-muted">
+                            🔒 Mật khẩu đã được mã hóa.
+                        </small>
+                    </div>
+
+                    <!-- Đổi mật khẩu -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">
+                            Đổi mật khẩu mới
+                        </label>
+                        <input type="password"
+                               class="form-control"
+                               name="newPassword"
+                               placeholder="Để trống nếu không đổi mật khẩu">
+                        <small class="text-warning">
+                            ⚠ Khi lưu, mật khẩu mới sẽ được mã hóa
+                        </small>
                     </div>
                 </div>
                 <div class="row">

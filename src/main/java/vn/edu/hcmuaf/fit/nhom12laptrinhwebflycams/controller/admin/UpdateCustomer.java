@@ -5,9 +5,9 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PasswordUtil;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 
 @WebServlet(name = "UpdateCustomer", value = "/admin/update-customer")
 @MultipartConfig
@@ -73,8 +73,12 @@ public class UpdateCustomer extends HttpServlet {
             }
             if (req.getParameter("username") != null)
                 u.setUsername(req.getParameter("username"));
-            if (req.getParameter("password") != null)
-                u.setPassword(req.getParameter("password"));
+            String newPassword = req.getParameter("newPassword");
+            if (newPassword != null && !newPassword.isBlank()) {
+                String hashed = PasswordUtil.hashPassword(newPassword);
+                u.setPassword(hashed);
+            }
+
             if (req.getParameter("avatar") != null)
                 u.setAvatar(req.getParameter("avatar"));
 
@@ -86,13 +90,6 @@ public class UpdateCustomer extends HttpServlet {
             } else {
                 addrUpdated = userDAO.updateUserAddress(u.getId(), "");
             }
-            // If address update fails (only if address was provided) -- wait,
-            // updateUserAddress returns false on exception.
-            // But we typically don't want to block user update if address fails, or maybe
-            // we do?
-            // Let's log it or append to message if we could. For now, strictly speaking,
-            // just proceed.
-
             boolean updated = userDAO.updateUser(u);
             if (updated) {
                 resp.getWriter().write("{\"success\":true}");

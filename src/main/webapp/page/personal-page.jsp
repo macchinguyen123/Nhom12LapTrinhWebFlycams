@@ -195,51 +195,60 @@
             <p class="desc">Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
 
             <form action="${pageContext.request.contextPath}/UpdateProfileServlet" method="post">
-                <!-- Họ tên -->
-                <div class="form-group">
-                    <label for="fullName">Họ tên</label>
-                    <input type="text" name="fullName" id="fullName" value="${user.fullName}"
-                           required>
-                </div>
-                <div class="form-group">
-                    <label for="username">Tên đăng nhập</label>
-                    <input type="text" id="username" value="${user.username}" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="text" id="email" value="${user.email}" readonly>
+
+                <!-- Họ tên + Username -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">Họ tên</label>
+                        <input type="text" name="fullName" id="fullName"
+                               value="${user.fullName}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập</label>
+                        <input type="text" id="username"
+                               value="${user.username}" readonly>
+                    </div>
                 </div>
 
-                <!-- Số điện thoại -->
-                <div class="form-group">
-                    <label for="phoneNumber">Số điện thoại</label>
-                    <input type="text" name="phoneNumber" id="phoneNumber"
-                           value="${user.phoneNumber}" required>
+                <!-- Email + Số điện thoại -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" id="email"
+                               value="${user.email}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneNumber">Số điện thoại</label>
+                        <input type="text" name="phoneNumber" id="phoneNumber"
+                               value="${user.phoneNumber}" required>
+                    </div>
                 </div>
 
-                <!-- Giới tính -->
-                <div class="form-group">
-                    <label for="gender">Giới tính</label>
-                    <select name="gender" id="gender">
-                        <option value="Nam" ${user.gender eq 'Nam' ? 'selected' : '' }>Nam</option>
-                        <option value="Nữ" ${user.gender eq 'Nữ' ? 'selected' : '' }>Nữ</option>
-                        <option value="" ${empty user.gender ? 'selected' : '' }>Chưa chọn</option>
-                    </select>
-                </div>
+                <!-- Giới tính + Ngày sinh -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="gender">Giới tính</label>
+                        <select name="gender" id="gender">
+                            <option value="Nam" ${user.gender eq 'Nam' ? 'selected' : ''}>Nam</option>
+                            <option value="Nữ" ${user.gender eq 'Nữ' ? 'selected' : ''}>Nữ</option>
+                            <option value="" ${empty user.gender ? 'selected' : ''}>Chưa chọn</option>
+                        </select>
+                    </div>
 
-                <!-- Ngày sinh -->
-                <div class="form-group">
-                    <label for="birthDate">Ngày sinh</label>
-                    <input type="date" name="birthDate" id="birthDate"
-                           value="<fmt:formatDate value='${user.birthDate}' pattern='yyyy-MM-dd'/>"
-                           max="<fmt:formatDate value='${now}' pattern='yyyy-MM-dd'/>">
+                    <div class="form-group">
+                        <label for="birthDate">Ngày sinh</label>
+                        <input type="date" name="birthDate" id="birthDate"
+                               value="<fmt:formatDate value='${user.birthDate}' pattern='yyyy-MM-dd'/>"
+                               max="<fmt:formatDate value='${now}' pattern='yyyy-MM-dd'/>">
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Cập nhật</button>
             </form>
-
-
         </section>
+
 
         <section id="repass-section" class="section">
             <h2>Đổi Mật Khẩu</h2>
