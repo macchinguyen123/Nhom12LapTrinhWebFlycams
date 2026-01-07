@@ -9,24 +9,22 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "StatisticsServlet", value = "/admin/statistics")
 public class StatisticsServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-
-        // Chưa login
         if (session == null || session.getAttribute("user") == null) {
             response.sendRedirect(request.getContextPath() + "/Login");
             return;
         }
 
         User user = (User) session.getAttribute("user");
-
-        // Không phải admin
         if (user.getRoleId() != 1) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
@@ -34,19 +32,28 @@ public class StatisticsServlet extends HttpServlet {
 
         DashboardDAO dao = new DashboardDAO();
 
-        // Lấy danh sách đơn hàng trong ngày
-        List<Orders> todayOrders = dao.getTodayOrders();
-        request.setAttribute("todayOrders", todayOrders);
+        Map<String, Double> revenue8Days = dao.getRevenueLast8Days();
+        Map<String, Double> revenueByMonth = dao.getRevenueByMonth();
 
-        // Lấy các chỉ số tổng quan cho ngày hôm nay
-        request.setAttribute("totalOrdersToday", dao.getTotalOrdersToday());
-        request.setAttribute("processingOrdersToday", dao.getProcessingOrdersToday());
+        request.setAttribute("revenueDays", revenue8Days.keySet());
+        request.setAttribute("revenueValues", revenue8Days.values());
+
+        request.setAttribute("revenueMonths", revenueByMonth.keySet());
+        request.setAttribute("revenueMonthValues", revenueByMonth.values());
+
+        // ====== THỐNG KÊ ======
         request.setAttribute("revenueToday", dao.getRevenueToday());
-        request.setAttribute("newCustomersToday", dao.getNewCustomersToday());
+        request.setAttribute("revenueMonth", dao.getRevenueThisMonth());
+        request.setAttribute("ordersToday", dao.getOrdersToday());
+        request.setAttribute("bestProduct", dao.getBestSellingProduct());
+
+        // ====== ĐƠN TRONG NGÀY ======
+        request.setAttribute("todayOrders", dao.getTodayOrders());
 
         request.getRequestDispatcher("/page/admin/statistics.jsp")
                 .forward(request, response);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -54,3 +61,4 @@ public class StatisticsServlet extends HttpServlet {
         doGet(request, response);
     }
 }
+

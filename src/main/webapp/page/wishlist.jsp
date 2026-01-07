@@ -95,19 +95,26 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="d-flex align-items-center gap-2">
-                            <a href="${pageContext.request.contextPath}/cart?action=add&productId=${p.id}">
-                                <button class="btn btn-primary btn-sm nut_them_vao_gio">
+                            <!-- Form thêm vào giỏ hàng -->
+                            <form action="${pageContext.request.contextPath}/add-cart"
+                                  method="get"
+                                  style="display:inline-block; margin:0;">
+                                <input type="hidden" name="productId" value="${p.id}">
+                                <input type="hidden" name="quantity" value="1">
+
+                                <button type="submit" class="btn btn-primary btn-sm nut_them_vao_gio">
                                     <i class="bi bi-cart-plus"></i> Thêm vào giỏ hàng
                                 </button>
-                            </a>
+                            </form>
 
+                            <!-- Nút xóa -->
                             <button class="btn btn-outline-danger btn-sm nut_xoa"
                                     data-product-id="${p.id}">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
+
                     </div>
                 </c:forEach>
 
