@@ -1,6 +1,5 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao;
 
-import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.AdminVNPay;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.DBConnection;
@@ -8,6 +7,10 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.DBConnection;
 import java.sql.*;
 
 public class AdminVNPayDao {
+
+    /**
+     * Lấy thông tin User theo ID
+     */
     public User getUserById(int id) {
         String sql = "SELECT * FROM users WHERE id = ?";
 
@@ -33,12 +36,16 @@ public class AdminVNPayDao {
         user.setFullName(rs.getString("fullName"));
         user.setEmail(rs.getString("email"));
         user.setUsername(rs.getString("username"));
+        user.setPassword(rs.getString("password"));
         user.setPhoneNumber(rs.getString("phoneNumber"));
         user.setAvatar(rs.getString("avatar"));
         user.setStatus(rs.getBoolean("status"));
         return user;
     }
 
+    /**
+     * Lấy thông tin tài khoản VNPay theo userId
+     */
     public AdminVNPay getByUserId(int userId) {
         String sql = "SELECT * FROM admin_vnpay WHERE user_id = ?";
 
@@ -63,7 +70,15 @@ public class AdminVNPayDao {
         }
         return null;
     }
+
+    /**
+     * Lưu hoặc cập nhật thông tin VNPay
+     */
     public boolean saveOrUpdate(AdminVNPay bank) {
+        if (bank == null || bank.getUserId() <= 0) {
+            return false;
+        }
+
         if (getByUserId(bank.getUserId()) == null) {
             return insert(bank);
         }
@@ -92,8 +107,7 @@ public class AdminVNPayDao {
             return ps.executeUpdate() > 0;
 
         } catch (SQLIntegrityConstraintViolationException e) {
-            // Trùng accountNumber (UNIQUE)
-            System.out.println("Account number already exists");
+            System.out.println("Account number already exists: " + bank.getAccountNumber());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -125,24 +139,7 @@ public class AdminVNPayDao {
             return ps.executeUpdate() > 0;
 
         } catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println("Account number already exists");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-    public boolean checkPassword(int userId, String oldPassword) {
-        String sql = "SELECT password FROM users WHERE id = ?";
-
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, userId);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                return oldPassword.equals(rs.getString("password"));
-            }
+            System.out.println("Account number already exists: " + bank.getAccountNumber());
         } catch (Exception e) {
             e.printStackTrace();
         }

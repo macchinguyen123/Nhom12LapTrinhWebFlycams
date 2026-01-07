@@ -86,7 +86,7 @@
                 <li><i class="bi bi-tags"></i> Quản Lý Danh Mục</li>
             </a>
 
-            <li class="has-submenu open">
+            <li class="has-submenu">
                 <div class="menu-item">
                     <i class="bi bi-truck"></i>
                     <span>Quản Lý Đơn Hàng</span>
@@ -153,7 +153,6 @@
                         <th>Ngày Đặt</th>
                         <th>Tổng Tiền</th>
                         <th>Trạng Thái</th>
-                        <th>Chi Tiết</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -164,7 +163,6 @@
                             <td><fmt:formatDate value="${o.createdAt}" pattern="dd/MM/yyyy HH:mm"/></td>
                             <td class="fw-semibold text-danger"><fmt:formatNumber value="${o.totalPrice}" type="number"/> VND</td>
                             <td><span class="badge ${o.statusClass}">${o.statusLabel}</span></td>
-                            <td><button class="btn btn-info btn-sm" onclick="loadOrderDetail(${o.id})"><i class="bi bi-eye"></i></button></td>
                         </tr>
                     </c:forEach>
                     </tbody>
