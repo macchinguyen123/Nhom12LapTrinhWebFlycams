@@ -8,10 +8,10 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 public class DashboardDAO {
 
@@ -274,21 +274,25 @@ public class DashboardDAO {
         List<Orders> list = new ArrayList<>();
 
         String sql = """
-                    SELECT o.id,
-                           o.shippingCode,
-                           u.fullName AS customerName,
-                           o.createdAt,
-                           o.totalPrice,
-                           o.status
-                    FROM orders o
-                    JOIN users u ON o.user_id = u.id
-                    WHERE DATE(o.createdAt) = CURDATE()
-                    ORDER BY o.createdAt DESC
-                """;
+        SELECT o.id,
+               o.shippingCode,
+               u.fullName AS customerName,
+               o.createdAt,
+               o.totalPrice,
+               o.status
+        FROM orders o
+        JOIN users u ON o.user_id = u.id
+        WHERE o.createdAt BETWEEN ? AND ?
+        ORDER BY o.createdAt DESC
+    """;
 
         try (Connection con = DBConnection.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setTimestamp(1, startOfToday());
+            ps.setTimestamp(2, endOfToday());
+
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Orders o = new Orders();
@@ -299,8 +303,6 @@ public class DashboardDAO {
                 o.setTotalPrice(rs.getDouble("totalPrice"));
 
                 String status = rs.getString("status");
-
-                // Map status cho hiển thị
                 switch (status) {
                     case "Xác nhận" -> {
                         o.setStatusLabel("Chờ xác nhận");
@@ -326,12 +328,13 @@ public class DashboardDAO {
 
                 list.add(o);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return list;
     }
+
 
     // Tổng số đơn hôm nay
     public int getTotalOrdersToday() {
@@ -388,4 +391,170 @@ public class DashboardDAO {
         }
         return 0;
     }
+
+        // ===== DOANH THU THÁNG NÀY =====
+        public double getRevenueThisMonth() {
+            String sql = """
+            SELECT IFNULL(SUM(totalPrice),0)
+            FROM orders
+            WHERE MONTH(createdAt) = MONTH(CURDATE())
+              AND YEAR(createdAt) = YEAR(CURDATE())
+              AND status = 'Hoàn thành'
+        """;
+            return getDouble(sql);
+        }
+
+        // ===== SỐ ĐƠN TRONG NGÀY =====
+        public int getOrdersToday() {
+            String sql = """
+            SELECT COUNT(*)
+            FROM orders
+            WHERE DATE(createdAt) = CURDATE()
+        """;
+            return getInt(sql);
+        }
+
+
+        public Map<String, Integer> getBestSellingProduct() {
+            Map<String, Integer> result = new HashMap<>();
+
+            String sql = """
+            SELECT p.productName, SUM(oi.quantity) totalSold
+            FROM order_items oi
+            JOIN products p ON oi.product_id = p.id
+            JOIN orders o ON oi.order_id = o.id
+            WHERE o.status = 'Hoàn thành'
+            GROUP BY p.id
+            ORDER BY totalSold DESC
+            LIMIT 1
+        """;
+
+            try (Connection con = DBConnection.getConnection();
+                 PreparedStatement ps = con.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    result.put(
+                            rs.getString("productName"),
+                            rs.getInt("totalSold")
+                    );
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+
+        // ===== HÀM TIỆN ÍCH =====
+        private double getDouble(String sql) {
+            try (Connection con = DBConnection.getConnection();
+                 PreparedStatement ps = con.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) return rs.getDouble(1);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }
+
+        private int getInt(String sql) {
+            try (Connection con = DBConnection.getConnection();
+                 PreparedStatement ps = con.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) return rs.getInt(1);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }
+    private Timestamp startOfToday() {
+        return Timestamp.valueOf(
+                LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).atStartOfDay()
+        );
+    }
+
+    private Timestamp endOfToday() {
+        return Timestamp.valueOf(
+                LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh")).atTime(23, 59, 59)
+        );
+    }
+
+
+    public Map<String, Double> getRevenueLast8Days() {
+
+        Map<String, Double> dbData = new HashMap<>();
+        Map<String, Double> result = new LinkedHashMap<>();
+
+        String sql = """
+        SELECT DATE(createdAt) AS day,
+               SUM(totalPrice) AS revenue
+        FROM orders
+        WHERE status = 'Hoàn thành'
+          AND createdAt >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+        GROUP BY DATE(createdAt)
+    """;
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                dbData.put(
+                        rs.getString("day"),
+                        rs.getDouble("revenue")
+                );
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // ====== ĐẢM BẢO ĐỦ 8 NGÀY ======
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Ho_Chi_Minh"));
+
+        for (int i = 7; i >= 0; i--) {
+            LocalDate day = today.minusDays(i);
+            String key = day.toString(); // yyyy-MM-dd
+            result.put(key, dbData.getOrDefault(key, 0.0));
+        }
+
+        return result;
+    }
+    // DashboardDAO.java
+    public Map<String, Double> getRevenueByMonth() {
+        Map<String, Double> data = new LinkedHashMap<>();
+        String sql = """
+        SELECT MONTH(createdAt) AS month, IFNULL(SUM(totalPrice),0) AS revenue
+        FROM orders
+        WHERE status = 'Hoàn thành'
+          AND YEAR(createdAt) = YEAR(CURDATE())
+        GROUP BY MONTH(createdAt)
+        ORDER BY month
+    """;
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            // Khởi tạo 12 tháng = 0
+            for (int m = 1; m <= 12; m++) {
+                data.put(String.valueOf(m), 0.0);
+            }
+
+            while (rs.next()) {
+                data.put(rs.getString("month"), rs.getDouble("revenue"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+
+
 }
