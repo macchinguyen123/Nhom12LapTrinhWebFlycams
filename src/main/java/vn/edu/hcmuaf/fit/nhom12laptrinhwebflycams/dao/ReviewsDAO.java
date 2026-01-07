@@ -9,6 +9,32 @@ import java.util.List;
 
 public class ReviewsDAO {
 
+    /**
+     * Kiểm tra xem user đã đánh giá sản phẩm này chưa
+     * @param userId ID của user
+     * @param productId ID của sản phẩm
+     * @return true nếu đã đánh giá, false nếu chưa
+     */
+    public boolean hasUserReviewedProduct(int userId, int productId) {
+        String sql = "SELECT COUNT(*) > 0 FROM reviews WHERE user_id = ? AND product_id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+            ps.setInt(2, productId);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getBoolean(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     // Thêm hoặc cập nhật review
     public void saveReview(int userId, int productId, int rating, String content) {
         String sql = """
