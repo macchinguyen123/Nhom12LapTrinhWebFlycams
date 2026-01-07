@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao;
 
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Categories;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Promotion;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.DBConnection;
 
@@ -190,7 +192,7 @@ public class PromotionDAO {
 
             conn.commit();
 
-            // 4️⃣ Apply promotion
+            // Apply promotion
             applyPromotionToProducts(p, scope, productIds, categoryIds);
 
         } catch (Exception e) {
@@ -266,55 +268,6 @@ public class PromotionDAO {
             e.printStackTrace();
         }
     }
-
-    // ================== BETTER VERSION: Chỉ apply promotion tốt nhất ==================
-    private void applyBestPromotionToAllProducts() {
-        String sql = """
-        UPDATE products p
-        SET finalPrice = (
-            SELECT CASE
-                WHEN pr.discountType = '%' 
-                THEN p.price * (1 - pr.discountValue / 100)
-                ELSE GREATEST(p.price - pr.discountValue, 0)
-            END
-            FROM promotion pr
-            JOIN promotion_target pt ON pr.id = pt.promotion_id
-            WHERE NOW() BETWEEN pr.startDate AND pr.endDate
-              AND (
-                  pt.targetType = 'tất cả'
-                  OR (pt.targetType = 'sản phẩm' AND pt.product_id = p.id)
-                  OR (pt.targetType = 'danh mục' AND pt.category_id = p.category_id)
-              )
-            ORDER BY (
-                CASE
-                    WHEN pr.discountType = '%' 
-                    THEN p.price * pr.discountValue / 100
-                    ELSE pr.discountValue
-                END
-            ) DESC
-            LIMIT 1
-        )
-        WHERE EXISTS (
-            SELECT 1
-            FROM promotion pr
-            JOIN promotion_target pt ON pr.id = pt.promotion_id
-            WHERE NOW() BETWEEN pr.startDate AND pr.endDate
-              AND (
-                  pt.targetType = 'tất cả'
-                  OR (pt.targetType = 'sản phẩm' AND pt.product_id = p.id)
-                  OR (pt.targetType = 'danh mục' AND pt.category_id = p.category_id)
-              )
-        )
-    """;
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            int rows = ps.executeUpdate();
-            System.out.println("✅ Applied best promotion to " + rows + " products");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
     // ================== DELETE ==================
     public void deleteById(int promotionId) {
         resetFinalPrice(promotionId);
@@ -380,6 +333,115 @@ public class PromotionDAO {
         if (types.contains("sản phẩm")) return "Sản phẩm";
         if (types.contains("danh mục")) return "Danh mục";
         return "—";
+    }
+    // ================== GET ALL PRODUCTS ==================
+    public List<Product> getAllProducts() {
+        List<Product> list = new ArrayList<>();
+
+        String sql = """
+        SELECT 
+            p.id,
+            p.productName,
+            p.price,
+            p.finalPrice,
+            i.imageUrl AS mainImage
+        FROM products p
+        LEFT JOIN images i 
+            ON p.id = i.product_id 
+            AND i.imageType = 'Chính'
+        ORDER BY p.productName ASC
+    """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Product product = new Product();
+
+                product.setId(rs.getInt("id"));
+                product.setProductName(rs.getString("productName"));
+                product.setPrice(rs.getDouble("price"));
+                product.setFinalPrice(rs.getDouble("finalPrice"));
+
+                // Main image (có thể null)
+                product.setMainImage(rs.getString("mainImage"));
+
+                list.add(product);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    // ================== GET PRODUCTS FOR PROMOTION ==================
+    public List<Integer> getProductIdsForPromotion(int promotionId) {
+        List<Integer> productIds = new ArrayList<>();
+        String sql = "SELECT product_id FROM promotion_target WHERE promotion_id = ? AND product_id IS NOT NULL";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, promotionId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                productIds.add(rs.getInt("product_id"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return productIds;
+    }
+// Thêm các phương thức này vào PromotionDAO.java
+
+    // ================== GET ALL CATEGORIES ==================
+    public List<Categories> getAllCategories() {
+        List<Categories> list = new ArrayList<>();
+        String sql = "SELECT id, categoryName, image, status FROM categories ORDER BY categoryName ASC";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Categories category = new Categories();
+                category.setId(rs.getInt("id"));
+                category.setCategoryName(rs.getString("categoryName"));
+                category.setImage(rs.getString("image"));
+                category.setStatus(rs.getString("status"));
+                list.add(category);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // ================== GET CATEGORIES FOR PROMOTION ==================
+    public List<Integer> getCategoryIdsForPromotion(int promotionId) {
+        List<Integer> categoryIds = new ArrayList<>();
+        String sql = "SELECT category_id FROM promotion_target WHERE promotion_id = ? AND category_id IS NOT NULL";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, promotionId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                categoryIds.add(rs.getInt("category_id"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return categoryIds;
     }
 
 
