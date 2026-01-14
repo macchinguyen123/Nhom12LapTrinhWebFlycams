@@ -57,11 +57,46 @@ public class OrdersDAO {
             default -> Orders.Status.PENDING;
         };
     }
+    public List<Orders> getOrdersByUser1(int userId) {
+        List<Orders> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM orders WHERE user_id = ? AND status IN ('Hoàn thành', 'Hủy')  ORDER BY createdAt DESC";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Orders o = new Orders();
+                o.setId(rs.getInt("id"));
+                o.setUserId(rs.getInt("user_id"));
+                o.setShippingCode(rs.getString("shippingCode"));
+                o.setTotalPrice(rs.getDouble("totalPrice"));
+                o.setStatus(Orders.Status.fromDB(rs.getString("status")));
+                o.setPhoneNumber(rs.getString("phoneNumber"));
+                o.setPaymentMethod(rs.getString("paymentMethod"));
+                o.setCreatedAt(rs.getTimestamp("createdAt"));
+                o.setCompletedAt(rs.getTimestamp("completedAt"));
+                o.setNote(rs.getString("note"));
+                int addr = rs.getInt("address_id");
+                o.setAddressId(rs.wasNull() ? null : addr);
+
+                list.add(o);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 
     public List<Orders> getOrdersByUser(int userId) {
         List<Orders> list = new ArrayList<>();
 
-        String sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY createdAt DESC";
+        String sql = "SELECT * FROM orders WHERE user_id = ?  ORDER BY createdAt DESC";
 
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {

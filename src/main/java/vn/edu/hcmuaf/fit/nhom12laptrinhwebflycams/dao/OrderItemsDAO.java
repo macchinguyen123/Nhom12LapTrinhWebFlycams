@@ -53,7 +53,7 @@ public class OrderItemsDAO {
             ) AS imageUrl
         FROM order_items oi
         JOIN products p ON oi.product_id = p.id
-        WHERE oi.order_id = ?
+        WHERE oi.order_id = ? 
     """;
 
         try (Connection con = DBConnection.getConnection();

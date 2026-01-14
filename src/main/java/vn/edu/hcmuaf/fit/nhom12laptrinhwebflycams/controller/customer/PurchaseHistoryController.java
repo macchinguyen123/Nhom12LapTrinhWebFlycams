@@ -31,7 +31,7 @@ public class PurchaseHistoryController extends HttpServlet {
             return;
         }
 
-        List<Orders> orders = ordersDAO.getOrdersByUser(user.getId());
+        List<Orders> orders = ordersDAO.getOrdersByUser1(user.getId());
 
         for (Orders o : orders) {
             o.setItems(orderItemsDAO.getItemsByOrderId(o.getId()));
@@ -45,18 +45,7 @@ public class PurchaseHistoryController extends HttpServlet {
 
     private void mapStatus(Orders o) {
         switch (o.getStatus()) {
-            case PENDING -> {
-                o.setStatusLabel("Xác nhận");
-                o.setStatusClass("cho-xac-nhan");
-            }
-            case PROCESSING -> {
-                o.setStatusLabel("Đang xử lý");
-                o.setStatusClass("dang-xu-ly");
-            }
-            case OUT_FOR_DELIVERY -> {
-                o.setStatusLabel("Đang giao");
-                o.setStatusClass("dang-giao");
-            }
+
             case DELIVERED -> {
                 o.setStatusLabel("Đã nhận hàng");
                 o.setStatusClass("da-nhan-hang");
