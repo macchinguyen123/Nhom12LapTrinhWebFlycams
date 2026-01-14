@@ -414,33 +414,52 @@
                 </table>
             </div>
 
-            <div class="modal fade" id="cancelModal" tabindex="-1">
-                <div class="modal-dialog">
+            <!-- Modal Hủy Đơn Hàng -->
+            <div class="modal fade" id="cancelModal" tabindex="-1"
+                 aria-labelledby="cancelModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
                     <form method="post" action="${pageContext.request.contextPath}/personal">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Huỷ đơn hàng</h5>
-                                <button type="button" class="btn-close"
-                                        data-bs-dismiss="modal"></button>
+                            <div class="modal-header bg-danger text-white">
+                                <h5 class="modal-title" id="cancelModalLabel">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                    Xác nhận hủy đơn hàng
+                                </h5>
+                                <button type="button" class="btn-close btn-close-white"
+                                        data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
 
                             <div class="modal-body">
                                 <input type="hidden" name="action" value="cancelOrder">
                                 <input type="hidden" name="orderId" id="cancelOrderId">
 
-                                <label>Lý do huỷ đơn (không bắt buộc)</label>
-                                <textarea class="form-control"
-                                          placeholder="Nhập lý do huỷ (tuỳ chọn)"></textarea>
-                                <!-- ❗ KHÔNG có name => KHÔNG gửi lên server -->
+                                <div class="alert alert-warning" role="alert">
+                                    <i class="bi bi-info-circle-fill me-2"></i>
+                                    Bạn có chắc chắn muốn hủy đơn hàng này? Hành động này không thể hoàn tác.
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="cancelReason" class="form-label">
+                                        Lý do hủy đơn <span class="text-muted">(không bắt buộc)</span>
+                                    </label>
+                                    <textarea class="form-control" id="cancelReason"
+                                              rows="3"
+                                              placeholder="Ví dụ: Tôi muốn thay đổi địa chỉ giao hàng, Tôi tìm được giá tốt hơn..."></textarea>
+                                    <small class="text-muted">
+                                        <!-- ❗ Lý do chỉ để tham khảo, không được lưu vào hệ thống -->
+                                    </small>
+                                </div>
                             </div>
 
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-danger">
-                                    Xác nhận huỷ
-                                </button>
                                 <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">
-                                    Đóng
+                                    <i class="bi bi-x-circle me-1"></i>
+                                    Không, giữ đơn hàng
+                                </button>
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-trash-fill me-1"></i>
+                                    Xác nhận hủy đơn
                                 </button>
                             </div>
                         </div>
@@ -704,132 +723,6 @@
     }
 </script>
 
-<script>
-    // === Xử lý địa chỉ ===
-    const addBtn = document.getElementById("addAddressBtn");
-    const form = document.getElementById("addressForm");
-    const cancelBtn = document.getElementById("cancelAddressBtn");
-    const saveBtn = document.getElementById("saveAddressBtn");
-    const list = document.getElementById("addressList");
-
-    const nameInput = document.getElementById("nameInput");
-    const phoneInput = document.getElementById("phoneInput");
-    const detailAddress = document.getElementById("detailAddress");
-    const provinceSelect = document.getElementById("province");
-    const wardSelect = document.getElementById("ward");
-    const defaultAddress = document.getElementById("defaultAddress");
-
-    let addresses = [];
-    let editIndex = null;
-
-    // Mở form
-    addBtn.addEventListener("click", () => {
-        form.style.display = "block";
-        addBtn.style.display = "none";
-    });
-
-    // Hủy form
-    cancelBtn.addEventListener("click", resetForm);
-
-    // Lưu địa chỉ
-    saveBtn.addEventListener("click", () => {
-        const name = nameInput.value.trim();
-        const phone = phoneInput.value.trim();
-        const addr = detailAddress.value.trim();
-        const province = provinceSelect.value;
-        const ward = wardSelect.value;
-        const isDefault = defaultAddress.checked;
-
-        if (!name || !phone || !addr || !province || !ward) {
-            alert("Vui lòng nhập đầy đủ thông tin!");
-            return;
-        }
-
-        const fullAddress = `${addr}, ${ward}, ${province}`;
-
-        const data = {
-            name,
-            phone,
-            fullAddress,
-            isDefault
-        };
-
-        // Nếu đặt làm mặc định → bỏ mặc định ở các địa chỉ khác
-        if (isDefault) {
-            addresses.forEach(a => a.isDefault = false);
-        }
-
-        if (editIndex !== null) {
-            addresses[editIndex] = data;
-        } else {
-            addresses.push(data);
-        }
-
-        renderAddresses();
-        resetForm();
-    });
-
-    // Render danh sách địa chỉ
-    function renderAddresses() {
-        list.innerHTML = "";
-
-        if (addresses.length === 0) {
-            list.innerHTML = "<p>Chưa có địa chỉ nào.</p>";
-            return;
-        }
-
-        addresses.forEach((item, index) => {
-            const div = document.createElement("div");
-            div.classList.add("address-item");
-            div.innerHTML =
-                "<p><strong>" + item.name + "</strong> (" + item.phone + ")</p>" +
-                "<p>" + item.fullAddress + "</p>" +
-                (item.isDefault ? "<span class=\"default-tag\">Mặc định</span>" : "") +
-                "<div class=\"address-actions\">" +
-                "<button onclick=\"editAddress(" + index + ")\">Sửa</button>" +
-                "<button onclick=\"deleteAddress(" + index + ")\">Xóa</button>" +
-                "</div>";
-            list.appendChild(div);
-        });
-    }
-
-    // Sửa địa chỉ
-    function editAddress(index) {
-        const item = addresses[index];
-        editIndex = index;
-
-        nameInput.value = item.name;
-        phoneInput.value = item.phone;
-        detailAddress.value = item.fullAddress.split(",")[0].trim();
-        defaultAddress.checked = item.isDefault;
-
-        form.style.display = "block";
-        addBtn.style.display = "none";
-    }
-
-    // Xóa địa chỉ
-    function deleteAddress(index) {
-        if (confirm("Bạn có chắc muốn xóa địa chỉ này?")) {
-            addresses.splice(index, 1);
-            renderAddresses();
-        }
-    }
-
-    // Reset form
-    function resetForm() {
-        form.style.display = "none";
-        addBtn.style.display = "block";
-
-        nameInput.value = "";
-        phoneInput.value = "";
-        detailAddress.value = "";
-        provinceSelect.value = "";
-        wardSelect.value = "";
-        defaultAddress.checked = false;
-
-        editIndex = null;
-    }
-</script>
 <script>
     // =============================
     // UPLOAD ẢNH AVATAR (NUCLEAR FIX)

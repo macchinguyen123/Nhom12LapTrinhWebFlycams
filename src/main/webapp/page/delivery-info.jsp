@@ -20,7 +20,7 @@
     <div class="left">
         <!-- Logo + breadcrumb -->
         <div class="text-start mb-4">
-            <img src="../image/dronefooter.png" alt="Logo" height="100">
+            <img src="${pageContext.request.contextPath}/image/dronefooter.png" alt="Logo" height="100">
             <nav class="breadcrumb mt-2">
                 <a href="shoppingcart.jsp">Giỏ hàng</a> &nbsp;>&nbsp;
                 <span class="current">Thông tin giao hàng</span> &nbsp;>&nbsp;
@@ -33,9 +33,19 @@
         <!-- Tài khoản -->
         <c:if test="${not empty sessionScope.user}">
         <div class="d-flex align-items-center mb-3">
-            <div class="avatar rounded-circle d-flex justify-content-center align-items-center me-3">
-                <i class="bi bi-person fs-3 text-secondary"></i>
-            </div>
+            <c:choose>
+                <c:when test="${not empty sessionScope.user.avatar}">
+
+
+
+                </c:when>
+                <c:otherwise>
+                    <div class="avatar rounded-circle d-flex justify-content-center align-items-center me-3">
+                        <i class="bi bi-person fs-3 text-secondary"></i>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+
             <div>
                 <p class="mb-0 fw-semibold">${sessionScope.user.fullName}</p>
                 <small>${sessionScope.user.email}</small><br>
