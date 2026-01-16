@@ -3,6 +3,7 @@
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Đăng nhập SKYDRONE</title>
@@ -20,8 +21,8 @@
     <div class="login-wrapper">
 
         <div class="logo-section">
-            <img src="${pageContext.request.contextPath}/image/logooo.png"
-                 alt="SKYDRONE Logo" class="mascot">
+            <img src="${pageContext.request.contextPath}/image/logooo.png" alt="SKYDRONE Logo"
+                 class="mascot">
         </div>
 
         <div class="login-container">
@@ -38,8 +39,8 @@
 
                 <div class="mb-3 text-start">
                     <label class="form-label">Mật khẩu</label>
-                    <input type="password" class="form-control" name="password"
-                           placeholder="Nhập mật khẩu" required>
+                    <input type="password" class="form-control" name="password" placeholder="Nhập mật khẩu"
+                           required>
                 </div>
 
                 <button type="submit" class="btn btn-login w-100 mb-3">
@@ -47,7 +48,8 @@
                 </button>
 
                 <div class="text-end">
-                    <a href="${pageContext.request.contextPath}/page/forgot-password.jsp" class="forgot-pass">
+                    <a href="${pageContext.request.contextPath}/page/forgot-password.jsp"
+                       class="forgot-pass">
                         Quên mật khẩu?
                     </a>
                 </div>
@@ -87,7 +89,7 @@
                 timerProgressBar: true,
                 background: "#fff6f6",
                 color: "#d00000",
-                customClass: { popup: 'custom-toast' }
+                customClass: {popup: 'custom-toast'}
             });
 
             Toast.fire({
@@ -98,7 +100,30 @@
     </script>
 </c:if>
 
+<c:if test="${param.resetSuccess eq '1'}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                background: "#f0fdf4",
+                color: "#15803d",
+                customClass: {popup: 'custom-toast'}
+            });
+
+            Toast.fire({
+                icon: "success",
+                title: "Tạo mật khẩu mới thành công!",
+                text: "Vui lòng đăng nhập lại."
+            });
+        });
+    </script>
+</c:if>
 
 
 </body>
+
 </html>

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Trang tạo mật khẩu mới</title>
@@ -33,12 +34,15 @@
 </head>
 <body>
 <div class="khung">
-    <img src="../image/logoo.png" alt="SKYDRONE Logo" class="mascot">
+    <img src="${pageContext.request.contextPath}/image/logoo.png" alt="SKYDRONE Logo" class="mascot">
 
     <h1 id="title">Tạo mật khẩu mới</h1>
     <form action="${pageContext.request.contextPath}/ResetPassword" method="post">
         <label for="password">Mật khẩu mới</label>
         <input type="password" id="password" name="password" required>
+        <c:if test="${not empty error}">
+            <div class="error">${error}</div>
+        </c:if>
         <c:if test="${not empty passwordError}">
             <div class="error">${passwordError}</div>
         </c:if>
@@ -58,4 +62,5 @@
 
 
 </body>
+
 </html>

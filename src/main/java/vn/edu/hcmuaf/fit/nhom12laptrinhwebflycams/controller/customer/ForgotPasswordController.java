@@ -28,7 +28,7 @@ public class ForgotPasswordController extends HttpServlet {
         }
 
         // 1️⃣ Sinh OTP 4 số
-        String otp = String.valueOf((int)(Math.random() * 9000) + 1000);
+        String otp = String.valueOf((int) (Math.random() * 9000) + 1000);
 
         // 2️⃣ Lưu OTP vào session
         HttpSession session = request.getSession();
@@ -47,14 +47,13 @@ public class ForgotPasswordController extends HttpServlet {
         emailSender.sendVerificationEmail(
                 email,
                 title,
-                user.getUsername(), // hoặc user.getFullName()
+                user.getUsername(),
                 otpHtml,
                 content,
-                thanks
-        );
+                thanks);
 
         // 4️⃣ Chuyển sang trang nhập OTP
         request.setAttribute("message", "OTP đã được gửi về email của bạn!");
-        request.getRequestDispatcher("/page/otp.jsp").forward(request, response);
+        request.getRequestDispatcher("/page/otp-forgot-password.jsp").forward(request, response);
     }
 }
