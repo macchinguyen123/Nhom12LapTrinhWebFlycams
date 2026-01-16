@@ -209,84 +209,108 @@ public class ProductDAO {
             List<String> brands,
             String sortBy // "low-high" hoặc "high-low"
     ) {
-
         List<Product> list = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder("""
-                SELECT DISTINCT p.*, i.imageUrl
-                FROM products p
-                LEFT JOIN images i 
-                  ON p.id = i.product_id AND i.imageType = 'Chính'
-                WHERE p.category_id = ? AND p.productName LIKE ?
-                """);
+        SELECT p.id,
+               p.productName,
+               p.price,
+               p.finalPrice,
+               p.brandName,
+               i.imageUrl,
+               COALESCE(rv.avgRating, 0) AS avgRating,
+               COALESCE(rv.reviewCount, 0) AS reviewCount
+        FROM products p
+        LEFT JOIN images i
+            ON p.id = i.product_id AND i.imageType = 'Chính'
+        LEFT JOIN (
+            SELECT product_id,
+                   AVG(rating) AS avgRating,
+                   COUNT(*) AS reviewCount
+            FROM reviews
+            GROUP BY product_id
+        ) rv ON p.id = rv.product_id
+        WHERE p.status = 'active'
+          AND p.category_id = ?
+    """);
 
-        // điều kiện giá
-        if (minPrice != null && maxPrice != null) {
-            sql.append(" AND p.finalPrice BETWEEN ? AND ? ");
-        } else if (minPrice != null) {
-            sql.append(" AND p.finalPrice >= ? ");
-        } else if (maxPrice != null) {
-            sql.append(" AND p.finalPrice <= ? ");
+        // Thêm điều kiện tìm kiếm theo keyword
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append(" AND p.productName LIKE ?");
         }
 
-        // brands
+        // Thêm điều kiện lọc theo giá
+        if (minPrice != null) {
+            sql.append(" AND p.finalPrice >= ?");
+        }
+        if (maxPrice != null) {
+            sql.append(" AND p.finalPrice <= ?");
+        }
+
+        // Thêm điều kiện lọc theo thương hiệu
         if (brands != null && !brands.isEmpty()) {
-            sql.append(" AND p.brandName IN (");
-            sql.append(brands.stream().map(b -> "?").collect(Collectors.joining(",")));
-            sql.append(") ");
+            sql.append(" AND p.brand IN (");
+            for (int i = 0; i < brands.size(); i++) {
+                sql.append("?");
+                if (i < brands.size() - 1) sql.append(",");
+            }
+            sql.append(")");
         }
 
-        // sort theo giá
-        if ("low-high".equals(sortBy)) sql.append(" ORDER BY p.finalPrice ASC ");
-        else if ("high-low".equals(sortBy)) sql.append(" ORDER BY p.finalPrice DESC ");
+        // Thêm sắp xếp
+        if ("low-high".equals(sortBy)) {
+            sql.append(" ORDER BY p.finalPrice ASC");
+        } else if ("high-low".equals(sortBy)) {
+            sql.append(" ORDER BY p.finalPrice DESC");
+        } else {
+            sql.append(" ORDER BY p.id DESC");
+        }
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
-            int idx = 1;
+            int paramIndex = 1;
 
-            // categoryId
-            ps.setInt(idx++, categoryId);
+            // Set categoryId
+            ps.setInt(paramIndex++, categoryId);
 
-            // keyword
-            ps.setString(idx++, "%" + (keyword == null ? "" : keyword) + "%");
-
-            // price
-            if (minPrice != null && maxPrice != null) {
-                ps.setDouble(idx++, minPrice);
-                ps.setDouble(idx++, maxPrice);
-            } else if (minPrice != null) {
-                ps.setDouble(idx++, minPrice);
-            } else if (maxPrice != null) {
-                ps.setDouble(idx++, maxPrice);
+            // Set keyword
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                ps.setString(paramIndex++, "%" + keyword.trim() + "%");
             }
 
-            // brands
+            // Set minPrice
+            if (minPrice != null) {
+                ps.setDouble(paramIndex++, minPrice);
+            }
+
+            // Set maxPrice
+            if (maxPrice != null) {
+                ps.setDouble(paramIndex++, maxPrice);
+            }
+
+            // Set brands
             if (brands != null && !brands.isEmpty()) {
-                for (String b : brands) {
-                    ps.setString(idx++, b);
+                for (String brand : brands) {
+                    ps.setString(paramIndex++, brand);
                 }
             }
 
             ResultSet rs = ps.executeQuery();
+
             while (rs.next()) {
-                Product p = new Product(
-                        rs.getInt("id"),
-                        rs.getInt("category_id"),
-                        rs.getString("brandName"),
-                        rs.getString("productName"),
-                        rs.getString("description"),
-                        rs.getString("parameter"),
-                        rs.getDouble("price"),
-                        rs.getDouble("finalPrice"),
-                        rs.getString("warranty"),
-                        rs.getInt("quantity"),
-                        rs.getString("status")
-                );
+                Product p = new Product();
+                p.setId(rs.getInt("id"));
+                p.setProductName(rs.getString("productName"));
+                p.setPrice(rs.getDouble("price"));
+                p.setFinalPrice(rs.getDouble("finalPrice"));
+                p.setBrandName(rs.getString("brandName"));
                 p.setMainImage(rs.getString("imageUrl"));
+                p.setAvgRating(rs.getDouble("avgRating"));  // ← Thêm dòng này
+                p.setReviewCount(rs.getInt("reviewCount"));  // ← Thêm dòng này
+
                 list.add(p);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

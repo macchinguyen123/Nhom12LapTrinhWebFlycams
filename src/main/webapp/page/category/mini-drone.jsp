@@ -170,14 +170,28 @@
 
                 </a>
 
+                <c:set var="fullStars1" value="${p.avgRating.intValue()}"/>
+                <c:set var="hasHalfStar1" value="${p.avgRating - fullStars1 >= 0.5}"/>
                 <!-- Đánh giá mẫu -->
                 <div class="hang-danh-gia">
                     <div class="danh-gia-sao">
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
+
+                        <!-- Sao đầy -->
+                        <c:forEach begin="1" end="${fullStars1}">
+                            <i class="bi bi-star-fill"></i>
+                        </c:forEach>
+
+                        <!-- Nửa sao -->
+                        <c:if test="${hasHalfStar1}">
+                            <i class="bi bi-star-half"></i>
+                        </c:if>
+
+                        <!-- Sao rỗng -->
+                        <c:forEach begin="1"
+                                   end="${5 - fullStars1 - (hasHalfStar1 ? 1 : 0)}">
+                            <i class="bi bi-star"></i>
+                        </c:forEach>
+
                     </div>
                     <c:choose>
                         <c:when test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
@@ -192,8 +206,9 @@
                 </div>
 
                 <!-- Số đánh giá -->
-                <div class="so-danh-gia">(12 đánh giá)</div>
-
+                <div class="so-danh-gia">
+                    (${empty p.reviewCount ? 0 : p.reviewCount} đánh giá)
+                </div>
                 <!-- Nút mua ngay (có thể là form/post hoặc link) -->
                 <form action="${pageContext.request.contextPath}/BuyNowServlet" method="post">
                     <input type="hidden" name="productId" value="${p.id}">
