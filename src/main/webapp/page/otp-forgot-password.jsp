@@ -2,9 +2,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
-    <title>Xác thực OTP đăng ký</title>
+    <title>Xác thực đặt lại mật khẩu</title>
 
     <style>
         .btn-xac-nhan {
@@ -51,19 +52,19 @@
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/otp.css">
 </head>
+
 <body>
 
 <div class="khung">
-    <img src="${pageContext.request.contextPath}/image/logoo.png"
-         alt="SKYDRONE Logo" class="mascot">
+    <img src="${pageContext.request.contextPath}/image/logoo.png" alt="SKYDRONE Logo" class="mascot">
 
-    <h1>Xác thực đăng ký</h1>
+    <h1>Xác thực quên mật khẩu</h1>
     <p class="huong_dan">
         Vui lòng nhập mã OTP vừa được gửi về email của bạn
     </p>
 
-    <!-- ===== FORM XÁC NHẬN OTP ===== -->
-    <form action="${pageContext.request.contextPath}/VerifyRegisterOtp" method="post">
+    <!-- ===== FORM XÁC NHẬN OTP (ACTION KHÁC VỚI ĐĂNG KÝ) ===== -->
+    <form action="${pageContext.request.contextPath}/VerifyOtp" method="post">
         <label for="otp">Nhập mã OTP</label>
         <input type="text" id="otp" name="otp" maxlength="4" required>
         <button type="submit" class="btn-xac-nhan">Xác nhận</button>
@@ -74,13 +75,14 @@
         <p class="error">${error}</p>
     </c:if>
 
-    <!-- ===== GỬI LẠI OTP ===== -->
+    <!-- ===== GỬI LẠI OTP (CONTROLLER MỚI) ===== -->
     <div class="resend">
-        <form action="${pageContext.request.contextPath}/ResendRegisterOtp" method="post">
+        <form action="${pageContext.request.contextPath}/ResendForgotPasswordOtp" method="post">
             <button type="submit">Gửi lại mã OTP</button>
         </form>
     </div>
 </div>
 
 </body>
+
 </html>

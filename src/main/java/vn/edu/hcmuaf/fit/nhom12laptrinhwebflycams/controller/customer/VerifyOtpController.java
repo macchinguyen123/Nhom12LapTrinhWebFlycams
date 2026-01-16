@@ -22,7 +22,7 @@ public class VerifyOtpController extends HttpServlet {
             request.getRequestDispatcher("/page/create-new-password.jsp").forward(request, response);
         } else {
             request.setAttribute("error", "Mã OTP không đúng!");
-            request.getRequestDispatcher("/page/otp.jsp").forward(request, response);
+            request.getRequestDispatcher("/page/otp-forgot-password.jsp").forward(request, response);
         }
     }
 }

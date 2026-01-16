@@ -22,12 +22,10 @@ public class SendOtpChangePasswordController extends HttpServlet {
         }
 
         // Sinh OTP 4 số
-        String otp = String.valueOf((int)(Math.random() * 9000) + 1000);
+        String otp = String.valueOf((int) (Math.random() * 9000) + 1000);
         session.setAttribute("otp", otp);
         session.setAttribute("otpUserId", currentUser.getId());
         session.setAttribute("otpTime", System.currentTimeMillis());
-
-        System.out.println("OTP đổi mật khẩu cho " + currentUser.getEmail() + " là: " + otp);
 
         // Trả về JSON để AJAX xử lý
         response.setContentType("application/json");
