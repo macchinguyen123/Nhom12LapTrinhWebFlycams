@@ -128,17 +128,20 @@
                 </div>
 
                 <div class="price my-3">
-                    <span class="fs-1 fw-bold text-danger">
-                        ${formatter.format(product.finalPrice)} ₫
-                    </span>
+    <span class="fs-1 fw-bold text-danger">
+        ${formatter.format(product.finalPrice)} ₫
+    </span>
 
-                    <c:if test="${product.price >= product.finalPrice}">
-                        <span class="text-muted text-decoration-line-through ms-2">
-                            ${formatter.format(product.price)} ₫
-                        </span>
+                    <c:if test="${product.price > product.finalPrice}">
+        <span class="text-muted text-decoration-line-through ms-2">
+            ${formatter.format(product.price)} ₫
+        </span>
+
+                        <!-- Hiển thị % giảm giá động -->
+                        <c:if test="${discountPercent > 0}">
+                            <div class="discount-badge">-${discountPercent}%</div>
+                        </c:if>
                     </c:if>
-
-                    <div class="discount-badge">-11%</div>
                 </div>
 
                 <div class="quantity mb-3 d-flex align-items-center">
@@ -1009,6 +1012,114 @@
             }
         }
 
+        // ============================================
+// REVIEW POPUP FUNCTIONALITY
+// ============================================
+        const reviewPopup = document.getElementById('reviewPopup');
+        const closeBtn = document.querySelector('.close-btn');
+// Lấy tất cả các nút write-review-btn (kể cả disabled)
+        const allWriteReviewBtns = document.querySelectorAll('.write-review-btn');
+
+// Thêm event listener cho từng button
+        allWriteReviewBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Chỉ mở popup nếu button KHÔNG bị disabled
+                if (!btn.disabled) {
+                    reviewPopup.style.display = 'flex';  // Đảm bảo display là flex
+                    // Thêm class active sau một chút để animation hoạt động
+                    setTimeout(() => {
+                        reviewPopup.classList.add('active');
+                    }, 10);
+                }
+            });
+        });
+
+// Đóng popup khi click nút X
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                reviewPopup.classList.remove('active');
+                // Đợi animation kết thúc rồi mới ẩn hoàn toàn
+                setTimeout(() => {
+                    reviewPopup.style.display = 'none';
+                }, 300);
+            });
+        }
+
+// Đóng popup khi click bên ngoài
+        window.addEventListener('click', (e) => {
+            if (e.target === reviewPopup) {
+                reviewPopup.classList.remove('active');
+                setTimeout(() => {
+                    reviewPopup.style.display = 'none';
+                }, 300);
+            }
+        });
+
+// ============================================
+// FORM SUBMIT AJAX - XỬ LÝ ĐÁNH GIÁ
+// ============================================
+        const reviewForm = document.getElementById('reviewForm');
+
+        if (reviewForm) {
+            reviewForm.addEventListener('submit', function (e) {
+                e.preventDefault(); // Ngăn form submit mặc định
+
+                // Lấy dữ liệu từ form
+                const productId = reviewForm.querySelector('input[name="product_id"]').value;
+                const rating = reviewForm.querySelector('input[name="rating"]:checked').value;
+                const content = reviewForm.querySelector('textarea[name="content"]').value;
+
+                console.log('Sending data:', {productId, rating, content}); // Debug log
+
+                // Tạo URLSearchParams thay vì FormData
+                const formData = new URLSearchParams({
+                    product_id: productId,
+                    rating: rating,
+                    content: content
+                });
+
+                fetch(contextPath + '/ReviewServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Server response:', data); // Debug log
+
+                        if (data.status === 'success') {
+                            // Đóng popup
+                            reviewPopup.classList.remove('active');
+                            setTimeout(() => {
+                                reviewPopup.style.display = 'none';
+                            }, 300);
+
+                            // Hiển thị thông báo thành công
+                            showNotification(data.message, 'success');
+
+                            // Reload trang sau 1.5 giây để cập nhật đánh giá mới
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            // Hiển thị lỗi
+                            showNotification(data.message, 'error');
+
+                            if (data.status === 'login_required') {
+                                setTimeout(() => {
+                                    window.location.href = contextPath + '/login.jsp';
+                                }, 2000);
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Error:', err);
+                        showNotification('Lỗi kết nối server', 'error');
+                    });
+            });
+        }
 // ============================================
 // ADD CSS ANIMATIONS - RUNG NHẸ NHÀNG
 // ============================================

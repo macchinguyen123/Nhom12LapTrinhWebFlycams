@@ -50,6 +50,10 @@ public class ProductDetailServlet extends HttpServlet {
 
         // LẤY TÊN DANH MỤC (KHÔNG ĐỤNG PRODUCT)
         String categoryName = categoryDAO.getCategoryNameById(product.getCategoryId());
+        // ====== TÍNH % KHUYẾN MÃI ======
+        int discountPercent = calculateDiscountPercent(product.getPrice(), product.getFinalPrice());
+        request.setAttribute("discountPercent", discountPercent);
+        System.out.println("DEBUG: discountPercent = " + discountPercent); // ← THÊM DÒNG NÀY
 
         // ====== PHẦN THÊM: REVIEW / RATING ======
         double avgRating = reviewsDAO.getAverageRating(id);
@@ -133,5 +137,23 @@ public class ProductDetailServlet extends HttpServlet {
 
         request.getRequestDispatcher("/page/product-details.jsp")
                 .forward(request, response);
+    }
+    /**
+     * Tính phần trăm giảm giá từ giá gốc và giá khuyến mãi
+     * @param originalPrice Giá gốc
+     * @param finalPrice Giá sau khuyến mãi
+     * @return Phần trăm giảm giá (làm tròn)
+     */
+    private int calculateDiscountPercent(double originalPrice, double finalPrice) {
+        if (originalPrice <= 0 || finalPrice < 0) {
+            return 0;
+        }
+
+        if (finalPrice >= originalPrice) {
+            return 0; // Không có giảm giá
+        }
+
+        double discount = ((originalPrice - finalPrice) / originalPrice) * 100;
+        return (int) Math.round(discount);
     }
 }
