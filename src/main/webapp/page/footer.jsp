@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Footer</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/footer.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
         <!-- Cột 1 -->
         <div class="footer-column">
             <h6>SKYDRONE VIỆT NAM</h6>
-            <img src="../image/dronefooter.png" alt="SKYDRONE Logo" class="mascot">
+            <img src="${pageContext.request.contextPath}/image/dronefooter.png" alt="SKYDRONE Logo" class="mascot">
             <p><strong>Công ty Cổ phần thương mại SKYDrone Việt Nam</strong></p>
             <p>Địa chỉ: Số 1 Đường Số 1, Phường Linh Xuân, TP Hồ Chí Minh, Việt Nam</p>
             <p><strong>Hotline:</strong> 0815.000.060</p>
@@ -31,12 +31,12 @@
         <div class="footer-column">
             <h6>SẢN PHẨM</h6>
             <ul>
-                <li><a href="y/film-drone.html">Drone quay phim chuyên nghiệp</a></li>
-                <li><a href="y/tourism-drone.html">Drone du lịch / vlog</a></li>
-                <li><a href="y/sport-drone.html">Drone thể thao tốc độ cao</a></li>
-                <li><a href="y/agriculture-drone.html">Drone nông nghiệp</a></li>
-                <li><a href="y/monitor-drone.html">Drone giám sát / an ninh</a></li>
-                <li><a href="y/mini-drone.html">Drone mini / cở nhỏ</a></li>
+                <li><a href="${pageContext.request.contextPath}/Category?id=1001">Drone quay phim chuyên nghiệp</a></li>
+                <li><a href="${pageContext.request.contextPath}/Category?id=1006">Drone du lịch / vlog</a></li>
+                <li><a href="${pageContext.request.contextPath}/Category?id=1003">Drone thể thao tốc độ cao</a></li>
+                <li><a href="${pageContext.request.contextPath}/Category?id=1002">Drone nông nghiệp</a></li>
+                <li><a href="${pageContext.request.contextPath}/Category?id=1005">Drone giám sát / an ninh</a></li>
+                <li><a href="${pageContext.request.contextPath}/Category?id=1004">Drone mini / cỡ nhỏ</a></li>
             </ul>
 
             <h3>TƯ VẤN MUA HÀNG</h3>
@@ -54,7 +54,6 @@
                 <li><a href="#">TP. Hồ Chí Minh</a></li>
                 <li><a href="#">Đà Nẵng</a></li>
                 <li><a href="#">Nghệ An</a></li>
-
             </ul>
             <section class="payment-methods">
                 <h6>PHƯƠNG THỨC THANH TOÁN</h6>
@@ -64,15 +63,14 @@
                 </div>
             </section>
         </div>
+
         <!-- Cột 4 -->
         <div class="footer-column">
             <h6>THÔNG TIN VỀ CHÍNH SÁCH</h6>
             <ul>
-                <li><a href="#">Mua hàng và thanh toán Online</a></li>
-                <li><a href="#">Chính sách giao hàng</a></li>
-                <li><a href="#">Chính sách đổi trả</a></li>
-                <li><a href="#">Tra thông tin bảo hành</a></li>
-                <li><a href="#">Thông tin hoá đơn mua hàng</a></li>
+                <li><a href="${pageContext.request.contextPath}/page/payment-policy.jsp">Mua hàng và thanh toán Online</a></li>
+                <li><a href="${pageContext.request.contextPath}/page/payment-policy.jsp">Tra thông tin bảo hành</a></li>
+                <li><a href="${pageContext.request.contextPath}/purchasehistory">Thông tin hoá đơn mua hàng</a></li>
             </ul>
 
             <section class="social-connect">
@@ -104,16 +102,12 @@
                     </a>
                 </div>
             </section>
-
         </div>
-
     </div>
-
 
     <div class="footer-bottom">
         <p>Copyright © 2025 © <strong>SKYDrone Việt Nam</strong></p>
-        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm
-            cấm.</p>
+        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm cấm.</p>
     </div>
 </footer>
 </body>
