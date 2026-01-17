@@ -69,8 +69,6 @@
                     </c:if>
                 </td>
 
-
-
                 <td class="gia">
                     <fmt:formatNumber value="${order.totalPrice}"
                                       type="currency"
@@ -90,35 +88,40 @@
                 </td>
 
                 <td>
-                    <a href="${pageContext.request.contextPath}/rebuy?orderId=${order.id}">
-                        <button type="button" class="nut-mua-lai">
-                            Mua lại
-                        </button>
-                    </a>
+                    <button type="button"
+                            class="nut-mua-lai"
+                            onclick="muaLai(${order.id})">
+                        Mua lại
+                    </button>
                 </td>
-
-
             </tr>
         </c:forEach>
         </tbody>
     </table>
 </div>
 
-
 </body>
+
+
 <script>
-    const btnDanhMuc = document.getElementById('btnDanhMuc');
-    const menuLeft = document.getElementById('menuLeft');
 
-    btnDanhMuc.addEventListener('click', () => {
-        menuLeft.classList.toggle('show');
-    });
+    function muaLai(orderId) {
+        // Tạo form động để submit
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "${pageContext.request.contextPath}/BuyNowFromCart";
 
-    // Ẩn menu khi click ra ngoài
-    document.addEventListener('click', (e) => {
-        if (!menuLeft.contains(e.target) && !btnDanhMuc.contains(e.target)) {
-            menuLeft.classList.remove('show');
-        }
-    });
+        // Thêm orderId để server biết đang mua lại đơn hàng nào
+        const orderInput = document.createElement("input");
+        orderInput.type = "hidden";
+        orderInput.name = "orderId";
+        orderInput.value = orderId;
+        form.appendChild(orderInput);
+
+        // Submit form
+        document.body.appendChild(form);
+        form.submit();
+    }
 </script>
+
 </html>
