@@ -4,23 +4,20 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.AdminVNPayDao;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.AdminVNPay;
+
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 
 import java.io.File;
 import java.io.IOException;
 
 @WebServlet(name = "AdminProfileServlet", value = "/admin/profile")
-@MultipartConfig(
-        maxFileSize = 5 * 1024 * 1024,      // 5MB
-        maxRequestSize = 10 * 1024 * 1024   // 10MB
+@MultipartConfig(maxFileSize = 5 * 1024 * 1024, // 5MB
+        maxRequestSize = 10 * 1024 * 1024 // 10MB
 )
 public class AdminProfileServlet extends HttpServlet {
 
     private UserDAO userDAO = new UserDAO();
-    private AdminVNPayDao vnpayDAO = new AdminVNPayDao();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -34,16 +31,13 @@ public class AdminProfileServlet extends HttpServlet {
         }
 
         // Refresh thông tin admin từ DB
-        User refreshedAdmin = vnpayDAO.getUserById(admin.getId());
+        User refreshedAdmin = userDAO.getUserById(admin.getId());
         if (refreshedAdmin != null) {
             request.getSession().setAttribute("user", refreshedAdmin);
             admin = refreshedAdmin;
         }
 
-        AdminVNPay bank = vnpayDAO.getByUserId(admin.getId());
-
         request.setAttribute("admin", admin);
-        request.setAttribute("bank", bank);
 
         request.getRequestDispatcher("/page/admin/profile-admin.jsp")
                 .forward(request, response);
@@ -63,9 +57,6 @@ public class AdminProfileServlet extends HttpServlet {
         switch (action) {
             case "update-info":
                 updateInfo(request, response);
-                break;
-            case "update-bank":
-                updateBank(request, response);
                 break;
             case "change-password":
                 changePassword(request, response);
@@ -159,18 +150,40 @@ public class AdminProfileServlet extends HttpServlet {
                 }
                 String fileName = System.currentTimeMillis() + fileExtension;
 
-                // Lấy đường dẫn upload
-                String uploadPath = getServletContext().getRealPath("/uploads/avatar/");
-                File uploadDir = new File(uploadPath);
+                // Lấy đường dẫn upload - deployment directory (temporary)
+                String deploymentPath = getServletContext().getRealPath("/uploads/avatar/");
+                File deployDir = new File(deploymentPath);
 
                 // Tạo thư mục nếu chưa tồn tại
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdirs();
+                if (!deployDir.exists()) {
+                    deployDir.mkdirs();
                 }
 
-                // Lưu file
-                String fullPath = uploadPath + File.separator + fileName;
-                avatarPart.write(fullPath);
+                // Lấy đường dẫn upload - source directory (persistent)
+                String sourcePath = "D:/Nhom12LapTrinhWebFlycams/src/main/webapp/uploads/avatar/";
+                File sourceDir = new File(sourcePath);
+                if (!sourceDir.exists()) {
+                    sourceDir.mkdirs();
+                }
+
+                // Lưu file vào deployment directory
+                String deployFilePath = deploymentPath + File.separator + fileName;
+                avatarPart.write(deployFilePath);
+
+                // Copy file vào source directory cho tính bền vững
+                String sourceFilePath = sourcePath + File.separator + fileName;
+                try {
+                    java.nio.file.Files.copy(
+                            java.nio.file.Paths.get(deployFilePath),
+                            java.nio.file.Paths.get(sourceFilePath),
+                            java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                    System.out.println("Avatar saved to source: " + sourceFilePath);
+                } catch (Exception copyEx) {
+                    System.err.println("Failed to save avatar to source directory: " + copyEx.getMessage());
+                    // Continue even if source save fails
+                }
+
+                System.out.println("Avatar saved to deployment: " + deployFilePath);
 
                 // Cập nhật tên file vào object
                 currentAdmin.setAvatar(fileName);
@@ -204,114 +217,7 @@ public class AdminProfileServlet extends HttpServlet {
     // =========================
     // UPDATE BANK
     // =========================
-    private void updateBank(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException, ServletException {
 
-        User admin = (User) req.getSession().getAttribute("user");
-        if (admin == null) {
-            resp.sendRedirect(req.getContextPath() + "/login.jsp");
-            return;
-        }
-
-        String bankName = req.getParameter("bankName");
-        String accountNumber = req.getParameter("accountNumber");
-        String accountName = req.getParameter("accountName");
-
-        // Validate
-        if (bankName == null || bankName.trim().isEmpty()) {
-            req.getSession().setAttribute("bankMsg", "Vui lòng chọn ngân hàng");
-            resp.sendRedirect(req.getContextPath() + "/admin/profile");
-            return;
-        }
-
-        if (accountNumber == null || !accountNumber.matches("^\\d{9,20}$")) {
-            req.getSession().setAttribute("bankMsg", "Số tài khoản không hợp lệ (9-20 chữ số)");
-            resp.sendRedirect(req.getContextPath() + "/admin/profile");
-            return;
-        }
-
-        if (accountName == null || accountName.trim().isEmpty()) {
-            req.getSession().setAttribute("bankMsg", "Tên chủ tài khoản không được để trống");
-            resp.sendRedirect(req.getContextPath() + "/admin/profile");
-            return;
-        }
-
-        // Lấy QR cũ nếu không upload mới
-        AdminVNPay currentBank = vnpayDAO.getByUserId(admin.getId());
-        String qrImageName = (currentBank != null) ? currentBank.getQrCodeImage() : null;
-
-        // Xử lý QR code
-        try {
-            Part qrPart = req.getPart("qr");
-            if (qrPart != null && qrPart.getSize() > 0) {
-                String contentType = qrPart.getContentType();
-
-                if (contentType == null || !contentType.startsWith("image/")) {
-                    req.getSession().setAttribute("bankMsg", "File QR phải là hình ảnh");
-                    resp.sendRedirect(req.getContextPath() + "/admin/profile");
-                    return;
-                }
-
-                // Validate file size
-                if (qrPart.getSize() > 5 * 1024 * 1024) {
-                    req.getSession().setAttribute("bankMsg", "File QR không được vượt quá 5MB");
-                    resp.sendRedirect(req.getContextPath() + "/admin/profile");
-                    return;
-                }
-
-                String originalFileName = qrPart.getSubmittedFileName();
-                if (originalFileName == null || originalFileName.trim().isEmpty()) {
-                    req.getSession().setAttribute("bankMsg", "Tên file không hợp lệ");
-                    resp.sendRedirect(req.getContextPath() + "/admin/profile");
-                    return;
-                }
-
-                // Tạo tên file unique
-                String fileExtension = "";
-                int dotIndex = originalFileName.lastIndexOf('.');
-                if (dotIndex > 0) {
-                    fileExtension = originalFileName.substring(dotIndex);
-                }
-                qrImageName = System.currentTimeMillis() + fileExtension;
-
-                String uploadPath = getServletContext().getRealPath("/uploads/qr/");
-                File uploadDir = new File(uploadPath);
-
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdirs();
-                }
-
-                String fullPath = uploadPath + File.separator + qrImageName;
-                qrPart.write(fullPath);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            req.getSession().setAttribute("bankMsg", "Lỗi upload QR code: " + e.getMessage());
-            resp.sendRedirect(req.getContextPath() + "/admin/profile");
-            return;
-        }
-
-        AdminVNPay bank = new AdminVNPay();
-        bank.setUserId(admin.getId());
-        bank.setBankName(bankName.trim());
-        bank.setAccountNumber(accountNumber.trim());
-        bank.setAccountName(accountName.trim());
-        bank.setQrCodeImage(qrImageName);
-
-        boolean success = vnpayDAO.saveOrUpdate(bank);
-
-        if (success) {
-            req.getSession().setAttribute("bankMsg", "Cập nhật thông tin ngân hàng thành công");
-        } else {
-            req.getSession().setAttribute("bankMsg", "Số tài khoản đã tồn tại hoặc có lỗi xảy ra");
-        }
-
-        resp.sendRedirect(req.getContextPath() + "/admin/profile");
-    }
-
-    // =========================
-    // CHANGE PASSWORD
-    // =========================
     private void changePassword(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 

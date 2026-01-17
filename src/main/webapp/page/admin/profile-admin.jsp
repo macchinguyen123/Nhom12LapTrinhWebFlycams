@@ -8,10 +8,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Trang Quản Trị - SkyDrone</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/admin/profile-admin.css">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/stylesheets/admin/profile-admin.css">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -24,10 +29,11 @@
         <h2>SkyDrone Admin</h2>
     </div>
     <div class="header-right">
-        <a href="${pageContext.request.contextPath}/admin/profile" class="text-decoration-none text-while">
+        <a href="${pageContext.request.contextPath}/admin/profile"
+           class="text-decoration-none text-while">
             <div class="thong-tin-admin d-flex align-items-center gap-2">
                 <i class="bi bi-person-circle fs-4"></i>
-                <span class="fw-semibold">${admin.fullName}</span>
+                <span class="fw-semibold">${sessionScope.user.fullName}</span>
             </div>
         </a>
 
@@ -48,21 +54,35 @@
     </div>
 </header>
 
+<!-- Notification banner for avatar processing -->
+<div id="avatar-processing-notification" class="alert alert-info"
+     style="display: none; position: fixed; top: 80px; left: 50%; transform: translateX(-50%); z-index: 9998; min-width: 450px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+    <div class="d-flex align-items-center">
+        <div class="spinner-border spinner-border-sm me-3" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <span><strong>Đang xử lý và lưu ảnh đại diện...</strong> Vui lòng chờ trong giây lát.</span>
+    </div>
+</div>
+
 <!-- ===== LAYOUT ===== -->
 <div class="layout">
     <!-- === SIDEBAR === -->
     <aside class="sidebar">
         <div class="user-info">
             <c:choose>
-                <c:when test="${not empty admin.avatar}">
-                    <img src="${pageContext.request.contextPath}/uploads/avatar/${admin.avatar}" alt="Avatar">
+                <c:when test="${not empty sessionScope.user.avatar}">
+                    <img src="${pageContext.request.contextPath}/uploads/avatar/${sessionScope.user.avatar}?v=${sessionScope.user.updatedAt != null ? sessionScope.user.updatedAt.time : ''}"
+                         alt="Avatar" id="sidebarAvatar"
+                         style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
                 </c:when>
                 <c:otherwise>
-                    <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+                    <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar"
+                         id="sidebarAvatar">
                 </c:otherwise>
             </c:choose>
 
-            <h3>${admin.fullName}</h3>
+            <h3>${sessionScope.user.fullName}</h3>
             <p>Chào mừng bạn trở lại 👋</p>
         </div>
 
@@ -125,8 +145,8 @@
                         </c:otherwise>
                     </c:choose>
                     <span class="avatar-camera">
-                            <i class="bi bi-camera-fill"></i>
-                        </span>
+                                            <i class="bi bi-camera-fill"></i>
+                                        </span>
                 </div>
             </div>
             <h3>${admin.fullName}</h3>
@@ -141,15 +161,18 @@
 
             <!-- Hiển thị thông báo -->
             <c:if test="${not empty sessionScope.infoMsg}">
-                <div class="alert alert-dismissible fade show ${fn:contains(sessionScope.infoMsg, 'thành công') ? 'alert-success' : 'alert-danger'}" role="alert">
-                    <i class="bi ${fn:contains(sessionScope.infoMsg, 'thành công') ? 'bi-check-circle' : 'bi-exclamation-circle'} me-2"></i>
+                <div class="alert alert-dismissible fade show ${fn:contains(sessionScope.infoMsg, 'thành công') ? 'alert-success' : 'alert-danger'}"
+                     role="alert">
+                    <i
+                            class="bi ${fn:contains(sessionScope.infoMsg, 'thành công') ? 'bi-check-circle' : 'bi-exclamation-circle'} me-2"></i>
                         ${sessionScope.infoMsg}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
                 <c:remove var="infoMsg" scope="session"/>
             </c:if>
 
-            <form id="profileForm" action="${pageContext.request.contextPath}/admin/profile?action=update-info"
+            <form id="profileForm"
+                  action="${pageContext.request.contextPath}/admin/profile?action=update-info"
                   method="post" enctype="multipart/form-data">
 
                 <!-- Hidden file input for avatar -->
@@ -157,18 +180,21 @@
 
                 <label>
                     <i class="bi bi-person me-1"> Họ tên</i>
-                    <input name="fullName" value="${admin.fullName}" required placeholder="Nhập họ tên đầy đủ">
+                    <input name="fullName" value="${admin.fullName}" required
+                           placeholder="Nhập họ tên đầy đủ">
                 </label>
 
                 <label>
                     <i class="bi bi-envelope me-1"> Email</i>
-                    <input type="email" name="email" value="${admin.email}" required placeholder="example@email.com">
+                    <input type="email" name="email" value="${admin.email}" required
+                           placeholder="example@email.com">
                 </label>
 
                 <label>
                     <i class="bi bi-telephone me-1"> Số điện thoại</i>
                     <input name="phone" value="${admin.phoneNumber}" pattern="^0\d{9}$"
-                           title="Số điện thoại phải là 10 số, bắt đầu bằng 0" required placeholder="0123456789">
+                           title="Số điện thoại phải là 10 số, bắt đầu bằng 0" required
+                           placeholder="0123456789">
                 </label>
 
                 <div class="actions">
@@ -180,174 +206,16 @@
 
             <hr>
 
-            <!-- ========== THÔNG TIN NGÂN HÀNG ========== -->
-            <h4><i class="bi bi-bank me-2"></i>Thông tin ngân hàng</h4>
-
-            <!-- Hiển thị thông báo -->
-            <c:if test="${not empty sessionScope.bankMsg}">
-                <div class="alert alert-dismissible fade show ${fn:contains(sessionScope.bankMsg, 'thành công') ? 'alert-success' : 'alert-danger'}" role="alert">
-                    <i class="bi ${fn:contains(sessionScope.bankMsg, 'thành công') ? 'bi-check-circle' : 'bi-exclamation-circle'} me-2"></i>
-                        ${sessionScope.bankMsg}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-                <c:remove var="bankMsg" scope="session"/>
-            </c:if>
-
-            <!-- Chế độ XEM -->
-            <div class="bank-info" id="bankView">
-                <c:choose>
-                    <c:when test="${not empty bank}">
-                        <div class="bank-details" style="flex: 1;">
-                            <p>
-                                <strong><i class="bi bi-bank2 me-2"></i>Ngân hàng:</strong>
-                                <span id="bankNameText">${bank.bankName}</span>
-                            </p>
-
-                            <p>
-                                <strong><i class="bi bi-credit-card me-2"></i>Số tài khoản:</strong>
-                                <span id="acctMasked">
-                        **** **** ${fn:substring(bank.accountNumber,
-                                        fn:length(bank.accountNumber) - 4,
-                                        fn:length(bank.accountNumber))}
-                    </span>
-                            </p>
-
-                            <p>
-                                <strong><i class="bi bi-person-circle me-2"></i>Chủ tài khoản:</strong>
-                                <span id="acctNameText">${bank.accountName}</span>
-                            </p>
-                        </div>
-
-                        <button id="btn-edit-bank" class="btn btn-sm btn-outline-primary">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-
-                        <div class="bank-qr">
-                            <p><strong><i class="bi bi-qr-code me-2"></i>Mã QR thanh toán</strong></p>
-                            <c:choose>
-                                <c:when test="${not empty bank.qrCodeImage}">
-                                    <img src="${pageContext.request.contextPath}/uploads/qr/${bank.qrCodeImage}"
-                                         alt="QR Code" onerror="this.src='${pageContext.request.contextPath}/image/qr/qr.png'">
-                                </c:when>
-                                <c:otherwise>
-                                    <img src="${pageContext.request.contextPath}/image/qr/qr.png" alt="QR Code">
-                                </c:otherwise>
-                            </c:choose>
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <div class="alert alert-warning" style="width: 100%; margin: 0;">
-                            <i class="bi bi-info-circle me-2"></i>
-                            Chưa có thông tin ngân hàng.
-                            <button id="btn-add-bank" class="btn btn-sm btn-primary ms-2">
-                                <i class="bi bi-plus-lg"></i> Thêm ngay
-                            </button>
-                        </div>
-                    </c:otherwise>
-                </c:choose>
-            </div>
-
-            <!-- Chế độ CHỈNH SỬA/THÊM MỚI -->
-            <div class="bank-info-edit p-3 border rounded mb-3 d-none" id="bankEdit">
-                <form id="bankForm" action="${pageContext.request.contextPath}/admin/profile?action=update-bank"
-                      method="post" enctype="multipart/form-data">
-
-                    <label>
-                        <i class="bi bi-bank2 me-1"></i> Ngân hàng <span class="text-danger">*</span>
-                        <select name="bankName" class="form-select" required>
-                            <option value="">-- Chọn ngân hàng --</option>
-                            <option value="Momo" ${bank.bankName == 'Momo' ? 'selected' : ''}>Momo</option>
-                            <option value="Vietcombank" ${bank.bankName == 'Vietcombank' ? 'selected' : ''}>Vietcombank</option>
-                            <option value="Techcombank" ${bank.bankName == 'Techcombank' ? 'selected' : ''}>Techcombank</option>
-                            <option value="BIDV" ${bank.bankName == 'BIDV' ? 'selected' : ''}>BIDV</option>
-                            <option value="VietinBank" ${bank.bankName == 'VietinBank' ? 'selected' : ''}>VietinBank</option>
-                            <option value="Agribank" ${bank.bankName == 'Agribank' ? 'selected' : ''}>Agribank</option>
-                            <option value="ACB" ${bank.bankName == 'ACB' ? 'selected' : ''}>ACB</option>
-                            <option value="VPBank" ${bank.bankName == 'VPBank' ? 'selected' : ''}>VPBank</option>
-                            <option value="TPBank" ${bank.bankName == 'TPBank' ? 'selected' : ''}>TPBank</option>
-                            <option value="MBBank" ${bank.bankName == 'MBBank' ? 'selected' : ''}>MBBank</option>
-                            <option value="Sacombank" ${bank.bankName == 'Sacombank' ? 'selected' : ''}>Sacombank</option>
-                            <option value="HDBank" ${bank.bankName == 'HDBank' ? 'selected' : ''}>HDBank</option>
-                            <option value="OCB" ${bank.bankName == 'OCB' ? 'selected' : ''}>OCB</option>
-                            <option value="SHB" ${bank.bankName == 'SHB' ? 'selected' : ''}>SHB</option>
-                        </select>
-                    </label>
-
-                    <label>
-                        <i class="bi bi-credit-card me-1"></i> Số tài khoản <span class="text-danger">*</span>
-                        <div class="input-group">
-                            <input id="accountNumber" name="accountNumber" class="form-control" type="password"
-                                   value="${bank.accountNumber}" pattern="\d{9,20}"
-                                   title="Số tài khoản phải là 9-20 chữ số" required placeholder="Nhập số tài khoản">
-                            <span class="input-group-text" id="toggleEye" style="cursor:pointer">
-                    <i class="bi bi-eye" id="eyeIcon"></i>
-                </span>
-                        </div>
-                        <small class="text-muted">Chỉ nhập số, từ 9-20 chữ số</small>
-                    </label>
-
-                    <label>
-                        <i class="bi bi-person-circle me-1"></i> Chủ tài khoản <span class="text-danger">*</span>
-                        <input name="accountName" class="form-control" value="${bank.accountName}"
-                               required placeholder="VD: NGUYEN VAN A" style="text-transform: uppercase;">
-                        <small class="text-muted">Nhập đúng tên trên thẻ ngân hàng (viết hoa, không dấu)</small>
-                    </label>
-
-                    <label class="mt-3">
-                        <i class="bi bi-qr-code me-1"></i> Mã QR thanh toán
-                        <c:if test="${empty bank}">
-                            <span class="text-danger">*</span>
-                        </c:if>
-                    </label>
-
-                    <input type="file" id="qrUpload" name="qr" accept="image/*" class="form-control d-none" ${empty bank ? 'required' : ''}>
-
-                    <c:if test="${not empty bank.qrCodeImage}">
-                        <div id="currentQR" class="text-center mt-2">
-                            <p class="text-muted small mb-1"><i class="bi bi-image me-1"></i>QR hiện tại:</p>
-                            <img src="${pageContext.request.contextPath}/uploads/qr/${bank.qrCodeImage}"
-                                 width="140" class="border rounded">
-                        </div>
-                    </c:if>
-
-                    <div class="text-center">
-                        <img id="qrPreviewImg" class="border rounded mt-2 d-none" width="140">
-                    </div>
-
-                    <div class="text-center">
-                        <div id="khungThemQR" class="border rounded p-3 mt-2 bg-light" style="cursor:pointer; display: inline-block;">
-                            <i class="bi bi-${not empty bank.qrCodeImage ? 'arrow-repeat' : 'plus-lg'}"></i>
-                            ${not empty bank.qrCodeImage ? 'Thay đổi QR' : 'Tải lên QR'}
-                        </div>
-                    </div>
-
-                    <small class="text-muted d-block text-center mt-2">
-                        <i class="bi bi-info-circle"></i>
-                        ${empty bank ? 'Bắt buộc phải có ảnh QR code' : 'Để trống nếu không muốn thay đổi'}
-                    </small>
-
-                    <div class="mt-3 d-flex gap-2 justify-content-center">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-${empty bank ? 'plus-lg' : 'check-lg'}"></i>
-                            ${empty bank ? 'Thêm mới' : 'Cập nhật'}
-                        </button>
-                        <button type="button" id="btnCancelBank" class="btn btn-secondary">
-                            <i class="bi bi-x-lg"></i> Hủy
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <hr>
-            <hr>
 
             <!-- ========== ĐỔI MẬT KHẨU ========== -->
             <h4><i class="bi bi-shield-lock me-2"></i>Đổi mật khẩu</h4>
 
             <!-- Hiển thị thông báo -->
             <c:if test="${not empty sessionScope.passMsg}">
-                <div class="alert alert-dismissible fade show ${fn:contains(sessionScope.passMsg, 'thành công') ? 'alert-success' : 'alert-danger'}" role="alert">
-                    <i class="bi ${fn:contains(sessionScope.passMsg, 'thành công') ? 'bi-check-circle' : 'bi-exclamation-circle'} me-2"></i>
+                <div class="alert alert-dismissible fade show ${fn:contains(sessionScope.passMsg, 'thành công') ? 'alert-success' : 'alert-danger'}"
+                     role="alert">
+                    <i
+                            class="bi ${fn:contains(sessionScope.passMsg, 'thành công') ? 'bi-check-circle' : 'bi-exclamation-circle'} me-2"></i>
                         ${sessionScope.passMsg}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
@@ -360,29 +228,34 @@
 
                 <small class="password-hint">
                     <i class="bi bi-info-circle me-1"></i>
-                    Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt (@$!%*?&).
+                    Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc
+                    biệt (@$!%*?&).
                 </small>
 
                 <label>
                     <i class="bi bi-key me-1"></i> Mật khẩu cũ
                     <div class="input-group">
-                        <input type="password" name="oldPassword" id="oldPassword" required placeholder="Nhập mật khẩu cũ">
-                        <span class="input-group-text toggle-password" data-target="oldPassword" style="cursor:pointer">
-                                <i class="bi bi-eye"></i>
-                            </span>
+                        <input type="password" name="oldPassword" id="oldPassword" required
+                               placeholder="Nhập mật khẩu cũ">
+                        <span class="input-group-text toggle-password" data-target="oldPassword"
+                              style="cursor:pointer">
+                                                <i class="bi bi-eye"></i>
+                                            </span>
                     </div>
                 </label>
 
                 <label>
                     <i class="bi bi-key-fill me-1"></i> Mật khẩu mới
                     <div class="input-group">
-                        <input type="password" name="newPassword" id="newPassword" required minlength="8"
+                        <input type="password" name="newPassword" id="newPassword" required
+                               minlength="8"
                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$"
                                title="Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt"
                                placeholder="Nhập mật khẩu mới">
-                        <span class="input-group-text toggle-password" data-target="newPassword" style="cursor:pointer">
-                                <i class="bi bi-eye"></i>
-                            </span>
+                        <span class="input-group-text toggle-password" data-target="newPassword"
+                              style="cursor:pointer">
+                                                <i class="bi bi-eye"></i>
+                                            </span>
                     </div>
                 </label>
 
@@ -391,9 +264,10 @@
                     <div class="input-group">
                         <input type="password" name="confirmPassword" id="confirmPassword" required
                                placeholder="Nhập lại mật khẩu mới">
-                        <span class="input-group-text toggle-password" data-target="confirmPassword" style="cursor:pointer">
-                                <i class="bi bi-eye"></i>
-                            </span>
+                        <span class="input-group-text toggle-password" data-target="confirmPassword"
+                              style="cursor:pointer">
+                                                <i class="bi bi-eye"></i>
+                                            </span>
                     </div>
                 </label>
 
@@ -422,6 +296,7 @@
         const avatarWrapper = document.querySelector(".avatar-wrapper");
         const avatarInput = document.getElementById("avatarInput");
         const avatarPreview = document.getElementById("avatarPreview");
+        const processingNotification = document.getElementById("avatar-processing-notification");
 
         if (avatarWrapper && avatarInput) {
             avatarWrapper.addEventListener("click", () => avatarInput.click());
@@ -431,20 +306,72 @@
                 if (!file) return;
 
                 if (!file.type.startsWith('image/')) {
-                    alert('⚠️ Vui lòng chọn file hình ảnh!');
+                    Swal.fire({icon: 'error', title: 'Lỗi', text: '⚠️ Vui lòng chọn file hình ảnh!'});
                     this.value = '';
                     return;
                 }
 
                 if (file.size > 5 * 1024 * 1024) {
-                    alert('⚠️ File không được vượt quá 5MB!');
+                    Swal.fire({icon: 'error', title: 'Lỗi', text: '⚠️ File không được vượt quá 5MB!'});
                     this.value = '';
                     return;
                 }
 
+                // Hiển thị preview
                 const reader = new FileReader();
-                reader.onload = e => avatarPreview.src = e.target.result;
+                reader.onload = e => {
+                    avatarPreview.src = e.target.result;
+                    const sidebarAvatar = document.getElementById("sidebarAvatar");
+                    if (sidebarAvatar) sidebarAvatar.src = e.target.result;
+
+                    // HIỂN THỊ THÔNG BÁO ĐANG XỬ LÝ VÀ UPLOAD NGAY
+                    if (processingNotification) {
+                        processingNotification.style.display = "block";
+                        uploadAvatar(file);
+                    }
+                };
                 reader.readAsDataURL(file);
+            });
+        }
+
+        // Hàm upload avatar
+        function uploadAvatar(file) {
+            const formData = new FormData();
+            formData.append("avatar", file);
+            formData.append("fullName", document.querySelector('input[name="fullName"]').value);
+            formData.append("email", document.querySelector('input[name="email"]').value);
+            formData.append("phone", document.querySelector('input[name="phone"]').value);
+
+            fetch('${pageContext.request.contextPath}/admin/profile?action=update-info', {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    // Ẩn thông báo
+                    if (processingNotification) processingNotification.style.display = "none";
+
+                    // Hiển thị SweetAlert thành công
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công',
+                        text: 'Đã cập nhật ảnh đại diện!',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    throw new Error('Lỗi khi lưu ảnh');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                if (processingNotification) processingNotification.style.display = "none";
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Thất bại!',
+                    text: '❌ Có lỗi xảy ra khi lưu ảnh!',
+                    confirmButtonText: 'Thử lại'
+                });
             });
         }
 
@@ -538,7 +465,7 @@
 
         /* ===== TOGGLE PASSWORD VISIBILITY ===== */
         document.querySelectorAll('.toggle-password').forEach(toggle => {
-            toggle.addEventListener('click', function() {
+            toggle.addEventListener('click', function () {
                 const targetId = this.getAttribute('data-target');
                 const input = document.getElementById(targetId);
                 const icon = this.querySelector('i');
@@ -556,7 +483,7 @@
         /* ===== PASSWORD VALIDATION ===== */
         const changePassForm = document.getElementById("changePassForm");
         if (changePassForm) {
-            changePassForm.addEventListener("submit", function(e) {
+            changePassForm.addEventListener("submit", function (e) {
                 const newPassword = document.getElementById("newPassword").value;
                 const confirmPassword = document.getElementById("confirmPassword").value;
 

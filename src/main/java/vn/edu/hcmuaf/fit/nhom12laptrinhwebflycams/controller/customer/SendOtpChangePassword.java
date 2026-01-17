@@ -10,7 +10,7 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 import java.io.IOException;
 
 @WebServlet(name = "SendOtpChangePassword", value = "/SendOtpChangePassword")
-public class SendOtpChangePassword extends HttpServlet {
+class SendOtpChangePasswordController extends HttpServlet {
 
     private final UserDAO userDAO = new UserDAO();
 
@@ -24,17 +24,19 @@ public class SendOtpChangePassword extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
 
-        // Kiểm tra đã đăng nhập chưa
-        if (user == null) {
+        User currentUser = (User) session.getAttribute("user");
+
+        // ===== CHƯA ĐĂNG NHẬP =====
+        if (currentUser == null) {
             response.sendRedirect(request.getContextPath() + "/page/login.jsp");
             return;
         }
 
-        // Lấy thông tin user từ database
-        User dbUser = userDAO.getUserByEmail(user.getEmail());
+        // ===== LẤY USER TỪ DB =====
+        User dbUser = userDAO.getUserByEmail(currentUser.getEmail());
         if (dbUser == null || dbUser.getEmail() == null) {
             session.setAttribute("error", "Không tìm thấy email của bạn trong hệ thống!");
             response.sendRedirect(request.getContextPath() + "/personal?tab=repass");
@@ -42,26 +44,31 @@ public class SendOtpChangePassword extends HttpServlet {
         }
 
         try {
-            // 1. Sinh OTP ngẫu nhiên (4 số giống ResendForgotPasswordOtp)
+            // ===== 1. SINH OTP (4 SỐ) =====
             String otp = String.valueOf((int) (Math.random() * 9000) + 1000);
 
-            // 2. Lưu OTP vào session
+            // ===== 2. LƯU OTP VÀO SESSION =====
             session.setAttribute("otp", otp);
-            session.setMaxInactiveInterval(5 * 60); // OTP hết hạn sau 5 phút
+            session.setAttribute("otpUserId", dbUser.getId());
+            session.setAttribute("otpTime", System.currentTimeMillis());
+            session.setMaxInactiveInterval(5 * 60); // 5 phút
 
-            // 3. Gửi email (format giống ResendForgotPasswordOtp)
+            // ===== 3. GỬI EMAIL =====
             EmailSender emailSender = new EmailSender();
+
             String title = "Xác nhận đổi mật khẩu - SKYDRONE";
             String content = "Bạn đang thực hiện thay đổi mật khẩu tài khoản. Mã OTP của bạn là";
             String thanks = "Vui lòng nhập mã OTP này để hoàn tất việc đổi mật khẩu.<br>" +
                     "<strong style='color: #dc3545;'>Lưu ý:</strong> Mã OTP có hiệu lực trong 5 phút.";
-            String otpHtml = "<div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); " +
-                    "padding: 25px; border-radius: 12px; text-align: center; margin: 20px 0; " +
-                    "box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);'>" +
-                    "<h1 style='color: #ffffff; font-size: 56px; margin: 0; " +
-                    "letter-spacing: 12px; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);'>"
-                    + otp + "</h1>" +
-                    "</div>";
+
+            String otpHtml =
+                    "<div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" +
+                            "padding: 25px; border-radius: 12px; text-align: center; margin: 20px 0;" +
+                            "box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);'>" +
+                            "<h1 style='color: #ffffff; font-size: 56px; margin: 0;" +
+                            "letter-spacing: 12px; font-weight: 700;'>" +
+                            otp +
+                            "</h1></div>";
 
             emailSender.sendVerificationEmail(
                     dbUser.getEmail(),
@@ -72,17 +79,17 @@ public class SendOtpChangePassword extends HttpServlet {
                     thanks
             );
 
-            // 4. Set flag để JSP hiển thị form OTP
+            // ===== 4. FLAG HIỂN THỊ FORM OTP =====
             session.setAttribute("otpSent", true);
 
-            // 5. Response success (cho AJAX)
-            response.setContentType("text/plain; charset=UTF-8");
-            response.getWriter().write("success");
+            // ===== 5. RESPONSE CHO AJAX =====
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\":\"ok\"}");
 
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("error");
+            response.getWriter().write("{\"status\":\"error\"}");
         }
     }
 }
