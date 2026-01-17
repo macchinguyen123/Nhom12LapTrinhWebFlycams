@@ -270,32 +270,35 @@ a {
 
 /* ==== SLIDER 2 KÍCH THƯỚC MỚI ==== */
 .slider-2 {
-    width: 80%; /* Rộng 80% màn hình */
-    height: 400px; /* Tăng chiều cao */
-    margin: 0px auto;
-    position: relative;
+    width: 80%;
+    height: 400px;
+    margin: 0px auto 25px;
+    position: relative; /* 👈 QUAN TRỌNG */
     overflow: hidden;
     border-radius: 10px;
-    margin-bottom: 25px;
 }
 
 /* Bọc ảnh */
 .slider-2-inner {
     display: flex;
     height: 100%;
-    transition: transform 0.5s ease;
+    transition: transform 0.5s ease; /* 👈 Animation */
 }
 
-/* Ảnh luôn vừa khung, không méo */
+/* Slide container */
 .slider-2 .slide {
-    min-width: 100%;
+    min-width: 100%; /* 👈 Mỗi slide chiếm 100% */
     height: 100%;
+    flex-shrink: 0; /* 👈 QUAN TRỌNG - Ngăn slide bị co lại */
 }
 
-.slider-2 .slide img {
+/* Ảnh và video trong slide */
+.slider-2 .slide img,
+.slider-2 .slide video {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Fill đầy slider */
+    object-fit: cover;
+    display: block;
 }
 
 /* Mũi tên */
@@ -306,9 +309,19 @@ a {
     transform: translateY(-50%);
     font-size: 40px;
     cursor: pointer;
-    padding: 10px;
+    padding: 10px 15px;
     color: white;
+    background: rgba(0, 0, 0, 0.5); /* 👈 Thêm nền */
+    border-radius: 5px;
     text-shadow: 0 0 6px black;
+    z-index: 10; /* 👈 QUAN TRỌNG */
+    user-select: none;
+    transition: background 0.3s;
+}
+
+.slider-2-left:hover,
+.slider-2-right:hover {
+    background: rgba(0, 0, 0, 0.8);
 }
 
 .slider-2-left {
@@ -321,22 +334,28 @@ a {
 
 /* Dots */
 .slider-2-dots {
-    text-align: center;
-    margin-top: 10px;
+    position: absolute; /* 👈 QUAN TRỌNG - Thay vì text-align */
+    bottom: 20px; /* 👈 Cách đáy 20px */
+    left: 50%;
+    transform: translateX(-50%); /* 👈 Căn giữa */
+    display: flex; /* 👈 Dùng flex */
+    gap: 8px;
+    z-index: 10; /* 👈 QUAN TRỌNG */
 }
 
-.slider-2-dots span {
+.slider-2-dots span,
+.slider-2-dots .dot2 {
     display: inline-block;
     width: 12px;
     height: 12px;
-    margin: 4px;
-    background: #ccc;
+    background: rgba(255, 255, 255, 0.5); /* 👈 Màu trắng mờ */
     border-radius: 50%;
     cursor: pointer;
+    transition: background 0.3s;
 }
 
 .slider-2-dots .active {
-    background: #555;
+    background: white; /* 👈 Màu trắng đậm */
 }
 
 .banner-right video {

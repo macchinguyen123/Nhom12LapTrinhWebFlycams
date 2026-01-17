@@ -3,14 +3,8 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.CategoryDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.HomeDao;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ReviewsDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Categories;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Post;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.*;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.*;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.WishlistService;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PriceFormatter;
 
@@ -26,7 +20,12 @@ public class HomeServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HomeDao homeDao = new HomeDao();
+        BannerDAO bannerDAO = new BannerDAO();
 
+        // ======= BANNER =======
+        // Lấy tất cả banner active, đã sắp xếp theo order_index
+        List<Banner> activeBanners = bannerDAO.getActiveBanners();
+        request.setAttribute("banners", activeBanners);
         // Lấy 5 sản phẩm bán chạy
         List<Product> bestSellerProducts = homeDao.getBestSellerProducts(5);
         // 10 sản phẩm nổi bật theo lượt đánh giá

@@ -40,62 +40,86 @@
     </div>
 
 
-    <!-- SLIDER PHẢI -->
-    <div class="banner-right">
-        <a href="product-details.jsp">
-            <video autoplay loop muted playsinline>
-                <source src="https://res.cloudinary.com/dwnbmfhel/video/upload/v1763279095/9run.ca_-_Introducing_DJI_Mavic_4_Pro_1440p_obst67.mp4"
-                        type="video/mp4">
-            </video>
-        </a>
+<%--    <!-- SLIDER PHẢI -->--%>
+<%--    <div class="banner-right">--%>
+<%--        <a href="product-details.jsp">--%>
+<%--            <video autoplay loop muted playsinline>--%>
+<%--                <source src="https://res.cloudinary.com/dwnbmfhel/video/upload/v1763279095/9run.ca_-_Introducing_DJI_Mavic_4_Pro_1440p_obst67.mp4"--%>
+<%--                        type="video/mp4">--%>
+<%--            </video>--%>
+<%--        </a>--%>
+<%--    </div>--%>
+    <!-- PHẦN 1: Banner Video/Ảnh Phải (order_index = 1) -->
+    <c:if test="${not empty banners && banners.size() > 0}">
+        <c:set var="banner" value="${banners[0]}" />
+        <div class="banner-right">
+            <c:choose>
+                <c:when test="${banner.type == 'video'}">
+                    <a href="${not empty banner.link ? banner.link : '#'}">
+                        <video autoplay loop muted playsinline>
+                            <source src="${banner.videoUrl}" type="video/mp4">
+                        </video>
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    <a href="${not empty banner.link ? banner.link : '#'}">
+                        <img src="${banner.imageUrl}" alt="Banner ${banner.id}">
+                    </a>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </c:if>
+</div>
+
+
+<c:if test="${not empty banners && banners.size() > 1}">
+    <div class="banner-wrapper">
+        <c:forEach var="banner" items="${banners}" begin="1" end="3">
+            <a href="${not empty banner.link ? banner.link : '#'}">
+                <div class="banner-item">
+                    <c:choose>
+                        <c:when test="${banner.type == 'image'}">
+                            <img src="${banner.imageUrl}" alt="Banner ${banner.id}">
+                        </c:when>
+                        <c:otherwise>
+                            <video autoplay loop muted playsinline>
+                                <source src="${banner.videoUrl}" type="video/mp4">
+                            </video>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </a>
+        </c:forEach>
     </div>
-</div>
+</c:if>
 
-
-<div class="banner-wrapper">
-    <a href="category/monitor-drone.jsp">
-        <div class="banner-item">
-            <img src="${pageContext.request.contextPath}/image/banner/img_3.png" alt="Ảnh 1">
-        </div>
-    </a>
-    <a href="product-details.jsp">
-        <div class="banner-item">
-            <img src="${pageContext.request.contextPath}/image/banner/hinh2.png" alt="Ảnh 2">
-        </div>
-    </a>
-    <a href="product-details.jsp">
-        <div class="banner-item">
-            <img src="https://boba.vn/static/san-pham/may-anh-may-bay-flycam/may-quay-phim-may-quay-hanh-dong/flycam-may-bay-mini-co-camera-the-thao-gia-re-chinh-hang/flycam-dji-mavic-3-classic-dji-rc-n1/01-flycam-dji.jpg"
-                 alt="Ảnh 3">
-        </div>
-    </a>
-</div>
 <!-- SLIDER PHẢI MỚI (SLIDER 2) -->
-<div class="banner-right slider-2">
-    <div class="slider slider-2-inner">
-        <a href="product-details.jsp">
-            <div class="slide">
-                <img src="https://m.media-amazon.com/images/S/aplus-media-library-service-media/90a99765-f304-47dd-a286-4d5f794bd5dd.__CR0,0,1464,600_PT0_SX1464_V1___.jpg"
-                     alt="Slider 2 - Ảnh 1">
-            </div>
-        </a>
-        <a href="product-details.jsp">
-            <div class="slide">
-                <img src="https://www.hytobp.net/cdn/shop/files/5-5_1200x.jpg?v=1719805846" alt="Slider 2 - Ảnh 2">
-            </div>
-        </a>
-        <a href="product-details.jsp">
-            <div class="slide">
-                <img src="https://file.hstatic.net/1000158388/file/m2ed_banner_with_logo__4_.jpg"
-                     alt="Slider 2 - Ảnh 3">
-            </div>
-        </a>
-    </div>
+<c:if test="${not empty banners && banners.size() > 4}">
+    <div class="banner-right slider-2">
+        <div class="slider slider-2-inner">
+            <c:forEach var="banner" items="${banners}" begin="4">
+                <a href="${not empty banner.link ? banner.link : '#'}">
+                    <div class="slide">
+                        <c:choose>
+                            <c:when test="${banner.type == 'image'}">
+                                <img src="${banner.imageUrl}" alt="Banner ${banner.id}">
+                            </c:when>
+                            <c:otherwise>
+                                <video autoplay loop muted playsinline>
+                                    <source src="${banner.videoUrl}" type="video/mp4">
+                                </video>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </a>
+            </c:forEach>
+        </div>
 
-    <div class="arrow left slider-2-left">&#10094;</div>
-    <div class="arrow right slider-2-right">&#10095;</div>
-    <div class="dots slider-2-dots"></div>
-</div>
+        <div class="arrow left slider-2-left">&#10094;</div>
+        <div class="arrow right slider-2-right">&#10095;</div>
+        <div class="dots slider-2-dots"></div>
+    </div>
+</c:if>
 
 <!-- Sản phẩm nổi bật -->
 <section class="phan-san-pham">
@@ -473,66 +497,98 @@
 
 <!-- ==== JAVASCRIPT SLIDER ==== -->
 <script>
-    const slider2 = document.querySelector('.slider-2-inner');
-    const slides2 = document.querySelectorAll('.slider-2-inner .slide');
-    const dotsContainer2 = document.querySelector('.slider-2-dots');
-    const arrowLeft2 = document.querySelector('.slider-2-left');
-    const arrowRight2 = document.querySelector('.slider-2-right');
+    // Đợi DOM load xong
+    document.addEventListener('DOMContentLoaded', function() {
+        const slider2 = document.querySelector('.slider-2-inner');
+        const slides2 = document.querySelectorAll('.slider-2-inner .slide');
+        const dotsContainer2 = document.querySelector('.slider-2-dots');
+        const arrowLeft2 = document.querySelector('.slider-2-left');
+        const arrowRight2 = document.querySelector('.slider-2-right');
+        const slider2Container = document.querySelector('.slider-2');
 
-    let index2 = 0;
-    let autoSlide2;
+        // Kiểm tra xem slider có tồn tại không
+        if (!slider2 || !slides2.length || !dotsContainer2) {
+            console.log('Slider 2 không tồn tại hoặc không có slide');
+            return;
+        }
 
-    /* Tạo dots */
-    function createDots2() {
-        slides2.forEach((_, i) => {
-            const dot = document.createElement('span');
-            dot.classList.add('dot2');
-            if (i === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => goToSlide2(i));
-            dotsContainer2.appendChild(dot);
-        });
-    }
+        let index2 = 0;
+        let autoSlide2;
 
-    /* Cập nhật dots */
-    function updateDots2() {
-        document.querySelectorAll('.dot2').forEach((dot, i) => {
-            dot.classList.toggle('active', i === index2);
-        });
-    }
+        /* Tạo dots */
+        function createDots2() {
+            dotsContainer2.innerHTML = ''; // Clear trước khi tạo mới
+            slides2.forEach((_, i) => {
+                const dot = document.createElement('span');
+                dot.classList.add('dot2');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    goToSlide2(i);
+                    stopSlide2();
+                    startSlide2(); // Restart auto slide sau khi click
+                });
+                dotsContainer2.appendChild(dot);
+            });
+        }
 
-    /* Chuyển slide */
-    function goToSlide2(i) {
-        index2 = (i + slides2.length) % slides2.length;
-        slider2.style.transform = `translateX(-${index2 * 100}%)`;
-        updateDots2();
-    }
+        /* Cập nhật dots */
+        function updateDots2() {
+            document.querySelectorAll('.dot2').forEach((dot, i) => {
+                dot.classList.toggle('active', i === index2);
+            });
+        }
 
-    /* Mũi tên */
-    arrowLeft2.addEventListener('click', () => {
-        goToSlide2(index2 - 1);
+        /* Chuyển slide */
+        function goToSlide2(i) {
+            index2 = (i + slides2.length) % slides2.length;
+            slider2.style.transform = `translateX(-${index2 * 100}%)`;
+            updateDots2();
+        }
+
+        /* Mũi tên trái */
+        if (arrowLeft2) {
+            arrowLeft2.addEventListener('click', () => {
+                goToSlide2(index2 - 1);
+                stopSlide2();
+                startSlide2(); // Restart auto slide
+            });
+        }
+
+        /* Mũi tên phải */
+        if (arrowRight2) {
+            arrowRight2.addEventListener('click', () => {
+                goToSlide2(index2 + 1);
+                stopSlide2();
+                startSlide2(); // Restart auto slide
+            });
+        }
+
+        /* Auto slide */
+        function startSlide2() {
+            stopSlide2(); // Clear interval cũ trước
+            autoSlide2 = setInterval(() => {
+                goToSlide2(index2 + 1);
+            }, 3000);
+        }
+
+        function stopSlide2() {
+            if (autoSlide2) {
+                clearInterval(autoSlide2);
+            }
+        }
+
+        /* Hover events */
+        if (slider2Container) {
+            slider2Container.addEventListener('mouseenter', stopSlide2);
+            slider2Container.addEventListener('mouseleave', startSlide2);
+        }
+
+        /* Khởi động slider */
+        createDots2();
+        startSlide2();
+
+        console.log('Slider 2 đã khởi động với ' + slides2.length + ' slides');
     });
-
-    arrowRight2.addEventListener('click', () => {
-        goToSlide2(index2 + 1);
-    });
-
-    /* Auto slide */
-    function startSlide2() {
-        autoSlide2 = setInterval(() => {
-            goToSlide2(index2 + 1);
-        }, 3000);
-    }
-
-    function stopSlide2() {
-        clearInterval(autoSlide2);
-    }
-
-    document.querySelector('.slider-2').addEventListener('mouseenter', stopSlide2);
-    document.querySelector('.slider-2').addEventListener('mouseleave', startSlide2);
-
-    /* Khởi động */
-    createDots2();
-    startSlide2();
 </script>
 
 
