@@ -989,32 +989,79 @@
     });
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const btn = document.getElementById("toggleAddressFormBtn");
-        const formBox = document.getElementById("addAddressForm");
+    // ============================================
+    // HIỂN THỊ THÔNG BÁO VÀ XÓA THAM SỐ KHỎI URL
+    // ============================================
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lấy tham số từ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('message');
+        const status = urlParams.get('status');
 
-        btn.addEventListener("click", function () {
-            const willShow = formBox.classList.contains("hidden");
-            formBox.classList.toggle("hidden");
+        // Nếu có thông báo
+        if (message && status) {
+            // Hiển thị thông báo
+            showNotification(decodeURIComponent(message), status);
 
-            // Đổi text nút cho rõ trạng thái
-            btn.textContent = willShow ? "Đóng" : "Thêm địa chỉ";
-
-            // Scroll nhẹ tới form khi mở
-            if (willShow) {
-                formBox.scrollIntoView({behavior: "smooth", block: "start"});
-            }
-        });
-
-        // Nếu vừa redirect về #addresses-section sau khi thêm, có thể mở form tự động khi có lỗi validate
-        const hasError =
-            document.querySelector(".error") &&
-            Array.from(document.querySelectorAll(".error")).some(e => e.textContent && e.textContent.trim() !== "");
-        if (hasError) {
-            formBox.classList.remove("hidden");
-            btn.textContent = "Đóng";
+            // XÓA THAM SỐ KHỎI URL (quan trọng!)
+            const cleanUrl = window.location.pathname;
+            window.history.replaceState({}, document.title, cleanUrl);
         }
     });
+
+    // Hàm hiển thị thông báo
+    function showNotification(message, type = 'success') {
+        const oldNotification = document.querySelector('.custom-notification');
+        if (oldNotification) {
+            oldNotification.remove();
+        }
+
+        const notification = document.createElement('div');
+        notification.className = 'custom-notification';
+
+        let icon = '';
+        if (type === 'success') {
+            icon = '<i class="bi bi-check-circle-fill me-2"></i>';
+        } else {
+            icon = '<i class="bi bi-exclamation-circle-fill me-2"></i>';
+        }
+
+        notification.innerHTML = icon + message;
+        notification.style.position = 'fixed';
+        notification.style.top = '80px';
+        notification.style.right = '-300px';
+        notification.style.padding = '12px 20px';
+        notification.style.borderRadius = '8px';
+        notification.style.zIndex = '10000';
+        notification.style.fontWeight = '500';
+        notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+        notification.style.transition = 'right 0.3s ease';
+        notification.style.display = 'flex';
+        notification.style.alignItems = 'center';
+        notification.style.minWidth = '250px';
+
+        if (type === 'success') {
+            notification.style.backgroundColor = '#28a745';
+            notification.style.color = 'white';
+        } else {
+            notification.style.backgroundColor = '#dc3545';
+            notification.style.color = 'white';
+        }
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.style.right = '20px';
+        }, 10);
+
+        setTimeout(() => {
+            notification.style.right = '-300px';
+        }, 2500);
+
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
 </script>
 <%--<script>--%>
 <%--    function toggleEditForm(id) {--%>

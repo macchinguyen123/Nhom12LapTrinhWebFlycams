@@ -360,7 +360,7 @@
         });
 
         document.body.appendChild(form);
-        form.submit(); // 👉 TRÌNH DUYỆT TỰ CHUYỂN TRANG
+        form.submit();
     });
 </script>
 

@@ -32,25 +32,23 @@
 
         <!-- Tài khoản -->
         <c:if test="${not empty sessionScope.user}">
-        <div class="d-flex align-items-center mb-3">
-            <c:choose>
-                <c:when test="${not empty sessionScope.user.avatar}">
+            <div class="d-flex align-items-center mb-3">
+                <c:choose>
+                    <c:when test="${not empty sessionScope.user.avatar}">
+                        <!-- Avatar code here -->
+                    </c:when>
+                    <c:otherwise>
+                        <div class="avatar rounded-circle d-flex justify-content-center align-items-center me-3">
+                            <i class="bi bi-person fs-3 text-secondary"></i>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
 
-
-
-                </c:when>
-                <c:otherwise>
-                    <div class="avatar rounded-circle d-flex justify-content-center align-items-center me-3">
-                        <i class="bi bi-person fs-3 text-secondary"></i>
-                    </div>
-                </c:otherwise>
-            </c:choose>
-
-            <div>
-                <p class="mb-0 fw-semibold">${sessionScope.user.fullName}</p>
-                <small>${sessionScope.user.email}</small><br>
+                <div>
+                    <p class="mb-0 fw-semibold">${sessionScope.user.fullName}</p>
+                    <small>${sessionScope.user.email}</small><br>
+                </div>
             </div>
-        </div>
         </c:if>
 
 
@@ -59,10 +57,9 @@
               method="post">
 
             <!-- Địa chỉ đã lưu -->
-            <!-- Địa chỉ đã lưu -->
             <div class="mb-3">
                 <select id="savedAddress" name="savedAddress" class="form-select">
-                <option value="">Thêm địa chỉ mới...</option>
+                    <option value="">Thêm địa chỉ mới...</option>
 
                     <c:forEach items="${addresses}" var="a">
                         <option
@@ -80,42 +77,45 @@
                 </select>
             </div>
 
-            <!-- Họ tên -->
-            <div class="mb-3">
-                <input id="fullName" type="text"
-                       name="fullName"
-                       class="form-control"
-                       placeholder="Họ và tên"
-                       required>
-            </div>
+            <!-- Container cho các trường nhập liệu -->
+            <div id="manualInputFields">
+                <!-- Họ tên -->
+                <div class="mb-3">
+                    <input id="fullName" type="text"
+                           name="fullName"
+                           class="form-control"
+                           placeholder="Họ và tên"
+                           required>
+                </div>
 
-            <!-- Số điện thoại -->
-            <div class="mb-3">
-                <input id="phoneNumber" type="tel"
-                       name="phone"
-                       class="form-control"
-                       placeholder="Số điện thoại"
-                       required>
-            </div>
+                <!-- Số điện thoại -->
+                <div class="mb-3">
+                    <input id="phoneNumber" type="tel"
+                           name="phone"
+                           class="form-control"
+                           placeholder="Số điện thoại"
+                           required>
+                </div>
 
-            <!-- Địa chỉ cụ thể -->
-            <div class="mb-3">
-                <input id="addressLine" type="text"
-                       name="address"
-                       class="form-control"
-                       placeholder="Địa chỉ cụ thể (Số nhà, đường...)"
-                       required>
-            </div>
+                <!-- Địa chỉ cụ thể -->
+                <div class="mb-3">
+                    <input id="addressLine" type="text"
+                           name="address"
+                           class="form-control"
+                           placeholder="Địa chỉ cụ thể (Số nhà, đường...)"
+                           required>
+                </div>
 
-            <!-- Tỉnh / xã -->
-            <div class="address-select-group">
-                <select name="province" id="province" class="form-select">
-                    <option value="">-- Chọn Tỉnh/Thành phố --</option>
-                </select>
+                <!-- Tỉnh / xã -->
+                <div class="address-select-group">
+                    <select name="province" id="province" class="form-select" required>
+                        <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                    </select>
 
-                <select name="ward" id="ward" class="form-select">
-                    <option value="">-- Chọn Phường/Xã --</option>
-                </select>
+                    <select name="ward" id="ward" class="form-select" required>
+                        <option value="">-- Chọn Phường/Xã --</option>
+                    </select>
+                </div>
             </div>
 
             <!-- Ghi chú -->
@@ -135,7 +135,7 @@
     </div>
 
     <!-- PHẢI -->
-        <c:set var="items" value="${sessionScope.BUY_NOW_ITEM}" />
+    <c:set var="items" value="${sessionScope.BUY_NOW_ITEM}" />
     <div class="right">
         <h5 class="fw-bold mb-4">Đơn hàng của bạn</h5>
 
@@ -192,6 +192,7 @@
     </div>
 
 </div>
+
 <script>
     const data = {
         "TP. Hồ Chí Minh": {
@@ -209,8 +210,12 @@
     };
 
     const province = document.getElementById("province");
-    const district = document.getElementById("district");
     const ward = document.getElementById("ward");
+    const savedAddressSelect = document.getElementById("savedAddress");
+    const fullNameInput = document.getElementById("fullName");
+    const phoneInput = document.getElementById("phoneNumber");
+    const addressInput = document.getElementById("addressLine");
+    const manualInputFields = document.getElementById("manualInputFields");
 
     // Nạp danh sách tỉnh
     for (let p in data) {
@@ -220,128 +225,100 @@
         province.appendChild(opt);
     }
 
+    // ========================================
+    // HÀM BẬT/TẮT REQUIRED CHO CÁC TRƯỜNG
+    // ========================================
+    function toggleRequiredFields(isRequired) {
+        const fields = manualInputFields.querySelectorAll('input, select');
+        fields.forEach(field => {
+            if (isRequired) {
+                field.setAttribute('required', 'required');
+            } else {
+                field.removeAttribute('required');
+            }
+        });
+    }
+
+    // ========================================
+    // KHI CHỌN ĐỊA CHỈ ĐÃ LƯU
+    // ========================================
+    savedAddressSelect.addEventListener("change", function () {
+        const opt = this.options[this.selectedIndex];
+
+        if (!opt.value) {
+            // Chọn "Thêm địa chỉ mới" - BẮT BUỘC NHẬP
+            fullNameInput.value = "";
+            phoneInput.value = "";
+            addressInput.value = "";
+            province.value = "";
+            ward.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+
+            // Bật lại required
+            toggleRequiredFields(true);
+            manualInputFields.style.opacity = "1";
+
+            return;
+        }
+
+        // Có chọn địa chỉ đã lưu - KHÔNG BẮT BUỘC NHẬP
+        fullNameInput.value = opt.dataset.name || "";
+        phoneInput.value = opt.dataset.phone || "";
+        addressInput.value = opt.dataset.address || "";
+        province.value = opt.dataset.province || "";
+
+        // Tải phường/xã nếu có
+        if (opt.dataset.district && data[opt.dataset.province]) {
+            ward.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+            const districts = data[opt.dataset.province][opt.dataset.district];
+            if (districts) {
+                districts.forEach(w => {
+                    const wardOpt = document.createElement("option");
+                    wardOpt.value = w;
+                    wardOpt.textContent = w;
+                    ward.appendChild(wardOpt);
+                });
+            }
+        }
+
+        // Tắt required vì đã có địa chỉ
+        toggleRequiredFields(false);
+
+        // Làm mờ các trường (tùy chọn - để người dùng biết không cần điền)
+        manualInputFields.style.opacity = "0.6";
+    });
+
     // Khi chọn tỉnh
     province.addEventListener("change", () => {
-        district.innerHTML = '<option value="">Chọn quận / huyện</option>';
-        ward.innerHTML = '<option value="">Chọn phường / xã</option>';
-        district.disabled = true;
+        ward.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
         ward.disabled = true;
 
         const p = province.value;
         if (!p) return;
 
+        // Nạp danh sách phường/xã
+        const allWards = new Set();
         for (let d in data[p]) {
-            const opt = document.createElement("option");
-            opt.value = d;
-            opt.textContent = d;
-            district.appendChild(opt);
+            data[p][d].forEach(w => allWards.add(w));
         }
-        district.disabled = false;
-    });
 
-    // Khi chọn huyện
-    district.addEventListener("change", () => {
-        ward.innerHTML = '<option value="">Chọn phường / xã</option>';
-        ward.disabled = true;
-
-        const p = province.value;
-        const d = district.value;
-        if (!d) return;
-
-        data[p][d].forEach(w => {
+        allWards.forEach(w => {
             const opt = document.createElement("option");
             opt.value = w;
             opt.textContent = w;
             ward.appendChild(opt);
         });
+
         ward.disabled = false;
     });
 
-    // 🟢 DỮ LIỆU ĐỊA CHỈ LƯU TRỮ
-    const savedAddresses = {
-        "0948088315, 70000, Việt Nam": {
-            name: "Mạc Chí Nguyên",
-            phone: "0948088315",
-            address: "70000",
-            province: "TP. Hồ Chí Minh",
-            district: "Quận 1",
-            ward: "Phường Bến Nghé"
-        },
-        "0948088315, Xã Trần Hợi, Huyện Trần Văn Thời, Cà Mau": {
-            name: "Mạc Chí Nguyên",
-            phone: "0948088315",
-            address: "Xã Trần Hợi",
-            province: "Cà Mau",
-            district: "Huyện Trần Văn Thời",
-            ward: "Xã Trần Hợi"
+    // ========================================
+    // KIỂM TRA KHI LOAD TRANG
+    // ========================================
+    window.addEventListener('DOMContentLoaded', function() {
+        // Nếu có địa chỉ mặc định được chọn sẵn
+        if (savedAddressSelect.value) {
+            savedAddressSelect.dispatchEvent(new Event('change'));
         }
-    };
-
-    // 🟡 Khi chọn "địa chỉ đã lưu"
-    const savedAddressSelect = document.getElementById("savedAddress");
-    const nameInput = document.querySelector('input[placeholder="Họ và tên"]');
-    const phoneInput = document.querySelector('input[placeholder="Số điện thoại"]');
-    const addressInput = document.querySelector('input[placeholder="Địa chỉ cụ thể (Số nhà, đường...)"]');
-
-    savedAddressSelect.addEventListener("change", () => {
-        const selected = savedAddressSelect.value;
-        if (!selected || !savedAddresses[selected]) {
-            nameInput.value = "";
-            phoneInput.value = "";
-            addressInput.value = "";
-            province.value = "";
-            district.innerHTML = '<option value="">Chọn quận / huyện</option>';
-            ward.innerHTML = '<option value="">Chọn phường / xã</option>';
-            district.disabled = true;
-            ward.disabled = true;
-            return;
-        }
-
-        const info = savedAddresses[selected];
-        nameInput.value = info.name;
-        phoneInput.value = info.phone;
-        addressInput.value = info.address;
-        province.value = info.province;
-
-        // Tải lại huyện
-        district.innerHTML = '<option value="">Chọn quận / huyện</option>';
-        for (let d in data[info.province]) {
-            const opt = document.createElement("option");
-            opt.value = d;
-            opt.textContent = d;
-            district.appendChild(opt);
-        }
-        district.disabled = false;
-        district.value = info.district;
-
-        // Tải lại xã
-        ward.innerHTML = '<option value="">Chọn phường / xã</option>';
-        data[info.province][info.district].forEach(w => {
-            const opt = document.createElement("option");
-            opt.value = w;
-            opt.textContent = w;
-            ward.appendChild(opt);
-        });
-        ward.disabled = false;
-        ward.value = info.ward;
-    });
-</script>
-<script>
-    document.getElementById("savedAddress").addEventListener("change", function () {
-        const opt = this.options[this.selectedIndex];
-
-        if (!opt.value) {
-            // chọn "Thêm địa chỉ mới"
-            document.querySelectorAll("#fullName, #phoneNumber, #addressLine, #province, #district")
-                .forEach(i => i.value = "");
-            return;
-        }
-
-        document.getElementById("fullName").value = opt.dataset.name;
-        document.getElementById("phoneNumber").value = opt.dataset.phone;
-        document.getElementById("addressLine").value = opt.dataset.address;
-        document.getElementById("province").value = opt.dataset.province;
-        document.getElementById("district").value = opt.dataset.district;
     });
 </script>
 </body>

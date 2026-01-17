@@ -49,11 +49,11 @@
         <div class="footer-column">
             <h6>HỆ THỐNG PHÂN PHỐI</h6>
             <ul>
-                <li><a href="#">SKYDrone Store</a></li>
-                <li><a href="#">Hà Nội</a></li>
-                <li><a href="#">TP. Hồ Chí Minh</a></li>
-                <li><a href="#">Đà Nẵng</a></li>
-                <li><a href="#">Nghệ An</a></li>
+                <li> <a href="${pageContext.request.contextPath}/home">SKYDrone Store</a></li>
+                <li> <a href="${pageContext.request.contextPath}/home">Hà Nội</a></li>
+                <li> <a href="${pageContext.request.contextPath}/home">TP. Hồ Chí Minh</a></li>
+                <li> <a href="${pageContext.request.contextPath}/home">Đà Nẵng</a></li>
+                <li> <a href="${pageContext.request.contextPath}/home">Nghệ An</a></li>
             </ul>
             <section class="payment-methods">
                 <h6>PHƯƠNG THỨC THANH TOÁN</h6>

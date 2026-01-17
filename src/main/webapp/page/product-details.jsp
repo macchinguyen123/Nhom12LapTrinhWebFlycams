@@ -734,25 +734,6 @@
                 khung.scrollBy({left: -300, behavior: 'smooth'});
             });
         }
-
-        // ============================================
-        // CATEGORY MENU TOGGLE
-        // ============================================
-        const btnDanhMuc = document.getElementById('btnDanhMuc');
-        const menuLeft = document.getElementById('menuLeft');
-
-        if (btnDanhMuc && menuLeft) {
-            btnDanhMuc.addEventListener('click', () => {
-                menuLeft.classList.toggle('show');
-            });
-
-            document.addEventListener('click', (e) => {
-                if (!menuLeft.contains(e.target) && !btnDanhMuc.contains(e.target)) {
-                    menuLeft.classList.remove('show');
-                }
-            });
-        }
-
         // ============================================
         // QUANTITY CONTROLS
         // ============================================
