@@ -5,6 +5,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PasswordUtil;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.validate.Validator;
 
 import java.io.IOException;
@@ -68,17 +69,18 @@ public class ChangePasswordController extends HttpServlet {
         }
 
         // ------------------ UPDATE PASSWORD ------------------
-        boolean updated = userDAO.updatePassword(currentUser.getId(), newPassword);
+        String hashedNewPassword = PasswordUtil.hashPassword(newPassword);
+        boolean updated = userDAO.updatePassword(currentUser.getId(), hashedNewPassword);
 
         if (!updated) {
-            request.setAttribute("errorMessage", "Đổi mật khẩu thất bại. Vui lòng thử lại!");
+            request.setAttribute("error", "Đổi mật khẩu thất bại. Vui lòng thử lại!");
             request.getRequestDispatcher("page/personal-page.jsp").forward(request, response);
             return;
         }
 
         // Thành công
         session.removeAttribute("otp");
-        request.setAttribute("successMessage", "Đổi mật khẩu thành công!");
+        request.setAttribute("success", "Đổi mật khẩu thành công!");
         request.getRequestDispatcher("page/personal-page.jsp").forward(request, response);
     }
 }

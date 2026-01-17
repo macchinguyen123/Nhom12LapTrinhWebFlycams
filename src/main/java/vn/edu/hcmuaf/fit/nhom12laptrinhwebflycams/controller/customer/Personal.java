@@ -71,14 +71,16 @@ public class Personal extends HttpServlet {
         // 🔹 LẤY DANH SÁCH ĐƠN HÀNG
         long t2 = System.currentTimeMillis();
         List<Orders> orders = ordersDAO.getOrdersByUser(user.getId());
-        System.out.println("⏱️ getOrdersByUser: " + (System.currentTimeMillis() - t2) + "ms | Orders: " + orders.size());
+        System.out
+                .println("⏱️ getOrdersByUser: " + (System.currentTimeMillis() - t2) + "ms | Orders: " + orders.size());
         request.setAttribute("orders", orders);
 
         // 🔹 LẤY DANH SÁCH ĐỊA CHỈ
         try {
             long t6 = System.currentTimeMillis();
             List<Address> addresses = addressDAO.findByUserId(user.getId());
-            System.out.println("⏱️ getAddressesByUserId: " + (System.currentTimeMillis() - t6) + "ms | Addresses: " + addresses.size());
+            System.out.println("⏱️ getAddressesByUserId: " + (System.currentTimeMillis() - t6) + "ms | Addresses: "
+                    + addresses.size());
             request.setAttribute("addresses", addresses);
         } catch (SQLException e) {
             System.err.println("❌ Error loading addresses: " + e.getMessage());
@@ -102,7 +104,8 @@ public class Personal extends HttpServlet {
                     // 🔸 LẤY CHI TIẾT SẢN PHẨM
                     long t4 = System.currentTimeMillis();
                     orderItems = ordersDAO.getOrderItems(orderId);
-                    System.out.println("⏱️ getOrderItems: " + (System.currentTimeMillis() - t4) + "ms | Items: " + orderItems.size());
+                    System.out.println("⏱️ getOrderItems: " + (System.currentTimeMillis() - t4) + "ms | Items: "
+                            + orderItems.size());
 
                     // 🔸 TÍNH NGÀY DỰ KIẾN (createdAt + 3 ngày)
                     LocalDateTime created = selectedOrder.getCreatedAt()

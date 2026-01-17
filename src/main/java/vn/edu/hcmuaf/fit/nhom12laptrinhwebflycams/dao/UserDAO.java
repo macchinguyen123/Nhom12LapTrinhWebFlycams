@@ -45,6 +45,8 @@ public class UserDAO {
                     user.setUsername(rs.getString("username"));
                     user.setPhoneNumber(rs.getString("phoneNumber"));
                     user.setAvatar(rs.getString("avatar"));
+                    user.setGender(rs.getString("gender"));
+                    user.setBirthDate(rs.getDate("birthDate"));
                     user.setStatus(rs.getBoolean("status"));
                     return user;
                 }
@@ -268,16 +270,22 @@ public class UserDAO {
     }
 
     public boolean updateProfile(User user) {
-        String sql = "UPDATE users SET fullName=?, email=?, phoneNumber=?, avatar=?, gender=?, updatedAt=NOW() WHERE id=?";
+        String sql = "UPDATE users SET fullName=?, username=?, email=?, phoneNumber=?, avatar=?, gender=?, birthDate=?, updatedAt=NOW() WHERE id=?";
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, user.getFullName());
-            ps.setString(2, user.getEmail());
-            ps.setString(3, user.getPhoneNumber());
-            ps.setString(4, user.getAvatar());
-            ps.setString(5, user.getGender());
-            ps.setInt(6, user.getId());
+            ps.setString(2, user.getUsername());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getPhoneNumber());
+            ps.setString(5, user.getAvatar());
+            ps.setString(6, user.getGender());
+            if (user.getBirthDate() != null) {
+                ps.setDate(7, new java.sql.Date(user.getBirthDate().getTime()));
+            } else {
+                ps.setNull(7, java.sql.Types.DATE);
+            }
+            ps.setInt(8, user.getId());
 
             return ps.executeUpdate() > 0;
 

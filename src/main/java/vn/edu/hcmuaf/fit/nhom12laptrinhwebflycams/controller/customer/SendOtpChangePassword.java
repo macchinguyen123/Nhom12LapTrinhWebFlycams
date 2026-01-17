@@ -10,7 +10,7 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 import java.io.IOException;
 
 @WebServlet(name = "SendOtpChangePassword", value = "/SendOtpChangePassword")
-class SendOtpChangePasswordController extends HttpServlet {
+public class SendOtpChangePassword extends HttpServlet {
 
     private final UserDAO userDAO = new UserDAO();
 
@@ -26,7 +26,6 @@ class SendOtpChangePasswordController extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
-
         User currentUser = (User) session.getAttribute("user");
 
         // ===== CHƯA ĐĂNG NHẬP =====
@@ -35,11 +34,11 @@ class SendOtpChangePasswordController extends HttpServlet {
             return;
         }
 
-        // ===== LẤY USER TỪ DB =====
+        // ===== LẤY USER TỪ DB (để chắc chắn) =====
         User dbUser = userDAO.getUserByEmail(currentUser.getEmail());
-        if (dbUser == null || dbUser.getEmail() == null) {
-            session.setAttribute("error", "Không tìm thấy email của bạn trong hệ thống!");
-            response.sendRedirect(request.getContextPath() + "/personal?tab=repass");
+        if (dbUser == null) {
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\":\"error\", \"message\":\"Không tìm thấy thông tin người dùng!\"}");
             return;
         }
 
@@ -61,14 +60,13 @@ class SendOtpChangePasswordController extends HttpServlet {
             String thanks = "Vui lòng nhập mã OTP này để hoàn tất việc đổi mật khẩu.<br>" +
                     "<strong style='color: #dc3545;'>Lưu ý:</strong> Mã OTP có hiệu lực trong 5 phút.";
 
-            String otpHtml =
-                    "<div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" +
-                            "padding: 25px; border-radius: 12px; text-align: center; margin: 20px 0;" +
-                            "box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);'>" +
-                            "<h1 style='color: #ffffff; font-size: 56px; margin: 0;" +
-                            "letter-spacing: 12px; font-weight: 700;'>" +
-                            otp +
-                            "</h1></div>";
+            String otpHtml = "<div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" +
+                    "padding: 25px; border-radius: 12px; text-align: center; margin: 20px 0;" +
+                    "box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);'>" +
+                    "<h1 style='color: #ffffff; font-size: 56px; margin: 0;" +
+                    "letter-spacing: 12px; font-weight: 700;'>" +
+                    otp +
+                    "</h1></div>";
 
             emailSender.sendVerificationEmail(
                     dbUser.getEmail(),
@@ -76,8 +74,7 @@ class SendOtpChangePasswordController extends HttpServlet {
                     dbUser.getUsername(),
                     otpHtml,
                     content,
-                    thanks
-            );
+                    thanks);
 
             // ===== 4. FLAG HIỂN THỊ FORM OTP =====
             session.setAttribute("otpSent", true);

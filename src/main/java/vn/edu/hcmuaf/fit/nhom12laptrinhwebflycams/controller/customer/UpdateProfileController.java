@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 @WebServlet("/UpdateProfileServlet")
 public class UpdateProfileController extends HttpServlet {
     private UserDAO dao = new UserDAO();
@@ -26,6 +25,7 @@ public class UpdateProfileController extends HttpServlet {
         }
 
         String fullName = req.getParameter("fullName");
+        String username = req.getParameter("username");
         String phoneNumber = req.getParameter("phoneNumber");
         String gender = req.getParameter("gender");
         String birthDateStr = req.getParameter("birthDate");
@@ -39,6 +39,7 @@ public class UpdateProfileController extends HttpServlet {
             }
 
             user.setFullName(fullName);
+            user.setUsername(username);
             user.setPhoneNumber(phoneNumber);
             user.setGender(gender);
 
@@ -46,6 +47,7 @@ public class UpdateProfileController extends HttpServlet {
 
             // cập nhật lại session
             session.setAttribute("user", user);
+            session.setAttribute("success", "Cập nhật hồ sơ thành công!");
 
             resp.sendRedirect(req.getContextPath() + "/personal");
         } catch (Exception e) {
