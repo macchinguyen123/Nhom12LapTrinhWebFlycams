@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 @WebServlet("/admin/promotion-manage")
 public class PromotionManageServlet extends HttpServlet {
 
@@ -115,15 +114,19 @@ public class PromotionManageServlet extends HttpServlet {
                 }
             }
 
+            HttpSession session = req.getSession();
             if ("add".equals(action)) {
                 promotionDAO.insertPromotion(p, scope, productIdsList, categoryIdsList);
+                session.setAttribute("infoMsg", "Thêm khuyến mãi thành công!");
             } else {
                 promotionDAO.updatePromotionWithScope(p, scope, productIdsList, categoryIdsList);
+                session.setAttribute("infoMsg", "Cập nhật khuyến mãi thành công!");
             }
 
         } else if ("delete".equals(action)) {
             int id = Integer.parseInt(req.getParameter("id"));
             promotionDAO.deleteById(id);
+            req.getSession().setAttribute("infoMsg", "Xóa khuyến mãi thành công!");
         }
 
         resp.sendRedirect(req.getContextPath() + "/admin/promotion-manage");

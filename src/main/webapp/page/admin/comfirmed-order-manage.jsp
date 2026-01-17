@@ -3,18 +3,22 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Quản Trị - SkyDrone</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/admin/comfirmed-order-manage.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/stylesheets/admin/comfirmed-order-manage.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
@@ -33,7 +37,7 @@
            class="text-decoration-none text-while">
             <div class="thong-tin-admin d-flex align-items-center gap-2">
                 <i class="bi bi-person-circle fs-4"></i>
-                <span class="fw-semibold">Admin</span>
+                <span class="fw-semibold">${sessionScope.user.fullName}</span>
             </div>
         </a>
 
@@ -58,9 +62,18 @@
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="user-info">
-            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+            <c:choose>
+                <c:when test="${not empty sessionScope.user.avatar}">
+                    <img src="${pageContext.request.contextPath}/uploads/avatar/${sessionScope.user.avatar}?v=${sessionScope.user.updatedAt != null ? sessionScope.user.updatedAt.time : ''}"
+                         alt="Avatar"
+                         style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                </c:when>
+                <c:otherwise>
+                    <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+                </c:otherwise>
+            </c:choose>
 
-            <h3>Mạc Nguyên</h3>
+            <h3>${sessionScope.user.fullName}</h3>
             <p>Chào mừng bạn trở lại 👋</p>
         </div>
 
@@ -138,8 +151,10 @@
 
                 <!-- Tìm kiếm bên phải -->
                 <div class="input-group shadow-sm" style="max-width: 300px;">
-                    <span class="input-group-text bg-primary text-white"><i class="bi bi-search"></i></span>
-                    <input id="search" type="search" class="form-control" placeholder="Tìm kiếm đơn hàng...">
+                                    <span class="input-group-text bg-primary text-white"><i
+                                            class="bi bi-search"></i></span>
+                    <input id="search" type="search" class="form-control"
+                           placeholder="Tìm kiếm đơn hàng...">
                 </div>
 
             </div>
@@ -185,21 +200,19 @@
 
                     <!-- Ngày nhận -->
                     <td>
-                        <fmt:formatDate value="${o.createdAt}"
-                                        pattern="dd/MM/yyyy"/>
+                        <fmt:formatDate value="${o.createdAt}" pattern="dd/MM/yyyy"/>
                     </td>
 
                     <!-- Trạng thái -->
                     <td>
-                <span class="badge ${o.statusClass}">
-                        ${o.statusLabel}
-                </span>
+                                            <span class="badge ${o.statusClass}">
+                                                    ${o.statusLabel}
+                                            </span>
                     </td>
 
                     <!-- Thao tác -->
                     <td>
-                        <button class="btn btn-primary btn-sm view"
-                                data-id="${o.id}"
+                        <button class="btn btn-primary btn-sm view" data-id="${o.id}"
                                 onclick="loadOrderDetail(${o.id}) ">
                             <i class="bi bi-eye"></i> Xem / Cập Nhật
                         </button>
@@ -224,8 +237,10 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"><i class="bi bi-clipboard-check"></i> Chi Tiết & Cập Nhật Đơn Hàng</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <h5 class="modal-title"><i class="bi bi-clipboard-check"></i> Chi Tiết & Cập Nhật Đơn
+                    Hàng</h5>
+                <button type="button" class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
             </div>
 
             <div class="modal-body">
@@ -252,28 +267,23 @@
                                 <div class="info-row">
                                     <div class="info-label">Tên Khách Hàng:</div>
                                     <div class="info-value">
-                                        <input type="text"
-                                               id="dh-tenkh"
-                                               class="form-control form-control-sm"
-                                               value="Nguyễn Văn A">
+                                        <input type="text" id="dh-tenkh"
+                                               class="form-control form-control-sm" value="Nguyễn Văn A">
                                     </div>
                                 </div>
 
                                 <div class="info-row">
                                     <div class="info-label">Số Điện Thoại:</div>
                                     <div class="info-value">
-                                        <input type="text"
-                                               id="dh-sdt"
-                                               class="form-control form-control-sm"
-                                               value="0905123123">
+                                        <input type="text" id="dh-sdt"
+                                               class="form-control form-control-sm" value="0905123123">
                                     </div>
                                 </div>
 
                                 <div class="info-row">
                                     <div class="info-label">Email:</div>
                                     <div class="info-value">
-                                        <input type="email"
-                                               id="dh-email"
+                                        <input type="email" id="dh-email"
                                                class="form-control form-control-sm"
                                                value="nguyenvana@gmail.com">
                                     </div>
@@ -577,7 +587,7 @@
             updateCustomPagination();
         });
 
-// Cập nhật khi load
+        // Cập nhật khi load
         table.on("draw", updateCustomPagination);
         updateCustomPagination();
 
@@ -627,7 +637,7 @@
 
         fetch("${pageContext.request.contextPath}/admin/update-order", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {"Content-Type": "application/json"},
             body: JSON.stringify(payload)
         })
             .then(res => res.json())
@@ -657,4 +667,5 @@
 </script>
 
 </body>
+
 </html>

@@ -17,7 +17,6 @@ public class ChangePasswordController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         User currentUser = (User) session.getAttribute("user");
 
@@ -32,75 +31,54 @@ public class ChangePasswordController extends HttpServlet {
         String confirmPassword = request.getParameter("confirm");
         String otpInput = request.getParameter("otp");
 
-        // Lấy OTP từ session
-        String otpSession = (String) session.getAttribute("otp");
-
         boolean hasError = false;
 
-        // ================ VALIDATE ================
-
-        // 1. Kiểm tra OTP
-        if (otpSession == null) {
-            session.setAttribute("error", "Vui lòng nhấn 'Gửi OTP' để nhận mã xác nhận!");
-            hasError = true;
-        } else if (otpInput == null || otpInput.trim().isEmpty()) {
-            session.setAttribute("otpError", "Vui lòng nhập mã OTP!");
-            hasError = true;
-        } else if (!otpSession.equals(otpInput.trim())) {
-            session.setAttribute("otpError", "Mã OTP không chính xác!");
+        // ------------------ VALIDATE ------------------
+        // ------------------ VALIDATE ------------------
+        User checkLogin = userDAO.login(currentUser.getEmail(), currentPassword);
+        if (checkLogin == null) {
+            request.setAttribute("error", "Mật khẩu hiện tại không đúng");
             hasError = true;
         }
 
-        // 2. Kiểm tra mật khẩu hiện tại
-        if (!hasError) {
-            User checkLogin = userDAO.login(currentUser.getEmail(), currentPassword);
-            if (checkLogin == null) {
-                session.setAttribute("currentPasswordError", "Mật khẩu hiện tại không đúng!");
-                hasError = true;
-            }
-        }
-
-        // 3. Validate mật khẩu mới
-        if (!hasError && !Validator.isValidPassword(newPassword)) {
-            session.setAttribute("passwordError",
-                    "Mật khẩu mới phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt!");
+        if (!Validator.isValidPassword(newPassword)) {
+            request.setAttribute("error", "Mật khẩu mới phải ≥8 ký tự, có chữ hoa, chữ thường, số và ký tự đặc biệt");
             hasError = true;
         }
 
-        // 4. Kiểm tra mật khẩu mới khác mật khẩu cũ
-        if (!hasError && newPassword.equals(currentPassword)) {
-            session.setAttribute("passwordError", "Mật khẩu mới không được giống mật khẩu cũ!");
+        if (newPassword.equals(currentPassword)) {
+            request.setAttribute("error", "Mật khẩu mới không được giống mật khẩu cũ");
             hasError = true;
         }
 
-        // 5. Kiểm tra mật khẩu nhập lại
-        if (!hasError && !newPassword.equals(confirmPassword)) {
-            session.setAttribute("confirmPasswordError", "Mật khẩu nhập lại không khớp!");
+        if (!newPassword.equals(confirmPassword)) {
+            request.setAttribute("error", "Mật khẩu nhập lại không khớp");
             hasError = true;
         }
 
-        // Nếu có lỗi, quay lại trang personal
+        String otpSession = (String) session.getAttribute("otp");
+        if (otpSession == null || !otpSession.equals(otpInput)) {
+            request.setAttribute("error", "Mã OTP không đúng hoặc chưa được gửi");
+            hasError = true;
+        }
+
         if (hasError) {
-            session.setAttribute("otpSent", true); // Giữ form OTP hiển thị
-            response.sendRedirect(request.getContextPath() + "/personal?tab=repass");
+            request.getRequestDispatcher("page/personal-page.jsp").forward(request, response);
             return;
         }
 
-        // ================ CẬP NHẬT MẬT KHẨU ================
+        // ------------------ UPDATE PASSWORD ------------------
         boolean updated = userDAO.updatePassword(currentUser.getId(), newPassword);
 
         if (!updated) {
-            session.setAttribute("error", "Đổi mật khẩu thất bại. Vui lòng thử lại!");
-            response.sendRedirect(request.getContextPath() + "/personal?tab=repass");
+            request.setAttribute("errorMessage", "Đổi mật khẩu thất bại. Vui lòng thử lại!");
+            request.getRequestDispatcher("page/personal-page.jsp").forward(request, response);
             return;
         }
 
-        // ================ THÀNH CÔNG ================
-        // Xóa OTP và flag khỏi session
+        // Thành công
         session.removeAttribute("otp");
-        session.removeAttribute("otpSent");
-
-        session.setAttribute("success", "Đổi mật khẩu thành công!");
-        response.sendRedirect(request.getContextPath() + "/personal");
+        request.setAttribute("successMessage", "Đổi mật khẩu thành công!");
+        request.getRequestDispatcher("page/personal-page.jsp").forward(request, response);
     }
 }

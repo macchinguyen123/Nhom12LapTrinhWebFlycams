@@ -10,7 +10,8 @@
 
     <!-- Bootstrap & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- DataTables -->
@@ -41,7 +42,7 @@
            class="text-decoration-none text-while">
             <div class="thong-tin-admin d-flex align-items-center gap-2">
                 <i class="bi bi-person-circle fs-4"></i>
-                <span class="fw-semibold">Admin</span>
+                <span class="fw-semibold">${sessionScope.user.fullName}</span>
             </div>
         </a>
 
@@ -53,8 +54,11 @@
         <div class="logout-modal-content">
             <p>Bạn có chắc muốn đăng xuất không?</p>
             <div class="logout-actions">
-                <a href="${pageContext.request.contextPath}/Login"><button id="confirmLogout"
-                                                                           class="confirm">Có</button></a>
+                <a href="${pageContext.request.contextPath}/Login">
+                    <button id="confirmLogout"
+                            class="confirm">Có
+                    </button>
+                </a>
                 <a href="${pageContext.request.contextPath}/Logout">
                     <button id="confirmLogout" class="confirm">Có</button>
                 </a>
@@ -67,8 +71,17 @@
 
     <aside class="sidebar">
         <div class="user-info">
-            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
-            <h3>Mạc Nguyên</h3>
+            <c:choose>
+                <c:when test="${not empty sessionScope.user.avatar}">
+                    <img src="${pageContext.request.contextPath}/uploads/avatar/${sessionScope.user.avatar}?v=${sessionScope.user.updatedAt != null ? sessionScope.user.updatedAt.time : ''}"
+                         alt="Avatar"
+                         style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                </c:when>
+                <c:otherwise>
+                    <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+                </c:otherwise>
+            </c:choose>
+            <h3>${sessionScope.user.fullName}</h3>
             <p>Chào mừng bạn trở lại 👋</p>
         </div>
 
@@ -160,8 +173,12 @@
                         <tr>
                             <td>#DH${o.id}</td>
                             <td>${o.customerName}</td>
-                            <td><fmt:formatDate value="${o.createdAt}" pattern="dd/MM/yyyy HH:mm"/></td>
-                            <td class="fw-semibold text-danger"><fmt:formatNumber value="${o.totalPrice}" type="number"/> VND</td>
+                            <td>
+                                <fmt:formatDate value="${o.createdAt}" pattern="dd/MM/yyyy HH:mm"/>
+                            </td>
+                            <td class="fw-semibold text-danger">
+                                <fmt:formatNumber value="${o.totalPrice}" type="number"/> VND
+                            </td>
                             <td><span class="badge ${o.statusClass}">${o.statusLabel}</span></td>
                         </tr>
                     </c:forEach>
@@ -177,12 +194,16 @@
                 <div class="card flex-fill text-center p-3">
                     <i class="fa fa-chart-bar fs-2 mb-2" style="color:#0d6efd;"></i>
                     <h5>Doanh thu hôm nay</h5>
-                    <p><fmt:formatNumber value="${revenueToday}" type="number"/> VND</p>
+                    <p>
+                        <fmt:formatNumber value="${revenueToday}" type="number"/> VND
+                    </p>
                 </div>
                 <div class="card flex-fill text-center p-3">
                     <i class="fa fa-line-chart fs-2 mb-2" style="color:#0d6efd;"></i>
                     <h5>Doanh thu tháng</h5>
-                    <p><fmt:formatNumber value="${revenueMonth}" type="number"/> VND</p>
+                    <p>
+                        <fmt:formatNumber value="${revenueMonth}" type="number"/> VND
+                    </p>
                 </div>
                 <div class="card flex-fill text-center p-3">
                     <i class="fa fa-shopping-cart fs-2 mb-2" style="color:#0d6efd;"></i>
@@ -208,11 +229,13 @@
 
         <!-- ===== BIỂU ĐỒ DOANH THU 8 NGÀY ===== -->
         <section class="mt-4">
-            <h4 class="mb-3"><i class="bi bi-graph-up-arrow"></i><b> Biểu đồ doanh thu 8 ngày gần nhất</b></h4>
+            <h4 class="mb-3"><i class="bi bi-graph-up-arrow"></i><b> Biểu đồ doanh thu 8 ngày gần
+                nhất</b></h4>
             <div class="card shadow-sm p-3 mb-4">
                 <canvas id="chartDoanhThuNgay" height="250"></canvas>
             </div>
-            <h4 class="mb-3"><i class="bi bi-graph-up-arrow"></i> <b> Biểu đồ doanh thu theo tháng </b></h4>
+            <h4 class="mb-3"><i class="bi bi-graph-up-arrow"></i> <b> Biểu đồ doanh thu theo tháng </b>
+            </h4>
             <div class="card shadow-sm p-3">
                 <canvas id="chartDoanhThuThang" height="250"></canvas>
             </div>
@@ -230,25 +253,29 @@
             lengthChange: false,
             searching: true,
             pageLength: 10,
-            language: { zeroRecords: "Không tìm thấy dữ liệu", emptyTable: "Không có đơn hàng hôm nay" }
+            language: {zeroRecords: "Không tìm thấy dữ liệu", emptyTable: "Không có đơn hàng hôm nay"}
         });
 
         $(".dataTables_filter, .dataTables_paginate").hide();
 
-        $("#searchBox").on("keyup", function () { table.search(this.value).draw(); });
-        $("#rowsPerPage").on("change", function () { table.page.len($(this).val()).draw(); });
+        $("#searchBox").on("keyup", function () {
+            table.search(this.value).draw();
+        });
+        $("#rowsPerPage").on("change", function () {
+            table.page.len($(this).val()).draw();
+        });
     });
 
     // ===== CHART DOANH THU 8 NGÀY =====
     const revenueDays = [
         <c:forEach var="d" items="${revenueDays}" varStatus="st">
-        "${d}"<c:if test="${!st.last}">,</c:if>
+        "${d}"<c:if test="${!st.last}">, </c:if>
         </c:forEach>
     ];
 
     const revenueValues = [
         <c:forEach var="v" items="${revenueValues}" varStatus="st">
-        ${v}<c:if test="${!st.last}">,</c:if>
+        ${v}<c:if test="${!st.last}">, </c:if>
         </c:forEach>
     ];
 
@@ -258,7 +285,7 @@
         data: {
             labels: revenueDays.map(d => {
                 let dt = new Date(d);
-                return ("0"+dt.getDate()).slice(-2) + "/" + ("0"+(dt.getMonth()+1)).slice(-2);
+                return ("0" + dt.getDate()).slice(-2) + "/" + ("0" + (dt.getMonth() + 1)).slice(-2);
             }),
             datasets: [{
                 label: 'Doanh thu (VND)',
@@ -269,21 +296,21 @@
         },
         options: {
             responsive: true,
-            plugins: { legend: { display: false } },
+            plugins: {legend: {display: false}},
             scales: {
-                y: { beginAtZero: true, ticks: { callback: val => val.toLocaleString("vi-VN") + " ₫" } },
-                x: { grid: { display: false } }
+                y: {beginAtZero: true, ticks: {callback: val => val.toLocaleString("vi-VN") + " ₫"}},
+                x: {grid: {display: false}}
             }
         }
     });
     const revenueMonths = [
         <c:forEach var="m" items="${revenueMonths}" varStatus="st">
-        "${m}"<c:if test="${!st.last}">,</c:if>
+        "${m}"<c:if test="${!st.last}">, </c:if>
         </c:forEach>
     ];
     const revenueMonthValues = [
         <c:forEach var="v" items="${revenueMonthValues}" varStatus="st">
-        ${v}<c:if test="${!st.last}">,</c:if>
+        ${v}<c:if test="${!st.last}">, </c:if>
         </c:forEach>
     ];
 
@@ -302,7 +329,7 @@
         options: {
             responsive: true,
             plugins: {
-                legend: { display: false },
+                legend: {display: false},
                 tooltip: {
                     callbacks: {
                         label: ctx => ctx.formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₫"
@@ -310,8 +337,8 @@
                 }
             },
             scales: {
-                y: { beginAtZero: true, ticks: { callback: val => val.toLocaleString("vi-VN") + " ₫" } },
-                x: { grid: { display: false } }
+                y: {beginAtZero: true, ticks: {callback: val => val.toLocaleString("vi-VN") + " ₫"}},
+                x: {grid: {display: false}}
             }
         }
     });

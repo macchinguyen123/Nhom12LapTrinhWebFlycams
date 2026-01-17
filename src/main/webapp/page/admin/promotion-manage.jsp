@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:useBean id="now" class="java.util.Date"/>
 
 
@@ -10,7 +11,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Trang Quản Lý Khuyến Mãi - SkyDrone</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
     <!-- Bootstrap Bundle (gồm cả Popper) -->
@@ -26,7 +28,8 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/admin/promotion-manage.css">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/stylesheets/admin/promotion-manage.css">
 
 </head>
 
@@ -43,7 +46,7 @@
         <a href="profile-admin.jsp" class="text-decoration-none text-while">
             <div class="thong-tin-admin d-flex align-items-center gap-2">
                 <i class="bi bi-person-circle fs-4"></i>
-                <span class="fw-semibold">Admin</span>
+                <span class="fw-semibold">${sessionScope.user.fullName}</span>
             </div>
         </a>
 
@@ -69,14 +72,23 @@
     <!-- === SIDEBAR === -->
     <aside class="sidebar">
         <div class="user-info">
-            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+            <c:choose>
+                <c:when test="${not empty sessionScope.user.avatar}">
+                    <img src="${pageContext.request.contextPath}/uploads/avatar/${sessionScope.user.avatar}?v=${sessionScope.user.updatedAt != null ? sessionScope.user.updatedAt.time : ''}"
+                         alt="Avatar"
+                         style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                </c:when>
+                <c:otherwise>
+                    <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+                </c:otherwise>
+            </c:choose>
 
-            <h3>Mạc Nguyên</h3>
+            <h3>${sessionScope.user.fullName}</h3>
             <p>Chào mừng bạn trở lại 👋</p>
         </div>
 
         <ul class="menu">
-            <a href="dashboard.jsp">
+            <a href="${pageContext.request.contextPath}/admin/dashboard">
                 <li><i class="bi bi-speedometer2"></i> Tổng Quan</li>
             </a>
             <a href="${pageContext.request.contextPath}/admin/customer-manage">
@@ -129,15 +141,30 @@
             <!-- BÊN TRÁI: TÌM KIẾM -->
             <form class="search-box" role="search">
                 <div class="input-group">
-                                    <span class="input-group-text bg-primary text-white">
-                                        <i class="bi bi-search"></i>
-                                    </span>
+                                        <span class="input-group-text bg-primary text-white">
+                                            <i class="bi bi-search"></i>
+                                        </span>
                     <input id="searchBlogInput" type="search" class="form-control"
                            placeholder="Tìm kiếm bài viết...">
                 </div>
             </form>
 
-            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAddPromotion">
+            <!-- HIỂN THỊ THÔNG BÁO -->
+            <c:if test="${not empty sessionScope.infoMsg}">
+                <script>
+                    Swal.fire({
+                        icon: '${fn:contains(sessionScope.infoMsg, "thành công") ? "success" : "error"}',
+                        title: '${fn:contains(sessionScope.infoMsg, "thành công") ? "Thành công" : "Lỗi"}',
+                        text: '${sessionScope.infoMsg}',
+                        timer: 2500,
+                        showConfirmButton: false
+                    });
+                </script>
+                <c:remove var="infoMsg" scope="session"/>
+            </c:if>
+
+            <button class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#modalAddPromotion">
                 <i class="bi bi-plus-lg"></i> Thêm Khuyến Mãi
             </button>
 
@@ -195,8 +222,7 @@
                     <td>
                         <button class="btn btn-warning btn-sm btn-edit" data-id="${p.id}"
                                 data-name="<c:out value='${p.name}'/>"
-                                data-discount="${p.discountValue}"
-                                data-type="${p.discountType}"
+                                data-discount="${p.discountValue}" data-type="${p.discountType}"
                                 data-start="<fmt:formatDate value='${p.startDate}' pattern='yyyy-MM-dd'/>"
                                 data-end="<fmt:formatDate value='${p.endDate}' pattern='yyyy-MM-dd'/>"
                                 data-scope="${scopeMap[p.id]}"
@@ -205,17 +231,10 @@
                             <i class="bi bi-pencil"></i>
                         </button>
 
-                        <form action="${pageContext.request.contextPath}/admin/promotion-manage"
-                              method="post" style="display:inline"
-                              onsubmit="return confirm('Bạn chắc chắn muốn xóa khuyến mãi này?');">
-
-                            <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name="id" value="${p.id}">
-
-                            <button class="btn btn-danger btn-sm">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </form>
+                        <button type="button" class="btn btn-danger btn-sm btn-delete-promotion"
+                                data-id="${p.id}" data-name="<c:out value='${p.name}'/>">
+                            <i class="bi bi-trash"></i>
+                        </button>
 
                     </td>
                 </tr>
@@ -239,7 +258,8 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
 
-            <form action="${pageContext.request.contextPath}/admin/promotion-manage" method="post" id="formAddPromotion">
+            <form action="${pageContext.request.contextPath}/admin/promotion-manage" method="post"
+                  id="formAddPromotion">
 
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title">
@@ -293,16 +313,19 @@
                         <div class="row g-2 mb-3">
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                                        <span class="input-group-text"><i
+                                                                class="bi bi-search"></i></span>
                                     <input type="text" id="add-category-search" class="form-control"
                                            placeholder="Tìm kiếm danh mục...">
                                 </div>
                             </div>
                             <div class="col-md-6 text-end">
-                                <button type="button" class="btn btn-sm btn-outline-primary" id="add-select-all-categories">
+                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                        id="add-select-all-categories">
                                     <i class="bi bi-check-square"></i> Chọn tất cả
                                 </button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary" id="add-deselect-all-categories">
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        id="add-deselect-all-categories">
                                     <i class="bi bi-square"></i> Bỏ chọn tất cả
                                 </button>
                             </div>
@@ -310,7 +333,8 @@
 
                         <!-- Selected Count -->
                         <div class="alert alert-info py-2">
-                            <i class="bi bi-info-circle"></i> Đã chọn: <strong id="add-selected-category-count">0</strong> danh mục
+                            <i class="bi bi-info-circle"></i> Đã chọn: <strong
+                                id="add-selected-category-count">0</strong> danh mục
                         </div>
 
                         <!-- Category List -->
@@ -319,7 +343,8 @@
                                 <div class="product-item" data-category-id="${category.id}"
                                      data-category-name="${category.categoryName}">
                                     <label class="product-checkbox-label">
-                                        <input type="checkbox" class="category-checkbox" value="${category.id}">
+                                        <input type="checkbox" class="category-checkbox"
+                                               value="${category.id}">
                                         <div class="product-info">
                                             <div class="product-image">
                                                 <c:choose>
@@ -335,9 +360,12 @@
                                                 </c:choose>
                                             </div>
                                             <div class="product-details">
-                                                <div class="product-name">${category.categoryName}</div>
+                                                <div class="product-name">${category.categoryName}
+                                                </div>
                                                 <div class="product-id">ID: ${category.id}</div>
-                                                <div class="product-price text-muted">${category.status}</div>
+                                                <div class="product-price text-muted">
+                                                        ${category.status}
+                                                </div>
                                             </div>
                                         </div>
                                     </label>
@@ -346,11 +374,13 @@
                         </div>
 
                         <!-- Selected Categories Preview -->
-                        <div class="mt-3" id="add-selected-category-preview-container" style="display: none;">
+                        <div class="mt-3" id="add-selected-category-preview-container"
+                             style="display: none;">
                             <h6 class="text-success mb-2">
                                 <i class="bi bi-check-circle"></i> Danh mục đã chọn:
                             </h6>
-                            <div class="selected-products-preview" id="add-selected-category-preview">
+                            <div class="selected-products-preview"
+                                 id="add-selected-category-preview">
                                 <!-- Will be populated by JavaScript -->
                             </div>
                         </div>
@@ -366,16 +396,19 @@
                         <div class="row g-2 mb-3">
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                                        <span class="input-group-text"><i
+                                                                class="bi bi-search"></i></span>
                                     <input type="text" id="add-product-search" class="form-control"
                                            placeholder="Tìm kiếm sản phẩm...">
                                 </div>
                             </div>
                             <div class="col-md-6 text-end">
-                                <button type="button" class="btn btn-sm btn-outline-primary" id="add-select-all">
+                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                        id="add-select-all">
                                     <i class="bi bi-check-square"></i> Chọn tất cả
                                 </button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary" id="add-deselect-all">
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        id="add-deselect-all">
                                     <i class="bi bi-square"></i> Bỏ chọn tất cả
                                 </button>
                             </div>
@@ -383,7 +416,8 @@
 
                         <!-- Selected Count -->
                         <div class="alert alert-info py-2">
-                            <i class="bi bi-info-circle"></i> Đã chọn: <strong id="add-selected-count">0</strong> sản phẩm
+                            <i class="bi bi-info-circle"></i> Đã chọn: <strong
+                                id="add-selected-count">0</strong> sản phẩm
                         </div>
 
                         <!-- Product List -->
@@ -392,23 +426,28 @@
                                 <div class="product-item" data-product-id="${product.id}"
                                      data-product-name="${product.productName}">
                                     <label class="product-checkbox-label">
-                                        <input type="checkbox" class="product-checkbox" value="${product.id}">
+                                        <input type="checkbox" class="product-checkbox"
+                                               value="${product.id}">
                                         <div class="product-info">
                                             <div class="product-image">
                                                 <c:choose>
                                                     <c:when test="${not empty product.mainImage}">
-                                                        <img src="${product.mainImage}" alt="${product.productName}">
+                                                        <img src="${product.mainImage}"
+                                                             alt="${product.productName}">
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <img src="${pageContext.request.contextPath}/assets/no-image.png" alt="No Image">
+                                                        <img src="${pageContext.request.contextPath}/assets/no-image.png"
+                                                             alt="No Image">
                                                     </c:otherwise>
                                                 </c:choose>
                                             </div>
                                             <div class="product-details">
-                                                <div class="product-name">${product.productName}</div>
+                                                <div class="product-name">${product.productName}
+                                                </div>
                                                 <div class="product-id">ID: ${product.id}</div>
                                                 <div class="product-price">
-                                                    <fmt:formatNumber value="${product.price}" type="number"/> đ
+                                                    <fmt:formatNumber value="${product.price}"
+                                                                      type="number"/> đ
                                                 </div>
                                             </div>
                                         </div>
@@ -418,7 +457,8 @@
                         </div>
 
                         <!-- Selected Products Preview -->
-                        <div class="mt-3" id="add-selected-preview-container" style="display: none;">
+                        <div class="mt-3" id="add-selected-preview-container"
+                             style="display: none;">
                             <h6 class="text-success mb-2">
                                 <i class="bi bi-check-circle"></i> Sản phẩm đã chọn:
                             </h6>
@@ -442,7 +482,9 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Hủy
+                    </button>
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-save"></i> Lưu
                     </button>
@@ -459,7 +501,8 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
 
-            <form action="${pageContext.request.contextPath}/admin/promotion-manage" method="post" id="formEditPromotion">
+            <form action="${pageContext.request.contextPath}/admin/promotion-manage" method="post"
+                  id="formEditPromotion">
 
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" name="id" id="edit-id">
@@ -514,16 +557,19 @@
                         <div class="row g-2 mb-3">
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-search"></i></span>
-                                    <input type="text" id="edit-category-search" class="form-control"
-                                           placeholder="Tìm kiếm danh mục...">
+                                                        <span class="input-group-text"><i
+                                                                class="bi bi-search"></i></span>
+                                    <input type="text" id="edit-category-search"
+                                           class="form-control" placeholder="Tìm kiếm danh mục...">
                                 </div>
                             </div>
                             <div class="col-md-6 text-end">
-                                <button type="button" class="btn btn-sm btn-outline-primary" id="edit-select-all-categories">
+                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                        id="edit-select-all-categories">
                                     <i class="bi bi-check-square"></i> Chọn tất cả
                                 </button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary" id="edit-deselect-all-categories">
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        id="edit-deselect-all-categories">
                                     <i class="bi bi-square"></i> Bỏ chọn tất cả
                                 </button>
                             </div>
@@ -531,7 +577,8 @@
 
                         <!-- Selected Count -->
                         <div class="alert alert-info py-2">
-                            <i class="bi bi-info-circle"></i> Đã chọn: <strong id="edit-selected-category-count">0</strong> danh mục
+                            <i class="bi bi-info-circle"></i> Đã chọn: <strong
+                                id="edit-selected-category-count">0</strong> danh mục
                         </div>
 
                         <!-- Category List -->
@@ -540,7 +587,8 @@
                                 <div class="product-item" data-category-id="${category.id}"
                                      data-category-name="${category.categoryName}">
                                     <label class="product-checkbox-label">
-                                        <input type="checkbox" class="category-checkbox-edit" value="${category.id}">
+                                        <input type="checkbox" class="category-checkbox-edit"
+                                               value="${category.id}">
                                         <div class="product-info">
                                             <div class="product-image">
                                                 <c:choose>
@@ -556,9 +604,12 @@
                                                 </c:choose>
                                             </div>
                                             <div class="product-details">
-                                                <div class="product-name">${category.categoryName}</div>
+                                                <div class="product-name">${category.categoryName}
+                                                </div>
                                                 <div class="product-id">ID: ${category.id}</div>
-                                                <div class="product-price text-muted">${category.status}</div>
+                                                <div class="product-price text-muted">
+                                                        ${category.status}
+                                                </div>
                                             </div>
                                         </div>
                                     </label>
@@ -567,11 +618,13 @@
                         </div>
 
                         <!-- Selected Categories Preview -->
-                        <div class="mt-3" id="edit-selected-category-preview-container" style="display: none;">
+                        <div class="mt-3" id="edit-selected-category-preview-container"
+                             style="display: none;">
                             <h6 class="text-success mb-2">
                                 <i class="bi bi-check-circle"></i> Danh mục đã chọn:
                             </h6>
-                            <div class="selected-products-preview" id="edit-selected-category-preview">
+                            <div class="selected-products-preview"
+                                 id="edit-selected-category-preview">
                                 <!-- Will be populated by JavaScript -->
                             </div>
                         </div>
@@ -587,16 +640,19 @@
                         <div class="row g-2 mb-3">
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                                        <span class="input-group-text"><i
+                                                                class="bi bi-search"></i></span>
                                     <input type="text" id="edit-product-search" class="form-control"
                                            placeholder="Tìm kiếm sản phẩm...">
                                 </div>
                             </div>
                             <div class="col-md-6 text-end">
-                                <button type="button" class="btn btn-sm btn-outline-primary" id="edit-select-all">
+                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                        id="edit-select-all">
                                     <i class="bi bi-check-square"></i> Chọn tất cả
                                 </button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary" id="edit-deselect-all">
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        id="edit-deselect-all">
                                     <i class="bi bi-square"></i> Bỏ chọn tất cả
                                 </button>
                             </div>
@@ -604,7 +660,8 @@
 
                         <!-- Selected Count -->
                         <div class="alert alert-info py-2">
-                            <i class="bi bi-info-circle"></i> Đã chọn: <strong id="edit-selected-count">0</strong> sản phẩm
+                            <i class="bi bi-info-circle"></i> Đã chọn: <strong
+                                id="edit-selected-count">0</strong> sản phẩm
                         </div>
 
                         <!-- Product List -->
@@ -613,7 +670,8 @@
                                 <div class="product-item" data-product-id="${product.id}"
                                      data-product-name="${product.productName}">
                                     <label class="product-checkbox-label">
-                                        <input type="checkbox" class="product-checkbox-edit" value="${product.id}">
+                                        <input type="checkbox" class="product-checkbox-edit"
+                                               value="${product.id}">
                                         <div class="product-info">
                                             <div class="product-image">
                                                 <c:choose>
@@ -629,10 +687,12 @@
                                                 </c:choose>
                                             </div>
                                             <div class="product-details">
-                                                <div class="product-name">${product.productName}</div>
+                                                <div class="product-name">${product.productName}
+                                                </div>
                                                 <div class="product-id">ID: ${product.id}</div>
                                                 <div class="product-price">
-                                                    <fmt:formatNumber value="${product.price}" type="number"/> đ
+                                                    <fmt:formatNumber value="${product.price}"
+                                                                      type="number"/> đ
                                                 </div>
                                             </div>
                                         </div>
@@ -642,7 +702,8 @@
                         </div>
 
                         <!-- Selected Products Preview -->
-                        <div class="mt-3" id="edit-selected-preview-container" style="display: none;">
+                        <div class="mt-3" id="edit-selected-preview-container"
+                             style="display: none;">
                             <h6 class="text-success mb-2">
                                 <i class="bi bi-check-circle"></i> Sản phẩm đã chọn:
                             </h6>
@@ -662,13 +723,16 @@
 
                     <div class="col-md-6">
                         <label class="form-label">Ngày kết thúc</label>
-                        <input type="date" name="endDate" id="edit-end" class="form-control" required>
+                        <input type="date" name="endDate" id="edit-end" class="form-control"
+                               required>
                     </div>
 
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Hủy
+                    </button>
                     <button type="submit" class="btn btn-warning">
                         <i class="bi bi-save"></i> Lưu thay đổi
                     </button>
@@ -737,7 +801,7 @@
 
         filterProducts(searchTerm) {
             const term = searchTerm.toLowerCase();
-            $('#' + this.prefix + '-product-list .product-item').each(function() {
+            $('#' + this.prefix + '-product-list .product-item').each(function () {
                 const name = $(this).data('product-name').toLowerCase();
                 const id = $(this).data('product-id').toString();
                 if (name.includes(term) || id.includes(term)) {
@@ -807,7 +871,7 @@
 
         renderPreview() {
             const self = this;
-            const previewHtml = Array.from(this.selectedProducts).map(function(productId) {
+            const previewHtml = Array.from(this.selectedProducts).map(function (productId) {
                 const productItem = $('#' + self.prefix + '-product-list .product-item[data-product-id="' + productId + '"]');
                 const productName = productItem.data('product-name');
                 return '<div class="selected-product-tag">' +
@@ -827,7 +891,7 @@
             $('#' + this.prefix + '-product-list .product-item').removeClass('selected');
 
             if (productIds && productIds.length > 0) {
-                productIds.forEach(function(id) {
+                productIds.forEach(function (id) {
                     self.selectedProducts.add(id.toString());
                     const checkbox = $('#' + self.prefix + '-product-list .product-checkbox' + (self.prefix === 'edit' ? '-edit' : '') + '[value="' + id + '"]');
                     checkbox.prop('checked', true);
@@ -852,7 +916,7 @@
     const editProductManager = new ProductSelectionManager('edit');
 
     // Scope change handlers for Add modal
-    $('#add-scope').on('change', function() {
+    $('#add-scope').on('change', function () {
         const scope = $(this).val();
         $('#add-product-selection-box').addClass('d-none');
         $('#add-category-box').addClass('d-none');
@@ -869,7 +933,7 @@
     });
 
     // Scope change handlers for Edit modal
-    $('#edit-scope').on('change', function() {
+    $('#edit-scope').on('change', function () {
         const scope = $(this).val();
         $('#edit-product-selection-box').addClass('d-none');
         $('#edit-category-box').addClass('d-none');
@@ -888,7 +952,7 @@
     // Edit button handler - UPDATED WITH PRODUCT LOADING
     // Thay thế đoạn code xử lý nút Edit hiện tại bằng code này:
 
-    $(document).on('click', '.btn-edit', function() {
+    $(document).on('click', '.btn-edit', function () {
         const btn = $(this);
         const promotionId = btn.data('id');
 
@@ -911,7 +975,7 @@
 
         // Load selected products if scope is PRODUCT
         if (scope === 'PRODUCT') {
-            setTimeout(function() {
+            setTimeout(function () {
                 const productIdsString = btn.data('product-ids');
                 if (productIdsString && productIdsString.toString().trim() !== '') {
                     const idsStr = productIdsString.toString().replace(/[\[\]]/g, '').trim();
@@ -929,7 +993,7 @@
                 }
             }, 150);
         } else if (scope === 'CATEGORY') {
-            setTimeout(function() {
+            setTimeout(function () {
                 const categoryIdsString = btn.data('category-ids');
                 if (categoryIdsString && categoryIdsString.toString().trim() !== '') {
                     const idsStr = categoryIdsString.toString().replace(/[\[\]]/g, '').trim();
@@ -963,7 +1027,7 @@
     });
 
     // ✅ THÊM: Xử lý sự kiện khi modal đóng
-    $('#modalEditPromotion').on('hidden.bs.modal', function() {
+    $('#modalEditPromotion').on('hidden.bs.modal', function () {
         editProductManager.reset();
         editCategoryManager.reset();
 
@@ -974,7 +1038,7 @@
         $('body').css('padding-right', '');
     });
 
-    $('#modalAddPromotion').on('hidden.bs.modal', function() {
+    $('#modalAddPromotion').on('hidden.bs.modal', function () {
         addProductManager.reset();
         addCategoryManager.reset();
         $('#formAddPromotion')[0].reset();
@@ -987,7 +1051,7 @@
     });
 
     // ✅ THÊM: Xử lý toàn cục cho tất cả các modal
-    $(document).on('click', '[data-bs-dismiss="modal"]', function() {
+    $(document).on('click', '[data-bs-dismiss="modal"]', function () {
         const modal = $(this).closest('.modal');
         const modalInstance = bootstrap.Modal.getInstance(modal[0]);
         if (modalInstance) {
@@ -995,7 +1059,7 @@
         }
 
         // Cleanup backup
-        setTimeout(function() {
+        setTimeout(function () {
             $('.modal-backdrop').remove();
             $('body').removeClass('modal-open');
             $('body').css('overflow', '');
@@ -1004,28 +1068,28 @@
     });
 
     // Reset on modal close
-    $('#modalAddPromotion').on('hidden.bs.modal', function() {
+    $('#modalAddPromotion').on('hidden.bs.modal', function () {
         addProductManager.reset();
         $('#formAddPromotion')[0].reset();
     });
 
-    $('#modalEditPromotion').on('hidden.bs.modal', function() {
+    $('#modalEditPromotion').on('hidden.bs.modal', function () {
         editProductManager.reset();
     });
 </script>
 
 <script>
     // Logout functionality
-    $('#logoutBtn').on('click', function() {
+    $('#logoutBtn').on('click', function () {
         $('#logoutModal').css('display', 'flex');
     });
 
-    $('#cancelLogout').on('click', function() {
+    $('#cancelLogout').on('click', function () {
         $('#logoutModal').css('display', 'none');
     });
 
     // Submenu toggle
-    $('.has-submenu').on('click', function() {
+    $('.has-submenu').on('click', function () {
         $(this).toggleClass('open');
     });
 </script>
@@ -1072,7 +1136,7 @@
 
         filterCategories(searchTerm) {
             const term = searchTerm.toLowerCase();
-            $('#' + this.prefix + '-category-list .product-item').each(function() {
+            $('#' + this.prefix + '-category-list .product-item').each(function () {
                 const name = $(this).data('category-name').toLowerCase();
                 const id = $(this).data('category-id').toString();
                 if (name.includes(term) || id.includes(term)) {
@@ -1142,7 +1206,7 @@
 
         renderPreview() {
             const self = this;
-            const previewHtml = Array.from(this.selectedCategories).map(function(categoryId) {
+            const previewHtml = Array.from(this.selectedCategories).map(function (categoryId) {
                 const categoryItem = $('#' + self.prefix + '-category-list .product-item[data-category-id="' + categoryId + '"]');
                 const categoryName = categoryItem.data('category-name');
                 return '<div class="selected-product-tag">' +
@@ -1162,7 +1226,7 @@
             $('#' + this.prefix + '-category-list .product-item').removeClass('selected');
 
             if (categoryIds && categoryIds.length > 0) {
-                categoryIds.forEach(function(id) {
+                categoryIds.forEach(function (id) {
                     self.selectedCategories.add(id.toString());
                     const checkbox = $('#' + self.prefix + '-category-list .category-checkbox' + (self.prefix === 'edit' ? '-edit' : '') + '[value="' + id + '"]');
                     checkbox.prop('checked', true);
@@ -1187,7 +1251,7 @@
     const editCategoryManager = new CategorySelectionManager('edit');
 
     // Update scope change handlers for Add modal
-    $('#add-scope').on('change', function() {
+    $('#add-scope').on('change', function () {
         const scope = $(this).val();
         $('#add-product-selection-box').addClass('d-none');
         $('#add-category-selection-box').addClass('d-none');
@@ -1207,7 +1271,7 @@
     });
 
     // Update scope change handlers for Edit modal
-    $('#edit-scope').on('change', function() {
+    $('#edit-scope').on('change', function () {
         const scope = $(this).val();
         $('#edit-product-selection-box').addClass('d-none');
         $('#edit-category-selection-box').addClass('d-none');
@@ -1227,7 +1291,7 @@
     });
 
     // Update Edit button handler to load categories
-    $(document).on('click', '.btn-edit', function() {
+    $(document).on('click', '.btn-edit', function () {
         const btn = $(this);
         const promotionId = btn.data('id');
 
@@ -1250,7 +1314,7 @@
 
         // Load selected products or categories
         if (scope === 'PRODUCT') {
-            setTimeout(function() {
+            setTimeout(function () {
                 const productIdsString = btn.data('product-ids');
                 if (productIdsString && productIdsString.toString().trim() !== '') {
                     const idsStr = productIdsString.toString().replace(/[\[\]]/g, '').trim();
@@ -1265,7 +1329,7 @@
                 }
             }, 150);
         } else if (scope === 'CATEGORY') {
-            setTimeout(function() {
+            setTimeout(function () {
                 const categoryIdsString = btn.data('category-ids');
                 if (categoryIdsString && categoryIdsString.toString().trim() !== '') {
                     const idsStr = categoryIdsString.toString().replace(/[\[\]]/g, '').trim();
@@ -1289,14 +1353,53 @@
     });
 
     // Reset on modal close
-    $('#modalAddPromotion').on('hidden.bs.modal', function() {
+    $('#modalAddPromotion').on('hidden.bs.modal', function () {
         addProductManager.reset();
         addCategoryManager.reset();
         $('#formAddPromotion')[0].reset();
     });
 
-    $('#modalEditPromotion').on('hidden.bs.modal', function() {
+    $('#modalEditPromotion').on('hidden.bs.modal', function () {
         editProductManager.reset();
         editCategoryManager.reset();
+    });
+
+    // Xử lý xóa khuyến mãi với SweetAlert2
+    $(document).on('click', '.btn-delete-promotion', function () {
+        const promotionId = $(this).data('id');
+        const promotionName = $(this).data('name');
+
+        Swal.fire({
+            title: 'Xác nhận xóa?',
+            html: `Bạn có chắc chắn muốn xóa khuyến mãi <b>${promotionName}</b>? <br> Hành động này không thể hoàn tác!`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Xóa ngay',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Gửi form ẩn để thực hiện xóa
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '${pageContext.request.contextPath}/admin/promotion-manage';
+
+                const actionInput = document.createElement('input');
+                actionInput.type = 'hidden';
+                actionInput.name = 'action';
+                actionInput.value = 'delete';
+                form.appendChild(actionInput);
+
+                const idInput = document.createElement('input');
+                idInput.type = 'hidden';
+                idInput.name = 'id';
+                idInput.value = promotionId;
+                form.appendChild(idInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
     });
 </script>
