@@ -127,6 +127,9 @@
                 <a href="${pageContext.request.contextPath}/admin/statistics"><i
                         class="bi bi-bar-chart"></i> Báo Cáo & Thống Kê</a>
             </li>
+            <a href="${pageContext.request.contextPath}/admin/banner-manage">
+                <li><i class="bi bi-images"></i> Quản Lý Banner</li>
+            </a>
         </ul>
     </aside>
 
