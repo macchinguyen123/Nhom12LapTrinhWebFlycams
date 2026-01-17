@@ -609,7 +609,7 @@
                                                 class="btn btn-sm btn-primary">Sửa
                                         </button>
                                         <a href="${pageContext.request.contextPath}/DeleteAddressServlet?id=${addr.id}"
-                                           onclick="return confirm('Bạn có chắc muốn xóa địa chỉ này?')"
+                                           onclick="confirmDeleteAddress(event, this.href); return false;"
                                            class="btn btn-sm btn-danger">Xóa</a>
                                     </div>
                                 </div>
@@ -650,14 +650,22 @@
                             <input type="text" name="addressLine" id="addressLine" required>
                         </div>
 
+                        <!-- ✅ THAY ĐỔI: Dropdown Province -->
                         <div class="form-group">
                             <label for="province">Tỉnh/Thành phố</label>
-                            <input type="text" name="province" id="province" required>
+                            <select name="province" id="province" required>
+                                <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                            </select>
+                            <input type="hidden" name="provinceCode" id="provinceCodeInput">
                         </div>
 
+                        <!-- ✅ THAY ĐỔI: Dropdown Ward -->
                         <div class="form-group">
-                            <label for="district">Quận/Huyện</label>
-                            <input type="text" name="district" id="district" required>
+                            <label for="ward">Phường/Xã</label>
+                            <select name="district" id="ward" required disabled>
+                                <option value="">-- Chọn Phường/Xã --</option>
+                            </select>
+                            <input type="hidden" name="wardCode" id="wardCodeInput">
                         </div>
 
                         <div class="checkbox-group">
@@ -694,14 +702,22 @@
                             <input type="text" name="addressLine" id="editAddressLine" required>
                         </div>
 
+                        <!-- ✅ THAY ĐỔI: Dropdown Province cho Edit -->
                         <div class="form-group">
                             <label for="editProvince">Tỉnh/Thành phố</label>
-                            <input type="text" name="province" id="editProvince" required>
+                            <select name="province" id="editProvince" required>
+                                <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                            </select>
+                            <input type="hidden" name="provinceCode" id="editProvinceCodeInput">
                         </div>
 
+                        <!-- ✅ THAY ĐỔI: Dropdown Ward cho Edit -->
                         <div class="form-group">
-                            <label for="editDistrict">Quận/Huyện</label>
-                            <input type="text" name="district" id="editDistrict" required>
+                            <label for="editWard">Phường/Xã</label>
+                            <select name="district" id="editWard" required disabled>
+                                <option value="">-- Chọn Phường/Xã --</option>
+                            </select>
+                            <input type="hidden" name="wardCode" id="editWardCodeInput">
                         </div>
 
                         <div class="checkbox-group">
@@ -1175,15 +1191,88 @@
     });
 
     // Hàm mở popup sửa và điền dữ liệu
+    // ✅ Hàm mở popup sửa với API địa chỉ
     function openEditPopup(id, fullName, phoneNumber, addressLine, province, district, isDefault) {
+        // Fill thông tin cơ bản
         document.getElementById("editId").value = id;
         document.getElementById("editFullName").value = fullName;
         document.getElementById("editPhoneNumber").value = phoneNumber;
         document.getElementById("editAddressLine").value = addressLine;
-        document.getElementById("editProvince").value = province;
-        document.getElementById("editDistrict").value = district;
         document.getElementById("editIsDefault").checked = isDefault;
 
+        // Load danh sách tỉnh nếu chưa có
+        if (editProvinceSelect.options.length <= 1) {
+            console.log("🔄 Loading provinces for edit...");
+            fetch(API_BASE)
+                .then(res => res.json())
+                .then(provinces => {
+                    editProvinceSelect.innerHTML = '<option value="">-- Chọn Tỉnh/Thành phố --</option>';
+                    provinces.forEach(p => {
+                        const opt = document.createElement("option");
+                        opt.value = p.name;
+                        opt.textContent = p.name;
+                        opt.dataset.code = p.code;
+
+                        // ✅ Auto-select nếu khớp
+                        if (p.name === province) {
+                            opt.selected = true;
+                        }
+
+                        editProvinceSelect.appendChild(opt);
+                    });
+
+                    console.log("✅ Loaded provinces, now loading wards...");
+
+                    // Trigger load wards
+                    const selectedProvince = editProvinceSelect.options[editProvinceSelect.selectedIndex];
+                    if (selectedProvince && selectedProvince.dataset.code) {
+                        const code = selectedProvince.dataset.code;
+                        document.getElementById("editProvinceCodeInput").value = code;
+
+                        fetch(API_BASE + "/p/" + code + "?depth=2")
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.wards && data.wards.length > 0) {
+                                    editWardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+                                    data.wards.forEach(w => {
+                                        const wardOpt = document.createElement("option");
+                                        wardOpt.value = w.name;
+                                        wardOpt.textContent = w.name;
+                                        wardOpt.dataset.code = w.code;
+
+                                        // ✅ Auto-select ward nếu khớp
+                                        if (w.name === district) {
+                                            wardOpt.selected = true;
+                                            document.getElementById("editWardCodeInput").value = w.code;
+                                        }
+
+                                        editWardSelect.appendChild(wardOpt);
+                                    });
+                                    editWardSelect.disabled = false;
+                                    console.log("✅ Loaded wards for edit");
+                                }
+                            });
+                    }
+                })
+                .catch(err => {
+                    console.error("❌ Error loading provinces:", err);
+                });
+        } else {
+            // Nếu đã load rồi, chỉ cần select
+            editProvinceSelect.value = province;
+            editProvinceSelect.dispatchEvent(new Event('change'));
+
+            // Sau khi load xong ward, select district
+            setTimeout(() => {
+                editWardSelect.value = district;
+                const selectedWard = editWardSelect.options[editWardSelect.selectedIndex];
+                if (selectedWard && selectedWard.dataset.code) {
+                    document.getElementById("editWardCodeInput").value = selectedWard.dataset.code;
+                }
+            }, 500);
+        }
+
+        // Mở popup
         document.getElementById("editPopup").classList.remove("hidden");
     }
 </script>
@@ -1229,6 +1318,145 @@
         }
     });
 </script>
+<script>
+    // ================ API ĐỊA CHỈ CHO POPUP THÊM/SỬA ================
+    const API_BASE = "${pageContext.request.contextPath}/api/provinces";
+
+    // ========== POPUP THÊM ĐỊA CHỈ ==========
+    const provinceSelect = document.getElementById("province");
+    const wardSelect = document.getElementById("ward");
+    let provincesData = []; // Lưu danh sách provinces
+
+    // 1️⃣ Load Tỉnh/Thành phố khi mở popup THÊM
+    document.getElementById("openPopup").addEventListener("click", function () {
+        if (provincesData.length === 0) {
+            console.log("🔄 Loading provinces...");
+            fetch(API_BASE)
+                .then(res => res.json())
+                .then(provinces => {
+                    provincesData = provinces;
+                    provinceSelect.innerHTML = '<option value="">-- Chọn Tỉnh/Thành phố --</option>';
+                    provinces.forEach(p => {
+                        const opt = document.createElement("option");
+                        opt.value = p.name;
+                        opt.textContent = p.name;
+                        opt.dataset.code = p.code;
+                        provinceSelect.appendChild(opt);
+                    });
+                    console.log("✅ Loaded " + provinces.length + " provinces");
+                })
+                .catch(err => {
+                    console.error("❌ Error loading provinces:", err);
+                    alert("Không thể tải danh sách tỉnh/thành phố");
+                });
+        }
+    });
+
+    // 2️⃣ Khi chọn Tỉnh → Load Phường/Xã (THÊM)
+    provinceSelect.addEventListener("change", function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const code = selectedOption.dataset.code;
+
+        document.getElementById("provinceCodeInput").value = code || '';
+        wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+        wardSelect.disabled = true;
+        document.getElementById("wardCodeInput").value = '';
+
+        if (!code) return;
+
+        console.log("🔄 Loading wards for:", code);
+        fetch(API_BASE + "/p/" + code + "?depth=2")
+            .then(res => res.json())
+            .then(data => {
+                if (data.wards && data.wards.length > 0) {
+                    data.wards.forEach(w => {
+                        const opt = document.createElement("option");
+                        opt.value = w.name;
+                        opt.textContent = w.name;
+                        opt.dataset.code = w.code;
+                        wardSelect.appendChild(opt);
+                    });
+                    wardSelect.disabled = false;
+                    console.log("✅ Loaded " + data.wards.length + " wards");
+                }
+            })
+            .catch(err => {
+                console.error("❌ Error loading wards:", err);
+                alert("Không thể tải danh sách phường/xã");
+            });
+    });
+
+    // 3️⃣ Cập nhật ward code (THÊM)
+    wardSelect.addEventListener("change", function () {
+        const selectedOption = this.options[this.selectedIndex];
+        document.getElementById("wardCodeInput").value = selectedOption.dataset.code || '';
+    });
+
+    // ========== POPUP SỬA ĐỊA CHỈ ==========
+    const editProvinceSelect = document.getElementById("editProvince");
+    const editWardSelect = document.getElementById("editWard");
+
+    // 4️⃣ Khi chọn Tỉnh → Load Phường/Xã (SỬA)
+    editProvinceSelect.addEventListener("change", function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const code = selectedOption.dataset.code;
+
+        document.getElementById("editProvinceCodeInput").value = code || '';
+        editWardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+        editWardSelect.disabled = true;
+        document.getElementById("editWardCodeInput").value = '';
+
+        if (!code) return;
+
+        console.log("🔄 Loading wards for edit:", code);
+        fetch(API_BASE + "/p/" + code + "?depth=2")
+            .then(res => res.json())
+            .then(data => {
+                if (data.wards && data.wards.length > 0) {
+                    data.wards.forEach(w => {
+                        const opt = document.createElement("option");
+                        opt.value = w.name;
+                        opt.textContent = w.name;
+                        opt.dataset.code = w.code;
+                        editWardSelect.appendChild(opt);
+                    });
+                    editWardSelect.disabled = false;
+                    console.log("✅ Loaded " + data.wards.length + " wards for edit");
+                }
+            })
+            .catch(err => {
+                console.error("❌ Error loading wards:", err);
+            });
+    });
+
+    // 5️⃣ Cập nhật ward code (SỬA)
+    editWardSelect.addEventListener("change", function () {
+        const selectedOption = this.options[this.selectedIndex];
+        document.getElementById("editWardCodeInput").value = selectedOption.dataset.code || '';
+    });
+</script>
+
+<script>
+    function confirmDeleteAddress(e, url) {
+        if (e) e.preventDefault();
+
+        Swal.fire({
+            title: 'Xác nhận xóa',
+            text: "Bạn có chắc muốn xóa địa chỉ này?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Xóa ngay',
+            cancelButtonText: 'Hủy bỏ'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url;
+            }
+        });
+    }
+</script>
 </body>
+
 
 </html>
