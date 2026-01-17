@@ -127,7 +127,7 @@
                     icon: 'success',
                     title: 'Thành công',
                     text: 'Đã cập nhật ảnh đại diện!',
-                    timer: 2000,
+                    timer: 1000,
                     showConfirmButton: false
                 });
             }
@@ -200,14 +200,13 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="fullName">Họ tên</label>
-                        <input type="text" name="fullName" id="fullName"
-                               value="${user.fullName}" required>
+                        <input type="text" name="fullName" id="fullName" value="${user.fullName}"
+                               required>
                     </div>
 
                     <div class="form-group">
-                        <label for="username">Tên đăng nhập</label>
-                        <input type="text" id="username"
-                               value="${user.username}" readonly>
+                        <label for="username">Tên tài khoản</label>
+                        <input type="text" name="username" id="username" value="${user.username}">
                     </div>
                 </div>
 
@@ -215,8 +214,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="text" id="email"
-                               value="${user.email}" readonly>
+                        <input type="text" id="email" value="${user.email}" readonly>
                     </div>
 
                     <div class="form-group">
@@ -231,9 +229,11 @@
                     <div class="form-group">
                         <label for="gender">Giới tính</label>
                         <select name="gender" id="gender">
-                            <option value="Nam" ${user.gender eq 'Nam' ? 'selected' : ''}>Nam</option>
-                            <option value="Nữ" ${user.gender eq 'Nữ' ? 'selected' : ''}>Nữ</option>
-                            <option value="" ${empty user.gender ? 'selected' : ''}>Chưa chọn</option>
+                            <option value="Nam" ${user.gender eq 'Nam' ? 'selected' : '' }>Nam
+                            </option>
+                            <option value="Nữ" ${user.gender eq 'Nữ' ? 'selected' : '' }>Nữ</option>
+                            <option value="" ${empty user.gender ? 'selected' : '' }>Chưa chọn
+                            </option>
                         </select>
                     </div>
 
@@ -250,13 +250,14 @@
         </section>
 
 
-        <section id="repass-section" class="section">
+        <section id="repass-section" class="section" style="max-width: 450px; margin: 0 auto;">
             <h2>Đổi Mật Khẩu</h2>
             <p class="desc">Vui lòng xác minh qua mã OTP để đảm bảo an toàn cho tài khoản của bạn
             </p>
 
             <form id="passwordForm" class="password-form" method="post"
                   action="SendOtpChangePassword">
+
 
                 <div class="form-group">
                     <label for="currentPassword">Mật khẩu hiện tại</label>
@@ -435,15 +436,16 @@
 
                                 <div class="alert alert-warning" role="alert">
                                     <i class="bi bi-info-circle-fill me-2"></i>
-                                    Bạn có chắc chắn muốn hủy đơn hàng này? Hành động này không thể hoàn tác.
+                                    Bạn có chắc chắn muốn hủy đơn hàng này? Hành động này không thể
+                                    hoàn tác.
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="cancelReason" class="form-label">
-                                        Lý do hủy đơn <span class="text-muted">(không bắt buộc)</span>
+                                        Lý do hủy đơn <span class="text-muted">(không bắt
+                                                                buộc)</span>
                                     </label>
-                                    <textarea class="form-control" id="cancelReason"
-                                              rows="3"
+                                    <textarea class="form-control" id="cancelReason" rows="3"
                                               placeholder="Ví dụ: Tôi muốn thay đổi địa chỉ giao hàng, Tôi tìm được giá tốt hơn..."></textarea>
                                     <small class="text-muted">
                                         <!-- ❗ Lý do chỉ để tham khảo, không được lưu vào hệ thống -->
@@ -602,8 +604,10 @@
                                         </c:if>
                                     </div>
                                     <div class="address-item__actions">
-                                        <button onclick="openEditPopup(${addr.id}, '${addr.fullName}', '${addr.phoneNumber}', '${addr.addressLine}', '${addr.province}', '${addr.district}', ${addr.defaultAddress})"
-                                                class="btn btn-sm btn-primary">Sửa</button>
+                                        <button
+                                                onclick="openEditPopup(${addr.id}, '${addr.fullName}', '${addr.phoneNumber}', '${addr.addressLine}', '${addr.province}', '${addr.district}', ${addr.defaultAddress})"
+                                                class="btn btn-sm btn-primary">Sửa
+                                        </button>
                                         <a href="${pageContext.request.contextPath}/DeleteAddressServlet?id=${addr.id}"
                                            onclick="return confirm('Bạn có chắc muốn xóa địa chỉ này?')"
                                            class="btn btn-sm btn-danger">Xóa</a>
@@ -614,20 +618,23 @@
                     </ul>
                 </c:if>
                 <c:if test="${empty addresses}">
-                    <p style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                    <p
+                            style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
                         <i class="bi bi-inbox" style="font-size: 48px; color: #ccc;"></i>
                         <span>Chưa có địa chỉ nào.</span>
                     </p>
                 </c:if>
             </div>
 
-            <p class="instruction">Vui lòng nhập đầy đủ thông tin để đảm bảo đơn hàng được giao chính xác</p>
+            <p class="instruction">Vui lòng nhập đầy đủ thông tin để đảm bảo đơn hàng được giao
+                chính xác</p>
             <!-- Popup Thêm địa chỉ -->
             <div id="popup" class="popup hidden">
                 <div class="popup-content">
                     <span id="closePopup" class="close">&times;</span>
                     <h2>Thêm địa chỉ</h2>
-                    <form action="${pageContext.request.contextPath}/AddAddressServlet" method="post">
+                    <form action="${pageContext.request.contextPath}/AddAddressServlet"
+                          method="post">
                         <div class="form-group">
                             <label for="fullName">Họ tên</label>
                             <input type="text" name="fullName" id="fullName" required>
@@ -668,7 +675,8 @@
                 <div class="popup-content">
                     <span id="closeEditPopup" class="close">&times;</span>
                     <h2>Sửa địa chỉ</h2>
-                    <form action="${pageContext.request.contextPath}/EditAddressServlet" method="post">
+                    <form action="${pageContext.request.contextPath}/EditAddressServlet"
+                          method="post">
                         <input type="hidden" name="id" id="editId">
 
                         <div class="form-group">
@@ -807,7 +815,7 @@
                         icon: "success",
                         title: "Đã lưu thành công!",
                         text: "Ảnh đại diện đã được cập nhật vĩnh viễn.",
-                        timer: 2000,
+                        timer: 1000,
                         showConfirmButton: false
                     });
                 }).catch(err => {
@@ -955,27 +963,51 @@
         }
 
         // Nếu OK -> Gửi OTP
-        fetch("SendOtpChangePassword", {method: "POST"})
-            .then(() => {
-                // Hiển thị khung nhập OTP và đổi nút (Luồng cũ của người dùng)
-                document.querySelector(".otp-group").style.display = "block";
-                document.getElementById("sendOtpBtn").style.display = "none";
-                document.getElementById("confirmChangeBtn").style.display = "inline-block";
+        const formData = new FormData();
 
-                // Thông báo nhẹ nhàng không chặn luồng
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true
-                });
-                Toast.fire({
-                    icon: 'success',
-                    title: 'Mã OTP đã được gửi đến email của bạn'
-                });
+        // HIỆN KHUNG OTP LIỀN (UX)
+        document.querySelector(".otp-group").style.display = "block";
+        document.getElementById("sendOtpBtn").style.display = "none";
+        document.getElementById("confirmChangeBtn").style.display = "inline-block";
+
+        fetch("${pageContext.request.contextPath}/SendOtpChangePassword", {
+            method: "POST",
+            body: new URLSearchParams(formData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "ok") {
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 1000,
+                        timerProgressBar: true
+                    });
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Mã OTP đã được gửi đến email của bạn'
+                    });
+                } else {
+                    // Nếu lỗi -> Ẩn lại (hoặc giữ nguyên tùy ý, ở đây ẩn lại cho chắc)
+                    document.querySelector(".otp-group").style.display = "none";
+                    document.getElementById("sendOtpBtn").style.display = "inline-block";
+                    document.getElementById("confirmChangeBtn").style.display = "none";
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: data.message || 'Không thể gửi mã OTP.'
+                    });
+                }
             })
             .catch(error => {
+                // Trường hợp lỗi kết nối -> Ẩn lại
+                document.querySelector(".otp-group").style.display = "none";
+                document.getElementById("sendOtpBtn").style.display = "inline-block";
+                document.getElementById("confirmChangeBtn").style.display = "none";
+
                 console.error("Lỗi gửi OTP:", error);
                 Swal.fire({icon: 'error', title: 'Lỗi', text: 'Không thể gửi mã OTP. Vui lòng thử lại sau.'});
             });
@@ -984,7 +1016,7 @@
     // Xác nhận đổi mật khẩu
     document.getElementById("confirmChangeBtn").addEventListener("click", function () {
         const form = document.getElementById("passwordForm");
-        form.action = "ChangePassword";
+        form.action = "${pageContext.request.contextPath}/ChangePassword";
         form.submit();
     });
 </script>
@@ -992,7 +1024,7 @@
     // ============================================
     // HIỂN THỊ THÔNG BÁO VÀ XÓA THAM SỐ KHỎI URL
     // ============================================
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Lấy tham số từ URL
         const urlParams = new URLSearchParams(window.location.search);
         const message = urlParams.get('message');
@@ -1064,18 +1096,19 @@
     }
 </script>
 <%--<script>--%>
-<%--    function toggleEditForm(id) {--%>
-<%--        const form = document.getElementById("editForm-" + id);--%>
-<%--        if (form.style.display === "none" || form.style.display === "") {--%>
-<%--            form.style.display = "block";--%>
-<%--        } else {--%>
-<%--            form.style.display = "none";--%>
-<%--        }--%>
-<%--    }--%>
-<%--</script>--%>
+<%-- function toggleEditForm(id) {--%>
+<%-- const form=document.getElementById("editForm-" + id);--%>
+<%-- if (form.style.display==="none" || form.style.display==="" ) {--%>
+<%-- form.style.display="block" ;--%>
+<%-- } else {--%>
+<%-- form.style.display="none" ;--%>
+<%-- }--%>
+<%-- }--%>
+<%--< /script>--%>
 
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <c:if test="${not empty error}">
     <script>
@@ -1159,11 +1192,9 @@
         const activeTab = "${activeTab}";
 
         if (activeTab === "addresses") {
-            // Remove active
             document.querySelectorAll(".menu li").forEach(li => li.classList.remove("active"));
             document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
 
-            // Set active
             const addressMenuItem = document.querySelector('[data-section="addresses-section"]');
             if (addressMenuItem) {
                 addressMenuItem.classList.add("active");
@@ -1173,6 +1204,28 @@
             if (addressSection) {
                 addressSection.classList.add("active");
             }
+        }
+
+        // Global success/error alerts from session
+        const successMsg = "${sessionScope.success}";
+        const errorMsg = "${sessionScope.error}";
+        if (successMsg && successMsg !== "") {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công',
+                text: successMsg,
+                timer: 1000,
+                showConfirmButton: false
+            });
+            <% session.removeAttribute("success"); %>
+        }
+        if (errorMsg && errorMsg !== "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: errorMsg
+            });
+            <% session.removeAttribute("error"); %>
         }
     });
 </script>
