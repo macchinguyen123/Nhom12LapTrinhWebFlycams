@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>SkyDrone - Trang chủ</title>
@@ -10,13 +11,15 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+          rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/category-homepage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/homepage.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/product-homepage.css">
 </head>
+
 <body>
 
 <jsp:include page="/page/header.jsp"/>
@@ -30,8 +33,7 @@
             <c:forEach items="${headerCategories}" var="cat">
                 <li>
                     <a href="${pageContext.request.contextPath}/Category?id=${cat.id}">
-                        <img src="${pageContext.request.contextPath}/${cat.image}"
-                             class="menu-icon">
+                        <img src="${pageContext.request.contextPath}/${cat.image}" class="menu-icon">
                             ${cat.categoryName}
                     </a>
                 </li>
@@ -40,30 +42,36 @@
     </div>
 
 
-<%--    <!-- SLIDER PHẢI -->--%>
-<%--    <div class="banner-right">--%>
-<%--        <a href="product-details.jsp">--%>
-<%--            <video autoplay loop muted playsinline>--%>
-<%--                <source src="https://res.cloudinary.com/dwnbmfhel/video/upload/v1763279095/9run.ca_-_Introducing_DJI_Mavic_4_Pro_1440p_obst67.mp4"--%>
-<%--                        type="video/mp4">--%>
-<%--            </video>--%>
-<%--        </a>--%>
-<%--    </div>--%>
+    <%-- <!-- SLIDER PHẢI -->--%>
+    <%-- <div class="banner-right">--%>
+    <%-- <a href="product-details.jsp">--%>
+    <%-- <video autoplay loop muted playsinline>--%>
+    <%-- <source
+        src="https://res.cloudinary.com/dwnbmfhel/video/upload/v1763279095/9run.ca_-_Introducing_DJI_Mavic_4_Pro_1440p_obst67.mp4"
+        --%>
+    <%-- type="video/mp4">--%>
+    <%-- </video>--%>
+    <%-- </a>--%>
+    <%-- </div>--%>
     <!-- PHẦN 1: Banner Video/Ảnh Phải (order_index = 1) -->
     <c:if test="${not empty banners && banners.size() > 0}">
-        <c:set var="banner" value="${banners[0]}" />
+        <c:set var="banner" value="${banners[0]}"/>
         <div class="banner-right">
             <c:choose>
                 <c:when test="${banner.type == 'video'}">
-                    <a href="${not empty banner.link ? banner.link : '#'}">
+                    <a
+                            href="${not empty banner.link ? banner.link : '#'}">
                         <video autoplay loop muted playsinline>
-                            <source src="${banner.videoUrl}" type="video/mp4">
+                            <source src="${banner.videoUrl}"
+                                    type="video/mp4">
                         </video>
                     </a>
                 </c:when>
                 <c:otherwise>
-                    <a href="${not empty banner.link ? banner.link : '#'}">
-                        <img src="${banner.imageUrl}" alt="Banner ${banner.id}">
+                    <a
+                            href="${not empty banner.link ? banner.link : '#'}">
+                        <img src="${banner.imageUrl}"
+                             alt="Banner ${banner.id}">
                     </a>
                 </c:otherwise>
             </c:choose>
@@ -138,9 +146,9 @@
                     <div class="gia">
                         <b>${formatter.format(p.finalPrice)} ₫</b>
                         <c:if test="${p.price >= p.finalPrice}">
-                            <span class="gia-goc">
-                                ${formatter.format(p.price)} ₫
-                            </span>
+                                            <span class="gia-goc">
+                                                ${formatter.format(p.price)} ₫
+                                            </span>
                         </c:if>
                     </div>
                 </a>
@@ -161,21 +169,20 @@
                         </c:if>
 
                         <!-- Sao rỗng -->
-                        <c:forEach begin="1"
-                                   end="${5 - fullStars1 - (hasHalfStar1 ? 1 : 0)}">
+                        <c:forEach begin="1" end="${5 - fullStars1 - (hasHalfStar1 ? 1 : 0)}">
                             <i class="bi bi-star"></i>
                         </c:forEach>
 
                     </div>
 
                     <c:choose>
-                        <c:when test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
+                        <c:when
+                                test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
                             <i class="bi bi-heart-fill tim-yeu-thich yeu-thich"
                                data-product-id="${p.id}"></i>
                         </c:when>
                         <c:otherwise>
-                            <i class="bi bi-heart tim-yeu-thich"
-                               data-product-id="${p.id}"></i>
+                            <i class="bi bi-heart tim-yeu-thich" data-product-id="${p.id}"></i>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -203,7 +210,7 @@
 
     <div class="danh-muc-list">
         <c:forEach items="${headerCategories}" var="cat">
-        <div class="item">
+            <div class="item">
                 <a href="${pageContext.request.contextPath}/Category?id=${cat.id}">
                     <img src="${pageContext.request.contextPath}/${cat.image}"
                          alt="${cat.categoryName}">
@@ -232,9 +239,9 @@
                     <div class="gia">
                         <b>${formatter.format(p.finalPrice)} ₫</b>
                         <c:if test="${p.price >= p.finalPrice}">
-                            <span class="gia-goc">
-                                ${formatter.format(p.price)} ₫
-                            </span>
+                                            <span class="gia-goc">
+                                                ${formatter.format(p.price)} ₫
+                                            </span>
                         </c:if>
                     </div>
                 </a>
@@ -255,21 +262,20 @@
                         </c:if>
 
                         <!-- Sao rỗng -->
-                        <c:forEach begin="1"
-                                   end="${5 - fullStars1 - (hasHalfStar1 ? 1 : 0)}">
+                        <c:forEach begin="1" end="${5 - fullStars1 - (hasHalfStar1 ? 1 : 0)}">
                             <i class="bi bi-star"></i>
                         </c:forEach>
 
                     </div>
 
                     <c:choose>
-                        <c:when test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
+                        <c:when
+                                test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
                             <i class="bi bi-heart-fill tim-yeu-thich yeu-thich"
                                data-product-id="${p.id}"></i>
                         </c:when>
                         <c:otherwise>
-                            <i class="bi bi-heart tim-yeu-thich"
-                               data-product-id="${p.id}"></i>
+                            <i class="bi bi-heart tim-yeu-thich" data-product-id="${p.id}"></i>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -322,9 +328,9 @@
                     <div class="gia">
                         <b>${formatter.format(p.finalPrice)} ₫</b>
                         <c:if test="${p.price >= p.finalPrice}">
-                            <span class="gia-goc">
-                                ${formatter.format(p.price)} ₫
-                            </span>
+                                            <span class="gia-goc">
+                                                ${formatter.format(p.price)} ₫
+                                            </span>
                         </c:if>
                     </div>
                 </a>
@@ -345,21 +351,20 @@
                         </c:if>
 
                         <!-- Sao rỗng -->
-                        <c:forEach begin="1"
-                                   end="${5 - fullStars1 - (hasHalfStar1 ? 1 : 0)}">
+                        <c:forEach begin="1" end="${5 - fullStars1 - (hasHalfStar1 ? 1 : 0)}">
                             <i class="bi bi-star"></i>
                         </c:forEach>
 
                     </div>
 
                     <c:choose>
-                        <c:when test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
+                        <c:when
+                                test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
                             <i class="bi bi-heart-fill tim-yeu-thich yeu-thich"
                                data-product-id="${p.id}"></i>
                         </c:when>
                         <c:otherwise>
-                            <i class="bi bi-heart tim-yeu-thich"
-                               data-product-id="${p.id}"></i>
+                            <i class="bi bi-heart tim-yeu-thich" data-product-id="${p.id}"></i>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -410,9 +415,9 @@
                     <div class="gia">
                         <b>${formatter.format(p.finalPrice)} ₫</b>
                         <c:if test="${p.price >= p.finalPrice}">
-                            <span class="gia-goc">
-                                ${formatter.format(p.price)} ₫
-                            </span>
+                                            <span class="gia-goc">
+                                                ${formatter.format(p.price)} ₫
+                                            </span>
                         </c:if>
                     </div>
                 </a>
@@ -433,21 +438,20 @@
                         </c:if>
 
                         <!-- Sao rỗng -->
-                        <c:forEach begin="1"
-                                   end="${5 - fullStars1 - (hasHalfStar1 ? 1 : 0)}">
+                        <c:forEach begin="1" end="${5 - fullStars1 - (hasHalfStar1 ? 1 : 0)}">
                             <i class="bi bi-star"></i>
                         </c:forEach>
 
                     </div>
 
                     <c:choose>
-                        <c:when test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
+                        <c:when
+                                test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
                             <i class="bi bi-heart-fill tim-yeu-thich yeu-thich"
                                data-product-id="${p.id}"></i>
                         </c:when>
                         <c:otherwise>
-                            <i class="bi bi-heart tim-yeu-thich"
-                               data-product-id="${p.id}"></i>
+                            <i class="bi bi-heart tim-yeu-thich" data-product-id="${p.id}"></i>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -483,10 +487,10 @@
             <div class="related-item">
 
                 <<a href="${pageContext.request.contextPath}/article?id=${post.id}">
-                    <img src="${empty post.image ? '/assets/no-image.png' : post.image}"
-                         alt="${post.title}">
-                    <p>${post.title}</p>
-                </a>
+                <img src="${empty post.image ? '/assets/no-image.png' : post.image}"
+                     alt="${post.title}">
+                <p>${post.title}</p>
+            </a>
 
             </div>
         </c:forEach>
@@ -498,7 +502,7 @@
 <!-- ==== JAVASCRIPT SLIDER ==== -->
 <script>
     // Đợi DOM load xong
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const slider2 = document.querySelector('.slider-2-inner');
         const slides2 = document.querySelectorAll('.slider-2-inner .slide');
         const dotsContainer2 = document.querySelector('.slider-2-dots');
@@ -643,10 +647,18 @@
                         this.classList.toggle('bi-heart');
                         this.classList.toggle('bi-heart-fill');
                         this.classList.toggle('yeu-thich');
+                    } else if (data.error === 'login_required' || data.message === 'NOT_LOGIN') {
+                        if (confirm('Bạn cần đăng nhập để sử dụng tính năng này. Chuyển đến trang đăng nhập?')) {
+                            window.location.href = '${pageContext.request.contextPath}/login.jsp';
+                        }
                     }
+                })
+                .catch(err => {
+                    console.error('Error:', err);
                 });
         });
     });
 </script>
 </body>
+
 </html>

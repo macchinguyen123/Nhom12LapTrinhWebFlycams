@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Drone nông nghiệp</title>
@@ -13,6 +14,7 @@
     <link rel="stylesheet" href="../../stylesheets/header.css">
     <link rel="stylesheet" href="../../stylesheets/footer.css">
 </head>
+
 <body>
 <!-- ==== HEADER TRÊN ==== -->
 <div class="header-bg">
@@ -98,24 +100,29 @@
     <div class="menu-left-1" id="menuLeft">
         <ul>
             <li><a href="film-drone.jsp">
-                <img src="/image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
+                <img src="/image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim
+                chuyên nghiệp
             </a>
             </li>
 
             <li><a href="tourism-drone.jsp">
-                <img src="/image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
+                <img src="/image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch,
+                vlog
             </a>
             </li>
             <li><a href="sport-drone.jsp">
-                <img src="/image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
+                <img src="/image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao
+                tốc độ cao
             </a>
             </li>
             <li><a href="../category/agriculture-drone.html">
-                <img src="/image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
+                <img src="/image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông
+                nghiệp
             </a>
             </li>
             <li><a href="monitor-drone.jsp">
-                <img src="/image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
+                <img src="/image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát,
+                an ninh
             </a>
             </li>
             <li><a href="mini-drone.jsp">
@@ -146,15 +153,16 @@
                 <label><input type="radio" name="chon-gia" value="tat-ca" checked> Tất cả</label>
                 <label><input type="radio" name="chon-gia" value="duoi-5000000"> Dưới 5.000.000 ₫</label>
                 <label><input type="radio" name="chon-gia" value="5-10"> 5.000.000 ₫ - 10.000.000 ₫</label>
-                <label><input type="radio" name="chon-gia" value="10-20"> 10.000.000 ₫ - 20.000.000 ₫</label>
+                <label><input type="radio" name="chon-gia" value="10-20"> 10.000.000 ₫ - 20.000.000
+                    ₫</label>
                 <label><input type="radio" name="chon-gia" value="tren-20"> Trên 20.000.000 ₫</label>
                 <p><b>Nhập vào khoảng giá bạn muốn</b></p>
                 <div class="d-flex align-items-center gap-1">
                     <input type="number" id="gia-tu" class="form-control form-control-sm" placeholder="Từ ₫"
                            style="width: 100px;">
                     <span>-</span>
-                    <input type="number" id="gia-den" class="form-control form-control-sm" placeholder="Đến ₫"
-                           style="width: 100px;">
+                    <input type="number" id="gia-den" class="form-control form-control-sm"
+                           placeholder="Đến ₫" style="width: 100px;">
                 </div>
                 <!-- Lọc theo thương hiệu -->
                 <hr class="my-2">
@@ -165,20 +173,20 @@
                     <!-- Cột 1 -->
                     <div class="col-6">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandDJI" name="chon-thuong-hieu"
-                                   value="DJI">
+                            <input class="form-check-input" type="checkbox" id="brandDJI"
+                                   name="chon-thuong-hieu" value="DJI">
                             <label class="form-check-label" for="brandDJI">DJI</label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandAutel" name="chon-thuong-hieu"
-                                   value="Autel Robotics">
+                            <input class="form-check-input" type="checkbox" id="brandAutel"
+                                   name="chon-thuong-hieu" value="Autel Robotics">
                             <label class="form-check-label" for="brandAutel">Autel Robotics</label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandParrot" name="chon-thuong-hieu"
-                                   value="Parrot">
+                            <input class="form-check-input" type="checkbox" id="brandParrot"
+                                   name="chon-thuong-hieu" value="Parrot">
                             <label class="form-check-label" for="brandParrot">Parrot</label>
                         </div>
                     </div>
@@ -186,20 +194,20 @@
                     <!-- Cột 2 -->
                     <div class="col-6">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandSkydio" name="chon-thuong-hieu"
-                                   value="Skydio">
+                            <input class="form-check-input" type="checkbox" id="brandSkydio"
+                                   name="chon-thuong-hieu" value="Skydio">
                             <label class="form-check-label" for="brandSkydio">Skydio</label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandXiaomi" name="chon-thuong-hieu"
-                                   value="Xiaomi">
+                            <input class="form-check-input" type="checkbox" id="brandXiaomi"
+                                   name="chon-thuong-hieu" value="Xiaomi">
                             <label class="form-check-label" for="brandXiaomi">Xiaomi</label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandOther" name="chon-thuong-hieu"
-                                   value="Khác">
+                            <input class="form-check-input" type="checkbox" id="brandOther"
+                                   name="chon-thuong-hieu" value="Khác">
                             <label class="form-check-label" for="brandOther">Khác</label>
                         </div>
                     </div>
@@ -247,9 +255,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(210 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- SẢN PHẨM 2 -->
@@ -270,9 +284,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(156 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- SẢN PHẨM 3 -->
@@ -293,9 +313,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(98 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- SẢN PHẨM 4 -->
@@ -316,9 +342,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(64 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- SẢN PHẨM 5 -->
@@ -339,9 +371,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(84 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- SẢN PHẨM 6 -->
@@ -362,9 +400,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(52 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- SẢN PHẨM 7 -->
@@ -385,9 +429,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(91 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- SẢN PHẨM 8 -->
@@ -408,9 +458,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(47 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <div class="san-pham">
             <a href="../product-details.jsp">
@@ -429,9 +485,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(73 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <div class="san-pham">
             <a href="../product-details.jsp">
@@ -450,9 +512,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(13 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <div class="san-pham">
             <a href="../product-details.jsp">
@@ -471,9 +539,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(47 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <div class="san-pham">
             <a href="../product-details.jsp">
@@ -492,9 +566,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(42 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <div class="san-pham">
             <a href="../product-details.jsp">
@@ -513,9 +593,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(47 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <div class="san-pham">
             <a href="../product-details.jsp">
@@ -534,9 +620,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(18 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <div class="san-pham">
             <a href="../product-details.jsp">
@@ -557,9 +649,15 @@
             <div class="so-danh-gia">(19
                 đánh giá)
             </div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <div class="san-pham">
             <a href="../product-details.jsp">
@@ -578,9 +676,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(26 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <div class="san-pham">
             <a href="../product-details.jsp">
@@ -599,9 +703,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(41 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <div class="san-pham">
             <a href="../product-details.jsp">
@@ -620,9 +730,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(111 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <div class="san-pham">
             <a href="../product-details.jsp">
@@ -641,9 +757,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(22 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <div class="san-pham">
             <a href="../product-details.jsp">
@@ -662,9 +784,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(66 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <div class="san-pham">
             <a href="../product-details.jsp">
@@ -683,9 +811,15 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(41 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <!-- Replace with real ID if dynamic, but these seem static -->
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
     </div>
@@ -768,29 +902,30 @@
             <section class="social-connect">
                 <h6>KẾT NỐI VỚI SKYDRONE</h6>
                 <div class="social-icons">
-                    <a href="https://www.youtube.com/@F8VNOfficial"
-                       class="icon youtube" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.youtube.com/@F8VNOfficial" class="icon youtube" target="_blank"
+                       rel="noopener noreferrer">
                         <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
                     </a>
 
-                    <a href="https://www.facebook.com/dhkcntt.nlu"
-                       class="icon facebook" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.facebook.com/dhkcntt.nlu" class="icon facebook" target="_blank"
+                       rel="noopener noreferrer">
                         <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
                     </a>
 
-                    <a href="https://www.instagram.com/truyenthongchinhphu/"
-                       class="icon instagram" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.instagram.com/truyenthongchinhphu/" class="icon instagram"
+                       target="_blank" rel="noopener noreferrer">
                         <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
                     </a>
 
-                    <a href="https://www.tiktok.com/@nonglam.university"
-                       class="icon tiktok" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.tiktok.com/@nonglam.university" class="icon tiktok" target="_blank"
+                       rel="noopener noreferrer">
                         <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
                     </a>
 
-                    <a href="https://zalo.me/0966089465"
-                       class="icon zalo" target="_blank" rel="noopener noreferrer">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo">
+                    <a href="https://zalo.me/0966089465" class="icon zalo" target="_blank"
+                       rel="noopener noreferrer">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg"
+                             alt="Zalo">
                     </a>
                 </div>
             </section>
@@ -802,7 +937,8 @@
 
     <div class="footer-bottom">
         <p>Copyright © 2025 © <strong>SKYDrone Việt Nam</strong></p>
-        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm
+        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ
+            bị nghiêm
             cấm.</p>
     </div>
 </footer>
@@ -872,6 +1008,27 @@
     });
 
 
+    // Attach event listeners to all add-to-cart buttons
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.add-to-cart-form button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const form = btn.closest('form');
+                const productId = form.querySelector('input[name="productId"]').value;
+                const quantity = form.querySelector('input[name="quantity"]').value;
+                const productCard = btn.closest('.san-pham');
+                const productImg = productCard.querySelector('img');
+
+                if (typeof globallyHandleAddToCart === 'function') {
+                    globallyHandleAddToCart(productId, quantity, productImg, btn);
+                } else {
+                    form.submit();
+                }
+            });
+        });
+    });
+
     hienThiTrang(trangHienTai);
 </script>
 <script>
@@ -891,4 +1048,5 @@
 </script>
 
 </body>
+
 </html>

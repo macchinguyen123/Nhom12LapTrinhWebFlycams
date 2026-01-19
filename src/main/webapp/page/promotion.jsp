@@ -4,15 +4,18 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8"/>
     <title>Khuyến mãi Flycam</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/promotion.css">
 </head>
+
 <body>
 <jsp:include page="/page/header.jsp"/>
 
@@ -69,14 +72,14 @@
 
                         <!-- Giá -->
                         <div class="gia-block">
-                    <span class="gia-moi">
-                        <fmt:formatNumber value="${p.finalPrice}" type="number"/> ₫
-                    </span>
+                                            <span class="gia-moi">
+                                                <fmt:formatNumber value="${p.finalPrice}" type="number"/> ₫
+                                            </span>
 
                             <c:if test="${p.price > p.finalPrice}">
-                        <span class="gia-cu">
-                            <fmt:formatNumber value="${p.price}" type="number"/> ₫
-                        </span>
+                                                <span class="gia-cu">
+                                                    <fmt:formatNumber value="${p.price}" type="number"/> ₫
+                                                </span>
                             </c:if>
                         </div>
 
@@ -98,8 +101,7 @@
                                 </c:if>
 
                                 <!-- Sao rỗng -->
-                                <c:forEach begin="1"
-                                           end="${5 - fullStars - (hasHalfStar ? 1 : 0)}">
+                                <c:forEach begin="1" end="${5 - fullStars - (hasHalfStar ? 1 : 0)}">
                                     <i class="bi bi-star"></i>
                                 </c:forEach>
 
@@ -107,13 +109,13 @@
 
                             <!-- Tim yêu thích -->
                             <c:choose>
-                                <c:when test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
+                                <c:when
+                                        test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
                                     <i class="bi bi-heart-fill tim-yeu-thich yeu-thich"
                                        data-product-id="${p.id}"></i>
                                 </c:when>
                                 <c:otherwise>
-                                    <i class="bi bi-heart tim-yeu-thich"
-                                       data-product-id="${p.id}"></i>
+                                    <i class="bi bi-heart tim-yeu-thich" data-product-id="${p.id}"></i>
                                 </c:otherwise>
                             </c:choose>
                         </div>
@@ -142,7 +144,6 @@
 </main>
 
 
-
 <jsp:include page="/page/footer.jsp"/>
 
 <script>
@@ -162,19 +163,28 @@
             })
                 .then(res => {
                     if (res.status === 401) {
-                        alert('Vui lòng đăng nhập');
+                        if (confirm('Bạn cần đăng nhập để sử dụng tính năng này. Chuyển đến trang đăng nhập?')) {
+                            window.location.href = '${pageContext.request.contextPath}/login.jsp';
+                        }
                         return null;
                     }
                     return res.json();
                 })
                 .then(data => {
-                    if (!data || !data.success) return;
-
-                    const isActive = btn.classList.contains('bi-heart');
-
-                    btn.classList.toggle('bi-heart', !isActive);
-                    btn.classList.toggle('bi-heart-fill', isActive);
-                    btn.classList.toggle('yeu-thich', isActive);
+                    if (!data) return;
+                    if (data.success) {
+                        const isActive = btn.classList.contains('bi-heart-fill');
+                        btn.classList.toggle('bi-heart', isActive);
+                        btn.classList.toggle('bi-heart-fill', !isActive);
+                        btn.classList.toggle('yeu-thich', !isActive);
+                        showNotification(isActive ? 'Đã xóa khỏi yêu thích' : 'Đã thêm vào yêu thích', 'success');
+                    } else {
+                        showNotification(data.message || 'Thao tác thất bại', 'error');
+                    }
+                })
+                .catch(err => {
+                    console.error('Error:', err);
+                    showNotification('Lỗi kết nối server', 'error');
                 });
         });
     });
@@ -182,4 +192,5 @@
 </script>
 
 </body>
+
 </html>

@@ -17,41 +17,44 @@ public class AddCart extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String pid = request.getParameter("productId");
-        if (pid == null || pid.isEmpty()) {
-            response.sendRedirect(request.getContextPath() + "/page/shoppingcart.jsp");
-            return;
-        }
-
-        int productId = Integer.parseInt(pid);
-
-        String q = request.getParameter("quantity");
-        int quantity = 1;
-        if (q != null && !q.isEmpty()) {
-            quantity = Integer.parseInt(q);
-        }
-
         HttpSession session = request.getSession();
-        Carts cart = (Carts) session.getAttribute("cart");
-        if (cart == null) cart = new Carts();
+        response.setContentType("application/json;charset=UTF-8");
 
-        Product product = productService.getProduct(productId);
-        if (product != null) {
-            cart.addItem(product, quantity);
-            session.setAttribute("cart", cart);
-        }
+        try {
+            String pid = request.getParameter("productId");
+            String quantityStr = request.getParameter("quantity");
 
-        // Kiểm tra xem request có phải từ AJAX không
-        String ajaxHeader = request.getHeader("X-Requested-With");
-        boolean isAjax = "XMLHttpRequest".equals(ajaxHeader);
+            System.out.println("[AddCart] ProductId: " + pid + ", Quantity: " + quantityStr);
 
-        if (isAjax) {
-            // Trả về JSON response cho AJAX
-            response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write("{\"success\":true,\"cartSize\":" + cart.getItems().size() + "}");
-        } else {
-            // Redirect như bình thường nếu không phải AJAX
-            response.sendRedirect(request.getContextPath() + "/page/shoppingcart.jsp");
+            if (pid == null || pid.isEmpty()) {
+                response.getWriter().write("{\"success\":false,\"message\":\"Thiếu ID sản phẩm\"}");
+                return;
+            }
+
+            int productId = Integer.parseInt(pid);
+            int quantity = 1;
+            if (quantityStr != null && !quantityStr.isEmpty()) {
+                quantity = Integer.parseInt(quantityStr);
+            }
+
+            Carts cart = (Carts) session.getAttribute("cart");
+            if (cart == null)
+                cart = new Carts();
+
+            Product product = productService.getProduct(productId);
+            if (product != null) {
+                cart.addItem(product, quantity);
+                session.setAttribute("cart", cart);
+                System.out.println("[AddCart] Added to cart. Total items: " + cart.totalQuantity());
+                response.getWriter().write("{\"success\":true,\"totalQuantity\":" + cart.totalQuantity() + "}");
+            } else {
+                System.out.println("[AddCart] Product not found for ID: " + productId);
+                response.getWriter().write("{\"success\":false,\"message\":\"Sản phẩm không tồn tại\"}");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"success\":false,\"message\":\"Lỗi server: " + e.getMessage() + "\"}");
         }
     }
 

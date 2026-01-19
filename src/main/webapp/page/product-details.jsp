@@ -4,19 +4,23 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Chi tiết sản phẩm</title>
-
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+          rel="stylesheet">
     <!-- Thêm link Bootstrap Icons (nếu chưa có trong <head>) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
     <!-- CSS riêng -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/product-details.css">
 </head>
+
 <body>
 
 <jsp:include page="/page/header.jsp"/>
@@ -31,52 +35,47 @@
                 <div class="main-image-wrapper">
                     <div id="mainImage" class="border rounded mb-3">
                         <c:if test="${not empty product.images}">
-                            <img id="displayImg"
-                                 src="${product.images[0].imageUrl}">
+                            <img id="displayImg" src="${product.images[0].imageUrl}">
                         </c:if>
 
                         <button class="nav-btn prev-btn"><i class="bi bi-chevron-left"></i></button>
-                        <button class="nav-btn next-btn"><i class="bi bi-chevron-right"></i></button>
+                        <button class="nav-btn next-btn"><i
+                                class="bi bi-chevron-right"></i></button>
                     </div>
                 </div>
 
                 <div class="fixed-bottom-block">
                     <div class="d-flex justify-content-center gap-2">
                         <c:forEach var="img" items="${product.images}">
-                            <img src="${img.imageUrl}"
-                                 class="img-thumbnail thumb"
-                                 width="80"
+                            <img src="${img.imageUrl}" class="img-thumbnail thumb" width="80"
                                  onclick="changeImage('${img.imageUrl}')">
                         </c:forEach>
                     </div>
 
                     <div class="share-icons mt-3">
                         <span>Chia sẻ:</span>
-                        <i class="bi bi-messenger share-icon"
-                           onclick="shareOnMessenger()"
+                        <i class="bi bi-messenger share-icon" onclick="shareOnMessenger()"
                            title="Chia sẻ qua Messenger"></i>
-                        <i class="bi bi-facebook share-icon"
-                           onclick="shareOnFacebook()"
+                        <i class="bi bi-facebook share-icon" onclick="shareOnFacebook()"
                            title="Chia sẻ lên Facebook"></i>
-                        <i class="bi bi-pinterest share-icon"
-                           onclick="shareOnPinterest()"
+                        <i class="bi bi-pinterest share-icon" onclick="shareOnPinterest()"
                            title="Chia sẻ lên Pinterest"></i>
-                        <i class="bi bi-twitter-x share-icon"
-                           onclick="shareOnTwitter()"
+                        <i class="bi bi-twitter-x share-icon" onclick="shareOnTwitter()"
                            title="Chia sẻ lên Twitter/X"></i>
                         <span class="ms-2 heart-btn">
-                            <c:choose>
-                                <c:when test="${wishlistProductIds != null && wishlistProductIds.contains(product.id)}">
-                                    <i class="bi bi-heart-fill tim-yeu-thich yeu-thich"
-                                       data-product-id="${product.id}"></i>
-                                </c:when>
-                                <c:otherwise>
-                                    <i class="bi bi-heart tim-yeu-thich"
-                                       data-product-id="${product.id}"></i>
-                                </c:otherwise>
-                            </c:choose>
-                            Yêu thích
-                        </span>
+                                                <c:choose>
+                                                    <c:when
+                                                            test="${wishlistProductIds != null && wishlistProductIds.contains(product.id)}">
+                                                        <i class="bi bi-heart-fill tim-yeu-thich yeu-thich"
+                                                           data-product-id="${product.id}"></i>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <i class="bi bi-heart tim-yeu-thich"
+                                                           data-product-id="${product.id}"></i>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                Yêu thích
+                                            </span>
                     </div>
                 </div>
             </div>
@@ -95,32 +94,34 @@
                         <i class="bi bi-star-half"></i>
                     </c:if>
 
-                    <c:forEach begin="1"
-                               end="${5 - fullStars - (hasHalfStar ? 1 : 0)}">
+                    <c:forEach begin="1" end="${5 - fullStars - (hasHalfStar ? 1 : 0)}">
                         <i class="bi bi-star"></i>
                     </c:forEach>
 
                     <span class="ms-2">
-                        <u><fmt:formatNumber value="${avgRating}" maxFractionDigits="1"/></u> |
-                        <u class="text-muted">${reviewCount} Đánh Giá</u>
-                    </span>
+                                            <u>
+                                                <fmt:formatNumber value="${avgRating}" maxFractionDigits="1"/>
+                                            </u> |
+                                            <u class="text-muted">${reviewCount} Đánh Giá</u>
+                                        </span>
                 </div>
                 <div class="product-info text-muted mb-2">
 
                     <p class="mb-1 d-flex flex-wrap gap-3">
+                                            <span>
+                                                <span class="fw-semibold">Thương hiệu:</span>
+                                                <span class="text-primary">${product.brandName}</span>
+                                            </span>
                         <span>
-                            <span class="fw-semibold">Thương hiệu:</span>
-                            <span class="text-primary">${product.brandName}</span>
-                        </span>
-                        <span>
-                            <span class="fw-semibold">Mã sản phẩm:</span>
-                            <span class="text-secondary">${product.id}</span>
-                        </span>
+                                                <span class="fw-semibold">Mã sản phẩm:</span>
+                                                <span class="text-secondary">${product.id}</span>
+                                            </span>
                     </p>
 
                     <p class="mb-1">
                         <span class="fw-semibold">Danh mục:</span>
-                        <a href="${pageContext.request.contextPath}/Category?id=${product.categoryId}">
+                        <a
+                                href="${pageContext.request.contextPath}/Category?id=${product.categoryId}">
                             <span class="text-primary">${categoryName}</span>
                         </a>
                     </p>
@@ -128,14 +129,14 @@
                 </div>
 
                 <div class="price my-3">
-    <span class="fs-1 fw-bold text-danger">
-        ${formatter.format(product.finalPrice)} ₫
-    </span>
+                                        <span class="fs-1 fw-bold text-danger">
+                                            ${formatter.format(product.finalPrice)} ₫
+                                        </span>
 
                     <c:if test="${product.price > product.finalPrice}">
-        <span class="text-muted text-decoration-line-through ms-2">
-            ${formatter.format(product.price)} ₫
-        </span>
+                                            <span class="text-muted text-decoration-line-through ms-2">
+                                                ${formatter.format(product.price)} ₫
+                                            </span>
 
                         <!-- Hiển thị % giảm giá động -->
                         <c:if test="${discountPercent > 0}">
@@ -154,15 +155,13 @@
                 </div>
 
                 <div class="buy-buttons">
-                    <form action="${pageContext.request.contextPath}/add-cart"
-                          method="get"
+                    <form action="${pageContext.request.contextPath}/add-cart" method="get"
                           style="display:inline-block;">
 
                         <input type="hidden" name="productId" value="${product.id}">
                         <input type="hidden" name="quantity" id="quantityHidden" value="1">
 
-                        <button type="submit"
-                                class="btn-add-cart">
+                        <button type="button" class="btn-add-cart" onclick="addToCartClick(this)">
                             <i class="bi bi-cart-plus"></i>
                             Thêm vào giỏ hàng
                         </button>
@@ -223,10 +222,10 @@
 
         <div class="rating-overview">
             <div class="rating-score">
-            <span class="score">
-                  <i class="bi bi-star-fill"></i>
-                  <fmt:formatNumber value="${avgRating}" maxFractionDigits="1"/>
-            </span><small>/5</small>
+                                    <span class="score">
+                                        <i class="bi bi-star-fill"></i>
+                                        <fmt:formatNumber value="${avgRating}" maxFractionDigits="1"/>
+                                    </span><small>/5</small>
 
                 <p>${reviewCount} đánh giá</p>
             </div>
@@ -265,9 +264,7 @@
 
         <div id="review-list">
             <c:forEach var="r" items="${reviews}">
-                <div class="review"
-                     data-star="${r.rating}"
-                     data-comment="${not empty r.content}">
+                <div class="review" data-star="${r.rating}" data-comment="${not empty r.content}">
                     <div class="review-avatar">
                         <img src="${pageContext.request.contextPath}/image/avatar/${r.avatar}"
                              alt="${r.username}"
@@ -293,8 +290,7 @@
                         </div>
 
                         <div class="review-date">
-                            <fmt:formatDate value="${r.createdAt}"
-                                            pattern="dd/MM/yyyy HH:mm"/>
+                            <fmt:formatDate value="${r.createdAt}" pattern="dd/MM/yyyy HH:mm"/>
                         </div>
 
                         <p class="review-text">
@@ -309,13 +305,15 @@
         <div class="pagination">
 
             <c:if test="${currentPage > 1}">
-                <a href="${pageContext.request.contextPath}/product-detail?id=${product.id}&page=${currentPage - 1}">
+                <a
+                        href="${pageContext.request.contextPath}/product-detail?id=${product.id}&page=${currentPage - 1}">
                     <button>&laquo;</button>
                 </a>
             </c:if>
 
             <c:forEach begin="1" end="${totalPages}" var="i">
-                <a href="${pageContext.request.contextPath}/product-detail?id=${product.id}&page=${i}">
+                <a
+                        href="${pageContext.request.contextPath}/product-detail?id=${product.id}&page=${i}">
                     <button class="${i == currentPage ? 'active' : ''}">
                             ${i}
                     </button>
@@ -323,7 +321,8 @@
             </c:forEach>
 
             <c:if test="${currentPage < totalPages}">
-                <a href="${pageContext.request.contextPath}/product-detail?id=${product.id}&page=${currentPage + 1}">
+                <a
+                        href="${pageContext.request.contextPath}/product-detail?id=${product.id}&page=${currentPage + 1}">
                     <button>&raquo;</button>
                 </a>
             </c:if>
@@ -334,36 +333,41 @@
         <c:choose>
             <%-- Trường hợp 1: Chưa đăng nhập --%>
             <c:when test="${!isLoggedIn}">
-                <button class="write-review-btn"
-                        onclick="redirectToLogin()">
+                <button class="write-review-btn" onclick="redirectToLogin()">
                     <i class="bi bi-star"></i> Viết đánh giá
                 </button>
                 <p class="text-muted text-center review-status-message">
-                    <small><i class="bi bi-info-circle"></i> Bạn cần đăng nhập để đánh giá</small>
+                    <small><i class="bi bi-info-circle"></i> Bạn cần đăng nhập để đánh
+                        giá</small>
                 </p>
             </c:when>
 
             <%-- Trường hợp 2: Đã đăng nhập nhưng đã đánh giá rồi --%>
             <c:when test="${isLoggedIn && hasReviewed}">
-                <button class="write-review-btn" disabled title="Bạn đã đánh giá sản phẩm này rồi">
+                <button class="write-review-btn" disabled
+                        title="Bạn đã đánh giá sản phẩm này rồi">
                     <i class="bi bi-check-circle"></i> Đã đánh giá
                 </button>
                 <p class="text-success text-center review-status-message">
-                    <small><i class="bi bi-check-circle-fill"></i> Bạn đã đánh giá sản phẩm này</small>
+                    <small><i class="bi bi-check-circle-fill"></i> Bạn đã đánh giá sản phẩm
+                        này</small>
                 </p>
             </c:when>
 
             <%-- Trường hợp 3: Đã đăng nhập nhưng chưa mua --%>
             <c:when test="${isLoggedIn && !canReview && !hasReviewed}">
-                <button class="write-review-btn" disabled title="Bạn chỉ có thể đánh giá sản phẩm đã mua">
+                <button class="write-review-btn" disabled
+                        title="Bạn chỉ có thể đánh giá sản phẩm đã mua">
                     <i class="bi bi-star"></i> Viết đánh giá
                 </button>
                 <p class="text-muted text-center review-status-message">
-                    <small><i class="bi bi-info-circle"></i> Bạn cần mua sản phẩm này để có thể đánh giá</small>
+                    <small><i class="bi bi-info-circle"></i> Bạn cần mua sản phẩm này để
+                        có thể đánh giá</small>
                 </p>
             </c:when>
 
-            <%-- Trường hợp 4: Đã đăng nhập, đã mua, chưa đánh giá - có thể đánh giá --%>
+            <%-- Trường hợp 4: Đã đăng nhập, đã mua, chưa đánh giá - có thể đánh giá
+                --%>
             <c:otherwise>
                 <button class="write-review-btn" data-product-id="${product.id}">
                     <i class="bi bi-star"></i> Viết đánh giá
@@ -396,9 +400,9 @@
                         <div class="gia">
                             <b>${formatter.format(p.finalPrice)} ₫</b>
                             <c:if test="${p.price >= p.finalPrice}">
-                            <span class="gia-goc">
-                                ${formatter.format(p.price)} ₫
-                            </span>
+                                                    <span class="gia-goc">
+                                                        ${formatter.format(p.price)} ₫
+                                                    </span>
                             </c:if>
                         </div>
                     </a>
@@ -419,8 +423,7 @@
                             </c:if>
 
                             <!-- Sao rỗng -->
-                            <c:forEach begin="1"
-                                       end="${5 - fullStars1 - (hasHalfStar1 ? 1 : 0)}">
+                            <c:forEach begin="1" end="${5 - fullStars1 - (hasHalfStar1 ? 1 : 0)}">
                                 <i class="bi bi-star"></i>
                             </c:forEach>
 
@@ -457,10 +460,8 @@
             Trường bắt buộc được đánh dấu <span>*</span>
         </p>
 
-        <form class="review-form"
-              id="reviewForm"
-              action="${pageContext.request.contextPath}/ReviewServlet"
-              method="post">
+        <form class="review-form" id="reviewForm"
+              action="${pageContext.request.contextPath}/ReviewServlet" method="post">
             <input type="hidden" name="product_id" value="${product.id}">
             <div class="rating-group">
                 <label>
@@ -480,23 +481,25 @@
                 <label>
                     <input type="radio" name="rating" value="3" checked>
                     <div class="stars">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                            class="bi bi-star-fill"></i>
                     </div>
                     <div>(3)</div>
                 </label>
                 <label>
                     <input type="radio" name="rating" value="4">
                     <div class="stars">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                            class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                            class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                     </div>
                     <div>(4)</div>
                 </label>
                 <label>
                     <input type="radio" name="rating" value="5">
                     <div class="stars">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                            class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                            class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                            class="bi bi-star-fill"></i>
                     </div>
                     <div>(5)</div>
                 </label>
@@ -504,9 +507,7 @@
 
             <div class="comment-group">
                 <label for="comment-popup">Nhận xét của bạn <span>*</span></label>
-                <textarea id="comment-popup"
-                          name="content"
-                          placeholder="Viết nhận xét tại đây..."
+                <textarea id="comment-popup" name="content" placeholder="Viết nhận xét tại đây..."
                           required></textarea>
             </div>
 
@@ -568,15 +569,38 @@
         window.open(pinterestUrl, 'pinterest-share', 'width=750,height=550');
     }
 
-    // ============================================
-    // DOM CONTENT LOADED - MAIN LOGIC
-    // ============================================
+    window.addToCartClick = function (btn) {
+        const form = btn.closest('form');
+        const productId = form.querySelector('input[name="productId"]').value;
+        const qtyInput = document.getElementById('qty');
+        const quantity = qtyInput ? qtyInput.value : (form.querySelector('input[name="quantity"]') ? form.querySelector('input[name="quantity"]').value : 1);
+
+        // Try ID first, then class fallback
+        let productImg = document.querySelector('#displayImg');
+        if (!productImg) {
+            productImg = document.querySelector('.main-image-wrapper img');
+        }
+
+        console.log('addToCartClick:', productId, quantity, productImg);
+
+        if (typeof globallyHandleAddToCart === 'function') {
+            if (productImg) {
+                globallyHandleAddToCart(productId, quantity, productImg, btn);
+            } else {
+                console.warn('Product image not found for animation');
+                // Still add to cart even if animation fails
+                globallyHandleAddToCart(productId, quantity, null, btn);
+            }
+        } else {
+            console.error('globallyHandleAddToCart not defined');
+            alert('Lỗi: Dữ liệu chưa tải xong. Vui lòng thử lại sau 1 giây.');
+        }
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
         const contextPath = '${pageContext.request.contextPath}';
 
-        // ============================================
-        // IMAGE GALLERY NAVIGATION
-        // ============================================
+
         const thumbs = document.querySelectorAll('.thumb');
         const displayImg = document.getElementById('displayImg');
         let currentIndex = 0;
@@ -594,8 +618,15 @@
             });
         });
 
-        const prevBtn = document.querySelector('.prev-btn');
-        const nextBtn = document.querySelector('.next-btn');
+        function changeImage(url) {
+            displayImg.src = url;
+            thumbs.forEach(t => {
+                if (t.src.includes(url)) t.classList.add('active');
+                else t.classList.remove('active');
+            });
+        }
+
+        window.changeImage = changeImage; // Make it global for onclick
 
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
@@ -647,14 +678,17 @@
                             this.classList.toggle('bi-heart');
                             this.classList.toggle('bi-heart-fill');
                             this.classList.toggle('yeu-thich');
-                        } else if (data.error === 'login_required') {
+                        } else if (data.error === 'login_required' || data.message === 'NOT_LOGIN') {
                             if (confirm('Bạn cần đăng nhập để sử dụng tính năng này. Chuyển đến trang đăng nhập?')) {
                                 window.location.href = contextPath + '/login.jsp';
                             }
+                        } else {
+                            showNotification(data.message || 'Thêm vào yêu thích thất bại', 'error');
                         }
                     })
                     .catch(err => {
                         console.error('Error:', err);
+                        showNotification('Lỗi kết nối server', 'error');
                     });
             });
         });
@@ -765,249 +799,51 @@
         // ADD TO CART WITH ANIMATION
         // ============================================
         // ============================================
-// ADD TO CART WITH ANIMATION
-// ============================================
+        // ADD TO CART WITH ANIMATION
+        // ============================================
+        // ============================================
+        // ADD TO CART WRAPPER (Called via onclick)
+        // ============================================
+
+
         const addToCartBtn = document.querySelector('.btn-add-cart');
 
-        if (addToCartBtn) {
-            addToCartBtn.addEventListener('click', (e) => {
+        if (false) { // Disabled old listener
+            // Clone button to remove any old listeners that might interfere
+            const newBtn = addToCartBtn.cloneNode(true);
+            addToCartBtn.parentNode.replaceChild(newBtn, addToCartBtn);
+
+            newBtn.addEventListener('click', (e) => {
                 e.preventDefault();
+                e.stopPropagation(); // Stop bubbling up
 
-                const form = addToCartBtn.closest('form');
+                const form = newBtn.closest('form');
                 const productId = form.querySelector('input[name="productId"]').value;
-                const quantity = form.querySelector('input[name="quantity"]').value;
-
+                const quantity = form.querySelector('input[name="quantity"]').value || 1;
                 const productImg = document.querySelector('#displayImg');
 
-                if (!productImg) {
-                    console.error('Không tìm thấy ảnh sản phẩm');
-                    return;
+                console.log('Add to cart clicked:', productId, quantity);
+
+                if (typeof globallyHandleAddToCart === 'function') {
+                    globallyHandleAddToCart(productId, quantity, productImg, newBtn);
+                } else {
+                    console.error('globallyHandleAddToCart not found');
+                    // Only submit if JS fails
+                    // form.submit();
+                    alert('Lỗi: Không tìm thấy hàm xử lý giỏ hàng!');
                 }
-
-                // Tạo clone của ảnh để bay
-                const flyingImg = productImg.cloneNode(true);
-                flyingImg.style.position = 'fixed';
-                flyingImg.style.zIndex = '9999';
-                flyingImg.style.width = '100px';
-                flyingImg.style.height = '100px';
-                flyingImg.style.objectFit = 'cover';
-                flyingImg.style.transition = 'all 1.5s ease-in-out';
-                flyingImg.style.pointerEvents = 'none';
-                flyingImg.style.borderRadius = '50%';
-                flyingImg.style.boxShadow = '0 10px 25px rgba(0,0,0,0.3)';
-                flyingImg.style.border = '3px solid white';
-
-                // Vị trí bắt đầu (ảnh sản phẩm)
-                const imgRect = productImg.getBoundingClientRect();
-                flyingImg.style.left = imgRect.left + 'px';
-                flyingImg.style.top = imgRect.top + 'px';
-
-                document.body.appendChild(flyingImg);
-
-                // Tìm vị trí icon giỏ hàng trong header để ảnh bay đến
-                let cartIcon = document.querySelector('a[href*="shoppingcart"] i, a[href*="cart"] i');
-
-                // Nếu không tìm thấy, thử tìm theo class icon
-                if (!cartIcon) {
-                    cartIcon = document.querySelector(
-                        '.bi-cart, .bi-cart2, .bi-cart3, .bi-cart4, ' +
-                        '.bi-cart-fill, .bi-cart-check, .bi-cart-plus, ' +
-                        '.bi-bag, .bi-bag-fill, .bi-basket, .bi-basket-fill'
-                    );
-                }
-
-                // Nếu vẫn không tìm thấy, thử tìm thẻ a chứa cart
-                if (!cartIcon) {
-                    const cartLink = document.querySelector('a[href*="cart"], a[href*="shoppingcart"]');
-                    if (cartLink) {
-                        cartIcon = cartLink.querySelector('i') || cartLink;
-                    }
-                }
-
-                // Tìm NÚT/LINK giỏ hàng để rung - THỬ NHIỀU CÁCH
-                let cartButton = null;
-
-                // Cách 1: Tìm theo href
-                cartButton = document.querySelector('a[href*="shoppingcart"], a[href*="cart"], a[href*="gio-hang"]');
-
-                // Cách 2: Nếu không có, tìm thẻ cha của icon
-                if (!cartButton && cartIcon) {
-                    cartButton = cartIcon.closest('a') || cartIcon.closest('button') || cartIcon.closest('[class*="cart"]');
-                }
-
-                // Cách 3: Tìm parent có class chứa 'cart'
-                if (!cartButton) {
-                    cartButton = document.querySelector('[class*="cart-"]');
-                }
-
-                console.log('Cart Icon found:', cartIcon); // Debug log
-                console.log('Cart Button found:', cartButton); // Debug log
-
-                setTimeout(() => {
-                    if (cartIcon) {
-                        const cartRect = cartIcon.getBoundingClientRect();
-                        console.log('Cart position:', cartRect.left, cartRect.top); // Debug log
-
-                        flyingImg.style.left = (cartRect.left - 10) + 'px';
-                        flyingImg.style.top = (cartRect.top - 10) + 'px';
-                        flyingImg.style.width = '30px';
-                        flyingImg.style.height = '30px';
-                        flyingImg.style.opacity = '0';
-                        flyingImg.style.transform = 'scale(0.2) rotate(360deg)';
-                    } else {
-                        // Nếu không tìm thấy icon, bay lên góc phải
-                        console.log('Cart icon not found, flying to top right');
-                        flyingImg.style.left = (window.innerWidth - 100) + 'px';
-                        flyingImg.style.top = '20px';
-                        flyingImg.style.opacity = '0';
-                        flyingImg.style.transform = 'scale(0.2) rotate(360deg)';
-                    }
-                }, 10);
-
-                // Xóa ảnh bay sau khi animation hoàn thành
-                setTimeout(() => {
-                    flyingImg.remove();
-                }, 1600);
-
-                // Gửi request thêm vào giỏ hàng
-                const url = form.action + '?productId=' + productId + '&quantity=' + quantity;
-
-                fetch(url, {
-                    method: 'GET',
-                    headers: {'X-Requested-With': 'XMLHttpRequest'}
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            showNotification('Đã thêm vào giỏ hàng!', 'success');
-
-                            // Cập nhật badge giỏ hàng
-                            if (data.cartSize) {
-                                updateCartBadge(data.cartSize);
-                            } else {
-                                updateCartBadge();
-                            }
-
-                            // Hiệu ứng rung NHẸ NHÀNG cho NÚT giỏ hàng
-                            if (cartButton) {
-                                console.log('Applying shake to button');
-                                cartButton.classList.add('cart-shaking');
-                                setTimeout(() => {
-                                    cartButton.classList.remove('cart-shaking');
-                                }, 500);
-                            } else if (cartIcon) {
-                                console.log('Applying shake to icon only');
-                                cartIcon.classList.add('cart-shaking');
-                                setTimeout(() => {
-                                    cartIcon.classList.remove('cart-shaking');
-                                }, 500);
-                            }
-                        } else {
-                            showNotification('Thêm vào giỏ hàng thất bại', 'error');
-                        }
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        showNotification('Lỗi kết nối server', 'error');
-                    });
             });
         }
 
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-        function showNotification(message, type = 'success') {
-            const oldNotification = document.querySelector('.custom-notification');
-            if (oldNotification) {
-                oldNotification.remove();
-            }
 
-            const notification = document.createElement('div');
-            notification.className = 'custom-notification';
-
-            let icon = '';
-            if (type === 'success') {
-                icon = '<i class="bi bi-check-circle-fill me-2"></i>';
-            } else {
-                icon = '<i class="bi bi-exclamation-circle-fill me-2"></i>';
-            }
-
-            notification.innerHTML = icon + message;
-            notification.style.position = 'fixed';
-            notification.style.top = '80px';
-            notification.style.right = '-300px';
-            notification.style.padding = '12px 20px';
-            notification.style.borderRadius = '8px';
-            notification.style.zIndex = '10000';
-            notification.style.fontWeight = '500';
-            notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
-            notification.style.transition = 'right 0.3s ease';
-            notification.style.display = 'flex';
-            notification.style.alignItems = 'center';
-            notification.style.minWidth = '250px';
-
-            if (type === 'success') {
-                notification.style.backgroundColor = '#28a745';
-                notification.style.color = 'white';
-            } else {
-                notification.style.backgroundColor = '#dc3545';
-                notification.style.color = 'white';
-            }
-
-            document.body.appendChild(notification);
-
-            setTimeout(() => {
-                notification.style.right = '20px';
-            }, 10);
-
-            setTimeout(() => {
-                notification.style.right = '-300px';
-            }, 2500);
-
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
-
-        function updateCartBadge(newCount) {
-            const cartBadge = document.querySelector(
-                '.cart-badge, .badge, ' +
-                '.bi-cart + .badge, .bi-cart2 + .badge, .bi-cart3 + .badge, ' +
-                '.bi-bag + .badge, [class*="cart"] .badge'
-            );
-
-            if (cartBadge) {
-                if (newCount !== undefined) {
-                    cartBadge.textContent = newCount;
-                } else {
-                    const currentCount = parseInt(cartBadge.textContent) || 0;
-                    cartBadge.textContent = currentCount + 1;
-                }
-
-                cartBadge.style.transition = 'transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-                cartBadge.style.transform = 'scale(1.5)';
-
-                setTimeout(() => {
-                    cartBadge.style.transform = 'scale(1)';
-                }, 300);
-            }
-        }
-
-        // ============================================
-// REVIEW POPUP FUNCTIONALITY
-// ============================================
         const reviewPopup = document.getElementById('reviewPopup');
-        const closeBtn = document.querySelector('.close-btn');
-// Lấy tất cả các nút write-review-btn (kể cả disabled)
+        const closeBtn = document.querySelector('.close-review-popup');
         const allWriteReviewBtns = document.querySelectorAll('.write-review-btn');
 
-// Thêm event listener cho từng button
         allWriteReviewBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                // Chỉ mở popup nếu button KHÔNG bị disabled
                 if (!btn.disabled) {
-                    reviewPopup.style.display = 'flex';  // Đảm bảo display là flex
-                    // Thêm class active sau một chút để animation hoạt động
+                    reviewPopup.style.display = 'flex';
                     setTimeout(() => {
                         reviewPopup.classList.add('active');
                     }, 10);
@@ -1015,18 +851,15 @@
             });
         });
 
-// Đóng popup khi click nút X
         if (closeBtn) {
             closeBtn.addEventListener('click', () => {
                 reviewPopup.classList.remove('active');
-                // Đợi animation kết thúc rồi mới ẩn hoàn toàn
                 setTimeout(() => {
                     reviewPopup.style.display = 'none';
                 }, 300);
             });
         }
 
-// Đóng popup khi click bên ngoài
         window.addEventListener('click', (e) => {
             if (e.target === reviewPopup) {
                 reviewPopup.classList.remove('active');
@@ -1036,24 +869,21 @@
             }
         });
 
-// ============================================
-// FORM SUBMIT AJAX - XỬ LÝ ĐÁNH GIÁ
-// ============================================
         const reviewForm = document.getElementById('reviewForm');
-
         if (reviewForm) {
             reviewForm.addEventListener('submit', function (e) {
-                e.preventDefault(); // Ngăn form submit mặc định
-
-                // Lấy dữ liệu từ form
+                e.preventDefault();
                 const productId = reviewForm.querySelector('input[name="product_id"]').value;
-                const rating = reviewForm.querySelector('input[name="rating"]:checked').value;
+                const rating = reviewForm.querySelector('input[name="rating"]:checked')?.value;
                 const content = reviewForm.querySelector('textarea[name="content"]').value;
+                const contextPath = '<%=request.getContextPath()%>';
 
-                console.log('Sending data:', {productId, rating, content}); // Debug log
+                if (!rating) {
+                    showNotification('Vui lòng chọn số sao đánh giá', 'error');
+                    return;
+                }
 
-                // Tạo URLSearchParams thay vì FormData
-                const formData = new URLSearchParams({
+                const params = new URLSearchParams({
                     product_id: productId,
                     rating: rating,
                     content: content
@@ -1061,33 +891,22 @@
 
                 fetch(contextPath + '/ReviewServlet', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: formData
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: params
                 })
-                    .then(response => response.json())
+                    .then(res => res.json())
                     .then(data => {
-                        console.log('Server response:', data); // Debug log
-
                         if (data.status === 'success') {
-                            // Đóng popup
                             reviewPopup.classList.remove('active');
                             setTimeout(() => {
                                 reviewPopup.style.display = 'none';
                             }, 300);
-
-                            // Hiển thị thông báo thành công
                             showNotification(data.message, 'success');
-
-                            // Reload trang sau 1.5 giây để cập nhật đánh giá mới
                             setTimeout(() => {
                                 location.reload();
                             }, 1000);
                         } else {
-                            // Hiển thị lỗi
                             showNotification(data.message, 'error');
-
                             if (data.status === 'login_required') {
                                 setTimeout(() => {
                                     window.location.href = contextPath + '/login.jsp';
@@ -1101,34 +920,10 @@
                     });
             });
         }
-// ============================================
-// ADD CSS ANIMATIONS - RUNG NHẸ NHÀNG
-// ============================================
-        const style = document.createElement('style');
-        style.textContent = `
-   @keyframes cartShake {
-    0%, 100% {
-        transform: translateX(0);
-    }
-    10%, 30%, 50%, 70%, 90% {
-        transform: translateX(-4px);
-    }
-    20%, 40%, 60%, 80% {
-        transform: translateX(4px);
-    }
-}
-
-
-    /* Class để apply animation */
-    .cart-shaking {
-        animation: cartShake 0.5s ease !important;
-        display: inline-block !important;
-    }
-`;
-        document.head.appendChild(style);
     });
 </script>
 
 
 </body>
+
 </html>
