@@ -91,18 +91,27 @@ public class CategoryDAO {
     }
 
     public boolean insert(Categories c) {
-        String sql = """
-        INSERT INTO categories (categoryName, image, status, sort_order)
-        VALUES (?, ?, ?, (SELECT COALESCE(MAX(sort_order), 0) + 1 FROM categories))
-    """;
+        String sqlGetMaxOrder = "SELECT COALESCE(MAX(sort_order), 0) + 1 FROM categories";
+        String sqlInsert = "INSERT INTO categories (categoryName, image, status, sort_order) VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection()) {
+            // Bước 1: Lấy sort_order tiếp theo
+            int nextSortOrder = 1;
+            try (PreparedStatement psMax = conn.prepareStatement(sqlGetMaxOrder);
+                 ResultSet rs = psMax.executeQuery()) {
+                if (rs.next()) {
+                    nextSortOrder = rs.getInt(1);
+                }
+            }
 
-            ps.setString(1, c.getCategoryName());
-            ps.setString(2, c.getImage());
-            ps.setString(3, c.getStatus());
-            return ps.executeUpdate() > 0;
+            // Bước 2: Insert với sort_order đã lấy
+            try (PreparedStatement ps = conn.prepareStatement(sqlInsert)) {
+                ps.setString(1, c.getCategoryName());
+                ps.setString(2, c.getImage());
+                ps.setString(3, c.getStatus());
+                ps.setInt(4, nextSortOrder);
+                return ps.executeUpdate() > 0;
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

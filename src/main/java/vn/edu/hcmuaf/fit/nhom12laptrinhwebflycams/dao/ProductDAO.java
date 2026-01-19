@@ -66,47 +66,64 @@ public class ProductDAO {
     }
 
     public List<Product> getProductsByPromotion(int promotionId) {
+
         List<Product> list = new ArrayList<>();
 
         String sql = """
-        SELECT DISTINCT
+        SELECT
             p.id,
             p.productName,
             p.price,
             p.finalPrice,
-            img.imageUrl AS mainImage,
-            0 AS avgRating,
-            0 AS reviewCount
+
+            i.imageUrl AS mainImage,
+
+            COALESCE(AVG(r.rating), 0) AS avgRating,
+            COUNT(r.id) AS reviewCount
+
         FROM products p
+
         JOIN promotion_target pt
             ON (
-                (pt.targetType = 'sản phẩm' AND pt.product_id = p.id)
-                OR
-                (pt.targetType = 'danh mục' AND pt.category_id = p.category_id)
+                pt.targetType = 'tất cả'
+                OR (pt.targetType = 'sản phẩm' AND p.id = pt.product_id)
+                OR (pt.targetType = 'danh mục' AND p.category_id = pt.category_id)
             )
-        JOIN promotion pr
-            ON pr.id = pt.promotion_id
-        LEFT JOIN images img
-            ON img.product_id = p.id
-           AND img.imageType = 'Chính'
-        WHERE pr.id = ?
+
+        LEFT JOIN images i
+            ON p.id = i.product_id
+            AND i.imageType = 'Chính'
+
+        LEFT JOIN reviews r
+            ON p.id = r.product_id
+
+        WHERE pt.promotion_id = ?
+
+        GROUP BY
+            p.id, p.productName, p.price, p.finalPrice, i.imageUrl
+
+        ORDER BY p.productName ASC
     """;
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, promotionId);
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Product p = new Product();
+
                 p.setId(rs.getInt("id"));
                 p.setProductName(rs.getString("productName"));
                 p.setPrice(rs.getDouble("price"));
                 p.setFinalPrice(rs.getDouble("finalPrice"));
+
                 p.setMainImage(rs.getString("mainImage"));
                 p.setAvgRating(rs.getDouble("avgRating"));
                 p.setReviewCount(rs.getInt("reviewCount"));
+
                 list.add(p);
             }
 
@@ -128,13 +145,22 @@ public class ProductDAO {
         List<Product> list = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder("""
-                SELECT DISTINCT p.*, i.imageUrl
-                FROM products p
-                LEFT JOIN images i 
-                  ON p.id = i.product_id AND i.imageType = 'Chính'
-                WHERE p.productName LIKE ?
-                """);
-
+            SELECT p.*,
+                   i.imageUrl,
+                   COALESCE(rv.avgRating, 0) AS avgRating,
+                   COALESCE(rv.reviewCount, 0) AS reviewCount
+            FROM products p
+            LEFT JOIN images i
+              ON p.id = i.product_id AND i.imageType = 'Chính'
+            LEFT JOIN (
+                SELECT product_id,
+                       AVG(rating) AS avgRating,
+                       COUNT(*) AS reviewCount
+                FROM reviews
+                GROUP BY product_id
+            ) rv ON p.id = rv.product_id
+            WHERE p.productName LIKE ?
+        """);
         // điều kiện giá
         if (minPrice != null && maxPrice != null) {
             sql.append(" AND p.finalPrice BETWEEN ? AND ? ");
@@ -191,8 +217,13 @@ public class ProductDAO {
                         rs.getInt("quantity"),
                         rs.getString("status")
                 );
+
                 p.setMainImage(rs.getString("imageUrl"));
+                p.setAvgRating(rs.getDouble("avgRating"));
+                p.setReviewCount(rs.getInt("reviewCount"));
+
                 list.add(p);
+
             }
 
         } catch (Exception e) {

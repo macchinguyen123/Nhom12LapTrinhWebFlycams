@@ -127,7 +127,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     transition: transform 0.3s, box-shadow 0.3s;
-
+    align-items: center;
 }
 
 .san-pham:hover {
@@ -213,7 +213,6 @@ body {
     margin-left: 15px;
 }
 
-/* --- Nút mua ngay --- */
 .nut-mua-ngay {
     background-color: #0051c6;
     color: white;
@@ -222,13 +221,14 @@ body {
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.9rem;
+
     margin-top: auto;
     margin-bottom: 10px;
     align-self: center;
-    display: block;
-    margin: 0 auto;   /* căn giữa */
+
     transition: background-color 0.3s, transform 0.2s;
 }
+
 
 .nut-mua-ngay:hover {
     background-color: #003c94;

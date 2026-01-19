@@ -5,6 +5,8 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.WishlistService;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PriceFormatter;
 
 import java.io.IOException;
@@ -13,9 +15,16 @@ import java.util.List;
 
 @WebServlet(name = "Searching", value = "/Searching")
 public class Searching extends HttpServlet {
+
+    private final WishlistService wishlistService = new WishlistService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        // ======= LẤY USER TỪ SESSION =======
+        HttpSession session = request.getSession(false);
+        User user = session != null ? (User) session.getAttribute("user") : null;
 
         // ======= 1. Lấy từ khóa =======
         String keyword = request.getParameter("keyword");
@@ -86,10 +95,18 @@ public class Searching extends HttpServlet {
         );
 
 
-        // ======= 6. Gửi formatter xuống JSP =======
+        // ======= 6. LOAD WISHLIST (QUAN TRỌNG) =======
+        if (user != null) {
+            List<Integer> wishlistProductIds =
+                    wishlistService.getWishlistProductIds(user.getId());
+            request.setAttribute("wishlistProductIds", wishlistProductIds);
+        }
+
+
+        // ======= 7. Gửi formatter xuống JSP =======
         request.setAttribute("formatter", new PriceFormatter());
 
-        // ======= 7. Trả kết quả =======
+        // ======= 8. Trả kết quả =======
         request.setAttribute("products", results);
         request.setAttribute("keyword", keyword);
 
@@ -98,7 +115,8 @@ public class Searching extends HttpServlet {
 
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 }
