@@ -2,22 +2,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Đăng ký trở thành SMEMBER</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/register.css">
     <style>
-        .error { color: red; }
+        .error {
+            color: red;
+        }
     </style>
 
 </head>
+
 <body>
 
 <div class="container">
     <h1 class="title">Đăng ký trở thành <span>SKYDroneMember</span></h1>
 
-    <img src="${pageContext.request.contextPath}/image/logoo.png"
-         alt="Logo" class="mascot">
+    <img src="${pageContext.request.contextPath}/image/logoo.png" alt="Logo" class="mascot">
 
 
     <p class="subtitle">Đăng ký bằng tài khoản mạng xã hội</p>
@@ -33,17 +36,13 @@
 
     <p class="or">Hoặc điền thông tin sau</p>
 
-    <form class="register-form"
-          method="POST"
-          action="${pageContext.request.contextPath}/Register">
+    <form class="register-form" method="POST" action="${pageContext.request.contextPath}/Register">
 
         <!-- Tên đăng nhập -->
         <div class="field">
             <h2>Tên đăng nhập</h2>
-            <input type="text" id="local" name="username"
-                   placeholder="Nhập tên đăng nhập"
-                   value="${username}"
-                   required>
+            <input type="text" id="local" name="username" placeholder="Nhập tên đăng nhập"
+                   value="${username}" required>
             <c:if test="${not empty usernameError}">
                 <p class="error">⚠ ${usernameError}</p>
             </c:if>
@@ -54,10 +53,8 @@
         <div class="grid">
             <div class="field">
                 <label for="fullname">Họ và tên</label>
-                <input type="text" id="fullname" name="fullName"
-                       placeholder="Nhập họ và tên"
-                       value="${fullName}"
-                       required>
+                <input type="text" id="fullname" name="fullName" placeholder="Nhập họ và tên"
+                       value="${fullName}" required>
                 <c:if test="${not empty fullNameError}">
                     <p class="error">⚠ ${fullNameError}</p>
                 </c:if>
@@ -66,9 +63,7 @@
 
             <div class="field">
                 <label for="birthday">Ngày sinh</label>
-                <input type="date" id="birthday" name="birthday"
-                       value="${birthday}"
-                       required>
+                <input type="date" id="birthday" name="birthday" value="${birthday}" required>
                 <c:if test="${not empty birthdayError}">
                     <p class="error">⚠ ${birthdayError}</p>
                 </c:if>
@@ -77,10 +72,8 @@
 
             <div class="field">
                 <label for="phone">Số điện thoại</label>
-                <input type="tel" id="phone" name="phoneNumber"
-                       placeholder="Nhập số điện thoại"
-                       value="${phoneNumber}"
-                       required>
+                <input type="tel" id="phone" name="phoneNumber" placeholder="Nhập số điện thoại"
+                       value="${phoneNumber}" required>
                 <c:if test="${not empty phoneError}">
                     <p class="error">⚠ ${phoneError}</p>
                 </c:if>
@@ -89,9 +82,7 @@
 
             <div class="field">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email"
-                       placeholder="Nhập email"
-                       value="${email}">
+                <input type="email" id="email" name="email" placeholder="Nhập email" value="${email}">
                 <p class="hint">✔ Hóa đơn VAT sẽ gửi qua email này</p>
 
                 <c:if test="${not empty emailError}">
@@ -105,8 +96,7 @@
         <div class="grid">
             <div class="field">
                 <label for="password">Mật khẩu</label>
-                <input type="password" id="password" name="password"
-                       placeholder="Nhập mật khẩu" required>
+                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
                 <p class="hint">Mật khẩu tối thiểu 6 ký tự, có ít nhất 1 chữ số và 1 chữ cái</p>
 
                 <c:if test="${not empty passwordError}">
@@ -117,8 +107,7 @@
 
             <div class="field">
                 <label for="confirm">Nhập lại mật khẩu</label>
-                <input type="password" id="confirm" name="confirm"
-                       placeholder="Nhập lại mật khẩu" required>
+                <input type="password" id="confirm" name="confirm" placeholder="Nhập lại mật khẩu" required>
                 <c:if test="${not empty confirmPasswordError}">
                     <p class="error">⚠ ${confirmPasswordError}</p>
                 </c:if>
@@ -133,16 +122,18 @@
 
         <p class="terms">
             Bằng việc Đăng ký, bạn đã đồng ý với
-            <a href="payment-policy.jsp">Điều khoản sử dụng</a> và
-            <a href="warranty.jsp">Chính sách bảo mật</a>.
+            <a href="${pageContext.request.contextPath}/page/terms-of-use.jsp">Điều khoản sử dụng</a> và
+            <a href="${pageContext.request.contextPath}/page/privacy-policy.jsp">Chính sách bảo mật</a>.
         </p>
 
         <div class="actions">
-            <a href="login.jsp" class="btn secondary">⟵ Quay lại đăng nhập</a>
+            <a href="${pageContext.request.contextPath}/Login" class="btn secondary">⟵ Quay lại đăng
+                nhập</a>
             <button type="submit" class="btn primary">Hoàn tất đăng ký</button>
         </div>
     </form>
 </div>
 
 </body>
+
 </html>
