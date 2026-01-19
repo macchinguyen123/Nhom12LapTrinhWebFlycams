@@ -190,46 +190,83 @@
         <c:forEach var="p" items="${products}">
             <div class="san-pham">
                 <!-- Bọc toàn bộ phần chính bằng link tới chi tiết (nếu có id sản phẩm) -->
-                <a href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
+                <a class="link-chi-tiet" href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
                     <!-- Ảnh -->
-                    <c:choose>
-                        <c:when test="${not empty p.mainImage}">
-                            <img src="${p.mainImage}" alt="${p.productName}">
-                        </c:when>
-                        <c:otherwise>
-                            <img src="${pageContext.request.contextPath}/assets/no-image.png" alt="No Image">
-                        </c:otherwise>
-                    </c:choose>
+                    <div class="khung-anh">
+                        <c:choose>
+                            <c:when test="${not empty p.mainImage}">
+                                <img src="${p.mainImage}" alt="${p.productName}">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="${pageContext.request.contextPath}/assets/no-image.png" alt="No Image">
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
 
                     <!-- Tên sản phẩm -->
                     <h3 class="ten-san-pham">${p.productName}</h3>
 
                     <!-- Giá (luôn hiển thị div.gia giống mẫu) -->
                     <div class="gia">
-                        <b>  ${formatter.format(p.finalPrice)} ₫</b>
-                        <c:if test="${p.price >= p.finalPrice}">
-                            <span class="gia-goc">  ${formatter.format(p.price)} ₫</span>
+                        <b>${formatter.format(p.finalPrice)} ₫</b>
+
+                        <c:if test="${p.price > p.finalPrice}">
+                            <span class="gia-goc">
+                                ${formatter.format(p.price)} ₫
+                            </span>
                         </c:if>
                     </div>
+
                 </a>
 
+                <c:set var="fullStars1" value="${p.avgRating.intValue()}"/>
+                <c:set var="hasHalfStar1" value="${p.avgRating - fullStars1 >= 0.5}"/>
                 <!-- Đánh giá mẫu -->
                 <div class="hang-danh-gia">
                     <div class="danh-gia-sao">
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
-                        <i class="bi bi-star-fill"></i>
+
+                        <!-- Sao đầy -->
+                        <c:forEach begin="1" end="${fullStars1}">
+                            <i class="bi bi-star-fill"></i>
+                        </c:forEach>
+
+                        <!-- Nửa sao -->
+                        <c:if test="${hasHalfStar1}">
+                            <i class="bi bi-star-half"></i>
+                        </c:if>
+
+                        <!-- Sao rỗng -->
+                        <c:forEach begin="1"
+                                   end="${5 - fullStars1 - (hasHalfStar1 ? 1 : 0)}">
+                            <i class="bi bi-star"></i>
+                        </c:forEach>
+
                     </div>
-                    <i class="bi bi-heart tim-yeu-thich"></i>
+                    <c:choose>
+                        <c:when test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
+                            <i class="bi bi-heart-fill tim-yeu-thich yeu-thich"
+                               data-product-id="${p.id}"></i>
+                        </c:when>
+                        <c:otherwise>
+                            <i class="bi bi-heart tim-yeu-thich"
+                               data-product-id="${p.id}"></i>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
 
                 <!-- Số đánh giá -->
-                <div class="so-danh-gia">(12 đánh giá)</div>
-
+                <div class="so-danh-gia">
+                    (${empty p.reviewCount ? 0 : p.reviewCount} đánh giá)
+                </div>
                 <!-- Nút mua ngay (có thể là form/post hoặc link) -->
-                <button class="nut-mua-ngay">Mua Ngay</button>
+                <form action="${pageContext.request.contextPath}/BuyNowServlet" method="post">
+                    <input type="hidden" name="productId" value="${p.id}">
+                    <input type="hidden" name="quantity" value="1">
+
+                    <button type="submit" class="nut-mua-ngay">
+                        Mua Ngay
+                    </button>
+                </form>
             </div>
         </c:forEach>
     </div>
@@ -237,22 +274,6 @@
 
 <jsp:include page="/page/footer.jsp"/>
 
-<!-- JS: tim rỗng -> tim đỏ đầy -->
-<script>
-    document.querySelectorAll('.tim-yeu-thich').forEach(tim => {
-        tim.addEventListener('click', () => {
-            if (tim.classList.contains('bi-heart')) {
-                // đổi sang tim đầy màu đỏ
-                tim.classList.remove('bi-heart');
-                tim.classList.add('bi-heart-fill', 'yeu-thich');
-            } else {
-                // đổi ngược lại tim rỗng
-                tim.classList.remove('bi-heart-fill', 'yeu-thich');
-                tim.classList.add('bi-heart');
-            }
-        });
-    });
-</script>
 <script>
     const btnDanhMuc = document.getElementById('btnDanhMuc');
     const menuLeft = document.getElementById('menuLeft');
@@ -310,6 +331,70 @@
     });
 
 </script>
+<script>
+    document.querySelectorAll('.tim-yeu-thich').forEach(tim => {
+        tim.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
 
+            // Kiểm tra đăng nhập
+            <c:if test="${empty sessionScope.user}">
+            alert('Vui lòng đăng nhập để thêm vào yêu thích!');
+            window.location.href = '${pageContext.request.contextPath}/Login';
+            return;
+            </c:if>
+
+            const productId = this.getAttribute('data-product-id');
+            const isLiked = this.classList.contains('yeu-thich');
+            const action = isLiked ? 'remove' : 'add';
+
+            console.log('Action:', action, 'Product ID:', productId);
+
+            if (!productId) {
+                console.error('productId is null');
+                return;
+            }
+
+            // Gọi API
+            fetch('${pageContext.request.contextPath}/wishlist', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    action: action,
+                    productId: productId
+                })
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log('Response:', data);
+
+                    if (data.success) {
+                        // Toggle icon
+                        if (isLiked) {
+                            this.classList.remove('bi-heart-fill', 'yeu-thich');
+                            this.classList.add('bi-heart');
+                        } else {
+                            this.classList.remove('bi-heart');
+                            this.classList.add('bi-heart-fill', 'yeu-thich');
+                        }
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Không thể kết nối đến server');
+                });
+        });
+    });
+</script>
 </body>
 </html>

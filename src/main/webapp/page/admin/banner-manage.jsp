@@ -38,10 +38,11 @@
         <h2>SkyDrone Admin</h2>
     </div>
     <div class="header-right">
-        <a href="${pageContext.request.contextPath}/admin/profile" class="text-decoration-none text-white">
+        <a href="${pageContext.request.contextPath}/admin/profile"
+           class="text-decoration-none text-while">
             <div class="thong-tin-admin d-flex align-items-center gap-2">
                 <i class="bi bi-person-circle fs-4"></i>
-                <span class="fw-semibold">Admin</span>
+                <span class="fw-semibold">${sessionScope.user.fullName}</span>
             </div>
         </a>
         <button class="logout-btn" id="logoutBtn" title="Đăng xuất">
@@ -66,11 +67,19 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="user-info">
-            <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
-            <h3>Mạc Nguyên</h3>
+            <c:choose>
+                <c:when test="${not empty sessionScope.user.avatar}">
+                    <img src="${pageContext.request.contextPath}/uploads/avatar/${sessionScope.user.avatar}?v=${sessionScope.user.updatedAt != null ? sessionScope.user.updatedAt.time : ''}"
+                         alt="Avatar"
+                         style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                </c:when>
+                <c:otherwise>
+                    <img src="${pageContext.request.contextPath}/image/logoTCN.png" alt="Avatar">
+                </c:otherwise>
+            </c:choose>
+            <h3>${sessionScope.user.fullName}</h3>
             <p>Chào mừng bạn trở lại 👋</p>
         </div>
-
         <ul class="menu">
             <a href="${pageContext.request.contextPath}/admin/dashboard">
                 <li><i class="bi bi-speedometer2"></i> Tổng Quan</li>

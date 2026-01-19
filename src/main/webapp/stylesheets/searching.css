@@ -22,7 +22,14 @@ body {
 a {
     text-decoration: none;
     color: inherit;
-    display: contents;
+
+}
+
+.san-pham form {
+    display: flex;
+    justify-content: center; /* ⭐ căn giữa ngang */
+    margin-top: auto;        /* ⭐ đẩy form xuống đáy card */
+    margin-bottom: 10px;
 }
 
 /* ======== BỘ LỌC + SẮP XẾP ======== */
@@ -198,16 +205,24 @@ input[type="radio"]:checked::after {
 }
 
 
-/* --- Căn trái nội dung --- */
 .ten-san-pham {
     text-align: left;
     font-size: 1rem;
     font-weight: 600;
     color: #111;
     margin: 6px 0;
-    min-height: 48px; /* 👈 chỉnh theo độ cao mong muốn */
-    display: flex;
-    align-items: flex-start; /* căn đều từ trên xuống */
+
+    /* Hiển thị 2 dòng với dấu ... */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.3;
+    max-height: 2.6em; /* 2 dòng: 1.3 × 2 = 2.6em */
+
+    /* Ngắt từ và hiển thị dấu ... */
+    word-break: break-word;
+    text-overflow: ellipsis;
 }
 
 /* --- Giá chính --- */
@@ -328,3 +343,19 @@ input[type="radio"]:checked::after {
     color: black;
     margin-right: 5px;
 }
+.khung-anh {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.khung-anh img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* rất quan trọng */
+}
+
+

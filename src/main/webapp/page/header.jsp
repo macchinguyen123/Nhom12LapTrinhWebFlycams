@@ -170,7 +170,6 @@
     const suggestList = document.getElementById("suggestList");
 
     let debounceTimer = null;
-    let isComposing = false;
 
     // ==== QUẢN LÝ LỊCH SỬ TÌM KIẾM ====
     const SearchHistory = {
@@ -224,23 +223,18 @@
         }
     };
 
-    // ==== XỬ LÝ INPUT ====
-    searchInput.addEventListener("compositionstart", function() {
-        isComposing = true;
-    });
-
-    searchInput.addEventListener("compositionend", function() {
-        isComposing = false;
+    searchInput.addEventListener("input", function () {
         triggerSuggest();
     });
 
-    searchInput.addEventListener("input", function() {
-        if (!isComposing) triggerSuggest();
-    });
 
     searchInput.addEventListener("focus", function() {
-        if (searchInput.value.trim() === "") {
+        const keyword = searchInput.value.trim();
+        if (keyword === "") {
             showSearchHistory();
+        } else {
+            // ✅ FIX: Khi focus vào ô có sẵn text, hiển thị gợi ý luôn
+            triggerSuggest();
         }
     });
 
@@ -283,23 +277,31 @@
     function triggerSuggest() {
         const keyword = searchInput.value.trim();
 
+        // ✅ FIX: Nếu không có keyword, hiển thị lịch sử
         if (keyword.length === 0) {
             showSearchHistory();
             return;
         }
 
+        // ✅ FIX: Ngay lập tức gọi API, không cần kiểm tra độ dài tối thiểu
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(function() {
             fetch(contextPath + "/search-suggestion?keyword=" + encodeURIComponent(keyword))
-                .then(function(res) { return res.json(); })
+                .then(function(res) {
+                    if (!res.ok) throw new Error('Network response was not ok');
+                    return res.json();
+                })
                 .then(function(data) {
+                    console.log('Received suggestions:', data); // ✅ Debug log
                     displaySuggestions(data, keyword);
                 })
                 .catch(function(err) {
                     console.error('Lỗi khi tìm kiếm:', err);
-                    suggestList.style.display = "none";
+                    // ✅ Hiển thị message lỗi thay vì ẩn hoàn toàn
+                    suggestList.innerHTML = '<div class="suggest-empty">Không thể tải gợi ý</div>';
+                    suggestList.style.display = "block";
                 });
-        }, 300);
+        }, 200); // ✅ Giảm thời gian debounce từ 300ms xuống 200ms
     }
 
     // ==== HIỂN THỊ GỢI Ý ====
@@ -310,12 +312,15 @@
         const hasHistory = history.length > 0;
         const hasSuggestions = data && data.length > 0;
 
+        console.log('Display suggestions - hasHistory:', hasHistory, 'hasSuggestions:', hasSuggestions); // ✅ Debug
+
         if (!hasHistory && !hasSuggestions) {
             suggestList.innerHTML = '<div class="suggest-empty">Không tìm thấy kết quả</div>';
             suggestList.style.display = "block";
             return;
         }
 
+        // ✅ Hiển thị lịch sử liên quan
         if (hasHistory) {
             const relatedHistory = history.filter(function(item) {
                 return item.toLowerCase().includes(keyword.toLowerCase());
@@ -351,13 +356,12 @@
             }
         }
 
+        // ✅ Hiển thị gợi ý sản phẩm
         if (hasSuggestions) {
-            if (hasHistory) {
-                const suggestionHeader = document.createElement("div");
-                suggestionHeader.className = "suggest-header";
-                suggestionHeader.innerHTML = '<span>Gợi ý sản phẩm</span>';
-                suggestList.appendChild(suggestionHeader);
-            }
+            const suggestionHeader = document.createElement("div");
+            suggestionHeader.className = "suggest-header";
+            suggestionHeader.innerHTML = '<span>Gợi ý sản phẩm</span>';
+            suggestList.appendChild(suggestionHeader);
 
             data.forEach(function(item) {
                 const li = document.createElement("li");
@@ -411,23 +415,25 @@
     });
 
     // ==== UTILITY FUNCTIONS ====
-    function highlightKeyword(text, keyword) {
-        var escaped = keyword.split('').map(function(char) {
-            if ('.*+?^\${}()|[]\\'.indexOf(char) !== -1) {
-                return '\\' + char;
-            }
-            return char;
-        }).join('');
-
-        var regex = new RegExp("(" + escaped + ")", "gi");
-        return text.replace(regex, "<strong>\$1</strong>");
-    }
-
     function escapeHtml(text) {
-        var div = document.createElement('div');
+        const div = document.createElement("div");
         div.textContent = text;
         return div.innerHTML;
     }
+
+    function highlightKeyword(text, keyword) {
+        if (!keyword) return escapeHtml(text);
+
+        const escapedKeyword = keyword.replace(/[.*+?^$()|[\]\\]/g, "\\$&");
+        try {
+            const regex = new RegExp("(" + escapedKeyword + ")", "gi");
+            return escapeHtml(text).replace(regex, "<strong>$1</strong>");
+        } catch (e) {
+            console.error("Highlight error:", e);
+            return escapeHtml(text);
+        }
+    }
+
 </script>
 
 
