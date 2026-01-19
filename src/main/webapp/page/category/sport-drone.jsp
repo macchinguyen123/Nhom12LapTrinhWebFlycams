@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Danh Mục</title>
@@ -14,6 +15,7 @@
     <link rel="stylesheet" href="../../stylesheets/header.css">
     <link rel="stylesheet" href="../../stylesheets/footer.css">
 </head>
+
 <body>
 <!-- ==== HEADER TRÊN ==== -->
 <div class="header-bg">
@@ -99,24 +101,29 @@
     <div class="menu-left-1" id="menuLeft">
         <ul>
             <li><a href="film-drone.jsp">
-                <img src="/image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim chuyên nghiệp
+                <img src="/image/logoCategory/logoDanhMucQuayPhim.png" class="menu-icon">Drone quay phim
+                chuyên nghiệp
             </a>
             </li>
 
             <li><a href="tourism-drone.jsp">
-                <img src="/image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch, vlog
+                <img src="/image/logoCategory/logoDanhMucDuLich.png" class="menu-icon">Drone du lịch,
+                vlog
             </a>
             </li>
             <li><a href="../category/sport-drone.html">
-                <img src="/image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao tốc độ cao
+                <img src="/image/logoCategory/logoDanhMucTheThao.png" class="menu-icon">Drone thể thao
+                tốc độ cao
             </a>
             </li>
             <li><a href="agriculture-drone.jsp">
-                <img src="/image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông nghiệp
+                <img src="/image/logoCategory/logoDanhMucNongNghiep.png" class="menu-icon">Drone nông
+                nghiệp
             </a>
             </li>
             <li><a href="monitor-drone.jsp">
-                <img src="/image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát, an ninh
+                <img src="/image/logoCategory/logoDanhMucAnNinh.png" class="menu-icon">Drone giám sát,
+                an ninh
             </a>
             </li>
             <li><a href="mini-drone.jsp">
@@ -147,15 +154,16 @@
                 <label><input type="radio" name="chon-gia" value="tat-ca" checked> Tất cả</label>
                 <label><input type="radio" name="chon-gia" value="duoi-5000000"> Dưới 5.000.000 ₫</label>
                 <label><input type="radio" name="chon-gia" value="5-10"> 5.000.000 ₫ - 10.000.000 ₫</label>
-                <label><input type="radio" name="chon-gia" value="10-20"> 10.000.000 ₫ - 20.000.000 ₫</label>
+                <label><input type="radio" name="chon-gia" value="10-20"> 10.000.000 ₫ - 20.000.000
+                    ₫</label>
                 <label><input type="radio" name="chon-gia" value="tren-20"> Trên 20.000.000 ₫</label>
                 <p><b>Nhập vào khoảng giá bạn muốn</b></p>
                 <div class="d-flex align-items-center gap-1">
                     <input type="number" id="gia-tu" class="form-control form-control-sm" placeholder="Từ ₫"
                            style="width: 100px;">
                     <span>-</span>
-                    <input type="number" id="gia-den" class="form-control form-control-sm" placeholder="Đến ₫"
-                           style="width: 100px;">
+                    <input type="number" id="gia-den" class="form-control form-control-sm"
+                           placeholder="Đến ₫" style="width: 100px;">
                 </div>
                 <!-- Lọc theo thương hiệu -->
                 <hr class="my-2">
@@ -166,20 +174,20 @@
                     <!-- Cột 1 -->
                     <div class="col-6">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandDJI" name="chon-thuong-hieu"
-                                   value="DJI">
+                            <input class="form-check-input" type="checkbox" id="brandDJI"
+                                   name="chon-thuong-hieu" value="DJI">
                             <label class="form-check-label" for="brandDJI">DJI</label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandAutel" name="chon-thuong-hieu"
-                                   value="Autel Robotics">
+                            <input class="form-check-input" type="checkbox" id="brandAutel"
+                                   name="chon-thuong-hieu" value="Autel Robotics">
                             <label class="form-check-label" for="brandAutel">Autel Robotics</label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandParrot" name="chon-thuong-hieu"
-                                   value="Parrot">
+                            <input class="form-check-input" type="checkbox" id="brandParrot"
+                                   name="chon-thuong-hieu" value="Parrot">
                             <label class="form-check-label" for="brandParrot">Parrot</label>
                         </div>
                     </div>
@@ -187,20 +195,20 @@
                     <!-- Cột 2 -->
                     <div class="col-6">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandSkydio" name="chon-thuong-hieu"
-                                   value="Skydio">
+                            <input class="form-check-input" type="checkbox" id="brandSkydio"
+                                   name="chon-thuong-hieu" value="Skydio">
                             <label class="form-check-label" for="brandSkydio">Skydio</label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandXiaomi" name="chon-thuong-hieu"
-                                   value="Xiaomi">
+                            <input class="form-check-input" type="checkbox" id="brandXiaomi"
+                                   name="chon-thuong-hieu" value="Xiaomi">
                             <label class="form-check-label" for="brandXiaomi">Xiaomi</label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="brandOther" name="chon-thuong-hieu"
-                                   value="Khác">
+                            <input class="form-check-input" type="checkbox" id="brandOther"
+                                   name="chon-thuong-hieu" value="Khác">
                             <label class="form-check-label" for="brandOther">Khác</label>
                         </div>
                     </div>
@@ -231,7 +239,8 @@
     <div class="khung-san-pham">
         <!-- SP mẫu 1 -->
         <div class="san-pham">
-            <a href="../product-details.jsp"><img src="/image/miniProduct/DJI Mini 3 Pro.jpg" alt="Flycam DJI Air 3">
+            <a href="../product-details.jsp"><img src="/image/miniProduct/DJI Mini 3 Pro.jpg"
+                                                  alt="Flycam DJI Air 3">
                 <h3 class="ten-san-pham">Nazgul Evoque F5 V2 O4 6S HD</h3>
                 <div class="gia">
                     <b>15.762.000 ₫</b>
@@ -249,9 +258,14 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(12 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <!--        Sản phẩm 2:-->
         <div class="san-pham">
@@ -275,15 +289,21 @@
 
             <div class="so-danh-gia">(88 đánh giá)</div>
 
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- === SẢN PHẨM 3 === -->
         <div class="san-pham">
-            <a href="../product-details.jsp"><img src="/image/sportProduct/DIATONE Roma F5 V2 （V1 PRO） Frame kit.png"
-                                                  alt="DJIMavic3ProWithDJIRCRemote">
+            <a href="../product-details.jsp"><img
+                    src="/image/sportProduct/DIATONE Roma F5 V2 （V1 PRO） Frame kit.png"
+                    alt="DJIMavic3ProWithDJIRCRemote">
                 <h3 class="ten-san-pham">DIATONE Roma F5 V2 （V1 PRO） Frame kit</h3>
                 <div class="gia"><b>1.800.000 ₫</b>
                     <span class="gia-goc">2.000.000 ₫</span>
@@ -302,9 +322,14 @@
 
             <div class="so-danh-gia">(80 đánh giá)</div>
 
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- === SẢN PHẨM 4 === -->
@@ -329,15 +354,20 @@
 
             <div class="so-danh-gia">(65 đánh giá)</div>
 
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- === SẢN PHẨM 5 === -->
         <div class="san-pham">
-            <a href="../product-details.jsp"><img src="/image/sportProduct/GEPRC CineLog35 V2 HD O3 FPV Drone.png"
-                                                  alt="DJlMini3">
+            <a href="../product-details.jsp"><img
+                    src="/image/sportProduct/GEPRC CineLog35 V2 HD O3 FPV Drone.png" alt="DJlMini3">
                 <h3 class="ten-san-pham">GEPRC CineLog35 V2 HD O3 FPV Drone</h3>
                 <div class="gia"><b>14.898.000 ₫</b>
                     <span class="gia-goc">15.980.000 ₫</span>
@@ -356,14 +386,20 @@
 
             <div class="so-danh-gia">(79 đánh giá)</div>
 
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- === SẢN PHẨM 6 === -->
         <div class="san-pham">
-            <a href="../product-details.jsp"><img src="/image/sportProduct/Defender 25 O4 4S HD.png" alt="DJlFlip">
+            <a href="../product-details.jsp"><img src="/image/sportProduct/Defender 25 O4 4S HD.png"
+                                                  alt="DJlFlip">
 
                 <h3 class="ten-san-pham">Defender 25 O4 4S HD</h3>
                 <div class="gia"><b>13.000.000 ₫</b>
@@ -384,9 +420,14 @@
 
             <div class="so-danh-gia">(53 đánh giá)</div>
 
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- === SẢN PHẨM 7 === -->
@@ -414,15 +455,21 @@
 
             <div class="so-danh-gia">(39 đánh giá)</div>
 
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- === SẢN PHẨM 8 === -->
         <div class="san-pham">
             <a href="../product-details.jsp"><img
-                    src="/image/sportProduct/Máy Bay iFlight Chimera7 Pro V2 6S HD LongRange FPV.png" alt="DJlMini4K">
+                    src="/image/sportProduct/Máy Bay iFlight Chimera7 Pro V2 6S HD LongRange FPV.png"
+                    alt="DJlMini4K">
 
                 <h3 class="ten-san-pham">iFlight Chimera7 Pro V2 6S HD LongRange FPV</h3>
                 <div class="gia"><b>17.500.000 ₫</b>
@@ -443,9 +490,14 @@
 
             <div class="so-danh-gia">(39 đánh giá)</div>
 
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <!-- === SẢN PHẨM 9 === -->
         <div class="san-pham">
@@ -471,9 +523,14 @@
 
             <div class="so-danh-gia">(33 đánh giá)</div>
 
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <!-- === SẢN PHẨM 10 === -->
         <div class="san-pham">
@@ -498,14 +555,20 @@
 
             <div class="so-danh-gia">(13 đánh giá)</div>
 
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <!-- === SẢN PHẨM 11 === -->
         <div class="san-pham">
             <a href="../product-details.jsp"><img
-                    src="/image/sportProduct/Máy Bay GEPRC Vapor-X5 O3 Freestyle FPV Drone.png" alt="DJlMini4K">
+                    src="/image/sportProduct/Máy Bay GEPRC Vapor-X5 O3 Freestyle FPV Drone.png"
+                    alt="DJlMini4K">
 
                 <h3 class="ten-san-pham">GEPRC Vapor-X5 O3 Freestyle FPV Drone</h3>
                 <div class="gia"><b>9.700.000 ₫</b>
@@ -526,9 +589,14 @@
 
             <div class="so-danh-gia">(10 đánh giá)</div>
 
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
         <!-- === SẢN PHẨM 12 === -->
         <div class="san-pham">
@@ -555,9 +623,14 @@
 
             <div class="so-danh-gia">(87 đánh giá)</div>
 
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
 
@@ -609,15 +682,20 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(123 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- === SẢN PHẨM 15 === -->
         <div class="san-pham">
-            <a href="../product-details.jsp"><img src="/image/sportProduct/drone VCoptr Falcon Camera 4K.png"
-                                                  alt="Flycam E88 Pro Max">
+            <a href="../product-details.jsp"><img
+                    src="/image/sportProduct/drone VCoptr Falcon Camera 4K.png" alt="Flycam E88 Pro Max">
                 <h3 class="ten-san-pham">drone VCoptr Falcon Camera 4K</h3>
                 <div class="gia"><b>25.500.000 ₫</b>
                     <span class="gia-goc">29.000.000 ₫</span>
@@ -634,15 +712,21 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(58 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- === SẢN PHẨM 16 === -->
         <div class="san-pham">
             <a href="../product-details.jsp"><img
-                    src="/image/sportProduct/Hummingbird V3.1 RaceSpec ELRS 16.5g BNF.png" alt="Flycam SJRC F11 4K Pro">
+                    src="/image/sportProduct/Hummingbird V3.1 RaceSpec ELRS 16.5g BNF.png"
+                    alt="Flycam SJRC F11 4K Pro">
                 <h3 class="ten-san-pham">Hummingbird V3.1 RaceSpec ELRS 16.5g BNF</h3>
                 <div class="gia"><b>2.390.000 ₫</b>
                     <span class="gia-goc">4.100.000 ₫</span>
@@ -659,9 +743,14 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(85 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- === SẢN PHẨM 17 === -->
@@ -685,9 +774,14 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(41 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- === SẢN PHẨM 18 === -->
@@ -711,15 +805,21 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(76 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- === SẢN PHẨM 19 === -->
         <div class="san-pham">
             <a href="../product-details.jsp"><img
-                    src="/image/sportProduct/Máy Bay Flywoo Firefly 1S NANO Baby Quad.png" alt="Flycam C-Fly Faith 2S">
+                    src="/image/sportProduct/Máy Bay Flywoo Firefly 1S NANO Baby Quad.png"
+                    alt="Flycam C-Fly Faith 2S">
                 <h3 class="ten-san-pham">Flywoo Firefly 1S NANO Baby Quad</h3>
                 <div class="gia"><b>4.490.000 ₫</b>
                     <span class="gia-goc">5.990.000 ₫</span>
@@ -736,9 +836,14 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(69 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <!-- === SẢN PHẨM 20 === -->
@@ -762,14 +867,20 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(122 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
         <div class="san-pham">
-            <a href="../product-details.jsp"><img src="/image/sportProduct/Taurus X8 Pro Max 8S HD Cinelifter.png"
-                                                  alt="DJI Avata FPV Combo">
+            <a href="../product-details.jsp"><img
+                    src="/image/sportProduct/Taurus X8 Pro Max 8S HD Cinelifter.png"
+                    alt="DJI Avata FPV Combo">
                 <h3 class="ten-san-pham">Taurus X8 Pro Max 8S HD Cinelifter</h3>
                 <div class="gia"><b>95.490.000 ₫</b>
                     <span class="gia-goc">100.000.000 ₫</span>
@@ -786,9 +897,14 @@
                 <i class="bi bi-heart tim-yeu-thich"></i>
             </div>
             <div class="so-danh-gia">(122 đánh giá)</div>
-            <a href="../product-details.jsp">
-                <button class="nut-mua-ngay">Mua Ngay</button>
-            </a>
+            <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                  class="add-to-cart-form">
+                <input type="hidden" name="productId" value="1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="nut-mua-ngay">
+                    <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                </button>
+            </form>
         </div>
 
     </div>
@@ -872,29 +988,30 @@
             <section class="social-connect">
                 <h6>KẾT NỐI VỚI SKYDRONE</h6>
                 <div class="social-icons">
-                    <a href="https://www.youtube.com/@F8VNOfficial"
-                       class="icon youtube" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.youtube.com/@F8VNOfficial" class="icon youtube" target="_blank"
+                       rel="noopener noreferrer">
                         <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
                     </a>
 
-                    <a href="https://www.facebook.com/dhkcntt.nlu"
-                       class="icon facebook" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.facebook.com/dhkcntt.nlu" class="icon facebook" target="_blank"
+                       rel="noopener noreferrer">
                         <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
                     </a>
 
-                    <a href="https://www.instagram.com/truyenthongchinhphu/"
-                       class="icon instagram" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.instagram.com/truyenthongchinhphu/" class="icon instagram"
+                       target="_blank" rel="noopener noreferrer">
                         <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
                     </a>
 
-                    <a href="https://www.tiktok.com/@nonglam.university"
-                       class="icon tiktok" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.tiktok.com/@nonglam.university" class="icon tiktok" target="_blank"
+                       rel="noopener noreferrer">
                         <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
                     </a>
 
-                    <a href="https://zalo.me/0966089465"
-                       class="icon zalo" target="_blank" rel="noopener noreferrer">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo">
+                    <a href="https://zalo.me/0966089465" class="icon zalo" target="_blank"
+                       rel="noopener noreferrer">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg"
+                             alt="Zalo">
                     </a>
                 </div>
             </section>
@@ -906,7 +1023,8 @@
 
     <div class="footer-bottom">
         <p>Copyright © 2025 © <strong>SKYDrone Việt Nam</strong></p>
-        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ bị nghiêm
+        <p>Các nội dung, tài liệu và hình ảnh thuộc bản quyền của SKYDrone Việt Nam. Mọi hành vi sao chép sẽ
+            bị nghiêm
             cấm.</p>
     </div>
 </footer>
@@ -1001,6 +1119,26 @@
     });
     // Hiển thị trang đầu tiên khi tải trang
     hienThiTrang(trangHienTai);
+
+    // Attach event listeners to all add-to-cart buttons
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.add-to-cart-form button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const form = btn.closest('form');
+                const productId = form.querySelector('input[name="productId"]').value;
+                const quantity = form.querySelector('input[name="quantity"]').value;
+                const productCard = btn.closest('.san-pham');
+                const productImg = productCard.querySelector('img');
+
+                if (typeof globallyHandleAddToCart === 'function') {
+                    globallyHandleAddToCart(productId, quantity, productImg, btn);
+                } else {
+                    form.submit();
+                }
+            });
+        });
+    });
 </script>
 <script>
     const btnDanhMuc = document.getElementById('btnDanhMuc');
@@ -1018,4 +1156,5 @@
     });
 </script>
 </body>
+
 </html>

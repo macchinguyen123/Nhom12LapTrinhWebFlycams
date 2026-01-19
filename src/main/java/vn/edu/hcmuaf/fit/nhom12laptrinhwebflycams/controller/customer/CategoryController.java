@@ -22,6 +22,7 @@ public class CategoryController extends HttpServlet {
     private CategoryDAO categoryDAO = new CategoryDAO();
 
     private final WishlistService wishlistService = new WishlistService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -40,7 +41,7 @@ public class CategoryController extends HttpServlet {
         // Lấy thông tin category
         Categories category = categoryDAO.getCategoryById(categoryId);
         if (category == null) {
-            response.sendRedirect("page/homepage.jsp");
+            response.sendRedirect(request.getContextPath() + "/home");
             return;
         }
 
@@ -57,16 +58,20 @@ public class CategoryController extends HttpServlet {
         try {
             if (giaTuStr != null && !giaTuStr.trim().isEmpty()) {
                 String s = giaTuStr.trim().replaceAll("[^0-9]", "");
-                if (!s.isEmpty()) minPrice = Double.parseDouble(s);
+                if (!s.isEmpty())
+                    minPrice = Double.parseDouble(s);
             }
-        } catch (NumberFormatException ignored) {}
+        } catch (NumberFormatException ignored) {
+        }
 
         try {
             if (giaDenStr != null && !giaDenStr.trim().isEmpty()) {
                 String s = giaDenStr.trim().replaceAll("[^0-9]", "");
-                if (!s.isEmpty()) maxPrice = Double.parseDouble(s);
+                if (!s.isEmpty())
+                    maxPrice = Double.parseDouble(s);
             }
-        } catch (NumberFormatException ignored) {}
+        } catch (NumberFormatException ignored) {
+        }
 
         String priceFilter = request.getParameter("chon-gia");
 
@@ -99,9 +104,10 @@ public class CategoryController extends HttpServlet {
         String sortParam = request.getParameter("sort"); // "asc" hoặc "desc"
         String sortBy = null; // giá trị truyền vào DAO
 
-        if ("asc".equals(sortParam)) sortBy = "low-high";
-        else if ("desc".equals(sortParam)) sortBy = "high-low";
-
+        if ("asc".equals(sortParam))
+            sortBy = "low-high";
+        else if ("desc".equals(sortParam))
+            sortBy = "high-low";
 
         // ======= 6. Lấy danh sách sản phẩm theo category + lọc =======
         List<Product> products = productDAO.searchProductsInCategory(
@@ -110,12 +116,10 @@ public class CategoryController extends HttpServlet {
                 minPrice,
                 maxPrice,
                 brandList,
-                sortBy
-        );
+                sortBy);
         // ======= 7. LOAD WISHLIST (QUAN TRỌNG) =======
         if (user != null) {
-            List<Integer> wishlistProductIds =
-                    wishlistService.getWishlistProductIds(user.getId());
+            List<Integer> wishlistProductIds = wishlistService.getWishlistProductIds(user.getId());
             request.setAttribute("wishlistProductIds", wishlistProductIds);
         }
 

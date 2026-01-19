@@ -81,7 +81,7 @@ public class GoogleCallbackServlet extends HttpServlet {
             request.getSession().setAttribute("user", user);
 
             // 5. Redirect đúng
-            response.sendRedirect(request.getContextPath() + "/page/homepage.jsp");
+            response.sendRedirect(request.getContextPath() + "/home");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,7 +90,8 @@ public class GoogleCallbackServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 }

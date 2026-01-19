@@ -4,15 +4,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8"/>
     <title>Giỏ hàng Flycam</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/wishlist.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+          rel="stylesheet">
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
     <!-- Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+          rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/footer.css">
 
@@ -22,6 +26,7 @@
     <link rel="stylesheet" href="../stylesheets/footer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/common-category.css">
 </head>
+
 <body>
 <jsp:include page="/page/header.jsp"/>
 
@@ -60,18 +65,14 @@
                 <!-- Lặp danh sách -->
                 <c:forEach var="p" items="${products}">
                     <div class="khung_san_pham p-3 mb-3 bg-white shadow-sm rounded
-                                d-flex align-items-center justify-content-between"
-                         data-product-id="${p.id}">
+                                d-flex align-items-center justify-content-between" data-product-id="${p.id}">
 
                         <div class="d-flex align-items-center">
-                            <input type="checkbox"
-                                   class="chon_san_pham form-check-input me-3">
+                            <input type="checkbox" class="chon_san_pham form-check-input me-3">
 
                             <a href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
-                                <img src="${p.mainImage}"
-                                     alt="${p.productName}"
-                                     class="anh_san_pham me-3"
-                                     width="120">
+                                <img src="${p.mainImage}" alt="${p.productName}"
+                                     class="anh_san_pham me-3" width="120">
                             </a>
 
                             <div>
@@ -82,14 +83,15 @@
 
 
                                 <div>
-                                   <span class="gia_hien_tai text-danger fw-bold me-2">
-                                        ${formatter.format(p.finalPrice)} ₫
-                                    </span>
+                                                        <span class="gia_hien_tai text-danger fw-bold me-2">
+                                                            ${formatter.format(p.finalPrice)} ₫
+                                                        </span>
 
                                     <c:if test="${p.finalPrice <= p.price}">
-                                    <span class="gia_goc text-muted text-decoration-line-through">
-                                        ${formatter.format(p.price)} ₫
-                                    </span>
+                                                            <span
+                                                                    class="gia_goc text-muted text-decoration-line-through">
+                                                                ${formatter.format(p.price)} ₫
+                                                            </span>
                                     </c:if>
 
                                 </div>
@@ -97,13 +99,13 @@
                         </div>
                         <div class="d-flex align-items-center gap-2">
                             <!-- Form thêm vào giỏ hàng -->
-                            <form action="${pageContext.request.contextPath}/add-cart"
-                                  method="get"
+                            <form action="${pageContext.request.contextPath}/add-cart" method="get"
                                   style="display:inline-block; margin:0;">
                                 <input type="hidden" name="productId" value="${p.id}">
                                 <input type="hidden" name="quantity" value="1">
 
-                                <button type="submit" class="btn btn-primary btn-sm nut_them_vao_gio">
+                                <button type="submit"
+                                        class="btn btn-primary btn-sm nut_them_vao_gio">
                                     <i class="bi bi-cart-plus"></i> Thêm vào giỏ hàng
                                 </button>
                             </form>
@@ -150,7 +152,7 @@
 
                 fetch(contextPath + '/wishlist', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                     body: params.toString()
                 })
                     .then(res => res.json())
@@ -227,7 +229,7 @@
 
                 fetch(contextPath + '/wishlist', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                     body: params.toString()
                 })
                     .then(res => res.json())
@@ -299,12 +301,7 @@
                 document.body.appendChild(flyingImg);
 
                 // Tìm vị trí icon giỏ hàng trong header
-                const cartIcon = document.querySelector(
-                    '.bi-cart, .bi-cart2, .bi-cart3, .bi-cart4, ' +
-                    '.bi-cart-fill, .bi-cart-check, .bi-cart-plus, ' +
-                    '.bi-bag, .bi-bag-fill, .bi-basket, .bi-basket-fill, ' +
-                    '[class*="cart"], [href*="shoppingcart"], [href*="cart"]'
-                );
+                const cartIcon = document.getElementById('cartBadge') || document.querySelector('.bi-cart3, [href*="shoppingcart"]');
 
                 setTimeout(() => {
                     if (cartIcon) {
@@ -334,10 +331,19 @@
 
                 fetch(url, {
                     method: 'GET',
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    headers: {'X-Requested-With': 'XMLHttpRequest'}
                 })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (response.redirected) {
+                            if (confirm('Bạn cần đăng nhập để thêm vào giỏ hàng. Chuyển đến trang đăng nhập?')) {
+                                window.location.href = response.url;
+                            }
+                            return;
+                        }
+                        return response.json();
+                    })
                     .then(data => {
+                        if (!data) return;
                         if (data.success) {
                             showNotification('Đã thêm vào giỏ hàng!', 'success');
 
@@ -348,13 +354,7 @@
                                 updateCartBadge();
                             }
 
-                            // Hiệu ứng rung cho icon giỏ hàng
-                            if (cartIcon) {
-                                cartIcon.style.animation = 'cartShake 0.5s ease';
-                                setTimeout(() => {
-                                    cartIcon.style.animation = '';
-                                }, 500);
-                            }
+                            // updateCartBadge đã xử lý hiệu ứng rung icon toàn cục
                         } else {
                             showNotification('Thêm vào giỏ hàng thất bại', 'error');
                         }
@@ -427,31 +427,6 @@
             }, 3000);
         }
 
-        // Hàm cập nhật badge giỏ hàng
-        function updateCartBadge(newCount) {
-            const cartBadge = document.querySelector(
-                '.cart-badge, .badge, ' +
-                '.bi-cart + .badge, .bi-cart2 + .badge, .bi-cart3 + .badge, ' +
-                '.bi-bag + .badge, [class*="cart"] .badge'
-            );
-
-            if (cartBadge) {
-                if (newCount !== undefined) {
-                    cartBadge.textContent = newCount;
-                } else {
-                    const currentCount = parseInt(cartBadge.textContent) || 0;
-                    cartBadge.textContent = currentCount + 1;
-                }
-
-                // Hiệu ứng bounce
-                cartBadge.style.transition = 'transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-                cartBadge.style.transform = 'scale(1.5)';
-
-                setTimeout(() => {
-                    cartBadge.style.transform = 'scale(1)';
-                }, 300);
-            }
-        }
 
         // Kiểm tra wishlist trống
         function checkEmptyWishlist() {
@@ -468,28 +443,8 @@
             }
         }
 
-        // Thêm CSS animation
-        const style = document.createElement('style');
-        style.textContent = `
-        @keyframes cartShake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
-            20%, 40%, 60%, 80% { transform: translateX(4px); }
-        }
-
-        .khung_san_pham {
-            transition: all 0.3s ease;
-        }
-
-        .khung_san_pham:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
-        }
-    `;
-        document.head.appendChild(style);
     });
 </script>
-
 
 
 </body>

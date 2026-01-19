@@ -109,51 +109,129 @@ a {
 }
 
 /* ==== ICON BUTTON ==== */
+:root {
+    --btn-width: 125px;
+    --btn-height: 42px;
+}
+
 .icon-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    padding: 0 12px !important;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-weight: 500;
+    user-select: none;
+
+    /* Extreme size enforcement */
+    width: var(--btn-width) !important;
+    min-width: var(--btn-width) !important;
+    max-width: var(--btn-width) !important;
+    height: var(--btn-height) !important;
+    min-height: var(--btn-height) !important;
+    max-height: var(--btn-height) !important;
+
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+    border: 1px solid transparent;
+    overflow: visible !important;
+    /* Allow badge to overflow without affecting size */
+}
+
+.icon-wrapper {
+    position: relative !important;
+    width: 28px !important;
+    height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+
+    background: #e53935;
+    color: #fff;
+
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+
+    border-radius: 999px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    background-color: rgba(255, 255, 255, 0.25);
-    color: #fff;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    user-select: none;
-    width: 120px !important;
-    /* Kích thước cố định chuẩn */
-    flex-shrink: 0;
+
+    pointer-events: none;
 }
 
+
 .icon-btn i {
-    font-size: 18px;
-    flex-shrink: 0;
+    font-size: 20px !important;
+    line-height: 1 !important;
 }
 
 .icon-btn span {
-    font-size: 13px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-    max-width: 70px;
-    /* Giới hạn để không làm lệch icon */
-    text-align: center;
+    font-size: 13px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: block !important;
+    flex: 1 !important;
+    text-align: left !important;
 }
 
 .icon-btn:hover {
-    background: linear-gradient(135deg, #0051c6, #0073ff);
-    transform: scale(1.08);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
 }
 
 .icon-btn.active {
-    background: linear-gradient(135deg, #0051c6, #0073ff);
-    transform: scale(1.08);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    border: white solid 1px;
+    background: rgba(255, 255, 255, 0.25) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+
+}
+
+@keyframes cartShake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-2px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(2px);
+    }
+}
+
+.cart-shaking {
+    animation: cartShake 0.5s ease-in-out;
 }
 
 /* ==== MENU DƯỚI ==== */
@@ -288,6 +366,7 @@ ul {
     margin: 0;
     /* bỏ khoảng cách ngoài */
 }
+
 /* ==== SUGGEST LIST - DANH SÁCH GỢI Ý ==== */
 #suggestList {
     background: white;
@@ -371,13 +450,15 @@ ul {
 
 /* Icon lịch sử */
 #suggestList li.history-item::before {
-    content: "\F292"; /* clock-history icon */
+    content: "\F292";
+    /* clock-history icon */
     color: #ff9800;
 }
 
 /* Icon gợi ý tìm kiếm */
 #suggestList li.search-item::before {
-    content: "\F52A"; /* search icon */
+    content: "\F52A";
+    /* search icon */
     color: #0073ff;
 }
 
@@ -431,6 +512,7 @@ ul {
         opacity: 0;
         transform: translateY(-10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);

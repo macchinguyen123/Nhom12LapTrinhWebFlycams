@@ -1,21 +1,15 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html lang="en">
+<meta charset="UTF-8">
+<title>SkyDrone Header</title>
 
-<head>
-    <meta charset="UTF-8">
-    <title>SkyDrone Header</title>
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/header.css?v=2">
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/header.css">
-</head>
-
-<body>
 <c:set var="currentPage" value="${pageContext.request.requestURI}"/>
 <!-- ==== HEADER TRÊN ==== -->
 <div class="header-bg">
@@ -50,7 +44,9 @@
                 <a href="${pageContext.request.contextPath}/wishlist">
                     <div class="icon-btn ${currentPage.contains('/wishlist') ? 'active' : ''}"
                          title="Yêu thích">
-                        <i class="bi bi-heart"></i>
+                        <div class="icon-wrapper">
+                            <i class="bi bi-heart"></i>
+                        </div>
                         <span>Yêu thích</span>
                     </div>
                 </a>
@@ -59,7 +55,13 @@
                 <a href="${pageContext.request.contextPath}/page/shoppingcart.jsp">
                     <div class="icon-btn ${currentPage.contains('shoppingcart') ? 'active' : ''}"
                          title="Giỏ hàng">
-                        <i class="bi bi-cart3"></i>
+                        <div class="icon-wrapper">
+                            <i class="bi bi-cart3"></i>
+                            <span class="cart-badge badge rounded-pill bg-danger" id="cartBadge"
+                                  style="${(empty cart or cart.totalQuantity() == 0) ? 'display: none !important;' : 'display: flex !important;'}">
+                                ${not empty cart ? cart.totalQuantity() : '0'}
+                            </span>
+                        </div>
                         <span>Giỏ hàng</span>
                     </div>
                 </a>
@@ -68,7 +70,9 @@
                 <a href="${pageContext.request.contextPath}/personal">
                     <div class="icon-btn ${currentPage.contains('/personal') ? 'active' : ''}"
                          title="${not empty user ? user.username : 'Tài khoản'}">
-                        <i class="bi bi-person-circle"></i>
+                        <div class="icon-wrapper">
+                            <i class="bi bi-person-circle"></i>
+                        </div>
                         <span>${not empty user ? user.username : 'Tài khoản'}</span>
                     </div>
                 </a>
@@ -95,7 +99,7 @@
             </button>
 
             <a href="${pageContext.request.contextPath}/promotion">
-            <button class="nav-item ${currentPage.endsWith('promotion.jsp') ? 'active' : ''}">
+                <button class="nav-item ${currentPage.endsWith('promotion.jsp') ? 'active' : ''}">
                     <i class="bi bi-gift"></i>Khuyến mãi
                 </button>
             </a>
@@ -133,8 +137,7 @@
             <c:forEach items="${headerCategories}" var="cat">
                 <li>
                     <a href="${pageContext.request.contextPath}/Category?id=${cat.id}">
-                        <img src="${pageContext.request.contextPath}/${cat.image}"
-                             class="menu-icon">
+                        <img src="${pageContext.request.contextPath}/${cat.image}" class="menu-icon">
                             ${cat.categoryName}
                     </a>
                 </li>
@@ -176,7 +179,7 @@
         maxItems: 10,
         storageKey: 'skydrone_search_history',
 
-        get: function() {
+        get: function () {
             try {
                 const history = localStorage.getItem(this.storageKey);
                 return history ? JSON.parse(history) : [];
@@ -185,7 +188,7 @@
             }
         },
 
-        save: function(history) {
+        save: function (history) {
             try {
                 localStorage.setItem(this.storageKey, JSON.stringify(history));
             } catch (e) {
@@ -193,12 +196,12 @@
             }
         },
 
-        add: function(keyword) {
+        add: function (keyword) {
             keyword = keyword.trim();
             if (!keyword) return;
 
             let history = this.get();
-            history = history.filter(function(item) {
+            history = history.filter(function (item) {
                 return item.toLowerCase() !== keyword.toLowerCase();
             });
             history.unshift(keyword);
@@ -210,15 +213,15 @@
             this.save(history);
         },
 
-        remove: function(keyword) {
+        remove: function (keyword) {
             let history = this.get();
-            history = history.filter(function(item) {
+            history = history.filter(function (item) {
                 return item !== keyword;
             });
             this.save(history);
         },
 
-        clear: function() {
+        clear: function () {
             localStorage.removeItem(this.storageKey);
         }
     };
@@ -228,7 +231,7 @@
     });
 
 
-    searchInput.addEventListener("focus", function() {
+    searchInput.addEventListener("focus", function () {
         const keyword = searchInput.value.trim();
         if (keyword === "") {
             showSearchHistory();
@@ -254,12 +257,12 @@
         header.innerHTML = '<span>Lịch sử tìm kiếm</span><span class="clear-history" onclick="clearAllHistory()">Xóa tất cả</span>';
         suggestList.appendChild(header);
 
-        history.forEach(function(keyword) {
+        history.forEach(function (keyword) {
             const li = document.createElement("li");
             li.className = "list-group-item list-group-item-action history-item";
             li.innerHTML = '<span style="flex: 1;">' + escapeHtml(keyword) + '</span><i class="bi bi-x-lg delete-history-item" onclick="deleteHistoryItem(event, \'' + escapeHtml(keyword) + '\')"></i>';
 
-            li.onclick = function(e) {
+            li.onclick = function (e) {
                 if (!e.target.classList.contains('delete-history-item')) {
                     searchInput.value = keyword;
                     SearchHistory.add(keyword);
@@ -285,17 +288,17 @@
 
         // ✅ FIX: Ngay lập tức gọi API, không cần kiểm tra độ dài tối thiểu
         clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(function() {
+        debounceTimer = setTimeout(function () {
             fetch(contextPath + "/search-suggestion?keyword=" + encodeURIComponent(keyword))
-                .then(function(res) {
+                .then(function (res) {
                     if (!res.ok) throw new Error('Network response was not ok');
                     return res.json();
                 })
-                .then(function(data) {
+                .then(function (data) {
                     console.log('Received suggestions:', data); // ✅ Debug log
                     displaySuggestions(data, keyword);
                 })
-                .catch(function(err) {
+                .catch(function (err) {
                     console.error('Lỗi khi tìm kiếm:', err);
                     // ✅ Hiển thị message lỗi thay vì ẩn hoàn toàn
                     suggestList.innerHTML = '<div class="suggest-empty">Không thể tải gợi ý</div>';
@@ -322,7 +325,7 @@
 
         // ✅ Hiển thị lịch sử liên quan
         if (hasHistory) {
-            const relatedHistory = history.filter(function(item) {
+            const relatedHistory = history.filter(function (item) {
                 return item.toLowerCase().includes(keyword.toLowerCase());
             });
 
@@ -332,12 +335,12 @@
                 historyHeader.innerHTML = '<span>Lịch sử tìm kiếm</span>';
                 suggestList.appendChild(historyHeader);
 
-                relatedHistory.slice(0, 3).forEach(function(item) {
+                relatedHistory.slice(0, 3).forEach(function (item) {
                     const li = document.createElement("li");
                     li.className = "list-group-item list-group-item-action history-item";
                     li.innerHTML = '<span style="flex: 1;">' + highlightKeyword(item, keyword) + '</span><i class="bi bi-x-lg delete-history-item" onclick="deleteHistoryItem(event, \'' + escapeHtml(item) + '\')"></i>';
 
-                    li.onclick = function(e) {
+                    li.onclick = function (e) {
                         if (!e.target.classList.contains('delete-history-item')) {
                             searchInput.value = item;
                             SearchHistory.add(item);
@@ -363,12 +366,12 @@
             suggestionHeader.innerHTML = '<span>Gợi ý sản phẩm</span>';
             suggestList.appendChild(suggestionHeader);
 
-            data.forEach(function(item) {
+            data.forEach(function (item) {
                 const li = document.createElement("li");
                 li.className = "list-group-item list-group-item-action search-item";
                 li.innerHTML = highlightKeyword(item.name, keyword);
 
-                li.onclick = function() {
+                li.onclick = function () {
                     SearchHistory.add(item.name);
                     window.location.href = contextPath + "/product-detail?id=" + item.id;
                 };
@@ -400,7 +403,7 @@
     }
 
     // ==== LƯU LỊCH SỬ KHI SUBMIT ====
-    searchInput.form.addEventListener('submit', function(e) {
+    searchInput.form.addEventListener('submit', function (e) {
         const keyword = searchInput.value.trim();
         if (keyword) {
             SearchHistory.add(keyword);
@@ -408,7 +411,7 @@
     });
 
     // ==== ẨN SUGGEST KHI CLICK RA NGOÀI ====
-    document.addEventListener("click", function(e) {
+    document.addEventListener("click", function (e) {
         if (!e.target.closest(".search-bar")) {
             suggestList.style.display = "none";
         }
@@ -434,9 +437,181 @@
         }
     }
 
+    // ==== CẬP NHẬT BADGE GIỎ HÀNG TOÀN CỤC ====
+    function updateCartBadge(newCount) {
+        const cartBadge = document.getElementById('cartBadge');
+        if (cartBadge) {
+            let count = 0;
+            if (newCount !== undefined) {
+                count = parseInt(newCount);
+            } else {
+                count = (parseInt(cartBadge.textContent.trim()) || 0) + 1;
+            }
+
+            // Cập nhật nội dung số lượng
+            cartBadge.textContent = count;
+
+            // Xử lý ẩn hiện badge (ẩn nếu số lượng <= 0)
+            if (count > 0) {
+                cartBadge.style.setProperty('display', 'flex', 'important');
+            } else {
+                cartBadge.style.setProperty('display', 'none', 'important');
+            }
+
+            // Hiệu ứng scale khi cập nhật
+            cartBadge.style.transition = 'transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            cartBadge.style.transform = 'scale(1.5)';
+            setTimeout(() => {
+                cartBadge.style.transform = 'scale(1)';
+            }, 300);
+
+            // Hiệu ứng rung icon giỏ hàng
+            const iconWrapper = cartBadge.closest('.icon-wrapper');
+            if (iconWrapper) {
+                iconWrapper.classList.add('cart-shaking');
+                setTimeout(() => {
+                    iconWrapper.classList.remove('cart-shaking');
+                }, 500);
+            }
+        }
+    }
+
+    // ==== HIỂN THỊ THÔNG BÁO CUSTOM ====
+    function showNotification(message, type = 'success') {
+        const oldNotification = document.querySelector('.custom-notification');
+        if (oldNotification) oldNotification.remove();
+
+        const notification = document.createElement('div');
+        notification.className = 'custom-notification ' + type;
+        notification.innerHTML = (type === 'success'
+            ? '<i class="bi bi-check-circle-fill me-2"></i>'
+            : '<i class="bi bi-exclamation-circle-fill me-2"></i>') + message;
+
+        Object.assign(notification.style, {
+            position: 'fixed',
+            top: '80px',
+            right: '-300px',
+            padding: '12px 20px',
+            borderRadius: '8px',
+            zIndex: '10001',
+            fontWeight: '500',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+            transition: 'right 0.3s ease',
+            backgroundColor: type === 'success' ? '#28a745' : '#dc3545',
+            color: 'white',
+            display: 'flex',
+            alignItems: 'center',
+            minWidth: '250px'
+        });
+
+        document.body.appendChild(notification);
+        setTimeout(() => notification.style.right = '20px', 10);
+        setTimeout(() => notification.style.right = '-300px', 2500);
+        setTimeout(() => notification.remove(), 3000);
+    }
+
+
+    // ==== XỬ LÝ THÊM VÀO GIỎ HÀNG TOÀN CỤC ====
+    function globallyHandleAddToCart(productId, quantity, sourceImg, btnElement) {
+        if (!productId) return;
+
+        // 1. Hiệu ứng bay vào giỏ hàng
+        if (sourceImg && sourceImg.src) {
+            const flyingImg = document.createElement('img');
+            flyingImg.src = sourceImg.src;
+
+            const imgRect = sourceImg.getBoundingClientRect();
+            const cartIcon = document.querySelector('.bi-cart3');
+
+            const cartRect = cartIcon ? cartIcon.getBoundingClientRect() : {
+                left: window.innerWidth - 100,
+                top: 20,
+                width: 24,
+                height: 24
+            };
+            const targetX = cartRect.left + (cartRect.width / 2);
+            const targetY = cartRect.top + (cartRect.height / 2);
+
+            // Kích thước cố định để nhất quán giữa trang chủ và chi tiết
+            const size = 100;
+
+            Object.assign(flyingImg.style, {
+                position: 'fixed',
+                zIndex: '100000',
+                width: size + 'px',
+                height: size + 'px',
+                objectFit: 'cover',
+                transition: 'none',
+                pointerEvents: 'none',
+                borderRadius: '50%', // Hình tròn phẳng
+                boxShadow: '0 2px 10px rgba(0,0,0,0.1)', // Đổ bóng nhẹ
+                border: '2px solid white',
+                left: (imgRect.left + imgRect.width / 2 - size / 2) + 'px',
+                top: (imgRect.top + imgRect.height / 2 - size / 2) + 'px',
+                opacity: '1'
+            });
+
+            document.body.appendChild(flyingImg);
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    Object.assign(flyingImg.style, {
+                        transition: 'all 1.2s cubic-bezier(0.1, 0, 0.3, 1)',
+                        left: (targetX - size / 4) + 'px',
+                        top: (targetY - size / 4) + 'px',
+                        width: '20px',
+                        height: '20px',
+                        opacity: '0.2',
+                        transform: 'scale(0.1) rotate(360deg)' // Xoay 1 vòng từ từ
+                    });
+                });
+            });
+
+            setTimeout(() => flyingImg.remove(), 1300);
+        }
+
+        // 2. Gọi AJAX
+        const fetchUrl = contextPath + '/add-cart?productId=' + productId + '&quantity=' + quantity;
+        fetch(fetchUrl, {
+            method: 'GET',
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
+        })
+            .then(res => {
+                if (res.redirected) {
+                    if (confirm('Bạn cần đăng nhập để thêm vào giỏ hàng. Chuyển đến trang đăng nhập?')) {
+                        window.location.href = res.url;
+                    }
+                    return null;
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (!data) return;
+                if (data.success) {
+                    showNotification('Đã thêm vào giỏ hàng!', 'success');
+                    updateCartBadge(data.totalQuantity);
+                } else {
+                    showNotification(data.message || 'Thêm vào giỏ hàng thất bại', 'error');
+                }
+            })
+            .catch(err => {
+                console.error('Add cart error:', err);
+                showNotification('Lỗi kết nối server', 'error');
+            });
+    }
+
+    // Khởi tạo trạng thái badge ban đầu
+    document.addEventListener('DOMContentLoaded', () => {
+        const cartBadge = document.getElementById('cartBadge');
+        if (cartBadge) {
+            const count = parseInt(cartBadge.textContent.trim()) || 0;
+            if (count <= 0) {
+                cartBadge.style.setProperty('display', 'none', 'important');
+            } else {
+                cartBadge.style.setProperty('display', 'flex', 'important');
+            }
+        }
+    });
+
+
 </script>
-
-
-</body>
-
-</html>
