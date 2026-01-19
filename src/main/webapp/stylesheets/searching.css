@@ -16,7 +16,8 @@ body {
 
 .phan-san-pham .so-luong-tim {
     color: #E60023;
-    font-weight: 600; /* (tùy thích: làm đậm hơn) */
+    font-weight: 600;
+    /* (tùy thích: làm đậm hơn) */
 }
 
 a {
@@ -27,8 +28,10 @@ a {
 
 .san-pham form {
     display: flex;
-    justify-content: center; /* ⭐ căn giữa ngang */
-    margin-top: auto;        /* ⭐ đẩy form xuống đáy card */
+    justify-content: center;
+    /* ⭐ căn giữa ngang */
+    margin-top: auto;
+    /* ⭐ đẩy form xuống đáy card */
     margin-bottom: 10px;
 }
 
@@ -171,8 +174,10 @@ input[type="radio"]:checked::after {
 
 .khung-san-pham {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* ✅ 5 sản phẩm / hàng */
-    gap: 25px 15px; /* giảm nhẹ khoảng cách cho vừa khung */
+    grid-template-columns: repeat(5, 1fr);
+    /* ✅ 5 sản phẩm / hàng */
+    gap: 25px 15px;
+    /* giảm nhẹ khoảng cách cho vừa khung */
     justify-items: center;
     margin-top: 15px;
 }
@@ -218,7 +223,9 @@ input[type="radio"]:checked::after {
     -webkit-box-orient: vertical;
     overflow: hidden;
     line-height: 1.3;
-    max-height: 2.6em; /* 2 dòng: 1.3 × 2 = 2.6em */
+    max-height: 2.6em;
+    min-height: 2.6em;
+    /* Ensure always takes up 2 lines */
 
     /* Ngắt từ và hiển thị dấu ... */
     word-break: break-word;
@@ -237,7 +244,8 @@ input[type="radio"]:checked::after {
 
 /* --- Giá gốc xuống dòng, nhỏ hơn và xám --- */
 .gia-goc {
-    display: block; /* xuống dòng */
+    display: block;
+    /* xuống dòng */
     color: #888;
     font-size: 0.9rem;
     text-decoration: line-through;
@@ -292,8 +300,10 @@ input[type="radio"]:checked::after {
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.9rem;
-    margin-top: auto; /*  luôn đẩy nút xuống đáy */
-    margin-bottom: 10px; /*  nhích lên khỏi mép dưới một chút */
+    margin-top: auto;
+    /*  luôn đẩy nút xuống đáy */
+    margin-bottom: 10px;
+    /*  nhích lên khỏi mép dưới một chút */
     align-self: center;
     transition: background-color 0.3s, transform 0.2s;
 }
@@ -325,7 +335,8 @@ input[type="radio"]:checked::after {
 .gia,
 .danh-gia-sao {
     text-align: left;
-    margin-left: 15px; /* không dính mép */
+    margin-left: 15px;
+    /* không dính mép */
     margin-right: 15px;
 
 }
@@ -343,6 +354,7 @@ input[type="radio"]:checked::after {
     color: black;
     margin-right: 5px;
 }
+
 .khung-anh {
     width: 100%;
     height: 220px;
@@ -355,7 +367,6 @@ input[type="radio"]:checked::after {
 .khung-anh img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* rất quan trọng */
+    object-fit: cover;
+    /* rất quan trọng */
 }
-
-

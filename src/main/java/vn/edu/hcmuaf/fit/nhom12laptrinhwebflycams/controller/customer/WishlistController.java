@@ -25,6 +25,9 @@ public class WishlistController extends HttpServlet {
         if (user != null) {
             List<Product> products = wishlistService.getWishlistProducts(user.getId());
             request.setAttribute("products", products);
+        } else {
+            response.sendRedirect(request.getContextPath() + "/Login");
+            return;
         }
         request.setAttribute("formatter", new PriceFormatter());
         request.getRequestDispatcher("/page/wishlist.jsp").forward(request, response);
@@ -106,7 +109,8 @@ public class WishlistController extends HttpServlet {
                         try {
                             int id = Integer.parseInt(idStr.trim());
                             boolean removed = wishlistService.remove(user.getId(), id);
-                            if (!removed) success = false; // nếu có cái nào xóa fail thì báo fail
+                            if (!removed)
+                                success = false; // nếu có cái nào xóa fail thì báo fail
                         } catch (NumberFormatException e) {
                             System.out.println("[WISHLIST] ProductId không hợp lệ: " + idStr);
                             success = false;

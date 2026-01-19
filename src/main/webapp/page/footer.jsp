@@ -71,6 +71,8 @@
                 <li><a href="${pageContext.request.contextPath}/page/payment-policy.jsp">Mua hàng và thanh toán Online</a></li>
                 <li><a href="${pageContext.request.contextPath}/page/payment-policy.jsp">Tra thông tin bảo hành</a></li>
                 <li><a href="${pageContext.request.contextPath}/purchasehistory">Thông tin hoá đơn mua hàng</a></li>
+                <li> <a href="${pageContext.request.contextPath}/page/terms-of-use.jsp">Điều khoản sử dụng</a> </li>
+                <li><a href="${pageContext.request.contextPath}/page/privacy-policy.jsp">Chính sách bảo mật</a>.</li>
             </ul>
 
             <section class="social-connect">

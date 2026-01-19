@@ -142,6 +142,12 @@ body {
     font-weight: 600;
     cursor: pointer;
     font-size: 15px;
+    text-align: center;
+    display: flex !important;
+    /* Override display: contents of a tag */
+    justify-content: center;
+    align-items: center;
+    text-decoration: none !important;
 }
 
 .btn.primary {
@@ -202,5 +208,3 @@ a {
     width: 20px;
     height: 20px;
 }
-
-
