@@ -11,8 +11,39 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
     <!-- CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/login.css">
+
+    <style>
+        /* Password Toggle Styles */
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c757d;
+            font-size: 18px;
+            transition: color 0.2s;
+            z-index: 10;
+            padding: 5px;
+        }
+
+        .password-toggle:hover {
+            color: #0051c6;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -39,8 +70,12 @@
 
                 <div class="mb-3 text-start">
                     <label class="form-label">Mật khẩu</label>
-                    <input type="password" class="form-control" name="password" placeholder="Nhập mật khẩu"
-                           required>
+                    <div class="password-wrapper">
+                        <input type="password" class="form-control" name="password"
+                               id="loginPassword" placeholder="Nhập mật khẩu" required
+                               autocomplete="new-password">
+                        <i class="bi bi-eye-slash password-toggle" id="togglePassword"></i>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-login w-100 mb-3">
@@ -62,7 +97,6 @@
                         <img src="https://www.svgrepo.com/show/355037/google.svg" width="20" class="me-2">
                         Google
                     </a>
-
                 </div>
 
                 <p class="text-center mt-3">
@@ -75,6 +109,26 @@
 
     </div>
 </div>
+
+<!-- Password Toggle Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('loginPassword');
+
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', function() {
+                // Toggle input type
+                const type = passwordInput.type === 'password' ? 'text' : 'password';
+                passwordInput.type = type;
+
+                // Toggle icon
+                this.classList.toggle('bi-eye');
+                this.classList.toggle('bi-eye-slash');
+            });
+        }
+    });
+</script>
 
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -122,7 +176,6 @@
         });
     </script>
 </c:if>
-
 
 </body>
 

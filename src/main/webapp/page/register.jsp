@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Đăng ký trở thành SMEMBER</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/register.css">
     <style>
         .error {
@@ -23,18 +24,8 @@
     <img src="${pageContext.request.contextPath}/image/logoo.png" alt="Logo" class="mascot">
 
 
-    <p class="subtitle">Đăng ký bằng tài khoản mạng xã hội</p>
-    <div class="social-buttons">
-        <div class="d-flex justify-content-center social-login">
-            <a href="${pageContext.request.contextPath}/google-register"
-               class="social-btn d-flex align-items-center justify-content-center">
-                <img src="https://www.svgrepo.com/show/355037/google.svg" width="20" class="me-2">
-                Đăng ký bằng Google
-            </a>
-        </div>
-    </div>
 
-    <p class="or">Hoặc điền thông tin sau</p>
+    <p class="or">Điền thông tin sau</p>
 
     <form class="register-form" method="POST" action="${pageContext.request.contextPath}/Register">
 
@@ -96,22 +87,27 @@
         <div class="grid">
             <div class="field">
                 <label for="password">Mật khẩu</label>
-                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
+                <div class="password-wrapper">
+                    <input type="password" id="password" name="password"
+                           placeholder="Nhập mật khẩu" required autocomplete="new-password">
+                    <i class="bi bi-eye-slash password-toggle" id="togglePassword"></i>
+                </div>
                 <p class="hint">Mật khẩu tối thiểu 6 ký tự, có ít nhất 1 chữ số và 1 chữ cái</p>
-
                 <c:if test="${not empty passwordError}">
                     <p class="error">⚠ ${passwordError}</p>
                 </c:if>
-
             </div>
 
             <div class="field">
                 <label for="confirm">Nhập lại mật khẩu</label>
-                <input type="password" id="confirm" name="confirm" placeholder="Nhập lại mật khẩu" required>
+                <div class="password-wrapper">
+                    <input type="password" id="confirm" name="confirm"
+                           placeholder="Nhập lại mật khẩu" required autocomplete="new-password">
+                    <i class="bi bi-eye-slash password-toggle" id="toggleConfirm"></i>
+                </div>
                 <c:if test="${not empty confirmPasswordError}">
                     <p class="error">⚠ ${confirmPasswordError}</p>
                 </c:if>
-
             </div>
         </div>
 
@@ -133,6 +129,38 @@
         </div>
     </form>
 </div>
+
+</body>
+<!-- Password Toggle Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle cho mật khẩu
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.type === 'password' ? 'text' : 'password';
+                passwordInput.type = type;
+                this.classList.toggle('bi-eye');
+                this.classList.toggle('bi-eye-slash');
+            });
+        }
+
+        // Toggle cho xác nhận mật khẩu
+        const toggleConfirm = document.getElementById('toggleConfirm');
+        const confirmInput = document.getElementById('confirm');
+
+        if (toggleConfirm && confirmInput) {
+            toggleConfirm.addEventListener('click', function() {
+                const type = confirmInput.type === 'password' ? 'text' : 'password';
+                confirmInput.type = type;
+                this.classList.toggle('bi-eye');
+                this.classList.toggle('bi-eye-slash');
+            });
+        }
+    });
+</script>
 
 </body>
 

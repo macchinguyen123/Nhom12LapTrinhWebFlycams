@@ -360,7 +360,7 @@
                             <td class="status-col" data-status="${o.status.name()}">
                                 <c:choose>
                                     <c:when test="${o.status.name() eq 'PENDING'}">
-                                        <span class="badge bg-warning text-dark">Xác nhận</span>
+                                        <span class="badge bg-warning text-dark">Chờ xác nhận</span>
                                     </c:when>
                                     <c:when test="${o.status.name() eq 'PROCESSING'}">
                                         <span class="badge bg-primary">Đang xử lý</span>
