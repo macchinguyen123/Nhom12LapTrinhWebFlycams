@@ -937,7 +937,7 @@ a {
 }
 
 .otp-group input[type="text"]:focus {
-    border-color: #007bff;
+    border-color:   #0051c6;;
     outline: none;
 }
 
@@ -945,7 +945,7 @@ a {
 #confirmChangeBtn {
     margin-top: 10px;
     padding: 8px 16px;
-    background-color: #007bff;
+    background-color: #0051c6;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -1239,12 +1239,11 @@ a {
 .btn-primary {
     background: #0051c6;
     color: #fff;
-    border: 1px solid #0051c6;
 }
 
 .btn-primary:hover {
-    background: #003e99;
-    border-color: #003e99;
+    background: #0051c6;
+    border-color: #0051c6;
 }
 
 .btn-danger {
@@ -1260,7 +1259,7 @@ a {
 
 /* Nút Thêm địa chỉ - Modern Style */
 #openPopup {
-    background: linear-gradient(135deg, #0051c6 0%, #0066ff 100%);
+    background: #0051c6;
     color: #fff;
     border: none;
     padding: 12px 24px;
@@ -1277,7 +1276,7 @@ a {
 }
 
 #openPopup:hover {
-    background: linear-gradient(135deg, #003e99 0%, #0051c6 100%);
+    background: #0051c6;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 81, 198, 0.4);
 }
@@ -1325,7 +1324,7 @@ a {
     left: 0;
     width: 100px;
     height: 3px;
-    background: linear-gradient(90deg, #0051c6 0%, #0066ff 100%);
+    background: #0051c6;
     border-radius: 2px;
 }
 
@@ -1429,7 +1428,6 @@ a {
     /* Thêm khoảng cách xuống phía dưới */
 }
 
-/* ✅ FIX: Nút Sửa/Xóa bằng nhau */
 .address-item__actions .btn {
     width: 70px !important;
     height: 36px !important;
@@ -1484,7 +1482,7 @@ a {
     left: 0;
     width: 100px;
     height: 3px;
-    background: linear-gradient(90deg, #0051c6 0%, #0066ff 100%);
+    background: #0051c6;
     border-radius: 2px;
 }
 
@@ -1493,7 +1491,7 @@ a {
     position: absolute;
     top: 0;
     right: 0;
-    background: linear-gradient(135deg, #0051c6 0%, #0066ff 100%);
+    background: #0051c6;
     color: #fff;
     border: none;
     padding: 12px 24px;
@@ -1510,7 +1508,7 @@ a {
 }
 
 #openPopup:hover {
-    background: linear-gradient(135deg, #003e99 0%, #0051c6 100%);
+    background: #0051c6;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 81, 198, 0.4);
 }
@@ -1520,4 +1518,59 @@ a {
     font-size: 20px;
     font-weight: bold;
     line-height: 1;
+}
+/* ==============================================
+   ĐỒNG BỘ MÀU CHO TẤT CẢ NÚT PRIMARY
+   ============================================== */
+
+/* Nút Sửa trong danh sách địa chỉ */
+.address-item__actions .btn-primary {
+    background-color: #0051c6 !important;
+    border-color: #0051c6 !important;
+    color: #fff !important;
+}
+
+.address-item__actions .btn-primary:hover {
+    background-color: #003e99 !important;
+    border-color: #003e99 !important;
+}
+
+/* Nút Cập nhật trong form profile */
+.btn.btn-primary,
+button.btn-primary,
+.save-btn {
+    background-color: #0051c6 !important;
+    border-color: #0051c6 !important;
+    color: #fff !important;
+}
+
+.btn.btn-primary:hover,
+button.btn-primary:hover,
+.save-btn:hover {
+    background-color: #003e99 !important;
+    border-color: #003e99 !important;
+}
+
+/* Nút Xem chi tiết trong bảng đơn hàng */
+.btn-view {
+    background-color: #0051c6 !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+.btn-view:hover {
+    background-color: #003e99 !important;
+}
+
+/* Đảm bảo tất cả nút trong popup cũng đồng bộ */
+.green-button,
+.popup-content button[type="submit"] {
+    background-color: #0051c6 !important;
+    border: none !important;
+    color: #fff !important;
+}
+
+.green-button:hover,
+.popup-content button[type="submit"]:hover {
+    background-color: #003e99 !important;
 }

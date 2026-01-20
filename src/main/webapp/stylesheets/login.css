@@ -148,3 +148,9 @@ body {
     font-weight: 400 !important;
     margin-top: 2px !important;
 }
+
+/* Ẩn nút show/hide password mặc định của trình duyệt */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}
