@@ -22,6 +22,7 @@
 
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/admin/blog-manage.css">
 
@@ -189,8 +190,8 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Nội dung</label>
-                                <textarea name="content" class="form-control" rows="6"
-                                          required></textarea>
+                                <textarea name="content" id="add-content" class="form-control"
+                                          rows="6" required></textarea>
                             </div>
 
                             <div class="mb-3">
@@ -518,6 +519,17 @@
 
     });
 
+    // CKEditor Integration
+    const ckeditorConfig = {
+        versionCheck: false,
+        licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NzAwNzY3OTksImp0aSI6IjFkYzBmZGQ1LThhMTgtNGFhYy1iOTEwLWRkMTA0MDkxZmNjZCIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6ImQwYWQwMTgyIn0.4qtYn6Q_c-EZwACzzNRQTfTLUjqrjRo12fRQXuGhzTmwPnaJOT3Jw6J6NK3u0Jf_skSkzhR36nezFQka3szCuA',
+        // File browser disabled - use image URL field or paste images directly
+        removePlugins: 'filebrowser'
+    };
+
+    CKEDITOR.replace('add-content', ckeditorConfig);
+    CKEDITOR.replace('edit-content', ckeditorConfig);
+
     // Cập nhật số trang
     function updatePageInfo() {
         const info = blogTable.page.info();
@@ -551,6 +563,10 @@
         document.getElementById("edit-image").value = btn.dataset.image;
         document.getElementById("edit-product").value = btn.dataset.product;
 
+        if (CKEDITOR.instances['edit-content']) {
+            CKEDITOR.instances['edit-content'].setData(btn.dataset.content);
+        }
+
         let modal = new bootstrap.Modal(
             document.getElementById("editBlogModal")
         );
@@ -562,7 +578,7 @@
 
         document.getElementById("view-id").innerText = btn.dataset.id;
         document.getElementById("view-title").innerText = btn.dataset.title;
-        document.getElementById("view-content").innerText = btn.dataset.content;
+        document.getElementById("view-content").innerHTML = btn.dataset.content;
         document.getElementById("view-date").innerText = btn.dataset.date;
         document.getElementById("view-product").innerText = "SP" + btn.dataset.product;
 

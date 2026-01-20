@@ -466,11 +466,12 @@
             }, 300);
 
             // Hiệu ứng rung icon giỏ hàng
-            const iconWrapper = cartBadge.closest('.icon-wrapper');
-            if (iconWrapper) {
-                iconWrapper.classList.add('cart-shaking');
+            // Tìm phần tử .icon-btn (để tránh lỗi display: contents của thẻ a trên homepage)
+            const cartBtn = cartBadge.closest('.icon-btn') || cartBadge.closest('a') || cartBadge.closest('.icon-wrapper');
+            if (cartBtn) {
+                cartBtn.classList.add('cart-shaking');
                 setTimeout(() => {
-                    iconWrapper.classList.remove('cart-shaking');
+                    cartBtn.classList.remove('cart-shaking');
                 }, 500);
             }
         }
