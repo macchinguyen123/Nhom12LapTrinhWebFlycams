@@ -8,27 +8,34 @@ body {
 
 
 /* === Sản phẩm nổi bật === */
-.phan-san-pham-1 {
+/* .phan-san-pham removed from here to allow custom blue background */
+.phan-san-pham-1,
+.phan-san-pham-noi-bat {
     background-color: #ffffff;
     padding: 20px 10%;
-
 }
 
 a {
     text-decoration: none;
     color: inherit;
-    display: contents;
+    /* display: contents; Remove this as it can break layout in some contexts */
 }
 
+/* Common Grid for Products */
+.khung-san-pham,
 .khung-san-pham-1 {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* ✅ 5 sản phẩm / hàng */
-    gap: 25px 15px; /* giảm nhẹ khoảng cách cho vừa khung */
+    grid-template-columns: repeat(5, 1fr);
+    /* ✅ 5 sản phẩm / hàng */
+    gap: 25px 15px;
+    /* giảm nhẹ khoảng cách cho vừa khung */
     justify-items: center;
     margin-top: 15px;
 }
 
-.phan-san-pham-1 h2 {
+.phan-san-pham h2,
+.phan-san-pham-1 h2,
+.phan-san-pham-noi-bat h2 {
     font-size: 28px;
     font-weight: bold;
     color: #222;
@@ -36,6 +43,7 @@ a {
     text-align: left;
 }
 
+/* === CARD SẢN PHẨM (GIỐNG SEARCHING) === */
 .san-pham {
     background: #fff;
     border-radius: 10px;
@@ -47,7 +55,6 @@ a {
     flex-direction: column;
     justify-content: flex-start;
     transition: transform 0.3s, box-shadow 0.3s;
-
 }
 
 .san-pham:hover {
@@ -55,13 +62,31 @@ a {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.san-pham img {
+.khung-anh {
     width: 100%;
-    height: 70%;
-    display: block;
+    height: 220px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.khung-anh img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     border-radius: 20px 20px 0 0;
+    /* Optional: maintain rounded top if desired */
 }
+
+/* Fallback if old structure exists */
+.san-pham>img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
 
 .ten-san-pham {
     text-align: left;
@@ -69,9 +94,23 @@ a {
     font-weight: 600;
     color: #111;
     margin: 6px 0;
-    min-height: 48px;
-    display: flex;
-    align-items: flex-start;
+
+    /* Hiển thị 2 dòng với dấu ... */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.3;
+    max-height: 2.6em;
+    min-height: 2.6em;
+    /* Ensure always takes up 2 lines */
+
+    /* Ngắt từ và hiển thị dấu ... */
+    word-break: break-word;
+    text-overflow: ellipsis;
+
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
 /* --- Giá chính --- */
@@ -82,11 +121,14 @@ a {
     margin: 4px 0;
     text-align: left;
     line-height: 1.2;
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
 /* --- Giá gốc xuống dòng, nhỏ hơn và xám --- */
 .gia-goc {
-    display: block; /* 🔹 xuống dòng */
+    display: block;
+    /* 🔹 xuống dòng */
     color: #888;
     font-size: 0.9rem;
     text-decoration: line-through;
@@ -100,7 +142,8 @@ a {
     font-size: 1rem;
     letter-spacing: 2px;
     line-height: 1.2;
-
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
 .hang-danh-gia {
@@ -133,7 +176,16 @@ a {
     margin-left: 15px;
 }
 
-/* --- Nút mua ngay --- */
+/* --- Form & Nút mua ngay --- */
+.san-pham form {
+    display: flex;
+    justify-content: center;
+    /* ⭐ căn giữa ngang */
+    margin-top: auto;
+    /* ⭐ đẩy form xuống đáy card */
+    margin-bottom: 10px;
+}
+
 .nut-mua-ngay {
     background-color: #0051c6;
     color: white;
@@ -142,10 +194,13 @@ a {
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.9rem;
-    margin-top: auto;
-    margin-bottom: 10px;
+    /* margin-top managed by form */
     align-self: center;
     transition: background-color 0.3s, transform 0.2s;
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .nut-mua-ngay:hover {
@@ -153,27 +208,25 @@ a {
     transform: scale(1.05);
 }
 
-/* --- Căn lề trái gọn gàng --- */
-.ten-san-pham,
-.gia,
-.danh-gia-sao {
-    text-align: left;
-    margin-left: 15px;
-    margin-right: 15px;
-
+.nut-mua-ngay i {
+    font-size: 1.1em;
 }
 
+
+/* --- Phân trang --- */
 .phan-trang button {
     margin: 0 5px;
     border-radius: 10px;
 }
 
-/* --- Poster đặc biệt --- */
+/* --- Poster đặc biệt (Homepage legacy) --- */
 .poster {
     grid-column: span 2;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    /* Ensure it fills height if needed */
 }
 
 .poster:hover {
@@ -183,10 +236,10 @@ a {
 .poster img {
     width: 100%;
     height: 100%;
-
     object-fit: cover;
 }
 
+/* Button styles found in homepage */
 .xem {
     display: flex;
     align-items: center;
@@ -206,19 +259,6 @@ a {
 }
 
 .xem:hover {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    border: 1px solid #0051c6;
     background: #0051c6;
     color: #fff;
-    border-radius: 10px;
-    padding: 8px 18px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    justify-self: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
 }

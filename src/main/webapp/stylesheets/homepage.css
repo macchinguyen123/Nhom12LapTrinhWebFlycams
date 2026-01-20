@@ -9,20 +9,32 @@ body {
 
 /* === Sản phẩm nổi bật === */
 .phan-san-pham {
-    color: white;
     background-color: #0051c6;
+    color: white;
     width: 80%;
-    margin: 0 auto; /* căn giữa phần đỏ */
-    padding: 20px 1%;
+    /* Restored width constraint */
+    margin: 0 auto;
+    /* Restored centering */
+    padding: 20px 2%;
+    /* Reduced padding to fit grid inside 80% container */
+    /* Keep padding */
     border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.phan-san-pham h2 {
+    color: white !important;
+    /* Force title to be white */
+    margin-bottom: 30px;
+    text-align: left;
+    font-size: 28px;
+    font-weight: bold;
 }
 
 .phan-san-pham-noi-bat {
-    color: #000000;
-    background-color: #ffffff;
-    width: 80%;
-    margin: 0 auto; /* căn giữa phần đỏ */
-    padding: 20px 0%;
+    /* Width and padding are now handled by product-homepage.css */
+    /* width: 80%; -> Removed */
+    /* margin: 0 auto; -> Removed */
     border-radius: 10px;
     margin-bottom: 30px;
 }
@@ -36,137 +48,7 @@ body {
 }
 
 
-.khung-san-pham {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 sản phẩm / hàng */
-    gap: 25px 15px; /* giảm nhẹ khoảng cách cho vừa khung */
-    justify-items: center;
-    margin-top: 15px;
-}
-
-
-.san-pham {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 270px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    transition: transform 0.3s, box-shadow 0.3s;
-
-}
-
-.san-pham:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.san-pham img {
-    width: 100%;
-    height: 70%;
-    display: block;
-    object-fit: cover;
-    border-radius: 20px 20px 0 0;
-}
-
-
-/* --- Căn trái nội dung --- */
-.ten-san-pham {
-    text-align: left;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #111;
-    margin: 6px 0;
-    min-height: 48px; /* 👈 chỉnh theo độ cao mong muốn */
-    display: flex;
-    align-items: flex-start; /* căn đều từ trên xuống */
-}
-
-/* --- Giá chính --- */
-.gia {
-    color: red;
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin: 4px 0;
-    text-align: left;
-    line-height: 1.2;
-}
-
-/* --- Giá gốc xuống dòng, nhỏ hơn và xám --- */
-.gia-goc {
-    display: block; /* 🔹 xuống dòng */
-    color: #888;
-    font-size: 0.9rem;
-    text-decoration: line-through;
-    margin-top: 2px;
-    font-weight: normal;
-}
-
-/* --- Sao vàng --- */
-.danh-gia-sao {
-    color: #ffb400;
-    font-size: 1rem;
-    letter-spacing: 2px;
-    line-height: 1.2;
-
-}
-
-.hang-danh-gia {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 6px;
-    line-height: 1.0;
-}
-
-
-/* --- Trái tim --- */
-.tim-yeu-thich {
-    font-size: 1.3rem;
-    color: #bbb;
-    cursor: pointer;
-    transition: color 0.3s;
-    margin-right: 20px;
-    font-size: 1rem;
-}
-
-.tim-yeu-thich.yeu-thich {
-    color: #ff4d4d;
-}
-
-.so-danh-gia {
-    font-size: 0.85rem;
-    color: #777;
-    margin: 4px 0 10px 8px;
-    margin-left: 15px;
-}
-
-/* --- Nút mua ngay --- */
-
-/* --- Nút mua ngay --- */
-.nut-mua-ngay {
-    background-color: #0051c6;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    margin-top: auto;
-    margin-bottom: 10px;
-    align-self: center;
-    display: block;
-    margin: 0 auto;   /* căn giữa */
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-.nut-mua-ngay:hover {
-    background-color: #003c94;
-    transform: scale(1.05);
-}
+/* Product styles moved to product-homepage.css */
 
 /* === Tiêu đề chung === */
 .tieu-de-muc {
@@ -184,14 +66,7 @@ body {
     margin: 2px auto 0;
 }
 
-/* --- Căn lề trái gọn gàng --- */
-.ten-san-pham,
-.gia,
-.danh-gia-sao {
-    text-align: left;
-    margin-left: 15px; /*không dính mép */
-    margin-right: 15px;
-}
+/* Product text alignment moved to product-homepage.css */
 
 a {
     text-decoration: none;
@@ -202,7 +77,8 @@ a {
 .banner {
     width: 80%;
     height: 120px;
-    margin: 0 auto; /* căn giữa ngang */
+    margin: 0 auto;
+    /* căn giữa ngang */
     overflow: hidden;
     border-radius: 25px;
 }
@@ -217,12 +93,16 @@ a {
 
 /* === BÀI VIẾT CÙNG CHỦ ĐỀ === */
 .related-articles {
-    margin: 50px auto; /* canh giữa */
+    margin: 50px auto;
+    /* canh giữa */
     /*padding: 20px;*/
     background-color: #fff;
-    width: 80vw; /* 80% toàn màn hình */
-    max-width: 1200px; /* giới hạn nếu cần */
-    border-radius: 10px; /* thêm viền mềm mại hơn nếu muốn */
+    width: 80vw;
+    /* 80% toàn màn hình */
+    max-width: 1200px;
+    /* giới hạn nếu cần */
+    border-radius: 10px;
+    /* thêm viền mềm mại hơn nếu muốn */
 }
 
 
@@ -273,7 +153,8 @@ a {
     width: 80%;
     height: 400px;
     margin: 0px auto 25px;
-    position: relative; /* 👈 QUAN TRỌNG */
+    position: relative;
+    /* 👈 QUAN TRỌNG */
     overflow: hidden;
     border-radius: 10px;
 }
@@ -282,14 +163,25 @@ a {
 .slider-2-inner {
     display: flex;
     height: 100%;
-    transition: transform 0.5s ease; /* 👈 Animation */
+    transition: transform 0.5s ease-in-out;
+    /* Smooth transition */
+}
+
+/* Fix cho thẻ a bên trong slider */
+.slider-2-link {
+    display: block !important;
+    /* Override global 'a { display: contents }' */
+    min-width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+    text-decoration: none;
 }
 
 /* Slide container */
 .slider-2 .slide {
-    min-width: 100%; /* 👈 Mỗi slide chiếm 100% */
+    width: 100%;
     height: 100%;
-    flex-shrink: 0; /* 👈 QUAN TRỌNG - Ngăn slide bị co lại */
+    /* min-width removed as parent 'a' handles it */
 }
 
 /* Ảnh và video trong slide */
@@ -311,10 +203,12 @@ a {
     cursor: pointer;
     padding: 10px 15px;
     color: white;
-    background: rgba(0, 0, 0, 0.5); /* 👈 Thêm nền */
+    background: rgba(0, 0, 0, 0.5);
+    /* 👈 Thêm nền */
     border-radius: 5px;
     text-shadow: 0 0 6px black;
-    z-index: 10; /* 👈 QUAN TRỌNG */
+    z-index: 10;
+    /* 👈 QUAN TRỌNG */
     user-select: none;
     transition: background 0.3s;
 }
@@ -334,13 +228,18 @@ a {
 
 /* Dots */
 .slider-2-dots {
-    position: absolute; /* 👈 QUAN TRỌNG - Thay vì text-align */
-    bottom: 20px; /* 👈 Cách đáy 20px */
+    position: absolute;
+    /* 👈 QUAN TRỌNG - Thay vì text-align */
+    bottom: 20px;
+    /* 👈 Cách đáy 20px */
     left: 50%;
-    transform: translateX(-50%); /* 👈 Căn giữa */
-    display: flex; /* 👈 Dùng flex */
+    transform: translateX(-50%);
+    /* 👈 Căn giữa */
+    display: flex;
+    /* 👈 Dùng flex */
     gap: 8px;
-    z-index: 10; /* 👈 QUAN TRỌNG */
+    z-index: 10;
+    /* 👈 QUAN TRỌNG */
 }
 
 .slider-2-dots span,
@@ -348,14 +247,16 @@ a {
     display: inline-block;
     width: 12px;
     height: 12px;
-    background: rgba(255, 255, 255, 0.5); /* 👈 Màu trắng mờ */
+    background: rgba(255, 255, 255, 0.5);
+    /* 👈 Màu trắng mờ */
     border-radius: 50%;
     cursor: pointer;
     transition: background 0.3s;
 }
 
 .slider-2-dots .active {
-    background: white; /* 👈 Màu trắng đậm */
+    background: white;
+    /* 👈 Màu trắng đậm */
 }
 
 .banner-right video {

@@ -485,8 +485,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Hủy
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy
                     </button>
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-save"></i> Lưu
@@ -679,7 +678,7 @@
                                             <div class="product-image">
                                                 <c:choose>
                                                     <c:when test="${not empty product.mainImage}">
-                                                        <img src="${pageContext.request.contextPath}/${product.mainImage}"
+                                                        <img src="${product.mainImage}"
                                                              alt="${product.productName}">
                                                     </c:when>
                                                     <c:otherwise>
@@ -733,8 +732,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Hủy
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy
                     </button>
                     <button type="submit" class="btn btn-warning">
                         <i class="bi bi-save"></i> Lưu thay đổi

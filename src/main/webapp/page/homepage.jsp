@@ -106,14 +106,16 @@
     <div class="banner-right slider-2">
         <div class="slider slider-2-inner">
             <c:forEach var="banner" items="${banners}" begin="4">
-                <a href="${not empty banner.link ? banner.link : '#'}">
+                <a href="${not empty banner.link ? banner.link : '#'}" class="slider-2-link">
                     <div class="slide">
                         <c:choose>
                             <c:when test="${banner.type == 'image'}">
-                                <img src="${banner.imageUrl}" alt="Banner ${banner.id}">
+                                <img src="${banner.imageUrl}" alt="Banner ${banner.id}"
+                                     style="width: 100%; height: 100%; object-fit: cover;">
                             </c:when>
                             <c:otherwise>
-                                <video autoplay loop muted playsinline>
+                                <video autoplay loop muted playsinline
+                                       style="width: 100%; height: 100%; object-fit: cover;">
                                     <source src="${banner.videoUrl}" type="video/mp4">
                                 </video>
                             </c:otherwise>
@@ -134,27 +136,42 @@
     <h2 class="tieu-de-muc">SẢN PHẨM BÁN CHẠY NHẤT</h2>
     <div class="khung-san-pham">
         <c:forEach var="p" items="${bestSellerProducts}">
-            <!-- === SẢN PHẨM 1 === -->
             <div class="san-pham">
-                <a href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
-                    <img src="${empty p.mainImage ? '/assets/no-image.png' : p.mainImage}">
+                <!-- Bọc toàn bộ phần chính bằng link tới chi tiết (nếu có id sản phẩm) -->
+                <a class="link-chi-tiet"
+                   href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
+                    <!-- Ảnh -->
+                    <div class="khung-anh">
+                        <c:choose>
+                            <c:when test="${not empty p.mainImage}">
+                                <img src="${p.mainImage}" alt="${p.productName}">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="${pageContext.request.contextPath}/assets/no-image.png"
+                                     alt="No Image">
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
 
-                    <h3 class="ten-san-pham">
-                            ${p.productName}
-                    </h3>
+                    <!-- Tên sản phẩm -->
+                    <h3 class="ten-san-pham">${p.productName}</h3>
 
+                    <!-- Giá (luôn hiển thị div.gia giống mẫu) -->
                     <div class="gia">
                         <b>${formatter.format(p.finalPrice)} ₫</b>
-                        <c:if test="${p.price >= p.finalPrice}">
+
+                        <c:if test="${p.price > p.finalPrice}">
                                             <span class="gia-goc">
                                                 ${formatter.format(p.price)} ₫
                                             </span>
                         </c:if>
                     </div>
+
                 </a>
 
                 <c:set var="fullStars1" value="${p.avgRating.intValue()}"/>
                 <c:set var="hasHalfStar1" value="${p.avgRating - fullStars1 >= 0.5}"/>
+                <!-- Đánh giá mẫu -->
                 <div class="hang-danh-gia">
                     <div class="danh-gia-sao">
 
@@ -174,7 +191,6 @@
                         </c:forEach>
 
                     </div>
-
                     <c:choose>
                         <c:when
                                 test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
@@ -187,17 +203,18 @@
                     </c:choose>
                 </div>
 
+                <!-- Số đánh giá -->
                 <div class="so-danh-gia">
                     (${empty p.reviewCount ? 0 : p.reviewCount} đánh giá)
                 </div>
-
                 <!-- Nút mua ngay (có thể là form/post hoặc link) -->
-                <form action="${pageContext.request.contextPath}/BuyNowServlet" method="post">
+                <form action="${pageContext.request.contextPath}/add-cart" method="get">
                     <input type="hidden" name="productId" value="${p.id}">
                     <input type="hidden" name="quantity" value="1">
 
                     <button type="submit" class="nut-mua-ngay">
-                        Mua Ngay
+                        <i class="bi bi-cart-plus"></i>
+                        Thêm vào giỏ
                     </button>
                 </form>
             </div>
@@ -227,27 +244,42 @@
     <h2>SẢN PHẨM NỔI BẬT</h2>
     <div class="khung-san-pham">
         <c:forEach var="p" items="${topReviewedProducts}">
-            <!-- === SẢN PHẨM 1 === -->
             <div class="san-pham">
-                <a href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
-                    <img src="${empty p.mainImage ? '/assets/no-image.png' : p.mainImage}">
+                <!-- Bọc toàn bộ phần chính bằng link tới chi tiết (nếu có id sản phẩm) -->
+                <a class="link-chi-tiet"
+                   href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
+                    <!-- Ảnh -->
+                    <div class="khung-anh">
+                        <c:choose>
+                            <c:when test="${not empty p.mainImage}">
+                                <img src="${p.mainImage}" alt="${p.productName}">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="${pageContext.request.contextPath}/assets/no-image.png"
+                                     alt="No Image">
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
 
-                    <h3 class="ten-san-pham">
-                            ${p.productName}
-                    </h3>
+                    <!-- Tên sản phẩm -->
+                    <h3 class="ten-san-pham">${p.productName}</h3>
 
+                    <!-- Giá (luôn hiển thị div.gia giống mẫu) -->
                     <div class="gia">
                         <b>${formatter.format(p.finalPrice)} ₫</b>
-                        <c:if test="${p.price >= p.finalPrice}">
+
+                        <c:if test="${p.price > p.finalPrice}">
                                             <span class="gia-goc">
                                                 ${formatter.format(p.price)} ₫
                                             </span>
                         </c:if>
                     </div>
+
                 </a>
 
                 <c:set var="fullStars1" value="${p.avgRating.intValue()}"/>
                 <c:set var="hasHalfStar1" value="${p.avgRating - fullStars1 >= 0.5}"/>
+                <!-- Đánh giá mẫu -->
                 <div class="hang-danh-gia">
                     <div class="danh-gia-sao">
 
@@ -267,7 +299,6 @@
                         </c:forEach>
 
                     </div>
-
                     <c:choose>
                         <c:when
                                 test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
@@ -280,17 +311,18 @@
                     </c:choose>
                 </div>
 
+                <!-- Số đánh giá -->
                 <div class="so-danh-gia">
                     (${empty p.reviewCount ? 0 : p.reviewCount} đánh giá)
                 </div>
-
                 <!-- Nút mua ngay (có thể là form/post hoặc link) -->
-                <form action="${pageContext.request.contextPath}/BuyNowServlet" method="post">
+                <form action="${pageContext.request.contextPath}/add-cart" method="get">
                     <input type="hidden" name="productId" value="${p.id}">
                     <input type="hidden" name="quantity" value="1">
 
                     <button type="submit" class="nut-mua-ngay">
-                        Mua Ngay
+                        <i class="bi bi-cart-plus"></i>
+                        Thêm vào giỏ
                     </button>
                 </form>
             </div>
@@ -316,27 +348,42 @@
         </a>
 
         <c:forEach var="p" items="${quayPhim}">
-            <!-- === SẢN PHẨM 1 === -->
             <div class="san-pham">
-                <a href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
-                    <img src="${empty p.mainImage ? '/assets/no-image.png' : p.mainImage}">
+                <!-- Bọc toàn bộ phần chính bằng link tới chi tiết (nếu có id sản phẩm) -->
+                <a class="link-chi-tiet"
+                   href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
+                    <!-- Ảnh -->
+                    <div class="khung-anh">
+                        <c:choose>
+                            <c:when test="${not empty p.mainImage}">
+                                <img src="${p.mainImage}" alt="${p.productName}">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="${pageContext.request.contextPath}/assets/no-image.png"
+                                     alt="No Image">
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
 
-                    <h3 class="ten-san-pham">
-                            ${p.productName}
-                    </h3>
+                    <!-- Tên sản phẩm -->
+                    <h3 class="ten-san-pham">${p.productName}</h3>
 
+                    <!-- Giá (luôn hiển thị div.gia giống mẫu) -->
                     <div class="gia">
                         <b>${formatter.format(p.finalPrice)} ₫</b>
-                        <c:if test="${p.price >= p.finalPrice}">
+
+                        <c:if test="${p.price > p.finalPrice}">
                                             <span class="gia-goc">
                                                 ${formatter.format(p.price)} ₫
                                             </span>
                         </c:if>
                     </div>
+
                 </a>
 
                 <c:set var="fullStars1" value="${p.avgRating.intValue()}"/>
                 <c:set var="hasHalfStar1" value="${p.avgRating - fullStars1 >= 0.5}"/>
+                <!-- Đánh giá mẫu -->
                 <div class="hang-danh-gia">
                     <div class="danh-gia-sao">
 
@@ -356,7 +403,6 @@
                         </c:forEach>
 
                     </div>
-
                     <c:choose>
                         <c:when
                                 test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
@@ -369,17 +415,18 @@
                     </c:choose>
                 </div>
 
+                <!-- Số đánh giá -->
                 <div class="so-danh-gia">
                     (${empty p.reviewCount ? 0 : p.reviewCount} đánh giá)
                 </div>
-
                 <!-- Nút mua ngay (có thể là form/post hoặc link) -->
-                <form action="${pageContext.request.contextPath}/BuyNowServlet" method="post">
+                <form action="${pageContext.request.contextPath}/add-cart" method="get">
                     <input type="hidden" name="productId" value="${p.id}">
                     <input type="hidden" name="quantity" value="1">
 
                     <button type="submit" class="nut-mua-ngay">
-                        Mua Ngay
+                        <i class="bi bi-cart-plus"></i>
+                        Thêm vào giỏ
                     </button>
                 </form>
             </div>
@@ -403,27 +450,42 @@
         </a>
 
         <c:forEach var="p" items="${mini}">
-            <!-- === SẢN PHẨM 1 === -->
             <div class="san-pham">
-                <a href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
-                    <img src="${empty p.mainImage ? '/assets/no-image.png' : p.mainImage}">
+                <!-- Bọc toàn bộ phần chính bằng link tới chi tiết (nếu có id sản phẩm) -->
+                <a class="link-chi-tiet"
+                   href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
+                    <!-- Ảnh -->
+                    <div class="khung-anh">
+                        <c:choose>
+                            <c:when test="${not empty p.mainImage}">
+                                <img src="${p.mainImage}" alt="${p.productName}">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="${pageContext.request.contextPath}/assets/no-image.png"
+                                     alt="No Image">
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
 
-                    <h3 class="ten-san-pham">
-                            ${p.productName}
-                    </h3>
+                    <!-- Tên sản phẩm -->
+                    <h3 class="ten-san-pham">${p.productName}</h3>
 
+                    <!-- Giá (luôn hiển thị div.gia giống mẫu) -->
                     <div class="gia">
                         <b>${formatter.format(p.finalPrice)} ₫</b>
-                        <c:if test="${p.price >= p.finalPrice}">
+
+                        <c:if test="${p.price > p.finalPrice}">
                                             <span class="gia-goc">
                                                 ${formatter.format(p.price)} ₫
                                             </span>
                         </c:if>
                     </div>
+
                 </a>
 
                 <c:set var="fullStars1" value="${p.avgRating.intValue()}"/>
                 <c:set var="hasHalfStar1" value="${p.avgRating - fullStars1 >= 0.5}"/>
+                <!-- Đánh giá mẫu -->
                 <div class="hang-danh-gia">
                     <div class="danh-gia-sao">
 
@@ -443,7 +505,6 @@
                         </c:forEach>
 
                     </div>
-
                     <c:choose>
                         <c:when
                                 test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
@@ -456,17 +517,18 @@
                     </c:choose>
                 </div>
 
+                <!-- Số đánh giá -->
                 <div class="so-danh-gia">
                     (${empty p.reviewCount ? 0 : p.reviewCount} đánh giá)
                 </div>
-
                 <!-- Nút mua ngay (có thể là form/post hoặc link) -->
-                <form action="${pageContext.request.contextPath}/BuyNowServlet" method="post">
+                <form action="${pageContext.request.contextPath}/add-cart" method="get">
                     <input type="hidden" name="productId" value="${p.id}">
                     <input type="hidden" name="quantity" value="1">
 
                     <button type="submit" class="nut-mua-ngay">
-                        Mua Ngay
+                        <i class="bi bi-cart-plus"></i>
+                        Thêm vào giỏ
                     </button>
                 </form>
             </div>
@@ -545,9 +607,15 @@
         /* Chuyển slide */
         function goToSlide2(i) {
             index2 = (i + slides2.length) % slides2.length;
-            slider2.style.transform = `translateX(-${index2 * 100}%)`;
+            const width = slider2Container.offsetWidth;
+            slider2.style.transform = `translateX(-${index2 * width}px)`;
             updateDots2();
         }
+
+        /* Handle resize */
+        window.addEventListener('resize', () => {
+            goToSlide2(index2);
+        });
 
         /* Mũi tên trái */
         if (arrowLeft2) {
@@ -656,6 +724,41 @@
                 .catch(err => {
                     console.error('Error:', err);
                 });
+        });
+    });
+</script>
+<script>
+    // ============================================
+    // ADD TO CART LOGIC (Uses global handler from header.jsp)
+    // ============================================
+    document.addEventListener('DOMContentLoaded', () => {
+        // Attach event listeners to all add-to-cart buttons
+        document.querySelectorAll('.nut-mua-ngay').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const form = btn.closest('form');
+                if (!form) return;
+
+                const productIdInput = form.querySelector('input[name="productId"]');
+                const quantityInput = form.querySelector('input[name="quantity"]');
+
+                if (!productIdInput) return;
+
+                const productId = productIdInput.value;
+                const quantity = quantityInput ? quantityInput.value : 1;
+
+                const productCard = btn.closest('.san-pham');
+                const productImg = productCard ? (productCard.querySelector('.khung-anh img') || productCard.querySelector('img')) : null;
+
+                // Call global handler defined in header.jsp
+                if (typeof globallyHandleAddToCart === 'function') {
+                    globallyHandleAddToCart(productId, quantity, productImg, btn);
+                } else {
+                    console.error('globallyHandleAddToCart function not found');
+                    form.submit();
+                }
+            });
         });
     });
 </script>
