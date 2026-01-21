@@ -318,7 +318,7 @@
                  style="display: ${not empty selectedOrder ? 'none' : 'block'}">
                 <!-- TABS LỌC TRẠNG THÁI -->
                 <div class="order-tabs">
-                    <button class="order-tab active" data-status="PENDING">Xác nhận</button>
+                    <button class="order-tab active" data-status="PENDING">Chờ xác nhận</button>
                     <button class="order-tab" data-status="PROCESSING">Đang xử lý</button>
                     <button class="order-tab" data-status="OUT_FOR_DELIVERY">Đang giao</button>
                     <button class="order-tab" data-status="DELIVERED">Hoàn thành</button>

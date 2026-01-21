@@ -240,7 +240,6 @@
 
 </section>
 <jsp:include page="/page/footer.jsp"/>
-
 <script>
     const contextPath = '${pageContext.request.contextPath}';
 </script>

@@ -241,9 +241,9 @@ public class OrdersDAO {
                 product.setId(rs.getInt("product_id"));
                 product.setProductName(rs.getString("productName"));
 
-                // ✅ LẤY imageUrl và IN RA ĐỂ DEBUG
+                // LẤY imageUrl và IN RA ĐỂ DEBUG
                 String imageUrl = rs.getString("imageUrl");
-                System.out.println("🖼️ Product ID: " + product.getId() + " → Image: " + imageUrl);
+                System.out.println(" Product ID: " + product.getId() + " → Image: " + imageUrl);
 
                 product.setMainImage(imageUrl);
 
@@ -278,51 +278,8 @@ public class OrdersDAO {
         }
     }
 
-    public String getRecipientNameByOrder(int orderId) {
-        String sql = """
-        SELECT COALESCE(a.fullName, 'Không xác định') AS fullName
-        FROM orders o
-        LEFT JOIN addresses a ON o.address_id = a.id
-        WHERE o.id = ?
-    """;
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setInt(1, orderId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getString("fullName");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "Không xác định";
-    }
-
-    public String getFullAddressByOrder(int orderId) {
-        String sql = """
-        SELECT 
-            COALESCE(
-                CONCAT(a.addressLine, ', ', a.district, ', ', a.province),
-                'Không có địa chỉ'
-            ) AS fullAddress
-        FROM orders o
-        LEFT JOIN addresses a ON o.address_id = a.id
-        WHERE o.id = ?
-    """;
-
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, orderId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getString("fullAddress");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "Không có địa chỉ";
-    }
     /**
      * Kiểm tra xem user đã mua sản phẩm này chưa
      * @param userId ID của user

@@ -36,7 +36,7 @@ public class AddAddressServlet extends HttpServlet {
         boolean isDefault = req.getParameter("isDefault") != null;
 
         try {
-            // ✅ KIỂM TRA ĐỊA CHỈ TRÙNG LẶP
+            // KIỂM TRA ĐỊA CHỈ TRÙNG LẶP
             List<Address> existingAddresses = dao.findByUserId(user.getId());
 
             for (Address existing : existingAddresses) {

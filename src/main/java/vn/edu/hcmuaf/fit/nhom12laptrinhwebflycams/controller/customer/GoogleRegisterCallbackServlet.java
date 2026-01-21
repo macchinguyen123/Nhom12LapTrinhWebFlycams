@@ -71,7 +71,7 @@ public class GoogleRegisterCallbackServlet extends HttpServlet {
 
             UserDAO userDAO = new UserDAO();
 
-            // ❌ Đã tồn tại
+            //  Đã tồn tại
             if (userDAO.findByEmail(email) != null) {
                 request.getSession().setAttribute("error",
                         "Email Google này đã được đăng ký");
@@ -79,7 +79,7 @@ public class GoogleRegisterCallbackServlet extends HttpServlet {
                 return;
             }
 
-            // ✅ Tạo user mới
+            //  Tạo user mới
             User user = new User();
             user.setEmail(email);
             user.setFullName(name);

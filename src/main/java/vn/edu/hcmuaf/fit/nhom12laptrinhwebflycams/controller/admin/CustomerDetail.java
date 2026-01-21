@@ -37,7 +37,7 @@ public class CustomerDetail extends HttpServlet {
 
             req.setAttribute("users", users);
             req.setAttribute("detailUser", user);
-            req.setAttribute("showDetail", true); // ✅ Boolean true
+            req.setAttribute("showDetail", true); // Boolean true
 
 
             req.getRequestDispatcher("/page/admin/customer-manage.jsp")

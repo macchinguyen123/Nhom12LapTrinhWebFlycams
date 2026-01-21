@@ -48,7 +48,7 @@ public class PromotionDAO {
         try (Connection conn = DBConnection.getConnection()) {
             conn.setAutoCommit(false);
 
-            // 1️⃣ Insert promotion
+            // 1 Insert promotion
             PreparedStatement ps = conn.prepareStatement(sqlPromotion, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, p.getName());
             ps.setDouble(2, p.getDiscountValue());
@@ -62,7 +62,7 @@ public class PromotionDAO {
             int promotionId = rs.getInt(1);
             p.setId(promotionId);
 
-            // 2️⃣ Insert targets
+            // 2 Insert targets
             PreparedStatement psTarget = conn.prepareStatement(sqlTarget);
             if ("ALL".equals(scope)) {
                 psTarget.setInt(1, promotionId);
@@ -92,7 +92,7 @@ public class PromotionDAO {
 
             conn.commit();
 
-            // 3️⃣ Apply promotion
+            // 3 Apply promotion
             applyPromotionToProducts(p, scope, productIds, categoryIds);
 
         } catch (Exception e) {
@@ -143,7 +143,7 @@ public class PromotionDAO {
         try (Connection conn = DBConnection.getConnection()) {
             conn.setAutoCommit(false);
 
-            // 1️⃣ Update promotion info
+            // 1 Update promotion info
             try (PreparedStatement ps = conn.prepareStatement(sqlUpdate)) {
                 ps.setString(1, p.getName());
                 ps.setDouble(2, p.getDiscountValue());
@@ -154,13 +154,13 @@ public class PromotionDAO {
                 ps.executeUpdate();
             }
 
-            // 2️⃣ Delete old targets
+            // 2 Delete old targets
             try (PreparedStatement ps = conn.prepareStatement("DELETE FROM promotion_target WHERE promotion_id=?")) {
                 ps.setInt(1, p.getId());
                 ps.executeUpdate();
             }
 
-            // 3️⃣ Insert new targets
+            // 3 Insert new targets
             String sqlTarget = "INSERT INTO promotion_target (promotion_id, targetType, product_id, category_id) VALUES (?, ?, ?, ?)";
             PreparedStatement psTarget = conn.prepareStatement(sqlTarget);
 
@@ -223,7 +223,7 @@ public class PromotionDAO {
                     ps.setDouble(3, p.getDiscountValue());
                     ps.setDouble(4, p.getDiscountValue());
                     int rowsUpdated = ps.executeUpdate();
-                    System.out.println("✅ Updated " + rowsUpdated + " products (ALL)");
+                    System.out.println(" Updated " + rowsUpdated + " products (ALL)");
                 }
 
             } else if ("PRODUCT".equals(scope) && !productIds.isEmpty()) {
@@ -241,7 +241,7 @@ public class PromotionDAO {
                     ps.setDouble(2, p.getDiscountValue());
                     ps.setDouble(3, p.getDiscountValue());
                     int rowsUpdated = ps.executeUpdate();
-                    System.out.println("✅ Updated " + rowsUpdated + " products (PRODUCT)");
+                    System.out.println(" Updated " + rowsUpdated + " products (PRODUCT)");
                 }
 
             } else if ("CATEGORY".equals(scope) && !categoryIds.isEmpty()) {
@@ -259,12 +259,12 @@ public class PromotionDAO {
                     ps.setDouble(2, p.getDiscountValue());
                     ps.setDouble(3, p.getDiscountValue());
                     int rowsUpdated = ps.executeUpdate();
-                    System.out.println("✅ Updated " + rowsUpdated + " products in category");
+                    System.out.println(" Updated " + rowsUpdated + " products in category");
                 }
             }
 
         } catch (Exception e) {
-            System.out.println("❌ Error applying promotion:");
+            System.out.println(" Error applying promotion:");
             e.printStackTrace();
         }
     }

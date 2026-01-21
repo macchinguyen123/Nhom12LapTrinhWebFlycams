@@ -164,63 +164,12 @@ public class BannerDAO extends DBConnection {
         }
     }
 
-    // Cập nhật trạng thái banner
-    public boolean updateBannerStatus(int id, String status) {
-        String sql = "UPDATE banner SET status = ? WHERE id = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, status);
-            ps.setInt(2, id);
-            return ps.executeUpdate() > 0;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     // Lấy banner active để hiển thị trên trang chủ
     public List<Banner> getActiveBanners() {
         return getBannersByStatus("active");
     }
 
-    // Đếm số lượng banner
-    public int countBanners() {
-        String sql = "SELECT COUNT(*) FROM banner";
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
 
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    // Đếm banner theo trạng thái
-    public int countBannersByStatus(String status) {
-        String sql = "SELECT COUNT(*) FROM banner WHERE status = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, status);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
 }

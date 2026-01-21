@@ -36,7 +36,7 @@ public class BuyNowFromCartServlet extends HttpServlet {
 
         HttpSession session = req.getSession(false);
 
-        // ✅ Check login
+        //  Check login
         if (session == null || session.getAttribute("user") == null) {
             resp.sendRedirect(req.getContextPath() + "/Login");
             return;
@@ -117,17 +117,17 @@ public class BuyNowFromCartServlet extends HttpServlet {
         }
 
         // ========================================
-        // ✅ KIỂM TRA VÀ LƯU SESSION
+        //  KIỂM TRA VÀ LƯU SESSION
         // ========================================
         if (buyNowItems.isEmpty()) {
             resp.sendRedirect(req.getContextPath() + "/page/shoppingcart.jsp");
             return;
         }
 
-        // ✅ Lưu BUY NOW vào session
+        //  Lưu BUY NOW vào session
         session.setAttribute("BUY_NOW_ITEM", buyNowItems);
 
-        // ✅ Lấy địa chỉ user
+        //  Lấy địa chỉ user
         List<Address> addresses = null;
         try {
             addresses = addressDAO.findByUserId(user.getId());
@@ -136,7 +136,7 @@ public class BuyNowFromCartServlet extends HttpServlet {
         }
         req.setAttribute("addresses", addresses);
 
-        // ✅ Forward sang trang giao hàng
+        // Forward sang trang giao hàng
         req.getRequestDispatcher("/page/delivery-info.jsp")
                 .forward(req, resp);
     }

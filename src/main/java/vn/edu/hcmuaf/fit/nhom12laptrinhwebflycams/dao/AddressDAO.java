@@ -9,7 +9,7 @@ import java.util.List;
 
 public class AddressDAO {
 
-    // ✅ INSERT - Mặc định is_active = 1
+    // INSERT - Mặc định is_active = 1
     public boolean insert(Address address) throws SQLException {
         String sql = """
             INSERT INTO addresses
@@ -29,7 +29,7 @@ public class AddressDAO {
         }
     }
 
-    // ✅ INSERT và trả về ID
+    // INSERT và trả về ID
     public int insertID(Address address) throws SQLException {
         String sql = """
         INSERT INTO addresses
@@ -64,7 +64,7 @@ public class AddressDAO {
         return -1;
     }
 
-    // ✅ Lấy tất cả địa chỉ ĐANG HOẠT ĐỘNG của user
+    // Lấy tất cả địa chỉ ĐANG HOẠT ĐỘNG của user
     public List<Address> findByUserId(int userId) throws SQLException {
         List<Address> list = new ArrayList<>();
         String sql = "SELECT * FROM addresses WHERE user_id = ? AND is_active = 1";
@@ -80,7 +80,7 @@ public class AddressDAO {
         return list;
     }
 
-    // ✅ Tìm địa chỉ theo ID (chỉ lấy nếu đang hoạt động)
+    // Tìm địa chỉ theo ID (chỉ lấy nếu đang hoạt động)
     public Address findById(int id) throws SQLException {
         String sql = "SELECT * FROM addresses WHERE id = ? AND is_active = 1";
         try (Connection conn = DBConnection.getConnection();
@@ -93,7 +93,7 @@ public class AddressDAO {
         return null;
     }
 
-    // ✅ Tìm địa chỉ theo ID và userId (bảo mật hơn)
+    // Tìm địa chỉ theo ID và userId (bảo mật hơn)
     public Address findByIdAndUserId(int id, int userId) throws SQLException {
         String sql = "SELECT * FROM addresses WHERE id = ? AND user_id = ? AND is_active = 1";
         try (Connection conn = DBConnection.getConnection();
@@ -107,7 +107,7 @@ public class AddressDAO {
         return null;
     }
 
-    // ✅ Lấy địa chỉ mặc định của user
+    // Lấy địa chỉ mặc định của user
     public Address getDefaultAddress(int userId) throws SQLException {
         String sql = "SELECT * FROM addresses WHERE user_id = ? AND isDefault = 1 AND is_active = 1";
         try (Connection conn = DBConnection.getConnection();
@@ -120,7 +120,7 @@ public class AddressDAO {
         return null;
     }
 
-    // ✅ Reset tất cả địa chỉ của user về không mặc định
+    // Reset tất cả địa chỉ của user về không mặc định
     public boolean resetDefault(int userId) throws SQLException {
         String sql = "UPDATE addresses SET isDefault = 0 WHERE user_id = ? AND is_active = 1";
         try (Connection conn = DBConnection.getConnection();
@@ -130,7 +130,7 @@ public class AddressDAO {
         }
     }
 
-    // ✅ XÓA MỀM - Đánh dấu is_active = 0
+    // XÓA MỀM - Đánh dấu is_active = 0
     public boolean delete(int id, int userId) throws SQLException {
         String sql = "UPDATE addresses SET is_active = 0 WHERE id = ? AND user_id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -141,7 +141,7 @@ public class AddressDAO {
         }
     }
 
-    // ✅ CẬP NHẬT địa chỉ (chỉ cập nhật nếu đang hoạt động)
+    // CẬP NHẬT địa chỉ (chỉ cập nhật nếu đang hoạt động)
     public boolean update(Address addr) throws SQLException {
         String sql = """
             UPDATE addresses 
@@ -162,7 +162,7 @@ public class AddressDAO {
         }
     }
 
-    // ✅ ĐẾM số lượng địa chỉ đang hoạt động của user
+    // ĐẾM số lượng địa chỉ đang hoạt động của user
     public int countActiveAddresses(int userId) throws SQLException {
         String sql = "SELECT COUNT(*) FROM addresses WHERE user_id = ? AND is_active = 1";
         try (Connection conn = DBConnection.getConnection();
@@ -177,7 +177,7 @@ public class AddressDAO {
         return 0;
     }
 
-    // ✅ KHÔI PHỤC địa chỉ đã xóa (tùy chọn)
+    // KHÔI PHỤC địa chỉ đã xóa (tùy chọn)
     public boolean restore(int id, int userId) throws SQLException {
         String sql = "UPDATE addresses SET is_active = 1 WHERE id = ? AND user_id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -188,7 +188,7 @@ public class AddressDAO {
         }
     }
 
-    // ✅ XÓA CỨNG - Chỉ dùng khi thực sự cần thiết (admin)
+    // XÓA CỨNG - Chỉ dùng khi thực sự cần thiết (admin)
     public boolean hardDelete(int id) throws SQLException {
         String sql = "DELETE FROM addresses WHERE id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -198,7 +198,7 @@ public class AddressDAO {
         }
     }
 
-    // ✅ Lấy tất cả địa chỉ (bao gồm cả đã xóa) - cho admin
+    // Lấy tất cả địa chỉ (bao gồm cả đã xóa) - cho admin
     public List<Address> findAllByUserId(int userId) throws SQLException {
         List<Address> list = new ArrayList<>();
         String sql = "SELECT * FROM addresses WHERE user_id = ?";
@@ -214,7 +214,7 @@ public class AddressDAO {
         return list;
     }
 
-    // ✅ MAP ResultSet sang Object
+    // MAP ResultSet sang Object
     private Address mapResultSetToAddress(ResultSet rs) throws SQLException {
         Address a = new Address();
         a.setId(rs.getInt("id"));
