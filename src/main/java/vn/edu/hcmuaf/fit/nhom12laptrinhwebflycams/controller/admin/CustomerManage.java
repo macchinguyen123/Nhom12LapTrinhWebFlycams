@@ -18,18 +18,17 @@ public class CustomerManage extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        List<User> users = userDAO.getAllCustomers();
+        List<User> users = userDAO.getAllUsers();
         req.setAttribute("users", users);
         req.setAttribute("showDetail", Boolean.FALSE); // ← Dùng Boolean.FALSE
-
 
         req.getRequestDispatcher("/page/admin/customer-manage.jsp")
                 .forward(req, resp);
     }
 
-
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 }
