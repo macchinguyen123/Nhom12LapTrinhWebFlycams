@@ -43,7 +43,8 @@ body {
     color: red;
 }
 
-/* FIX ẢNH */
+
+/* FIX ẢNH - PHIÊN BẢN MỚI */
 .khung-anh {
     width: 100%;
     height: 220px;
@@ -51,15 +52,15 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #f5f5f5; /* Màu nền phòng khi ảnh loading */
 }
 
 .khung-anh img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Ảnh sẽ phủ kín khung, có thể crop */
+    display: block; /* Loại bỏ khoảng trắng dưới ảnh */
 }
-
-
 
 .tieu-de-muc {
     font-weight: 700;
@@ -148,7 +149,6 @@ body {
 
 .san-pham img {
     width: 100%;
-    height: 70%;
     display: block;
     object-fit: cover;
     border-radius: 20px 20px 0 0;

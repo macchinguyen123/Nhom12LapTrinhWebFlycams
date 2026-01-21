@@ -491,6 +491,31 @@
         });
     }
 </script>
+<script>
+    // === XỬ LÝ SUBMENU ===
+    document.querySelectorAll('.has-submenu .menu-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const parent = this.parentElement;
+            const submenu = parent.querySelector('.submenu');
+            const arrow = this.querySelector('.arrow');
+
+            // Toggle submenu
+            parent.classList.toggle('active');
+
+            // Toggle arrow direction
+            if (parent.classList.contains('active')) {
+                arrow.classList.remove('bi-chevron-right');
+                arrow.classList.add('bi-chevron-down');
+                submenu.style.display = 'block';
+            } else {
+                arrow.classList.remove('bi-chevron-down');
+                arrow.classList.add('bi-chevron-right');
+                submenu.style.display = 'none';
+            }
+        });
+    });
+</script>
 </body>
 
 </html>
