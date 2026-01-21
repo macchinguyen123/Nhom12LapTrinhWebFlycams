@@ -349,8 +349,8 @@
 
             // Kiểm tra đăng nhập
             <c:if test="${empty sessionScope.user}">
-            alert('Vui lòng đăng nhập để thêm vào yêu thích!');
-            window.location.href = '${pageContext.request.contextPath}/Login';
+            // Redirect trực tiếp đến trang đăng nhập
+            window.location.href = '${pageContext.request.contextPath}/page/login.jsp';
             return;
             </c:if>
 

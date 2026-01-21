@@ -102,7 +102,10 @@
                                             <u>
                                                 <fmt:formatNumber value="${avgRating}" maxFractionDigits="1"/>
                                             </u> |
-                                            <u class="text-muted">${reviewCount} Đánh Giá</u>
+                                            <u class="text-muted">${reviewCount} Đánh Giá</u> |
+                                            <u class="text-muted">
+                                                <fmt:formatNumber value="${product.view}"/> Lượt Xem
+                                            </u>
                                         </span>
                 </div>
                 <div class="product-info text-muted mb-2">
@@ -537,9 +540,8 @@
     // REDIRECT TO LOGIN
     // ============================================
     function redirectToLogin() {
-        if (confirm('Bạn cần đăng nhập để sử dụng tính năng này. Chuyển đến trang đăng nhập?')) {
-            window.location.href = '${pageContext.request.contextPath}/page/login.jsp';
-        }
+        // Redirect trực tiếp đến trang đăng nhập
+        window.location.href = '${pageContext.request.contextPath}/page/login.jsp';
     }
 
     // ============================================
@@ -696,9 +698,8 @@
                             this.classList.toggle('bi-heart-fill');
                             this.classList.toggle('yeu-thich');
                         } else if (data.error === 'login_required' || data.message === 'NOT_LOGIN') {
-                            if (confirm('Bạn cần đăng nhập để sử dụng tính năng này. Chuyển đến trang đăng nhập?')) {
-                                window.location.href = contextPath + '/page/login.jsp';
-                            }
+                            // Redirect trực tiếp đến trang đăng nhập
+                            window.location.href = contextPath + '/page/login.jsp';
                         } else {
                             showNotification(data.message || 'Thêm vào yêu thích thất bại', 'error');
                         }

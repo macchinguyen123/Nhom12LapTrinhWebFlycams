@@ -20,6 +20,7 @@ public class Product implements Serializable {
     private String mainImage; // NEW FIELD
     private Integer reviewCount;
     private double avgRating;
+    private int view; // Số lượt xem sản phẩm
 
     // Constructor không tham số – bắt buộc cho JavaBean
     public Product() {
@@ -35,8 +36,8 @@ public class Product implements Serializable {
 
     // Constructor đầy đủ
     public Product(int id, int categoryId, String brandName, String productName,
-                   String description, String parameter, double price,
-                   double finalPrice, String warranty, int quantity, String status) {
+            String description, String parameter, double price,
+            double finalPrice, String warranty, int quantity, String status) {
         this.id = id;
         this.categoryId = categoryId;
         this.brandName = brandName;
@@ -166,6 +167,7 @@ public class Product implements Serializable {
     public void setReviewCount(Integer reviewCount) {
         this.reviewCount = reviewCount;
     }
+
     private String categoryName;
 
     public String getCategoryName() {
@@ -174,5 +176,13 @@ public class Product implements Serializable {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public int getView() {
+        return view;
+    }
+
+    public void setView(int view) {
+        this.view = view;
     }
 }

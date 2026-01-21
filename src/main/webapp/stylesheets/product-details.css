@@ -12,8 +12,10 @@ body {
 }
 
 /* === CONTAINER CHÍNH (CHI TIẾT SẢN PHẨM) === */
-.container {
+.container.bg-white {
     width: 100%;
+    min-height: 600px;
+    /* Tăng chiều cao tối thiểu */
 }
 
 
@@ -138,8 +140,9 @@ body {
     margin-bottom: 20px;
 }
 
-.buy-buttons > * {
-    flex: 1;            /* mỗi nút chiếm 50% */
+.buy-buttons>* {
+    flex: 1;
+    /* mỗi nút chiếm 50% */
 }
 
 .buy-buttons button,
@@ -514,27 +517,32 @@ body {
 /* === KHUNG CHỨA TOÀN BỘ CAROUSEL === */
 .khung-san-pham-wrapper {
     position: relative;
-    width: 80%; /* chỉ chiếm 80% màn hình */
+    width: 80%;
+    /* chỉ chiếm 80% màn hình */
     margin: 20px auto;
 }
 
 /* === KHUNG CHỨA CÁC SẢN PHẨM (CUỘN NGANG) === */
 .khung-san-pham {
     display: flex;
-    gap: 15px; /* giảm nhẹ khoảng cách cho vừa khung */
+    gap: 15px;
+    /* giảm nhẹ khoảng cách cho vừa khung */
     overflow-x: auto;
     scroll-behavior: smooth;
     padding: 10px;
-    scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
+    scrollbar-width: none;
+    /* Ẩn thanh cuộn trên Firefox */
 }
 
 .khung-san-pham::-webkit-scrollbar {
-    display: none; /* Ẩn thanh cuộn trên Chrome/Safari */
+    display: none;
+    /* Ẩn thanh cuộn trên Chrome/Safari */
 }
 
 /* === KHỐI SẢN PHẨM === */
 .san-pham {
-    flex: 0 0 calc((100% - 4 * 15px) / 5); /* chia đều 5 sản phẩm mỗi hàng */
+    flex: 0 0 calc((100% - 4 * 15px) / 5);
+    /* chia đều 5 sản phẩm mỗi hàng */
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -692,7 +700,8 @@ body {
     }
 
     .nut-chuyen {
-        display: none; /* Ẩn nút < > trên điện thoại, dùng vuốt tay */
+        display: none;
+        /* Ẩn nút < > trên điện thoại, dùng vuốt tay */
     }
 }
 
@@ -733,6 +742,7 @@ body {
         transform: translateY(-15px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -816,7 +826,7 @@ body {
 
 /* Khi chọn hoặc hover */
 .rating-group label:hover i,
-.rating-group input:checked + .stars i {
+.rating-group input:checked+.stars i {
     color: #ffc107;
 }
 
@@ -892,42 +902,52 @@ a {
 
 .rating {
     display: inline-flex;
-    gap: 2px; /* khoảng cách giữa các sao */
+    gap: 2px;
+    /* khoảng cách giữa các sao */
     align-items: center;
 }
 
 .discount-badge {
-    background: #e62b23; /* màu đỏ giống mẫu */
+    background: #e62b23;
+    /* màu đỏ giống mẫu */
     color: white;
     padding: 8px 12px;
     font-size: 16px;
     font-weight: 700;
-    border-radius: 6px; /* bo góc */
+    border-radius: 6px;
+    /* bo góc */
     display: inline-block;
 }
 
 .tim-yeu-thich {
-    font-size: 1.5rem; /* giữ size cố định */
-    width: 1.5rem; /* cố định chiều ngang */
-    height: 1.5rem; /* cố định chiều cao */
+    font-size: 1.5rem;
+    /* giữ size cố định */
+    width: 1.5rem;
+    /* cố định chiều ngang */
+    height: 1.5rem;
+    /* cố định chiều cao */
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: color 0.3s; /* đổi màu mượt */
+    transition: color 0.3s;
+    /* đổi màu mượt */
     cursor: pointer;
 }
 
 .tim-yeu-thich.liked {
     color: red;
 }
+
 /* 1. CỐ ĐỊNH TOÀN BỘ CỘT TRÁI */
 .product-image-col {
     height: 600px;
     display: flex;
     flex-direction: column;
 }
+
 .main-image-wrapper {
-    height: 500px;     /* 👈 GIỮ CHỖ CỐ ĐỊNH */
+    height: 420px;
+    /* 👈 GIỮ CHỖ CỐ ĐỊNH */
     width: 100%;
     display: flex;
     justify-content: center;
@@ -965,6 +985,7 @@ a {
     object-fit: cover;
     cursor: pointer;
 }
+
 .pagination {
     display: flex;
     justify-content: center;
@@ -984,6 +1005,7 @@ a {
     color: #fff;
     border-color: #0d6efd;
 }
+
 .section-title {
     font-size: 26px;
     font-weight: 700;

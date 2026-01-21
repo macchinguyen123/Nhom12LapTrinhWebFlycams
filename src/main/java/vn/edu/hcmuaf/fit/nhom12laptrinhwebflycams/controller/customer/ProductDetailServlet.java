@@ -48,6 +48,9 @@ public class ProductDetailServlet extends HttpServlet {
             return;
         }
 
+        // Tăng số lượt xem sản phẩm
+        productDAO.incrementViewCount(id);
+
         // LẤY TÊN DANH MỤC (KHÔNG ĐỤNG PRODUCT)
         String categoryName = categoryDAO.getCategoryNameById(product.getCategoryId());
         // ====== TÍNH % KHUYẾN MÃI ======
@@ -101,7 +104,8 @@ public class ProductDetailServlet extends HttpServlet {
         if (pageRaw != null) {
             try {
                 page = Integer.parseInt(pageRaw);
-            } catch (NumberFormatException ignored) {}
+            } catch (NumberFormatException ignored) {
+            }
         }
 
         int totalReviews = reviewsDAO.countReviews(id);
@@ -123,13 +127,11 @@ public class ProductDetailServlet extends HttpServlet {
         List<Product> relatedProducts = productDAO.getRelatedProducts(
                 product.getCategoryId(),
                 product.getId(),
-                20
-        );
+                20);
         User user = session != null ? (User) session.getAttribute("user") : null;
         // ======= 7. LOAD WISHLIST (QUAN TRỌNG) =======
         if (user != null) {
-            List<Integer> wishlistProductIds =
-                    wishlistService.getWishlistProductIds(user.getId());
+            List<Integer> wishlistProductIds = wishlistService.getWishlistProductIds(user.getId());
             request.setAttribute("wishlistProductIds", wishlistProductIds);
         }
 
@@ -138,10 +140,12 @@ public class ProductDetailServlet extends HttpServlet {
         request.getRequestDispatcher("/page/product-details.jsp")
                 .forward(request, response);
     }
+
     /**
      * Tính phần trăm giảm giá từ giá gốc và giá khuyến mãi
+     * 
      * @param originalPrice Giá gốc
-     * @param finalPrice Giá sau khuyến mãi
+     * @param finalPrice    Giá sau khuyến mãi
      * @return Phần trăm giảm giá (làm tròn)
      */
     private int calculateDiscountPercent(double originalPrice, double finalPrice) {

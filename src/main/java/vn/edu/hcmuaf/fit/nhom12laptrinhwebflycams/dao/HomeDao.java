@@ -15,7 +15,7 @@ public class HomeDao {
         List<Product> list = new ArrayList<>();
 
         String sql = """
-                
+
                              SELECT p.id,
                        p.productName,
                        p.price,
@@ -41,11 +41,11 @@ public class HomeDao {
                 WHERE p.status = 'active'
                 ORDER BY oi.totalAppear DESC
                 LIMIT ?
-                
+
                 """;
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, limit);
             ResultSet rs = ps.executeQuery();
@@ -64,8 +64,7 @@ public class HomeDao {
                 System.out.println(
                         "[HomeDao] id=" + p.getId() +
                                 ", rating=" + p.getAvgRating() +
-                                ", reviews=" + p.getReviewCount()
-                );
+                                ", reviews=" + p.getReviewCount());
 
             }
         } catch (Exception e) {
@@ -73,34 +72,35 @@ public class HomeDao {
         }
         return list;
     }
+
     public List<Product> getTopReviewedProducts(int limit) {
         List<Product> list = new ArrayList<>();
 
         String sql = """
-        SELECT p.id,
-               p.productName,
-               p.price,
-               p.finalPrice,
-               i.imageUrl,
-               COALESCE(rv.avgRating, 0) AS avgRating,
-               COALESCE(rv.reviewCount, 0) AS reviewCount
-        FROM products p
-        LEFT JOIN images i
-            ON p.id = i.product_id AND i.imageType = 'Chính'
-        LEFT JOIN (
-            SELECT product_id,
-                   AVG(rating) AS avgRating,
-                   COUNT(*) AS reviewCount
-            FROM reviews
-            GROUP BY product_id
-        ) rv ON p.id = rv.product_id
-        WHERE p.status = 'active'
-        ORDER BY rv.reviewCount DESC
-        LIMIT ?
-    """;
+                    SELECT p.id,
+                           p.productName,
+                           p.price,
+                           p.finalPrice,
+                           i.imageUrl,
+                           COALESCE(rv.avgRating, 0) AS avgRating,
+                           COALESCE(rv.reviewCount, 0) AS reviewCount
+                    FROM products p
+                    LEFT JOIN images i
+                        ON p.id = i.product_id AND i.imageType = 'Chính'
+                    LEFT JOIN (
+                        SELECT product_id,
+                               AVG(rating) AS avgRating,
+                               COUNT(*) AS reviewCount
+                        FROM reviews
+                        GROUP BY product_id
+                    ) rv ON p.id = rv.product_id
+                    WHERE p.status = 'active'
+                    ORDER BY rv.reviewCount DESC
+                    LIMIT ?
+                """;
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, limit);
             ResultSet rs = ps.executeQuery();
@@ -119,8 +119,7 @@ public class HomeDao {
 
                 System.out.println(
                         "[TopReview] id=" + p.getId() +
-                                ", reviews=" + p.getReviewCount()
-                );
+                                ", reviews=" + p.getReviewCount());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -128,35 +127,36 @@ public class HomeDao {
 
         return list;
     }
+
     public List<Product> getProductsByCategory(int categoryId, int limit) {
         List<Product> list = new ArrayList<>();
 
         String sql = """
-        SELECT p.id,
-               p.productName,
-               p.price,
-               p.finalPrice,
-               i.imageUrl,
-               COALESCE(rv.avgRating, 0) AS avgRating,
-               COALESCE(rv.reviewCount, 0) AS reviewCount
-        FROM products p
-        LEFT JOIN images i
-            ON p.id = i.product_id AND i.imageType = 'Chính'
-        LEFT JOIN (
-            SELECT product_id,
-                   AVG(rating) AS avgRating,
-                   COUNT(*) AS reviewCount
-            FROM reviews
-            GROUP BY product_id
-        ) rv ON p.id = rv.product_id
-        WHERE p.status = 'active'
-          AND p.category_id = ?
-        ORDER BY p.id DESC
-        LIMIT ?
-    """;
+                    SELECT p.id,
+                           p.productName,
+                           p.price,
+                           p.finalPrice,
+                           i.imageUrl,
+                           COALESCE(rv.avgRating, 0) AS avgRating,
+                           COALESCE(rv.reviewCount, 0) AS reviewCount
+                    FROM products p
+                    LEFT JOIN images i
+                        ON p.id = i.product_id AND i.imageType = 'Chính'
+                    LEFT JOIN (
+                        SELECT product_id,
+                               AVG(rating) AS avgRating,
+                               COUNT(*) AS reviewCount
+                        FROM reviews
+                        GROUP BY product_id
+                    ) rv ON p.id = rv.product_id
+                    WHERE p.status = 'active'
+                      AND p.category_id = ?
+                    ORDER BY p.id DESC
+                    LIMIT ?
+                """;
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, categoryId);
             ps.setInt(2, limit);
@@ -181,24 +181,25 @@ public class HomeDao {
 
         return list;
     }
+
     // Lấy 8 bài viết mới nhất
     public List<Post> getLatestPosts(int limit) {
         List<Post> list = new ArrayList<>();
 
         String sql = """
-        SELECT id,
-               title,
-               content,
-               image,
-               createdAt,
-               product_id
-        FROM posts
-        ORDER BY createdAt DESC
-        LIMIT ?
-    """;
+                    SELECT id,
+                           title,
+                           content,
+                           image,
+                           createdAt,
+                           product_id
+                    FROM posts
+                    ORDER BY createdAt DESC
+                    LIMIT ?
+                """;
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, limit);
 
@@ -210,8 +211,7 @@ public class HomeDao {
                             rs.getString("content"),
                             rs.getString("image"),
                             rs.getTimestamp("createdAt"),
-                            rs.getInt("product_id")
-                    );
+                            rs.getInt("product_id"));
                     list.add(p);
                 }
             }
@@ -223,6 +223,68 @@ public class HomeDao {
         return list;
     }
 
+    /**
+     * Lấy danh sách sản phẩm có lượt xem cao nhất
+     * 
+     * @param limit Số lượng sản phẩm cần lấy
+     * @return Danh sách sản phẩm được sắp xếp theo lượt xem giảm dần
+     */
+    public List<Product> getTopViewedProducts(int limit) {
+        List<Product> list = new ArrayList<>();
 
+        String sql = """
+                    SELECT p.id,
+                           p.productName,
+                           p.price,
+                           p.finalPrice,
+                           p.view,
+                           i.imageUrl,
+                           COALESCE(rv.avgRating, 0) AS avgRating,
+                           COALESCE(rv.reviewCount, 0) AS reviewCount
+                    FROM products p
+                    LEFT JOIN images i
+                        ON p.id = i.product_id AND i.imageType = 'Chính'
+                    LEFT JOIN (
+                        SELECT product_id,
+                               AVG(rating) AS avgRating,
+                               COUNT(*) AS reviewCount
+                        FROM reviews
+                        GROUP BY product_id
+                    ) rv ON p.id = rv.product_id
+                    WHERE p.status = 'active'
+                    ORDER BY p.view DESC
+                    LIMIT ?
+                """;
+
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, limit);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Product p = new Product();
+                p.setId(rs.getInt("id"));
+                p.setProductName(rs.getString("productName"));
+                p.setPrice(rs.getDouble("price"));
+                p.setFinalPrice(rs.getDouble("finalPrice"));
+                p.setView(rs.getInt("view"));
+                p.setMainImage(rs.getString("imageUrl"));
+                p.setAvgRating(rs.getDouble("avgRating"));
+                p.setReviewCount(rs.getInt("reviewCount"));
+
+                list.add(p);
+
+                System.out.println(
+                        "[TopViewed] id=" + p.getId() +
+                                ", views=" + p.getView() +
+                                ", reviews=" + p.getReviewCount());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 
 }
