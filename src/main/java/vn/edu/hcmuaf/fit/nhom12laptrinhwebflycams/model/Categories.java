@@ -22,7 +22,6 @@ public class Categories implements Serializable {
         this.status = status;
     }
 
-
     // Getter & Setter CHUẨN JAVABEAN
     public int getId() {
         return id;
@@ -56,5 +55,11 @@ public class Categories implements Serializable {
         this.status = status;
     }
 
-    public int getSortOrder() { return sortOrder; }
+    public int getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
+    }
 }

@@ -148,9 +148,9 @@
                 <div class="quantity mb-3 d-flex align-items-center">
                     <span class="me-3 fw-semibold">Số lượng</span>
                     <div class="quantity-box">
-                        <button id="minus">-</button>
+                        <button type="button" id="minus">-</button>
                         <input type="text" id="qty" value="1" readonly>
-                        <button id="plus">+</button>
+                        <button type="button" id="plus">+</button>
                     </div>
                 </div>
 
@@ -429,16 +429,30 @@
 
                         </div>
 
-                        <i class="bi bi-heart tim-yeu-thich"></i>
+                        <c:choose>
+                            <c:when
+                                    test="${wishlistProductIds != null && wishlistProductIds.contains(p.id)}">
+                                <i class="bi bi-heart-fill tim-yeu-thich yeu-thich"
+                                   data-product-id="${p.id}"></i>
+                            </c:when>
+                            <c:otherwise>
+                                <i class="bi bi-heart tim-yeu-thich" data-product-id="${p.id}"></i>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
 
                     <div class="so-danh-gia">
                         (${empty p.reviewCount ? 0 : p.reviewCount} đánh giá)
                     </div>
 
-                    <a href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
-                        <button class="nut-mua-ngay">Mua Ngay</button>
-                    </a>
+                    <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                          class="text-center">
+                        <input type="hidden" name="productId" value="${p.id}">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="nut-mua-ngay">
+                            <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                        </button>
+                    </form>
 
                 </div>
             </c:forEach>
@@ -523,8 +537,8 @@
     // REDIRECT TO LOGIN
     // ============================================
     function redirectToLogin() {
-        if (confirm('Bạn cần đăng nhập để đánh giá sản phẩm. Chuyển đến trang đăng nhập?')) {
-            window.location.href = '${pageContext.request.contextPath}/login.jsp';
+        if (confirm('Bạn cần đăng nhập để sử dụng tính năng này. Chuyển đến trang đăng nhập?')) {
+            window.location.href = '${pageContext.request.contextPath}/page/login.jsp';
         }
     }
 
@@ -628,6 +642,9 @@
 
         window.changeImage = changeImage; // Make it global for onclick
 
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
                 currentIndex = (currentIndex - 1 + thumbs.length) % thumbs.length;
@@ -680,7 +697,7 @@
                             this.classList.toggle('yeu-thich');
                         } else if (data.error === 'login_required' || data.message === 'NOT_LOGIN') {
                             if (confirm('Bạn cần đăng nhập để sử dụng tính năng này. Chuyển đến trang đăng nhập?')) {
-                                window.location.href = contextPath + '/login.jsp';
+                                window.location.href = contextPath + '/page/login.jsp';
                             }
                         } else {
                             showNotification(data.message || 'Thêm vào yêu thích thất bại', 'error');
@@ -793,134 +810,119 @@
                 quantityHidden.value = qtyInput.value;
                 buyNowQuantity.value = qtyInput.value;
             });
-        }
-
-        // ============================================
-        // ADD TO CART WITH ANIMATION
-        // ============================================
-        // ============================================
-        // ADD TO CART WITH ANIMATION
-        // ============================================
-        // ============================================
-        // ADD TO CART WRAPPER (Called via onclick)
-        // ============================================
-
-
-        const addToCartBtn = document.querySelector('.btn-add-cart');
-
-        if (false) { // Disabled old listener
-            // Clone button to remove any old listeners that might interfere
-            const newBtn = addToCartBtn.cloneNode(true);
-            addToCartBtn.parentNode.replaceChild(newBtn, addToCartBtn);
-
-            newBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation(); // Stop bubbling up
-
-                const form = newBtn.closest('form');
-                const productId = form.querySelector('input[name="productId"]').value;
-                const quantity = form.querySelector('input[name="quantity"]').value || 1;
-                const productImg = document.querySelector('#displayImg');
-
-                console.log('Add to cart clicked:', productId, quantity);
-
-                if (typeof globallyHandleAddToCart === 'function') {
-                    globallyHandleAddToCart(productId, quantity, productImg, newBtn);
-                } else {
-                    console.error('globallyHandleAddToCart not found');
-                    // Only submit if JS fails
-                    // form.submit();
-                    alert('Lỗi: Không tìm thấy hàm xử lý giỏ hàng!');
-                }
-            });
-        }
-
-
-        const reviewPopup = document.getElementById('reviewPopup');
-        const closeBtn = document.querySelector('.close-review-popup');
-        const allWriteReviewBtns = document.querySelectorAll('.write-review-btn');
-
-        allWriteReviewBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                if (!btn.disabled) {
-                    reviewPopup.style.display = 'flex';
-                    setTimeout(() => {
-                        reviewPopup.classList.add('active');
-                    }, 10);
-                }
-            });
-        });
-
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                reviewPopup.classList.remove('active');
-                setTimeout(() => {
-                    reviewPopup.style.display = 'none';
-                }, 300);
-            });
-        }
-
-        window.addEventListener('click', (e) => {
-            if (e.target === reviewPopup) {
-                reviewPopup.classList.remove('active');
-                setTimeout(() => {
-                    reviewPopup.style.display = 'none';
-                }, 300);
-            }
-        });
-
-        const reviewForm = document.getElementById('reviewForm');
-        if (reviewForm) {
-            reviewForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-                const productId = reviewForm.querySelector('input[name="product_id"]').value;
-                const rating = reviewForm.querySelector('input[name="rating"]:checked')?.value;
-                const content = reviewForm.querySelector('textarea[name="content"]').value;
-                const contextPath = '<%=request.getContextPath()%>';
-
-                if (!rating) {
-                    showNotification('Vui lòng chọn số sao đánh giá', 'error');
-                    return;
-                }
-
-                const params = new URLSearchParams({
-                    product_id: productId,
-                    rating: rating,
-                    content: content
-                });
-
-                fetch(contextPath + '/ReviewServlet', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    body: params
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            reviewPopup.classList.remove('active');
-                            setTimeout(() => {
-                                reviewPopup.style.display = 'none';
-                            }, 300);
-                            showNotification(data.message, 'success');
-                            setTimeout(() => {
-                                location.reload();
-                            }, 1000);
-                        } else {
-                            showNotification(data.message, 'error');
-                            if (data.status === 'login_required') {
-                                setTimeout(() => {
-                                    window.location.href = contextPath + '/login.jsp';
-                                }, 2000);
-                            }
-                        }
-                    })
-                    .catch(err => {
-                        console.error('Error:', err);
-                        showNotification('Lỗi kết nối server', 'error');
-                    });
-            });
+            buyNowQuantity.value = qtyInput.value;
         }
     });
+
+    // ============================================
+    // RELATED PRODUCTS ADD TO CART
+    // ============================================
+    document.querySelectorAll('.nut-mua-ngay').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const form = btn.closest('form');
+            if (!form) return;
+
+            const productId = form.querySelector('input[name="productId"]').value;
+            const quantity = form.querySelector('input[name="quantity"]').value || 1;
+            const productCard = btn.closest('.san-pham');
+            const productImg = productCard.querySelector('img');
+
+            if (typeof globallyHandleAddToCart === 'function') {
+                globallyHandleAddToCart(productId, quantity, productImg, btn);
+            } else {
+                console.error('globallyHandleAddToCart not defined');
+                form.submit();
+            }
+        });
+    });
+
+
+    const reviewPopup = document.getElementById('reviewPopup');
+    const closeBtn = document.querySelector('.close-review-popup');
+    const allWriteReviewBtns = document.querySelectorAll('.write-review-btn');
+
+    allWriteReviewBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            if (!btn.disabled) {
+                reviewPopup.style.display = 'flex';
+                setTimeout(() => {
+                    reviewPopup.classList.add('active');
+                }, 10);
+            }
+        });
+    });
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            reviewPopup.classList.remove('active');
+            setTimeout(() => {
+                reviewPopup.style.display = 'none';
+            }, 300);
+        });
+    }
+
+    window.addEventListener('click', (e) => {
+        if (e.target === reviewPopup) {
+            reviewPopup.classList.remove('active');
+            setTimeout(() => {
+                reviewPopup.style.display = 'none';
+            }, 300);
+        }
+    });
+
+    const reviewForm = document.getElementById('reviewForm');
+    if (reviewForm) {
+        reviewForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const productId = reviewForm.querySelector('input[name="product_id"]').value;
+            const rating = reviewForm.querySelector('input[name="rating"]:checked')?.value;
+            const content = reviewForm.querySelector('textarea[name="content"]').value;
+            const contextPath = '<%=request.getContextPath()%>';
+
+            if (!rating) {
+                showNotification('Vui lòng chọn số sao đánh giá', 'error');
+                return;
+            }
+
+            const params = new URLSearchParams({
+                product_id: productId,
+                rating: rating,
+                content: content
+            });
+
+            fetch(contextPath + '/ReviewServlet', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: params
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        reviewPopup.classList.remove('active');
+                        setTimeout(() => {
+                            reviewPopup.style.display = 'none';
+                        }, 300);
+                        showNotification(data.message, 'success');
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        showNotification(data.message, 'error');
+                        if (data.status === 'login_required') {
+                            setTimeout(() => {
+                                window.location.href = contextPath + '/page/login.jsp';
+                            }, 2000);
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.error('Error:', err);
+                    showNotification('Lỗi kết nối server', 'error');
+                });
+        });
+    }
 </script>
 
 

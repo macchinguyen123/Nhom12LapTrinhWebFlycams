@@ -62,8 +62,9 @@
                         <!-- TRÁI: checkbox + ảnh + info -->
                         <div class="d-flex align-items-center gap-3">
                             <input type="checkbox" class="chon_san_pham form-check-input me-3">
-                            <a href="${pageContext.request.contextPath}/product-detail?id=${item.product.id}">
-                            <img src="${not empty item.product.images
+                            <a
+                                    href="${pageContext.request.contextPath}/product-detail?id=${item.product.id}">
+                                <img src="${not empty item.product.images
           ? item.product.images[0].imageUrl
           : pageContext.request.contextPath.concat('/image/no-image.png')}" class="anh_san_pham me-3" width="120">
                             </a>
@@ -120,65 +121,7 @@
 </div>
 <jsp:include page="/page/footer.jsp"/>
 <script>
-    // ============================================
-    // HÀM HIỂN THỊ THÔNG BÁO
-    // ============================================
-    function showNotification(message, type = 'success') {
-        // Xóa notification cũ nếu có
-        const oldNotification = document.querySelector('.custom-notification');
-        if (oldNotification) {
-            oldNotification.remove();
-        }
 
-        const notification = document.createElement('div');
-        notification.className = 'custom-notification';
-
-        // Chọn icon Bootstrap
-        let icon = '';
-        if (type === 'success') {
-            icon = '<i class="bi bi-check-circle-fill me-2"></i>';
-        } else {
-            icon = '<i class="bi bi-exclamation-circle-fill me-2"></i>';
-        }
-
-        notification.innerHTML = icon + message;
-        notification.style.position = 'fixed';
-        notification.style.top = '80px';
-        notification.style.right = '-300px';
-        notification.style.padding = '12px 20px';
-        notification.style.borderRadius = '8px';
-        notification.style.zIndex = '10000';
-        notification.style.fontWeight = '500';
-        notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
-        notification.style.transition = 'right 0.3s ease';
-        notification.style.display = 'flex';
-        notification.style.alignItems = 'center';
-        notification.style.minWidth = '250px';
-
-        if (type === 'success') {
-            notification.style.backgroundColor = '#28a745';
-            notification.style.color = 'white';
-        } else {
-            notification.style.backgroundColor = '#dc3545';
-            notification.style.color = 'white';
-        }
-
-        document.body.appendChild(notification);
-
-        // Animation slide in
-        setTimeout(() => {
-            notification.style.right = '20px';
-        }, 10);
-
-        // Animation slide out
-        setTimeout(() => {
-            notification.style.right = '-300px';
-        }, 2500);
-
-        setTimeout(() => {
-            notification.remove();
-        }, 3000);
-    }
 
     // ============================================
     // KHỞI TẠO BIẾN
@@ -270,12 +213,20 @@
                 method: "POST",
                 headers: {"Content-Type": "application/x-www-form-urlencoded"},
                 body: "productId=" + productId
-            }).then(res => {
-                if (res.ok) {
-                    sp.remove();
-                    capNhatTongTien();
-                }
-            });
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        sp.remove();
+                        capNhatTongTien();
+                        if (typeof updateCartBadge === 'function') {
+                            updateCartBadge(data.cartSize);
+                        }
+                        showNotification('Đã xóa sản phẩm', 'success');
+                    } else {
+                        showNotification('Xóa thất bại', 'error');
+                    }
+                });
         }
     });
 
@@ -299,14 +250,22 @@
             method: "POST",
             headers: {"Content-Type": "application/x-www-form-urlencoded"},
             body: body
-        }).then(res => {
-            if (res.ok) {
-                document.querySelectorAll(".chon_san_pham:checked").forEach(cb => {
-                    cb.closest(".khung_san_pham").remove();
-                });
-                capNhatTongTien();
-            }
-        });
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    document.querySelectorAll(".chon_san_pham:checked").forEach(cb => {
+                        cb.closest(".khung_san_pham").remove();
+                    });
+                    capNhatTongTien();
+                    if (typeof updateCartBadge === 'function') {
+                        updateCartBadge(data.cartSize);
+                    }
+                    showNotification('Đã xóa sản phẩm đã chọn', 'success');
+                } else {
+                    showNotification('Xóa thất bại', 'error');
+                }
+            });
     });
 
     // gọi khi load trang
