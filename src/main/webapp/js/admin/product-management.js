@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", function () {
             price: parseFloat(document.getElementById("giaGoc").value),
             finalPrice: document.getElementById("giaKM").value !== "" ? parseFloat(document.getElementById("giaKM").value) : parseFloat(document.getElementById("giaGoc").value),
             quantity: parseInt(document.getElementById("soLuong").value),
-            description: document.getElementById("moTa").value,
-            parameter: document.getElementById("thongSo").value,
+            description: (window.descriptionEditor) ? window.descriptionEditor.getData() : document.getElementById("moTa").value,
+            parameter: (window.parameterEditor) ? window.parameterEditor.getData() : document.getElementById("thongSo").value,
             warranty: document.getElementById("baoHanh").value,
             mainImage: document.getElementById("anhChinh").value,
             images: [...document.querySelectorAll(".image-extra")]
