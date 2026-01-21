@@ -33,12 +33,11 @@ public class CustomerDetail extends HttpServlet {
                 return;
             }
 
-            List<User> users = userDAO.getAllCustomers();
+            List<User> users = userDAO.getAllUsers();
 
             req.setAttribute("users", users);
             req.setAttribute("detailUser", user);
             req.setAttribute("showDetail", true); // Boolean true
-
 
             req.getRequestDispatcher("/page/admin/customer-manage.jsp")
                     .forward(req, resp);
