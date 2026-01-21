@@ -717,7 +717,7 @@
                         this.classList.toggle('yeu-thich');
                     } else if (data.error === 'login_required' || data.message === 'NOT_LOGIN') {
                         if (confirm('Bạn cần đăng nhập để sử dụng tính năng này. Chuyển đến trang đăng nhập?')) {
-                            window.location.href = '${pageContext.request.contextPath}/login.jsp';
+                            window.location.href = '${pageContext.request.contextPath}/page/login.jsp';
                         }
                     }
                 })

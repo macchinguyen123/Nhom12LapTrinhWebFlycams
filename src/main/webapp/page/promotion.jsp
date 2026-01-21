@@ -20,7 +20,7 @@
 <jsp:include page="/page/header.jsp"/>
 
 <header class="khung-tieu-de">
-    <h1 id="ten-chuong-trinh">KHUYẾN MÃI FLYCAM THÁNG NÀY</h1>
+    <h1 id="ten-chuong-trinh" style="color: #dc3545;">KHUYẾN MÃI FLYCAM THÁNG NÀY</h1>
     <p class="mo-ta-chuong-trinh">
         Ưu đãi đặc biệt cho dòng flycam chính hãng — giảm giá sập sàn!
     </p>
@@ -125,11 +125,14 @@
                             (${empty p.reviewCount ? 0 : p.reviewCount} đánh giá)
                         </div>
 
-                        <!-- Nút mua ngay -->
-                        <form action="${pageContext.request.contextPath}/BuyNowServlet" method="post">
+                        <!-- Nút thêm vào giỏ -->
+                        <form action="${pageContext.request.contextPath}/add-cart" method="get"
+                              class="text-center">
                             <input type="hidden" name="productId" value="${p.id}">
                             <input type="hidden" name="quantity" value="1">
-                            <button class="nut-mua-ngay">Mua Ngay</button>
+                            <button type="submit" class="nut-mua-ngay">
+                                <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                            </button>
                         </form>
 
                     </div>
@@ -145,6 +148,32 @@
 
 
 <jsp:include page="/page/footer.jsp"/>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.nut-mua-ngay').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const form = btn.closest('form');
+                if (!form) return;
+
+                const productId = form.querySelector('input[name="productId"]').value;
+                const quantity = form.querySelector('input[name="quantity"]').value;
+                const productCard = btn.closest('.the-san-pham');
+                const productImg = productCard.querySelector('img');
+
+                if (typeof globallyHandleAddToCart === 'function') {
+                    globallyHandleAddToCart(productId, quantity, productImg, btn);
+                } else {
+                    console.error('globallyHandleAddToCart not defined');
+                    // Fallback if needed, but header.jsp should be there
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
 
 <script>
     document.querySelectorAll('.tim-yeu-thich').forEach(btn => {
@@ -164,7 +193,7 @@
                 .then(res => {
                     if (res.status === 401) {
                         if (confirm('Bạn cần đăng nhập để sử dụng tính năng này. Chuyển đến trang đăng nhập?')) {
-                            window.location.href = '${pageContext.request.contextPath}/login.jsp';
+                            window.location.href = '${pageContext.request.contextPath}/page/login.jsp';
                         }
                         return null;
                     }
@@ -177,18 +206,23 @@
                         btn.classList.toggle('bi-heart', isActive);
                         btn.classList.toggle('bi-heart-fill', !isActive);
                         btn.classList.toggle('yeu-thich', !isActive);
-                        showNotification(isActive ? 'Đã xóa khỏi yêu thích' : 'Đã thêm vào yêu thích', 'success');
+                        // Notification removed per user request
                     } else {
-                        showNotification(data.message || 'Thao tác thất bại', 'error');
+                        if (typeof showNotification === 'function') {
+                            showNotification(data.message || 'Thao tác thất bại', 'error');
+                        } else {
+                            alert(data.message || 'Thao tác thất bại');
+                        }
                     }
                 })
                 .catch(err => {
                     console.error('Error:', err);
-                    showNotification('Lỗi kết nối server', 'error');
+                    if (typeof showNotification === 'function') {
+                        showNotification('Lỗi kết nối server', 'error');
+                    }
                 });
         });
     });
-
 </script>
 
 </body>

@@ -10,7 +10,8 @@ import java.io.IOException;
 @WebServlet(name = "RemoveMultiFromCart", value = "/RemoveMultiFromCart")
 public class RemoveMultiFromCart extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 
@@ -19,10 +20,12 @@ public class RemoveMultiFromCart extends HttpServlet {
             throws IOException {
 
         HttpSession session = request.getSession(false);
-        if (session == null) return;
+        if (session == null)
+            return;
 
         Carts cart = (Carts) session.getAttribute("cart");
-        if (cart == null) return;
+        if (cart == null)
+            return;
 
         String[] ids = request.getParameterValues("productIds[]");
         if (ids != null) {
@@ -32,6 +35,9 @@ public class RemoveMultiFromCart extends HttpServlet {
         }
 
         session.setAttribute("cart", cart);
+
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write("{\"success\":true,\"cartSize\":" + cart.totalQuantity() + "}");
         response.setStatus(HttpServletResponse.SC_OK);
     }
 }
