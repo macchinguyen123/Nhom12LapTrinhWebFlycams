@@ -783,3 +783,112 @@ select#bankName {
     background-color: #eab308;
     transform: scale(1.05);
 }
+/* ===== FORM STYLES ===== */
+label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+label i {
+    color: #0d6efd;
+}
+
+label input,
+label select,
+label textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 8px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+label input:focus,
+label select:focus,
+label textarea:focus {
+    outline: none;
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+}
+
+/* ===== INPUT GROUP (for password with eye icon) ===== */
+.input-group {
+    display: flex;
+    width: 100%;
+    margin-top: 8px;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    margin: 0; /* Remove margin from input inside input-group */
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+}
+
+.input-group-text {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.input-group-text:hover {
+    background-color: #e9ecef;
+}
+
+.input-group input:focus + .input-group-text {
+    border-color: #0d6efd;
+}
+
+/* ===== PASSWORD HINT ===== */
+.password-hint {
+    display: block;
+    padding: 12px 15px;
+    background-color: #e7f3ff;
+    border-left: 4px solid #0d6efd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: #084298;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.password-hint i {
+    color: #0d6efd;
+}
+
+/* ===== ACTIONS BUTTONS ===== */
+.actions {
+    margin-top: 25px;
+}
+
+.actions button {
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.actions button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
