@@ -46,7 +46,7 @@ public class ProxyServlet extends HttpServlet {
             return;
         }
 
-        System.out.println("🔄 Proxy request to: " + targetUrl);
+        System.out.println(" Proxy request to: " + targetUrl);
 
         HttpURLConnection conn = null;
         BufferedReader in = null;
@@ -61,7 +61,7 @@ public class ProxyServlet extends HttpServlet {
             conn.setRequestProperty("Accept", "application/json");
 
             int responseCode = conn.getResponseCode();
-            System.out.println("📥 Response code: " + responseCode);
+            System.out.println(" Response code: " + responseCode);
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 in = new BufferedReader(
@@ -75,18 +75,18 @@ public class ProxyServlet extends HttpServlet {
                 }
 
                 String jsonResponse = content.toString();
-                System.out.println("✅ Response length: " + jsonResponse.length());
+                System.out.println("Response length: " + jsonResponse.length());
 
                 response.getWriter().write(jsonResponse);
 
             } else {
-                System.err.println("❌ API error: " + responseCode);
+                System.err.println("API error: " + responseCode);
                 response.setStatus(responseCode);
                 response.getWriter().write("{\"error\": \"API returned code " + responseCode + "\"}");
             }
 
         } catch (Exception e) {
-            System.err.println("💥 Exception: " + e.getMessage());
+            System.err.println(" Exception: " + e.getMessage());
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");

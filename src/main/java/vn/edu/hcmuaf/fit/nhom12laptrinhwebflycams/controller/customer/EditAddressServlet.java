@@ -38,7 +38,7 @@ public class EditAddressServlet extends HttpServlet {
             String district = req.getParameter("district");
             boolean isDefault = req.getParameter("isDefault") != null;
 
-            // ✅ KIỂM TRA TRÙNG LẶP (BỎ QUA CHÍNH NÓ)
+            // KIỂM TRA TRÙNG LẶP (BỎ QUA CHÍNH NÓ)
             List<Address> existingAddresses = dao.findByUserId(user.getId());
 
             for (Address existing : existingAddresses) {

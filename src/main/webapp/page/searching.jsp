@@ -412,7 +412,7 @@
 </script>
 <script>
     // ============================================
-    // HELPER FUNCTIONS (Copied from product-details.jsp/mini-drone.jsp)
+    // HELPER FUNCTIONS (Copied from product-details.jsp/category.jsp)
     // ============================================
     function showNotification(message, type = 'success') {
         const oldNotification = document.querySelector('.custom-notification');

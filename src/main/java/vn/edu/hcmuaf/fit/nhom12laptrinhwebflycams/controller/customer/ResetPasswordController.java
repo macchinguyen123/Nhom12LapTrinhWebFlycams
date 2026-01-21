@@ -46,7 +46,7 @@ public class ResetPasswordController extends HttpServlet {
             String hashedPassword = vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PasswordUtil.hashPassword(password);
             boolean updated = userDAO.updatePassword(user.getId(), hashedPassword);
             if (updated) {
-                // ✅ Sau khi đổi mật khẩu thành công → quay về login.jsp
+                //  Sau khi đổi mật khẩu thành công → quay về login.jsp
                 response.sendRedirect(request.getContextPath() + "/page/login.jsp?resetSuccess=1");
             } else {
                 request.setAttribute("error", "Có lỗi xảy ra khi cập nhật mật khẩu!");

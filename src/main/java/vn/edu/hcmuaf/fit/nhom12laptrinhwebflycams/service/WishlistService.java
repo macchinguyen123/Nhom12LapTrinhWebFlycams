@@ -9,9 +9,6 @@ import java.util.List;
 public class WishlistService {
     private final WishlistDAO wishlistDAO = new WishlistDAO();
 
-    public List<Wishlists> getWishlistByUser(int userId) {
-        return wishlistDAO.getWishlistByUser(userId);
-    }
 
     public List<Product> getWishlistProducts(int userId) {
         return wishlistDAO.getWishlistProductsByUser(userId);

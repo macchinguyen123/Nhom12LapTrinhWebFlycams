@@ -52,7 +52,7 @@ public class VerifyRegisterOtp extends HttpServlet {
             return;
         }
 
-        // ✅ OTP ĐÚNG → LƯU USER
+        // OTP ĐÚNG → LƯU USER
         userDAO.insertUser(user);
 
         session.invalidate(); // xoá toàn bộ OTP

@@ -336,33 +336,7 @@ public class DashboardDAO {
     }
 
 
-    // Tổng số đơn hôm nay
-    public int getTotalOrdersToday() {
-        String sql = "SELECT COUNT(*) FROM orders WHERE DATE(createdAt) = CURDATE()";
-        try (Connection con = DBConnection.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
-            if (rs.next())
-                return rs.getInt(1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
 
-    // Số đơn đang chờ xác nhận hôm nay
-    public int getProcessingOrdersToday() {
-        String sql = "SELECT COUNT(*) FROM orders WHERE status = 'Xác nhận' AND DATE(createdAt) = CURDATE()";
-        try (Connection con = DBConnection.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
-            if (rs.next())
-                return rs.getInt(1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
 
     // Doanh thu hôm nay
     public double getRevenueToday() {
@@ -378,19 +352,6 @@ public class DashboardDAO {
         return 0;
     }
 
-    // Khách hàng mới hôm nay
-    public int getNewCustomersToday() {
-        String sql = "SELECT COUNT(*) FROM users WHERE DATE(createdAt) = CURDATE()";
-        try (Connection con = DBConnection.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
-            if (rs.next())
-                return rs.getInt(1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
 
         // ===== DOANH THU THÁNG NÀY =====
         public double getRevenueThisMonth() {

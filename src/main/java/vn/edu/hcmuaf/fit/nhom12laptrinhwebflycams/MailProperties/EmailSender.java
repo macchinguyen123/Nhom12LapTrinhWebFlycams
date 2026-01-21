@@ -40,7 +40,7 @@ public class EmailSender {
         String fromEmail = props.getProperty("mail.from");
         String password = props.getProperty("mail.password");
 
-        // ✅ BẮT BUỘC
+        // BẮT BUỘC
         props.put("mail.debug", "false");
 
         Session session = Session.getInstance(props, new Authenticator() {
@@ -69,7 +69,7 @@ public class EmailSender {
             // Sử dụng Transport.send để tự động xử lý kết nối và giao thức
             Transport.send(message);
 
-            System.out.println("✅ Gửi email thành công: " + toEmail);
+            System.out.println(" Gửi email thành công: " + toEmail);
 
         } catch (MessagingException e) {
             e.printStackTrace();

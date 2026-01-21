@@ -6,14 +6,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.Blog;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.BlogDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Post;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 
 @WebServlet(name = "BlogDetailController", value = "/article")

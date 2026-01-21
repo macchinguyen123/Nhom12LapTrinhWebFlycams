@@ -129,7 +129,7 @@ public class CategoryController extends HttpServlet {
         request.setAttribute("formatter", new PriceFormatter());
 
         // ======= 8. Forward tới trang category =======
-        request.getRequestDispatcher("/page/category/mini-drone.jsp").forward(request, response);
+        request.getRequestDispatcher("/page/category.jsp").forward(request, response);
 
         System.out.println("Category ID = " + categoryId);
         System.out.println("Products count = " + products.size());

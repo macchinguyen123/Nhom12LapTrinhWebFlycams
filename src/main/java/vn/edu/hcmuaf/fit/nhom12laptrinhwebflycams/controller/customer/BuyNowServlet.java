@@ -30,7 +30,7 @@ public class BuyNowServlet extends HttpServlet {
 
         HttpSession session = req.getSession(false);
 
-        // ✅ Check login
+        //  Check login
         if (session == null || session.getAttribute("user") == null) {
             resp.sendRedirect(req.getContextPath() + "/Login");
             return;
@@ -57,14 +57,14 @@ public class BuyNowServlet extends HttpServlet {
             return;
         }
 
-        // ✅ Lấy product
+        //  Lấy product
         Product product = productDAO.getProductById(productId);
         if (product == null) {
             resp.sendRedirect(req.getContextPath() + "/index.jsp");
             return;
         }
 
-        // ✅ Tạo OrderItem
+        // Tạo OrderItem
         OrderItems item = new OrderItems();
         item.setProductId(productId);
         item.setQuantity(quantity);
@@ -74,10 +74,10 @@ public class BuyNowServlet extends HttpServlet {
         List<OrderItems> items = new ArrayList<>();
         items.add(item);
 
-        // ✅ Lưu BUY NOW vào session
+        // Lưu BUY NOW vào session
         session.setAttribute("BUY_NOW_ITEM", items);
 
-        // ✅ Lấy địa chỉ user
+        //  Lấy địa chỉ user
         List<Address> addresses = null;
         try {
             addresses = addressDAO.findByUserId(user.getId());
@@ -86,7 +86,7 @@ public class BuyNowServlet extends HttpServlet {
         }
         req.setAttribute("addresses", addresses);
 
-        // ✅ FORWARD (không redirect)
+        //  FORWARD (không redirect)
         req.getRequestDispatcher("/page/delivery-info.jsp")
                 .forward(req, resp);
     }

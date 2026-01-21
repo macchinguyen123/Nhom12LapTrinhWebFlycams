@@ -17,7 +17,7 @@ public class CartItems implements Serializable {
         this.product = product;
         this.productId = product.getId();
         this.productName = product.getProductName();
-        this.price = product.getFinalPrice(); // 🔥 QUAN TRỌNG
+        this.price = product.getFinalPrice(); // QUAN TRỌNG
         this.quantity = quantity;
         this.selected = true;
     }

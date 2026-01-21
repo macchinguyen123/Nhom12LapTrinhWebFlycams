@@ -53,28 +53,6 @@ public class PostDAO {
             return false;
         }
     }
-    public Post getPostById(int id) {
-        String sql = "SELECT id, title, content, image, createdAt, product_id FROM posts WHERE id = ?";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return new Post(
-                            rs.getInt("id"),
-                            rs.getString("title"),
-                            rs.getString("content"),
-                            rs.getString("image"),
-                            rs.getTimestamp("createdAt"),
-                            rs.getInt("product_id")
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public boolean addPost(Post post) {
         String sql = "INSERT INTO posts (title, content, image, createdAt, product_id) VALUES (?, ?, ?, NOW(), ?)";

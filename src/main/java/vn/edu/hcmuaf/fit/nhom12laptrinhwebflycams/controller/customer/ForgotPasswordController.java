@@ -27,16 +27,16 @@ public class ForgotPasswordController extends HttpServlet {
             return;
         }
 
-        // 1️⃣ Sinh OTP 4 số
+        // 1️ Sinh OTP 4 số
         String otp = String.valueOf((int) (Math.random() * 9000) + 1000);
 
-        // 2️⃣ Lưu OTP vào session
+        // 2 Lưu OTP vào session
         HttpSession session = request.getSession();
         session.setAttribute("otp", otp);
         session.setAttribute("email", email);
         session.setMaxInactiveInterval(5 * 60); // OTP hết hạn sau 5 phút
 
-        // 3️⃣ Gửi OTP qua email
+        // 3 Gửi OTP qua email
         EmailSender emailSender = new EmailSender();
 
         String title = "Mã OTP đặt lại mật khẩu";
@@ -52,7 +52,7 @@ public class ForgotPasswordController extends HttpServlet {
                 content,
                 thanks);
 
-        // 4️⃣ Chuyển sang trang nhập OTP
+        // 4 Chuyển sang trang nhập OTP
         request.setAttribute("message", "OTP đã được gửi về email của bạn!");
         request.getRequestDispatcher("/page/otp-forgot-password.jsp").forward(request, response);
     }

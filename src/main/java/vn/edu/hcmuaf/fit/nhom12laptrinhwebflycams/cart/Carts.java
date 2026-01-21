@@ -27,7 +27,7 @@ public class Carts implements Serializable {
 
         CartItems item = data.get(product.getId());
         if (item != null) {
-            // ✅ thêm trùng → cộng số lượng
+            // thêm trùng → cộng số lượng
             item.updateQuantity(quantity);
         } else {
             data.put(product.getId(), new CartItems(product, quantity));

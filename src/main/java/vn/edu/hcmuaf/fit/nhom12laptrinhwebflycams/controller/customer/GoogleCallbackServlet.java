@@ -70,7 +70,7 @@ public class GoogleCallbackServlet extends HttpServlet {
             User user = userDAO.findByEmail(email);
 
             if (user == null) {
-                // ❌ Email không tồn tại
+                // Email không tồn tại
                 request.getSession().setAttribute("error",
                         "Email Google này chưa được đăng ký trong hệ thống");
                 response.sendRedirect(request.getContextPath() + "/Login");
