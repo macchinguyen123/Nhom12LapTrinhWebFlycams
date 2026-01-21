@@ -12,50 +12,48 @@ import java.util.stream.Collectors;
 
 public class ProductDAO {
 
-
-
     public List<Product> getProductsByPromotion(int promotionId) {
 
         List<Product> list = new ArrayList<>();
 
         String sql = """
-        SELECT
-            p.id,
-            p.productName,
-            p.price,
-            p.finalPrice,
+                    SELECT
+                        p.id,
+                        p.productName,
+                        p.price,
+                        p.finalPrice,
 
-            i.imageUrl AS mainImage,
+                        i.imageUrl AS mainImage,
 
-            COALESCE(AVG(r.rating), 0) AS avgRating,
-            COUNT(r.id) AS reviewCount
+                        COALESCE(AVG(r.rating), 0) AS avgRating,
+                        COUNT(r.id) AS reviewCount
 
-        FROM products p
+                    FROM products p
 
-        JOIN promotion_target pt
-            ON (
-                pt.targetType = 'tất cả'
-                OR (pt.targetType = 'sản phẩm' AND p.id = pt.product_id)
-                OR (pt.targetType = 'danh mục' AND p.category_id = pt.category_id)
-            )
+                    JOIN promotion_target pt
+                        ON (
+                            pt.targetType = 'tất cả'
+                            OR (pt.targetType = 'sản phẩm' AND p.id = pt.product_id)
+                            OR (pt.targetType = 'danh mục' AND p.category_id = pt.category_id)
+                        )
 
-        LEFT JOIN images i
-            ON p.id = i.product_id
-            AND i.imageType = 'Chính'
+                    LEFT JOIN images i
+                        ON p.id = i.product_id
+                        AND i.imageType = 'Chính'
 
-        LEFT JOIN reviews r
-            ON p.id = r.product_id
+                    LEFT JOIN reviews r
+                        ON p.id = r.product_id
 
-        WHERE pt.promotion_id = ?
+                    WHERE pt.promotion_id = ?
 
-        GROUP BY
-            p.id, p.productName, p.price, p.finalPrice, i.imageUrl
+                    GROUP BY
+                        p.id, p.productName, p.price, p.finalPrice, i.imageUrl
 
-        ORDER BY p.productName ASC
-    """;
+                    ORDER BY p.productName ASC
+                """;
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, promotionId);
 
@@ -83,33 +81,31 @@ public class ProductDAO {
         return list;
     }
 
-
-
     public List<Product> searchProducts(String keyword,
-                                        String priceFilter, Double minPrice,
-                                        Double maxPrice,
-                                        List<String> brands,
-                                        String sortBy) {
+            String priceFilter, Double minPrice,
+            Double maxPrice,
+            List<String> brands,
+            String sortBy) {
 
         List<Product> list = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder("""
-            SELECT p.*,
-                   i.imageUrl,
-                   COALESCE(rv.avgRating, 0) AS avgRating,
-                   COALESCE(rv.reviewCount, 0) AS reviewCount
-            FROM products p
-            LEFT JOIN images i
-              ON p.id = i.product_id AND i.imageType = 'Chính'
-            LEFT JOIN (
-                SELECT product_id,
-                       AVG(rating) AS avgRating,
-                       COUNT(*) AS reviewCount
-                FROM reviews
-                GROUP BY product_id
-            ) rv ON p.id = rv.product_id
-            WHERE p.productName LIKE ?
-        """);
+                    SELECT p.*,
+                           i.imageUrl,
+                           COALESCE(rv.avgRating, 0) AS avgRating,
+                           COALESCE(rv.reviewCount, 0) AS reviewCount
+                    FROM products p
+                    LEFT JOIN images i
+                      ON p.id = i.product_id AND i.imageType = 'Chính'
+                    LEFT JOIN (
+                        SELECT product_id,
+                               AVG(rating) AS avgRating,
+                               COUNT(*) AS reviewCount
+                        FROM reviews
+                        GROUP BY product_id
+                    ) rv ON p.id = rv.product_id
+                    WHERE p.productName LIKE ?
+                """);
         // điều kiện giá
         if (minPrice != null && maxPrice != null) {
             sql.append(" AND p.finalPrice BETWEEN ? AND ? ");
@@ -127,11 +123,13 @@ public class ProductDAO {
         }
 
         // sort
-        if ("low-high".equals(sortBy)) sql.append(" ORDER BY p.finalPrice ASC ");
-        else if ("high-low".equals(sortBy)) sql.append(" ORDER BY p.finalPrice DESC ");
+        if ("low-high".equals(sortBy))
+            sql.append(" ORDER BY p.finalPrice ASC ");
+        else if ("high-low".equals(sortBy))
+            sql.append(" ORDER BY p.finalPrice DESC ");
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+                PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
             int idx = 1;
             ps.setString(idx++, "%" + (keyword == null ? "" : keyword) + "%");
@@ -164,8 +162,7 @@ public class ProductDAO {
                         rs.getDouble("finalPrice"),
                         rs.getString("warranty"),
                         rs.getInt("quantity"),
-                        rs.getString("status")
-                );
+                        rs.getString("status"));
 
                 p.setMainImage(rs.getString("imageUrl"));
                 p.setAvgRating(rs.getDouble("avgRating"));
@@ -192,27 +189,27 @@ public class ProductDAO {
         List<Product> list = new ArrayList<>();
 
         StringBuilder sql = new StringBuilder("""
-        SELECT p.id,
-               p.productName,
-               p.price,
-               p.finalPrice,
-               p.brandName,
-               i.imageUrl,
-               COALESCE(rv.avgRating, 0) AS avgRating,
-               COALESCE(rv.reviewCount, 0) AS reviewCount
-        FROM products p
-        LEFT JOIN images i
-            ON p.id = i.product_id AND i.imageType = 'Chính'
-        LEFT JOIN (
-            SELECT product_id,
-                   AVG(rating) AS avgRating,
-                   COUNT(*) AS reviewCount
-            FROM reviews
-            GROUP BY product_id
-        ) rv ON p.id = rv.product_id
-        WHERE p.status = 'active'
-          AND p.category_id = ?
-    """);
+                    SELECT p.id,
+                           p.productName,
+                           p.price,
+                           p.finalPrice,
+                           p.brandName,
+                           i.imageUrl,
+                           COALESCE(rv.avgRating, 0) AS avgRating,
+                           COALESCE(rv.reviewCount, 0) AS reviewCount
+                    FROM products p
+                    LEFT JOIN images i
+                        ON p.id = i.product_id AND i.imageType = 'Chính'
+                    LEFT JOIN (
+                        SELECT product_id,
+                               AVG(rating) AS avgRating,
+                               COUNT(*) AS reviewCount
+                        FROM reviews
+                        GROUP BY product_id
+                    ) rv ON p.id = rv.product_id
+                    WHERE p.status = 'active'
+                      AND p.category_id = ?
+                """);
 
         // Thêm điều kiện tìm kiếm theo keyword
         if (keyword != null && !keyword.trim().isEmpty()) {
@@ -232,7 +229,8 @@ public class ProductDAO {
             sql.append(" AND p.brand IN (");
             for (int i = 0; i < brands.size(); i++) {
                 sql.append("?");
-                if (i < brands.size() - 1) sql.append(",");
+                if (i < brands.size() - 1)
+                    sql.append(",");
             }
             sql.append(")");
         }
@@ -247,7 +245,7 @@ public class ProductDAO {
         }
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+                PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
             int paramIndex = 1;
 
@@ -286,8 +284,8 @@ public class ProductDAO {
                 p.setFinalPrice(rs.getDouble("finalPrice"));
                 p.setBrandName(rs.getString("brandName"));
                 p.setMainImage(rs.getString("imageUrl"));
-                p.setAvgRating(rs.getDouble("avgRating"));  // ← Thêm dòng này
-                p.setReviewCount(rs.getInt("reviewCount"));  // ← Thêm dòng này
+                p.setAvgRating(rs.getDouble("avgRating")); // ← Thêm dòng này
+                p.setReviewCount(rs.getInt("reviewCount")); // ← Thêm dòng này
 
                 list.add(p);
             }
@@ -303,7 +301,7 @@ public class ProductDAO {
         String sql = "SELECT * FROM products WHERE id = ?";
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
@@ -321,8 +319,8 @@ public class ProductDAO {
                             rs.getDouble("finalPrice"),
                             rs.getString("warranty"),
                             rs.getInt("quantity"),
-                            rs.getString("status")
-                    );
+                            rs.getString("status"));
+                    p.setView(rs.getInt("view")); // Lấy số lượt xem
                     p.setImages(imageDAO.getImagesByProduct(p.getId()));
                     return p;
                 }
@@ -344,9 +342,8 @@ public class ProductDAO {
                     LIMIT 8
                 """;
 
-
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, "%" + keyword + "%");
 
@@ -385,11 +382,10 @@ public class ProductDAO {
                     LIMIT ?
                 """;
 
-
         System.out.println("SQL = \n" + sql);
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, categoryId);
             ps.setInt(2, excludeProductId);
@@ -414,8 +410,7 @@ public class ProductDAO {
                         rs.getDouble("finalPrice"),
                         rs.getString("warranty"),
                         rs.getInt("quantity"),
-                        rs.getString("status")
-                );
+                        rs.getString("status"));
 
                 String imageUrl = rs.getString("imageUrl");
                 p.setMainImage(imageUrl);
@@ -462,8 +457,8 @@ public class ProductDAO {
                 """;
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Product p = new Product();
@@ -487,6 +482,28 @@ public class ProductDAO {
         return list;
     }
 
+    /**
+     * Tăng số lượt xem sản phẩm
+     * 
+     * @param productId ID của sản phẩm
+     * @return true nếu cập nhật thành công, false nếu thất bại
+     */
+    public boolean incrementViewCount(int productId) {
+        String sql = "UPDATE products SET view = view + 1 WHERE id = ?";
 
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, productId);
+            int rowsAffected = ps.executeUpdate();
+
+            return rowsAffected > 0;
+
+        } catch (Exception e) {
+            System.err.println("Error incrementing view count for product " + productId);
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
