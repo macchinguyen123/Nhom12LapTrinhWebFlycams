@@ -22,7 +22,16 @@
 
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+
+    <!-- CKEditor 5 Premium -->
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/47.2.0/ckeditor5.css" crossorigin>
+    <link rel="stylesheet"
+          href="https://cdn.ckeditor.com/ckeditor5-premium-features/47.2.0/ckeditor5-premium-features.css"
+          crossorigin>
+    <script src="https://cdn.ckeditor.com/ckeditor5/47.2.0/ckeditor5.umd.js" crossorigin></script>
+    <script
+            src="https://cdn.ckeditor.com/ckeditor5-premium-features/47.2.0/ckeditor5-premium-features.umd.js"
+            crossorigin></script>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/admin/blog-manage.css">
 
@@ -32,6 +41,36 @@
         .dataTables_length,
         .dataTables_info {
             display: none !important;
+        }
+
+        /* CKEditor custom styles */
+        .ck-editor__editable {
+            min-height: 400px;
+        }
+
+        .ck.ck-editor__main > .ck-editor__editable {
+            background: #fff;
+        }
+
+        /* Fix CKEditor dialogs in Bootstrap modal */
+        .ck.ck-balloon-panel {
+            z-index: 10055 !important;
+        }
+
+        .ck.ck-modal__overlay {
+            z-index: 10060 !important;
+        }
+
+        .ck-body-wrapper {
+            z-index: 10065 !important;
+        }
+
+        .modal {
+            --bs-modal-zindex: 1055;
+        }
+
+        .modal-backdrop {
+            z-index: 1054;
         }
     </style>
 
@@ -170,8 +209,9 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
 
-                    <form action="${pageContext.request.contextPath}/admin/blog-manage"
-                          method="post">
+                    <form id="addBlogForm"
+                          action="${pageContext.request.contextPath}/admin/blog-manage" method="post"
+                          onsubmit="return syncAddEditor()">
 
                         <div class="modal-header">
                             <i class="bi bi-plus-lg"></i> Thêm Bài Viết
@@ -191,7 +231,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Nội dung</label>
                                 <textarea name="content" id="add-content" class="form-control"
-                                          rows="6" required></textarea>
+                                          rows="6"></textarea>
                             </div>
 
                             <div class="mb-3">
@@ -367,8 +407,9 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
 
-                        <form action="${pageContext.request.contextPath}/admin/blog-manage"
-                              method="post">
+                        <form id="editBlogForm"
+                              action="${pageContext.request.contextPath}/admin/blog-manage"
+                              method="post" onsubmit="return syncEditEditor()">
 
                             <div class="modal-header">
                                 <h5 class="modal-title">✏️ Sửa bài viết</h5>
@@ -390,7 +431,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">Nội dung</label>
                                     <textarea name="content" id="edit-content" class="form-control"
-                                              rows="6" required></textarea>
+                                              rows="6"></textarea>
                                 </div>
 
                                 <div class="mb-3">
@@ -517,18 +558,296 @@
             }
         });
 
+        // Fix Bootstrap modal focus trap for CKEditor
+        // Fix Bootstrap modal focus trap for CKEditor 5
+        // This prevents the modal from stealing focus when clicking on CKEditor inputs
+        document.addEventListener('focusin', function (e) {
+            if (e.target.closest('.ck-body-wrapper, .ck-balloon-panel, .ck-link-form, .ck-input')) {
+                e.stopImmediatePropagation();
+            }
+        }, true);
+
     });
 
-    // CKEditor Integration
-    const ckeditorConfig = {
-        versionCheck: false,
+    // CKEditor 5 Premium Integration
+    const {
+        ClassicEditor,
+        Essentials,
+        Paragraph,
+        Alignment,
+        AutoImage,
+        Autoformat,
+        AutoLink,
+        ImageBlock,
+        BlockQuote,
+        Bold,
+        Code,
+        CodeBlock,
+        FontBackgroundColor,
+        FontColor,
+        FontFamily,
+        FontSize,
+        Heading,
+        Highlight,
+        HorizontalLine,
+        ImageCaption,
+        ImageInsert,
+        ImageInsertViaUrl,
+        ImageResize,
+        ImageStyle,
+        ImageTextAlternative,
+        ImageToolbar,
+        ImageUpload,
+        Indent,
+        IndentBlock,
+        Italic,
+        Link,
+        LinkImage,
+        List,
+        ListProperties,
+        MediaEmbed,
+        RemoveFormat,
+        SpecialCharacters,
+        SpecialCharactersArrows,
+        SpecialCharactersCurrency,
+        SpecialCharactersEssentials,
+        SpecialCharactersLatin,
+        SpecialCharactersMathematical,
+        SpecialCharactersText,
+        Strikethrough,
+        Subscript,
+        Superscript,
+        Table,
+        TableCaption,
+        TableCellProperties,
+        TableColumnResize,
+        TableProperties,
+        TableToolbar,
+        Underline,
+        Base64UploadAdapter
+    } = window.CKEDITOR;
+
+    let addEditor, editEditor;
+
+    const editorConfig = {
         licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NzAwNzY3OTksImp0aSI6IjFkYzBmZGQ1LThhMTgtNGFhYy1iOTEwLWRkMTA0MDkxZmNjZCIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6ImQwYWQwMTgyIn0.4qtYn6Q_c-EZwACzzNRQTfTLUjqrjRo12fRQXuGhzTmwPnaJOT3Jw6J6NK3u0Jf_skSkzhR36nezFQka3szCuA',
-        // File browser disabled - use image URL field or paste images directly
-        removePlugins: 'filebrowser'
+        toolbar: {
+            items: [
+                'undo', 'redo',
+                '|',
+                'heading',
+                '|',
+                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor',
+                '|',
+                'bold', 'italic', 'underline', 'strikethrough', 'subscript', 'superscript', 'code', 'removeFormat',
+                '|',
+                'specialCharacters', 'horizontalLine', 'link', 'insertImage', 'insertImageViaUrl', 'mediaEmbed', 'insertTable',
+                'highlight', 'blockQuote', 'codeBlock',
+                '|',
+                'alignment',
+                '|',
+                'bulletedList', 'numberedList', 'outdent', 'indent'
+            ],
+            shouldNotGroupWhenFull: true
+        },
+        plugins: [
+            Alignment,
+            Autoformat,
+            AutoImage,
+            AutoLink,
+            Base64UploadAdapter,
+            BlockQuote,
+            Bold,
+            Code,
+            CodeBlock,
+            Essentials,
+            FontBackgroundColor,
+            FontColor,
+            FontFamily,
+            FontSize,
+            Heading,
+            Highlight,
+            HorizontalLine,
+            ImageBlock,
+            ImageCaption,
+            ImageInsert,
+            ImageInsertViaUrl,
+            ImageResize,
+            ImageStyle,
+            ImageTextAlternative,
+            ImageToolbar,
+            ImageUpload,
+            Indent,
+            IndentBlock,
+            Italic,
+            Link,
+            LinkImage,
+            List,
+            ListProperties,
+            MediaEmbed,
+            Paragraph,
+            RemoveFormat,
+            SpecialCharacters,
+            SpecialCharactersArrows,
+            SpecialCharactersCurrency,
+            SpecialCharactersEssentials,
+            SpecialCharactersLatin,
+            SpecialCharactersMathematical,
+            SpecialCharactersText,
+            Strikethrough,
+            Subscript,
+            Superscript,
+            Table,
+            TableCaption,
+            TableCellProperties,
+            TableColumnResize,
+            TableProperties,
+            TableToolbar,
+            Underline
+        ],
+        fontFamily: {
+            options: [
+                'default',
+                'Arial, Helvetica, sans-serif',
+                'Courier New, Courier, monospace',
+                'Georgia, serif',
+                'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                'Tahoma, Geneva, sans-serif',
+                'Times New Roman, Times, serif',
+                'Trebuchet MS, Helvetica, sans-serif',
+                'Verdana, Geneva, sans-serif'
+            ],
+            supportAllValues: true
+        },
+        fontSize: {
+            options: [10, 12, 14, 'default', 18, 20, 22, 24, 26, 28, 36],
+            supportAllValues: true
+        },
+        heading: {
+            options: [
+                {model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph'},
+                {model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1'},
+                {model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2'},
+                {model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3'},
+                {model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4'},
+                {model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5'},
+                {model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6'}
+            ]
+        },
+        image: {
+            toolbar: [
+                'imageTextAlternative', 'imageStyle:inline', 'imageStyle:block', 'imageStyle:side', 'linkImage'
+            ]
+        },
+        link: {
+            addTargetToExternalLinks: true,
+            defaultProtocol: 'https://'
+        },
+        list: {
+            properties: {
+                styles: true,
+                startIndex: true,
+                reversed: true
+            }
+        },
+        table: {
+            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
+        },
+        placeholder: 'Nhập nội dung bài viết tại đây...'
     };
 
-    CKEDITOR.replace('add-content', ckeditorConfig);
-    CKEDITOR.replace('edit-content', ckeditorConfig);
+    ClassicEditor
+        .create(document.querySelector('#add-content'), editorConfig)
+        .then(editor => {
+            addEditor = editor;
+        })
+        .catch(error => {
+            console.error('Error initializing add editor:', error);
+        });
+
+    ClassicEditor
+        .create(document.querySelector('#edit-content'), editorConfig)
+        .then(editor => {
+            editEditor = editor;
+        })
+        .catch(error => {
+            console.error('Error initializing edit editor:', error);
+        });
+
+    // Sync CKEditor data to textarea before submit
+    function syncAddEditor() {
+        try {
+            if (addEditor) {
+                const content = addEditor.getData();
+
+                // Validate content is not empty
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = content;
+                const textContent = tempDiv.textContent || tempDiv.innerText || '';
+
+                if (textContent.trim().length === 0) {
+                    alert('Vui lòng nhập nội dung bài viết!');
+                    return false;
+                }
+
+                const textarea = document.querySelector('#add-content');
+                if (textarea) {
+                    textarea.value = content;
+                    console.log('Add editor synced, content length:', content.length);
+                    return true;
+                } else {
+                    console.error('Add content textarea not found');
+                    alert('Lỗi: Không tìm thấy trường nội dung!');
+                    return false;
+                }
+            } else {
+                console.error('Add editor not initialized');
+                alert('Lỗi: Editor chưa được khởi tạo!');
+                return false;
+            }
+        } catch (error) {
+            console.error('Error syncing add editor:', error);
+            alert('Lỗi khi lưu nội dung: ' + error.message);
+            return false;
+        }
+    }
+
+    function syncEditEditor() {
+        try {
+            if (editEditor) {
+                const content = editEditor.getData();
+
+                // Validate content is not empty
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = content;
+                const textContent = tempDiv.textContent || tempDiv.innerText || '';
+
+                if (textContent.trim().length === 0) {
+                    alert('Vui lòng nhập nội dung bài viết!');
+                    return false;
+                }
+
+                const textarea = document.querySelector('#edit-content');
+                if (textarea) {
+                    textarea.value = content;
+                    console.log('Edit editor synced, content length:', content.length);
+                    return true;
+                } else {
+                    console.error('Edit content textarea not found');
+                    alert('Lỗi: Không tìm thấy trường nội dung!');
+                    return false;
+                }
+            } else {
+                console.error('Edit editor not initialized');
+                alert('Lỗi: Editor chưa được khởi tạo!');
+                return false;
+            }
+        } catch (error) {
+            console.error('Error syncing edit editor:', error);
+            alert('Lỗi khi lưu nội dung: ' + error.message);
+            return false;
+        }
+    }
 
     // Cập nhật số trang
     function updatePageInfo() {
@@ -563,8 +882,8 @@
         document.getElementById("edit-image").value = btn.dataset.image;
         document.getElementById("edit-product").value = btn.dataset.product;
 
-        if (CKEDITOR.instances['edit-content']) {
-            CKEDITOR.instances['edit-content'].setData(btn.dataset.content);
+        if (editEditor) {
+            editEditor.setData(btn.dataset.content);
         }
 
         let modal = new bootstrap.Modal(
