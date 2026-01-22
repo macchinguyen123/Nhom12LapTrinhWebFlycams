@@ -3,8 +3,8 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.admin;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.DashboardDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.DashboardService;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,6 +12,8 @@ import java.util.Map;
 
 @WebServlet(name = "AdminDashboardServlet", value = "/admin/dashboard")
 public class AdminDashboardServlet extends HttpServlet {
+    private final DashboardService dashboardService = new DashboardService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -32,24 +34,22 @@ public class AdminDashboardServlet extends HttpServlet {
             return;
         }
 
-        DashboardDAO dao = new DashboardDAO();
+        request.setAttribute("totalUsers", dashboardService.getTotalUsers());
+        request.setAttribute("totalProducts", dashboardService.getTotalProducts());
+        request.setAttribute("totalOrders", dashboardService.getTotalOrders());
+        request.setAttribute("monthlyRevenue", dashboardService.getMonthlyRevenue());
+        request.setAttribute("revenueMap", dashboardService.getRevenueLast30Days());
+        request.setAttribute("userGrowthRate", dashboardService.getUserGrowthRate());
+        request.setAttribute("totalCategories", dashboardService.getTotalCategories());
+        request.setAttribute("processingOrders", dashboardService.getProcessingOrders());
+        request.setAttribute("monthlyTarget", dashboardService.getMonthlyTarget());
 
-        request.setAttribute("totalUsers", dao.getTotalUsers());
-        request.setAttribute("totalProducts", dao.getTotalProducts());
-        request.setAttribute("totalOrders", dao.getTotalOrders());
-        request.setAttribute("monthlyRevenue", dao.getMonthlyRevenue());
-        request.setAttribute("revenueMap", dao.getRevenueLast30Days());
-        request.setAttribute("userGrowthRate", dao.getUserGrowthRate());
-        request.setAttribute("totalCategories", dao.getTotalCategories());
-        request.setAttribute("processingOrders", dao.getProcessingOrders());
-        request.setAttribute("monthlyTarget", dao.getMonthlyTarget());
-
-        List<User> newUsers = dao.getNewUsersLast7Days();
+        List<User> newUsers = dashboardService.getNewUsersLast7Days();
         request.setAttribute("newUsers", newUsers);
 
-        request.setAttribute("recentOrders", dao.getRecentOrders());
+        request.setAttribute("recentOrders", dashboardService.getRecentOrders());
 
-        Map<String, Double> revenue30Days = dao.getRevenueLast30Days();
+        Map<String, Double> revenue30Days = dashboardService.getRevenueLast30Days();
         request.setAttribute("revenueLabels", revenue30Days.keySet());
         request.setAttribute("revenueValues", revenue30Days.values());
 
@@ -58,7 +58,8 @@ public class AdminDashboardServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 }

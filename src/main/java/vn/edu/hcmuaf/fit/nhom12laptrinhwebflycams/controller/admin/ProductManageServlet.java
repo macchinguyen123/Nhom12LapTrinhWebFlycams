@@ -3,26 +3,27 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.admin;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
+
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.ProductService;
 
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "ProductManageServlet", value = "/admin/product-management")
 public class ProductManageServlet extends HttpServlet {
-    private ProductDAO productDAO;
+    private ProductService productService;
 
     @Override
     public void init() {
-        productDAO = new ProductDAO();
+        productService = new ProductService();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        List<Product> products = productDAO.getAllProductsForAdmin();
+        List<Product> products = productService.getAllProductsForAdmin();
 
         req.setAttribute("products", products);
 
@@ -31,7 +32,8 @@ public class ProductManageServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 }

@@ -3,10 +3,11 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.admin;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.PromotionDAO;
+
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Promotion;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Categories;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.PromotionService;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -18,11 +19,11 @@ import java.util.Map;
 @WebServlet("/admin/promotion-manage")
 public class PromotionManageServlet extends HttpServlet {
 
-    private PromotionDAO promotionDAO;
+    private PromotionService promotionService;
 
     @Override
     public void init() {
-        promotionDAO = new PromotionDAO();
+        promotionService = new PromotionService();
     }
 
     @Override
@@ -30,32 +31,32 @@ public class PromotionManageServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Get all promotions
-        List<Promotion> promotions = promotionDAO.getAllPromotions();
+        List<Promotion> promotions = promotionService.getAllPromotions();
 
         // Get scope map for each promotion
         Map<Integer, String> scopeMap = new HashMap<>();
         for (Promotion p : promotions) {
             scopeMap.put(p.getId(),
-                    promotionDAO.getPromotionScope(p.getId()));
+                    promotionService.getPromotionScope(p.getId()));
         }
 
         // Get all products for selection
-        List<Product> allProducts = promotionDAO.getAllProducts();
+        List<Product> allProducts = promotionService.getAllProducts();
 
         // Get all categories for selection
-        List<Categories> allCategories = promotionDAO.getAllCategories();
+        List<Categories> allCategories = promotionService.getAllCategories();
 
         // Get product IDs map for each promotion
         Map<Integer, List<Integer>> promotionProductsMap = new HashMap<>();
         for (Promotion p : promotions) {
-            List<Integer> productIds = promotionDAO.getProductIdsForPromotion(p.getId());
+            List<Integer> productIds = promotionService.getProductIdsForPromotion(p.getId());
             promotionProductsMap.put(p.getId(), productIds);
         }
 
         // Get category IDs map for each promotion
         Map<Integer, List<Integer>> promotionCategoriesMap = new HashMap<>();
         for (Promotion p : promotions) {
-            List<Integer> categoryIds = promotionDAO.getCategoryIdsForPromotion(p.getId());
+            List<Integer> categoryIds = promotionService.getCategoryIdsForPromotion(p.getId());
             promotionCategoriesMap.put(p.getId(), categoryIds);
         }
 
@@ -116,16 +117,16 @@ public class PromotionManageServlet extends HttpServlet {
 
             HttpSession session = req.getSession();
             if ("add".equals(action)) {
-                promotionDAO.insertPromotion(p, scope, productIdsList, categoryIdsList);
+                promotionService.addPromotion(p, scope, productIdsList, categoryIdsList);
                 session.setAttribute("infoMsg", "Thêm khuyến mãi thành công!");
             } else {
-                promotionDAO.updatePromotionWithScope(p, scope, productIdsList, categoryIdsList);
+                promotionService.updatePromotion(p, scope, productIdsList, categoryIdsList);
                 session.setAttribute("infoMsg", "Cập nhật khuyến mãi thành công!");
             }
 
         } else if ("delete".equals(action)) {
             int id = Integer.parseInt(req.getParameter("id"));
-            promotionDAO.deleteById(id);
+            promotionService.deletePromotion(id);
             req.getSession().setAttribute("infoMsg", "Xóa khuyến mãi thành công!");
         }
 

@@ -559,12 +559,20 @@ body {
 }
 
 /* === ẢNH SẢN PHẨM === */
-.san-pham img {
+.khung-anh {
     width: 100%;
-    height: 70%;
-    display: block;
+    height: 220px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.khung-anh img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: 10px 10px 0 0;
+    border-radius: 20px 20px 0 0;
 }
 
 /* === TÊN SẢN PHẨM === */
@@ -573,10 +581,21 @@ body {
     font-size: 1rem;
     font-weight: 600;
     color: #111;
-    margin: 8px 12px 4px 12px;
-    min-height: 48px;
-    display: flex;
-    align-items: flex-start;
+    margin: 6px 15px;
+    /* Combined margin from searching.css */
+    /* Hiển thị 2 dòng với dấu ... */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.3;
+    max-height: 2.6em;
+    min-height: 2.6em;
+    /* Ensure always takes up 2 lines */
+    /* Ngắt từ và hiển thị dấu ... */
+    word-break: break-word;
+    text-overflow: ellipsis;
 }
 
 /* === GIÁ === */
@@ -584,7 +603,8 @@ body {
     color: red;
     font-size: 1.1rem;
     font-weight: bold;
-    margin: 0 12px;
+    margin: 4px 15px;
+    /* Combined margin */
     text-align: left;
     line-height: 1.2;
 }
@@ -592,6 +612,7 @@ body {
 /* === GIÁ GỐC === */
 .gia-goc {
     display: block;
+    /* xuống dòng */
     color: #888;
     font-size: 0.9rem;
     text-decoration: line-through;
@@ -600,26 +621,31 @@ body {
 }
 
 /* === ĐÁNH GIÁ SAO === */
+.danh-gia-sao {
+    color: #ffb400;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    line-height: 1.2;
+    margin-left: 15px;
+    /* From searching.css combined rule */
+    margin-right: 15px;
+}
+
 .hang-danh-gia {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 4px 12px;
-}
-
-.danh-gia-sao {
-    color: #ffb400;
-    font-size: 1rem;
-    letter-spacing: 1px;
-    line-height: 1.2;
+    gap: 6px;
+    line-height: 1.0;
 }
 
 /* === TIM YÊU THÍCH === */
 .tim-yeu-thich {
-    font-size: 1.1rem;
     color: #bbb;
     cursor: pointer;
     transition: color 0.3s;
+    margin-right: 20px;
+    font-size: 1rem;
 }
 
 .tim-yeu-thich.yeu-thich {
@@ -630,7 +656,8 @@ body {
 .so-danh-gia {
     font-size: 0.85rem;
     color: #777;
-    margin: 0 0 10px 15px;
+    margin: 4px 0 10px 15px;
+    /* Adjusted to match searching.css logic */
 }
 
 /* === NÚT MUA NGAY === */
@@ -643,7 +670,9 @@ body {
     cursor: pointer;
     font-size: 0.9rem;
     margin-top: auto;
+    /*  luôn đẩy nút xuống đáy */
     margin-bottom: 10px;
+    /*  nhích lên khỏi mép dưới một chút */
     align-self: center;
     transition: background-color 0.3s, transform 0.2s;
 }

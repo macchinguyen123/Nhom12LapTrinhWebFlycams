@@ -3,8 +3,8 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.AuthService;
 
 import java.io.IOException;
 
@@ -25,25 +25,22 @@ public class Login extends HttpServlet {
         String input = request.getParameter("loginInput");
         String password = request.getParameter("password");
 
-        UserDAO dao = new UserDAO();
-        User user = dao.login(input, password);
+        AuthService authService = new AuthService();
+        User user = authService.login(input, password);
 
         if (user == null) {
-            String msg =
-                    "<b>Số điện thoại hoặc mật khẩu không hợp lệ</b>" +
-                            "<div class='sub-msg'>Vui lòng nhập lại</div>";
+            String msg = "<b>Số điện thoại hoặc mật khẩu không hợp lệ</b>" +
+                    "<div class='sub-msg'>Vui lòng nhập lại</div>";
 
             request.setAttribute("error", msg);
             request.getRequestDispatcher("/page/login.jsp").forward(request, response);
             return;
         }
 
-
         // Tạo session và lưu JavaBean
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
         System.out.println("LOGIN SESSION ID = " + session.getId());
-
 
         // chuyển hướng theo role
         if (user.getRoleId() == 1) {

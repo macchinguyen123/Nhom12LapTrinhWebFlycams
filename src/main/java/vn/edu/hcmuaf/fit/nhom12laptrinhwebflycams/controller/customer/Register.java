@@ -3,10 +3,8 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.MailProperties.EmailSender;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PasswordUtil;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.AuthService;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.validate.Validator;
 
 import java.io.IOException;
@@ -15,7 +13,7 @@ import java.sql.Date;
 @WebServlet(name = "Register", value = "/Register")
 
 public class Register extends HttpServlet {
-    private final UserDAO userDAO = new UserDAO();
+    private final AuthService authService = new AuthService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -81,17 +79,17 @@ public class Register extends HttpServlet {
             hasError = true;
         }
 
-        if (userDAO.isPhoneNumberExists(phone)) {
+        if (authService.isPhoneNumberExists(phone)) {
             request.setAttribute("phoneError", "Số điện thoại đã tồn tại trong hệ thống");
             hasError = true;
         }
 
-        if (userDAO.isEmailExists(email)) {
+        if (authService.isEmailExists(email)) {
             request.setAttribute("emailError", "Email đã tồn tại");
             hasError = true;
         }
 
-        if (userDAO.isUsernameExists(username)) {
+        if (authService.isUsernameExists(username)) {
             request.setAttribute("usernameError", "Username đã tồn tại");
             hasError = true;
         }
@@ -107,35 +105,16 @@ public class Register extends HttpServlet {
         }
 
         // ===== TẠO USER (CHƯA INSERT) =====
-        User user = new User();
-        user.setFullName(fullName);
-        user.setEmail(email);
-        user.setUsername(username);
-        user.setPassword(PasswordUtil.hashPassword(password)); // ✔ HASH
-        user.setPhoneNumber(phone);
-        user.setRoleId(2);
-        user.setStatus(true);
-        user.setBirthDate(birthday);
+        // ===== GỌI SERVICE XỬ LÝ =====
+        AuthService.RegisterDTO registerData = authService.prepareRegister(
+                fullName, email, username, password, phone, birthday);
 
-        // ===== SINH OTP =====
-        String otp = String.valueOf((int) (Math.random() * 9000) + 1000);
-        long expireTime = System.currentTimeMillis() + 5 * 60 * 1000;
-
+        // ===== LƯU SESSION =====
         HttpSession session = request.getSession();
-        session.setAttribute("registerUser", user);
-        session.setAttribute("registerOtp", otp);
+        session.setAttribute("registerUser", registerData.getUser());
+        session.setAttribute("registerOtp", registerData.getOtp());
         session.setAttribute("registerOtpTime", System.currentTimeMillis());
-        session.setAttribute("registerOtpExpire", expireTime);
-
-        // ===== GỬI MAIL OTP =====
-        EmailSender sender = new EmailSender();
-        sender.sendVerificationEmail(
-                email,
-                "Xác thực đăng ký SKYDRONE",
-                username,
-                otp,
-                "Mã OTP của bạn",
-                "Cảm ơn bạn đã đăng ký");
+        session.setAttribute("registerOtpExpire", registerData.getExpireTime());
 
         // ===== CHUYỂN SANG OTP =====
         response.sendRedirect("page/otp.jsp");

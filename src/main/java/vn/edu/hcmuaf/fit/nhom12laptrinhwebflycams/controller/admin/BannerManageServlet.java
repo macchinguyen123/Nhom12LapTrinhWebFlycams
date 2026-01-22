@@ -3,8 +3,8 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.admin;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.BannerDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Banner;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.BannerService;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,12 +12,7 @@ import java.util.List;
 @WebServlet("/admin/banner-manage")
 public class BannerManageServlet extends HttpServlet {
 
-    private BannerDAO bannerDAO;
-
-    @Override
-    public void init() throws ServletException {
-        bannerDAO = new BannerDAO();
-    }
+    private final BannerService bannerService = new BannerService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -28,7 +23,7 @@ public class BannerManageServlet extends HttpServlet {
 
         try {
             // Lấy danh sách tất cả banner
-            List<Banner> banners = bannerDAO.getAllBanners();
+            List<Banner> banners = bannerService.getAllBanners();
 
             // Set attribute để hiển thị trong JSP
             request.setAttribute("banners", banners);
@@ -113,7 +108,7 @@ public class BannerManageServlet extends HttpServlet {
             banner.setStatus(status != null ? status : "active");
 
             // Thêm vào database
-            boolean success = bannerDAO.addBanner(banner);
+            boolean success = bannerService.addBanner(banner);
 
             if (success) {
                 response.sendRedirect(request.getContextPath() + "/admin/banner-manage?msg=added");
@@ -153,7 +148,7 @@ public class BannerManageServlet extends HttpServlet {
             }
 
             // Lấy banner hiện tại
-            Banner banner = bannerDAO.getBannerById(id);
+            Banner banner = bannerService.getBannerById(id);
 
             if (banner != null) {
                 banner.setType(type);
@@ -172,7 +167,7 @@ public class BannerManageServlet extends HttpServlet {
                 banner.setStatus(status != null ? status : "active");
 
                 // Cập nhật database
-                boolean success = bannerDAO.updateBanner(banner);
+                boolean success = bannerService.updateBanner(banner);
 
                 if (success) {
                     response.sendRedirect(request.getContextPath() + "/admin/banner-manage?msg=updated");
@@ -200,7 +195,7 @@ public class BannerManageServlet extends HttpServlet {
             }
 
             int id = Integer.parseInt(idStr);
-            boolean success = bannerDAO.deleteBanner(id);
+            boolean success = bannerService.deleteBanner(id);
 
             if (success) {
                 response.sendRedirect(request.getContextPath() + "/admin/banner-manage?msg=deleted");

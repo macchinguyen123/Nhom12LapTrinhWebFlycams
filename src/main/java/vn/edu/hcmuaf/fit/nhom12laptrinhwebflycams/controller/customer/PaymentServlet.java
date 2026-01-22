@@ -4,18 +4,13 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.cart.Carts;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrderItemsDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrdersDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.OrderItems;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Orders;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.OrderService;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "PaymentServlet", value = "/PaymentServlet")
@@ -55,40 +50,9 @@ public class PaymentServlet extends HttpServlet {
         }
 
         try {
-            double totalPrice = 0;
-            for (OrderItems item : items) {
-                totalPrice += item.getPrice() * item.getQuantity();
-            }
-
-            Orders order = new Orders();
-            order.setUserId(user.getId());
-            order.setAddressId(addressId);
-            order.setPhoneNumber(phone);
-            order.setPaymentMethod(paymentMethod);
-            order.setNote(note);
-            order.setStatus(Orders.Status.PENDING);
-            order.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
-            order.setTotalPrice(totalPrice);
-
-            OrdersDAO ordersDAO = new OrdersDAO();
-            int orderId = ordersDAO.insert(order);
-
-            if (orderId <= 0) {
-                throw new Exception("Insert order failed");
-            }
-
-            OrderItemsDAO orderItemsDAO = new OrderItemsDAO();
             Carts cart = (Carts) session.getAttribute("cart");
-
-            for (OrderItems item : items) {
-                item.setOrderId(orderId);
-                orderItemsDAO.insert(item);
-
-                // XÓA KHỎI GIỎ HÀNG SAU KHI ĐẶT THÀNH CÔNG
-                if (cart != null) {
-                    cart.removeItem(item.getProductId());
-                }
-            }
+            OrderService orderService = new OrderService();
+            int orderId = orderService.placeOrder(user, addressId, phone, note, paymentMethod, items, cart);
 
             if (cart != null) {
                 session.setAttribute("cart", cart);
@@ -97,7 +61,7 @@ public class PaymentServlet extends HttpServlet {
             session.removeAttribute("BUY_NOW_ITEM");
             session.removeAttribute("note");
 
-            List<Orders> orders = ordersDAO.getOrdersByUser(user.getId());
+            List<Orders> orders = orderService.getOrdersByUser(user.getId());
             req.setAttribute("orders", orders);
 
             RequestDispatcher dispatcher = req.getRequestDispatcher("/page/personal-page.jsp");

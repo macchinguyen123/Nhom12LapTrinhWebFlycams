@@ -4,23 +4,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ImageDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Image;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.ProductService;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @WebServlet(name = "ProductGetServlet", value = "/admin/product-get")
 public class ProductGetServlet extends HttpServlet {
-    private ProductDAO productDAO = new ProductDAO();
-    private ImageDAO imageDAO = new ImageDAO();
+    private ProductService productService = new ProductService();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
@@ -32,25 +29,9 @@ public class ProductGetServlet extends HttpServlet {
 
         try {
             int productId = Integer.parseInt(idParam);
-            Product product = productDAO.getProductById(productId);
+            Product product = productService.getProductDetailAdmin(productId);
 
             if (product != null) {
-
-                // Lấy tất cả ảnh
-                List<Image> allImages = imageDAO.getImagesByProduct(productId);
-
-                // Lấy ảnh chính
-                allImages.stream()
-                        .filter(img -> "Chính".equals(img.getImageType()))
-                        .findFirst()
-                        .ifPresent(img -> product.setMainImage(img.getImageUrl()));
-
-                // Lấy ảnh phụ
-                List<Image> extraImages = allImages.stream()
-                        .filter(img -> !"Chính".equals(img.getImageType()))
-                        .collect(Collectors.toList());
-                product.setImages(extraImages);
-
                 // Chuyển sang JSON
                 ObjectMapper mapper = new ObjectMapper();
                 String json = mapper.writeValueAsString(product);
@@ -64,7 +45,8 @@ public class ProductGetServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 }

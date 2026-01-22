@@ -66,7 +66,7 @@
                                     href="${pageContext.request.contextPath}/product-detail?id=${item.product.id}">
                                 <img src="${not empty item.product.images
           ? item.product.images[0].imageUrl
-          : pageContext.request.contextPath.concat('/image/no-image.png')}" class="anh_san_pham me-3" width="120">
+          : pageContext.request.contextPath.concat('/image/no-image.png')}" class="anh_san_pham me-3">
                             </a>
                             <div>
                                 <h6 class="ten_san_pham mb-1 fw-semibold text-truncate"

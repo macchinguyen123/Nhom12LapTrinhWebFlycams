@@ -7,24 +7,21 @@
 
 <head>
     <meta charset="UTF-8"/>
-    <title>Giỏ hàng Flycam</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/wishlist.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
-          rel="stylesheet">
+    <title>Danh sách yêu thích Flycam</title>
+
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
           rel="stylesheet">
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/footer.css">
-
-
-    <link rel="stylesheet" href="../stylesheets/wishlist.css">
-    <link rel="stylesheet" href="../stylesheets/header.css">
-    <link rel="stylesheet" href="../stylesheets/footer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/common-category.css">
+    <link rel="stylesheet"
+          href="${pageContext.request.contextPath}/stylesheets/wishlist.css?v=${System.currentTimeMillis()}">
 </head>
 
 <body>
@@ -72,7 +69,7 @@
 
                             <a href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
                                 <img src="${p.mainImage}" alt="${p.productName}"
-                                     class="anh_san_pham me-3" width="120">
+                                     class="anh_san_pham me-3">
                             </a>
 
                             <div>
@@ -448,4 +445,5 @@
 
 
 </body>
+
 </html>

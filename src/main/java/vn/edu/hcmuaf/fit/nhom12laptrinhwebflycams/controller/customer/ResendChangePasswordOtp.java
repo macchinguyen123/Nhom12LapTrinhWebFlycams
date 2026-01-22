@@ -3,16 +3,15 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.MailProperties.EmailSender;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.AuthService;
 
 import java.io.IOException;
 
 @WebServlet(name = "ResendChangePasswordOtp", value = "/ResendChangePasswordOtp")
 public class ResendChangePasswordOtp extends HttpServlet {
 
-    private final UserDAO userDAO = new UserDAO();
+    private final AuthService authService = new AuthService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -32,47 +31,27 @@ public class ResendChangePasswordOtp extends HttpServlet {
             return;
         }
 
-        User dbUser = userDAO.getUserByEmail(user.getEmail());
+        User dbUser = authService.getUserByEmail(user.getEmail());
         if (dbUser == null) {
             response.sendRedirect(request.getContextPath() + "/personal?tab=repass");
             return;
         }
 
         try {
-            // 1. Sinh OTP mới
-            String otp = String.valueOf((int) (Math.random() * 9000) + 1000);
-
-            // 2. Cập nhật vào session
-            session.setAttribute("otp", otp);
-            session.setMaxInactiveInterval(5 * 60);
-
-            // 3. Gửi email
-            EmailSender emailSender = new EmailSender();
+            // Send OTP via AuthService
             String title = "Gửi lại mã OTP đổi mật khẩu - SKYDRONE";
             String content = "Mã OTP mới của bạn là";
             String thanks = "Vui lòng nhập mã OTP này để hoàn tất việc đổi mật khẩu.<br>" +
                     "<strong style='color: #dc3545;'>Lưu ý:</strong> Mã OTP có hiệu lực trong 5 phút.";
-            String otpHtml = "<div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); " +
-                    "padding: 25px; border-radius: 12px; text-align: center; margin: 20px 0; " +
-                    "box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);'>" +
-                    "<h1 style='color: #ffffff; font-size: 56px; margin: 0; " +
-                    "letter-spacing: 12px; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);'>"
-                    + otp + "</h1>" +
-                    "</div>";
 
-            emailSender.sendVerificationEmail(
-                    dbUser.getEmail(),
-                    title,
-                    dbUser.getUsername(),
-                    otpHtml,
-                    content,
-                    thanks
-            );
+            String otp = authService.resendOtp(dbUser.getEmail(), dbUser.getUsername(), title, content, thanks);
 
-            // 4. Set flag
+            // Update session
+            session.setAttribute("otp", otp);
+            session.setMaxInactiveInterval(5 * 60);
             session.setAttribute("otpSent", true);
 
-            // 5. Response
+            // Response
             response.setContentType("text/plain; charset=UTF-8");
             response.getWriter().write("success");
 

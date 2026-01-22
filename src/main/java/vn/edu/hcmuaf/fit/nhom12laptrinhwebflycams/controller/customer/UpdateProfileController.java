@@ -3,8 +3,8 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.AuthService;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -12,7 +12,7 @@ import java.util.Date;
 
 @WebServlet("/UpdateProfileServlet")
 public class UpdateProfileController extends HttpServlet {
-    private UserDAO dao = new UserDAO();
+    private final AuthService authService = new AuthService();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -43,7 +43,7 @@ public class UpdateProfileController extends HttpServlet {
             user.setPhoneNumber(phoneNumber);
             user.setGender(gender);
 
-            dao.updateProfile(user);
+            authService.updateProfile(user);
 
             // cập nhật lại session
             session.setAttribute("user", user);

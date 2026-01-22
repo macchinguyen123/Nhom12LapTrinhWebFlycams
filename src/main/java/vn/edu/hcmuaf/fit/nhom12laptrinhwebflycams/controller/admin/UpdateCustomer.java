@@ -3,8 +3,9 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.admin;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
+
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.CustomerService;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PasswordUtil;
 
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.io.IOException;
 @WebServlet(name = "UpdateCustomer", value = "/admin/update-customer")
 @MultipartConfig
 public class UpdateCustomer extends HttpServlet {
-    private UserDAO userDAO = new UserDAO();
+    private CustomerService customerService = new CustomerService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -34,7 +35,7 @@ public class UpdateCustomer extends HttpServlet {
             String gender = req.getParameter("gender");
             String birthDateRaw = req.getParameter("birthDate");
             boolean status = req.getParameter("status") != null;
-            User u = userDAO.findById(id);
+            User u = customerService.getUserById(id);
             if (u == null) {
                 resp.getWriter().write("{\"success\":false, \"msg\":\"User not found\"}");
                 return;
@@ -86,11 +87,11 @@ public class UpdateCustomer extends HttpServlet {
             String address = req.getParameter("address");
             boolean addrUpdated = true;
             if (address != null && !address.trim().isEmpty()) {
-                addrUpdated = userDAO.updateUserAddress(u.getId(), address.trim());
+                addrUpdated = customerService.updateUserAddress(u.getId(), address.trim());
             } else {
-                addrUpdated = userDAO.updateUserAddress(u.getId(), "");
+                addrUpdated = customerService.updateUserAddress(u.getId(), "");
             }
-            boolean updated = userDAO.updateUser(u);
+            boolean updated = customerService.updateUser(u);
             if (updated) {
                 resp.getWriter().write("{\"success\":true}");
             } else {

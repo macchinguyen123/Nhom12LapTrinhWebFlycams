@@ -3,8 +3,8 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.AuthService;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import java.nio.file.Paths;
         maxRequestSize = 1024 * 1024 * 15 // 15 MB
 )
 public class UpdateAvatarController extends HttpServlet {
-    private final UserDAO userDAO = new UserDAO();
+    private final AuthService authService = new AuthService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -72,7 +72,7 @@ public class UpdateAvatarController extends HttpServlet {
 
         System.out.println("Avatar saved to deployment: " + filePathDeploy);
 
-        boolean updated = userDAO.updateAvatar(user.getId(), newFileName);
+        boolean updated = authService.updateAvatar(user.getId(), newFileName);
         if (updated) {
             user.setAvatar(newFileName);
             session.setAttribute("user", user);

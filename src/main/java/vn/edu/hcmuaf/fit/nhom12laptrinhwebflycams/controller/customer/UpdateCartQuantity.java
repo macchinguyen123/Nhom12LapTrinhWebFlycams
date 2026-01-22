@@ -4,11 +4,15 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.cart.Carts;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.CartService;
 
 import java.io.IOException;
 
 @WebServlet(name = "UpdateCartQuantity", value = "/UpdateCartQuantity")
 public class UpdateCartQuantity extends HttpServlet {
+
+    private final CartService cartService = new CartService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -37,8 +41,10 @@ public class UpdateCartQuantity extends HttpServlet {
             int productId = Integer.parseInt(request.getParameter("productId"));
             int quantity = Integer.parseInt(request.getParameter("quantity"));
 
-            boolean updated = cart.updateItem(productId, quantity);
+            boolean updated = cartService.updateCartItem(cart, productId, quantity);
             if (updated) {
+                // Session cart object is updated by reference by cartService, but explicitly
+                // setting it back ensures safety if session requires it
                 session.setAttribute("cart", cart);
                 response.setStatus(HttpServletResponse.SC_OK);
             } else {

@@ -3,15 +3,14 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.AddressDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.AddressService;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/DeleteAddressServlet")
 public class DeleteAddressServlet extends HttpServlet {
-    private final AddressDAO dao = new AddressDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -26,7 +25,8 @@ public class DeleteAddressServlet extends HttpServlet {
         try {
             int id = Integer.parseInt(req.getParameter("id"));
 
-            boolean success = dao.delete(id, user.getId());
+            AddressService addressService = new AddressService();
+            boolean success = addressService.deleteAddress(id, user.getId());
 
             if (success) {
                 req.getSession().setAttribute("success", "Xóa địa chỉ thành công!");

@@ -7,8 +7,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.CategoryDAO;
+
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Categories;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.CategoryService;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +27,7 @@ import java.util.List;
 )
 public class CategoryManageServlet extends HttpServlet {
 
-    private CategoryDAO categoryDAO = new CategoryDAO();
+    private CategoryService categoryService = new CategoryService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,7 +38,7 @@ public class CategoryManageServlet extends HttpServlet {
             return;
         }
 
-        List<Categories> list = categoryDAO.getAllCategoriesAdmin();
+        List<Categories> list = categoryService.getAllCategoriesAdmin();
         req.setAttribute("categories", list);
         req.getRequestDispatcher("/page/admin/category-manage.jsp").forward(req, resp);
     }
@@ -64,7 +65,6 @@ public class CategoryManageServlet extends HttpServlet {
         if (filePart != null && filePart.getSize() > 0) {
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 
-
             String projectPath = System.getProperty("user.dir");
 
             Path uploadDir = Paths.get(projectPath,
@@ -81,8 +81,6 @@ public class CategoryManageServlet extends HttpServlet {
 
             imagePath = "image/logoCategory/" + fileName;
 
-
-
         }
 
         Categories c = new Categories();
@@ -90,7 +88,7 @@ public class CategoryManageServlet extends HttpServlet {
         c.setStatus(status);
         c.setImage(imagePath);
 
-        categoryDAO.insert(c);
+        categoryService.addCategory(c);
         resp.sendRedirect(req.getContextPath() + "/admin/category-manage");
     }
 
@@ -108,7 +106,6 @@ public class CategoryManageServlet extends HttpServlet {
         if (filePart != null && filePart.getSize() > 0) {
             String fileName = Paths.get(filePart.getSubmittedFileName())
                     .getFileName().toString();
-
 
             String projectPath = System.getProperty("user.dir");
 
@@ -133,18 +130,17 @@ public class CategoryManageServlet extends HttpServlet {
         }
 
         Categories c = new Categories(id, name, imagePath, status);
-        categoryDAO.update(c);
+        categoryService.updateCategory(c);
 
         resp.sendRedirect(req.getContextPath() + "/admin/category-manage");
     }
-
 
     private void handleDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String idStr = req.getParameter("id");
         if (idStr != null) {
             try {
                 int id = Integer.parseInt(idStr);
-                categoryDAO.delete(id);
+                categoryService.deleteCategory(id);
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }

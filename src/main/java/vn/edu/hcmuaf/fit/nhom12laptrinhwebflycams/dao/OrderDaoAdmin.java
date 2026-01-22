@@ -30,8 +30,8 @@ public class OrderDaoAdmin {
                 """;
 
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Orders o = new Orders();
@@ -62,7 +62,7 @@ public class OrderDaoAdmin {
     public Map<String, Object> getOrderDetail(int orderId) {
         Map<String, Object> map = new HashMap<>();
         String sql = """
-                    SELECT 
+                    SELECT
                         o.id,
                         o.totalPrice,
                         o.phoneNumber,
@@ -81,14 +81,14 @@ public class OrderDaoAdmin {
                             a.district, ', ',
                             a.province
                         ) AS fullAddress
-                
+
                     FROM orders o
                     JOIN users u ON o.user_id = u.id
                     LEFT JOIN addresses a ON o.address_id = a.id
                     WHERE o.id = ?
                 """;
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+                PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, orderId);
             ResultSet rs = ps.executeQuery();
@@ -122,7 +122,7 @@ public class OrderDaoAdmin {
         List<Map<String, Object>> list = new ArrayList<>();
 
         String sql = """
-                    SELECT 
+                    SELECT
                         p.productName,
                         oi.quantity,
                         oi.price
@@ -132,7 +132,7 @@ public class OrderDaoAdmin {
                 """;
 
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+                PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, orderId);
             ResultSet rs = ps.executeQuery();
@@ -161,10 +161,30 @@ public class OrderDaoAdmin {
         return list;
     }
 
+    public boolean updateOrderStatusAndShippingCode(int orderId, String status, String shippingCode) {
+        String sql = "UPDATE orders SET `status` = ?, `shippingCode` = ? WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            System.out.println("Update orderId=" + orderId + ", status=" + status + ", shippingCode=" + shippingCode);
+
+            ps.setString(1, status);
+            ps.setString(2, shippingCode);
+            ps.setInt(3, orderId);
+
+            int rows = ps.executeUpdate();
+            return rows > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean updateOrderStatus(int orderId, String status) {
         String sql = "UPDATE orders SET `status` = ? WHERE id = ?";
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             System.out.println("Update orderId=" + orderId + ", status=" + status);
 
@@ -186,7 +206,7 @@ public class OrderDaoAdmin {
         List<Orders> list = new ArrayList<>();
 
         String sql = """
-                    SELECT 
+                    SELECT
                         o.id,
                         o.user_id,
                         o.shippingCode,
@@ -205,8 +225,8 @@ public class OrderDaoAdmin {
                 """;
 
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Orders o = new Orders();
@@ -268,14 +288,13 @@ public class OrderDaoAdmin {
             String fullName,
             String email,
             String phoneNumber,
-            String addressLine,  // thay fullAddress
-            String province,     // thêm
-            String district,     // thêm
+            String addressLine, // thay fullAddress
+            String province, // thêm
+            String district, // thêm
             String paymentMethod,
             String status,
             String note,
-            LocalDate completedAt
-    ) {
+            LocalDate completedAt) {
 
         Connection con = null;
 
@@ -330,9 +349,9 @@ public class OrderDaoAdmin {
                     """;
             try (PreparedStatement ps = con.prepareStatement(sqlAddress)) {
                 ps.setString(1, addressLine); // vd: "123 Nguyễn Trãi"
-                ps.setString(2, province);    // vd: "TP.HCM"
-                ps.setString(3, district);    // vd: "Quận 1"
-                ps.setInt(4, orderId);         // WHERE o.id = ?
+                ps.setString(2, province); // vd: "TP.HCM"
+                ps.setString(3, district); // vd: "Quận 1"
+                ps.setInt(4, orderId); // WHERE o.id = ?
                 ps.executeUpdate();
             }
 
@@ -341,19 +360,20 @@ public class OrderDaoAdmin {
 
         } catch (Exception e) {
             try {
-                if (con != null) con.rollback();
+                if (con != null)
+                    con.rollback();
             } catch (Exception ignored) {
             }
             e.printStackTrace();
         } finally {
             try {
-                if (con != null) con.setAutoCommit(true);
+                if (con != null)
+                    con.setAutoCommit(true);
             } catch (Exception ignored) {
             }
         }
 
         return false;
     }
-
 
 }

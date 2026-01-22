@@ -3,16 +3,16 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ReviewsDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrdersDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.OrderService;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.ReviewService;
 
 import java.io.IOException;
 
 @WebServlet(name = "ReviewServlet", value = "/ReviewServlet")
 public class ReviewServlet extends HttpServlet {
-    private ReviewsDAO reviewsDAO = new ReviewsDAO();
-    private OrdersDAO ordersDAO = new OrdersDAO();
+    private ReviewService reviewService = new ReviewService();
+    private OrderService orderService = new OrderService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -56,32 +56,32 @@ public class ReviewServlet extends HttpServlet {
             int rating = Integer.parseInt(ratingRaw);
 
             // Kiểm tra xem user đã mua sản phẩm này chưa
-            if (!ordersDAO.hasUserPurchasedProduct(user.getId(), productId)) {
+            if (!orderService.hasUserPurchasedProduct(user.getId(), productId)) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                response.getWriter().write("{\"status\":\"error\",\"message\":\"Bạn chỉ có thể đánh giá sản phẩm đã mua\"}");
+                response.getWriter()
+                        .write("{\"status\":\"error\",\"message\":\"Bạn chỉ có thể đánh giá sản phẩm đã mua\"}");
                 return;
             }
 
             // Kiểm tra xem user đã đánh giá sản phẩm này chưa
-            if (reviewsDAO.hasUserReviewedProduct(user.getId(), productId)) {
+            if (reviewService.hasUserReviewedProduct(user.getId(), productId)) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("{\"status\":\"error\",\"message\":\"Bạn đã đánh giá sản phẩm này rồi\"}");
                 return;
             }
 
             // Lưu đánh giá
-            reviewsDAO.saveReview(user.getId(), productId, rating, content);
+            reviewService.saveReview(user.getId(), productId, rating, content);
 
             // Tính toán lại điểm trung bình
-            double avg = reviewsDAO.getAverageRating(productId);
-            int count = reviewsDAO.countReviews(productId);
+            double avg = reviewService.getAverageRating(productId);
+            int count = reviewService.countReviews(productId);
 
             response.getWriter().write(
                     "{\"status\":\"success\"," +
                             "\"message\":\"Cảm ơn bạn đã đánh giá!\"," +
                             "\"avg\":" + String.format("%.1f", avg) +
-                            ",\"count\":" + count + "}"
-            );
+                            ",\"count\":" + count + "}");
 
         } catch (NumberFormatException e) {
             e.printStackTrace();

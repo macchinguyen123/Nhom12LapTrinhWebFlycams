@@ -3,13 +3,13 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.admin;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.CustomerService;
 
 import java.io.IOException;
 
 @WebServlet(name = "ToggleUserStatusServlet", value = "/admin/toggle-user-status")
 public class ToggleUserStatusServlet extends HttpServlet {
-    private UserDAO userDAO = new UserDAO();
+    private CustomerService customerService = new CustomerService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -25,7 +25,7 @@ public class ToggleUserStatusServlet extends HttpServlet {
             int statusInt = Integer.parseInt(request.getParameter("status"));
             boolean newStatus = (statusInt == 1);
 
-            boolean success = userDAO.updateStatus(id, newStatus);
+            boolean success = customerService.updateStatus(id, newStatus);
 
             response.setContentType("application/json");
             response.getWriter().write("{\"success\": " + success + "}");

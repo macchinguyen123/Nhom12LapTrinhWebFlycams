@@ -3,7 +3,7 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.BlogDAO;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.ArticleService;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Post;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 
@@ -12,13 +12,14 @@ import java.io.IOException;
 @WebServlet(name = "BlogReview", value = "/BlogReview")
 public class BlogReview extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 
     @Override
     protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response)
+            HttpServletResponse response)
             throws IOException {
 
         HttpSession session = request.getSession(false);
@@ -31,20 +32,18 @@ public class BlogReview extends HttpServlet {
         int blogId = Integer.parseInt(request.getParameter("blogId"));
         String content = request.getParameter("content");
 
-        BlogDAO dao = new BlogDAO();
+        ArticleService articleService = new ArticleService();
 
         // CHẶN BÌNH LUẬN LẦN 2
-        if (dao.hasReviewed(blogId, user.getId())) {
-            response.sendRedirect(request.getContextPath()+ "/article?id=" + blogId);
+        if (articleService.hasUserReviewed(blogId, user.getId())) {
+            response.sendRedirect(request.getContextPath() + "/article?id=" + blogId);
 
             return;
         }
 
         // SAU KHI LƯU BÌNH LUẬN
-        dao.insert(blogId, user.getId(), content);
+        articleService.addReview(blogId, user.getId(), content);
         response.sendRedirect(request.getContextPath() + "/article?id=" + blogId);
-
-
 
     }
 }

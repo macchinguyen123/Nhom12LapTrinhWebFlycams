@@ -3,14 +3,11 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrderItemsDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.OrderItems;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.CartService;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/rebuy")
@@ -19,6 +16,8 @@ public class ReBuyController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
+        CartService cartService = new CartService();
 
         String orderIdRaw = req.getParameter("orderId");
 
@@ -35,15 +34,22 @@ public class ReBuyController extends HttpServlet {
             return;
         }
 
-        OrderItemsDAO orderItemsDAO = new OrderItemsDAO();
-        List<OrderItems> items = orderItemsDAO.getItemsByOrderId(orderId);
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+
+        if (user == null) {
+            resp.sendRedirect("login.jsp");
+            return;
+        }
+
+        // Use CartService to prepare items from previous order
+        List<OrderItems> items = cartService.prepareBuyNowFromOrder(orderId, user.getId());
 
         if (items == null || items.isEmpty()) {
             resp.sendRedirect(req.getContextPath() + "/purchasehistory");
             return;
         }
 
-        HttpSession session = req.getSession();
         session.setAttribute("BUY_NOW_ITEM", items);
 
         resp.sendRedirect(req.getContextPath() + "/page/delivery-info.jsp");
