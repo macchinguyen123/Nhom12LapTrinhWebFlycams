@@ -394,7 +394,9 @@
                 <div class="san-pham">
 
                     <a href="${pageContext.request.contextPath}/product-detail?id=${p.id}">
-                        <img src="${empty p.mainImage ? '/assets/no-image.png' : p.mainImage}">
+                        <div class="khung-anh">
+                            <img src="${empty p.mainImage ? '/assets/no-image.png' : p.mainImage}">
+                        </div>
 
                         <h3 class="ten-san-pham">
                                 ${p.productName}

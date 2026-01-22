@@ -4,14 +4,13 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.cart.Carts;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.ProductService;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.CartService;
 
 import java.io.IOException;
 
 @WebServlet(name = "AddCart", value = "/add-cart")
 public class AddCart extends HttpServlet {
-    private ProductService productService = new ProductService();
+    private final CartService cartService = new CartService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -41,9 +40,10 @@ public class AddCart extends HttpServlet {
             if (cart == null)
                 cart = new Carts();
 
-            Product product = productService.getProduct(productId);
-            if (product != null) {
-                cart.addItem(product, quantity);
+            // Delegate to Service
+            boolean added = cartService.addToCart(cart, productId, quantity);
+
+            if (added) {
                 session.setAttribute("cart", cart);
                 System.out.println("[AddCart] Added to cart. Total items: " + cart.totalQuantity());
                 response.getWriter().write("{\"success\":true,\"totalQuantity\":" + cart.totalQuantity() + "}");

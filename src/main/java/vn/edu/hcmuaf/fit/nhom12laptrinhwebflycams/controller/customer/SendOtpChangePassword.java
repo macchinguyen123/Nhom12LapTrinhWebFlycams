@@ -6,13 +6,14 @@ import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.MailProperties.EmailSender;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.AuthService;
 
 import java.io.IOException;
 
 @WebServlet(name = "SendOtpChangePassword", value = "/SendOtpChangePassword")
 public class SendOtpChangePassword extends HttpServlet {
 
-    private final UserDAO userDAO = new UserDAO();
+    private final AuthService userDAO = new AuthService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

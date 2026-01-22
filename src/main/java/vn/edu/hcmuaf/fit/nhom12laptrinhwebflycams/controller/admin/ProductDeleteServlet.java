@@ -3,23 +3,23 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.admin;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductManagement;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.ProductService;
 
 import java.io.IOException;
 
 @WebServlet(name = "ProductDeleteServlet", value = "/admin/product-delete")
 public class ProductDeleteServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 
-    private ProductManagement productDAO = new ProductManagement();
+    private ProductService productService = new ProductService();
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
@@ -31,7 +31,7 @@ public class ProductDeleteServlet extends HttpServlet {
 
         try {
             int productId = Integer.parseInt(idParam);
-            boolean deleted = productDAO.deleteProduct(productId);
+            boolean deleted = productService.deleteProduct(productId);
 
             if (deleted) {
                 response.getWriter().write("{\"success\": true}");

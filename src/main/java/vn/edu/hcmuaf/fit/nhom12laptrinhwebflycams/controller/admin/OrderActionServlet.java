@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrderDaoAdmin;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.OrderService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,11 +14,12 @@ import java.util.Map;
 @WebServlet(name = "OrderActionServlet", value = "/admin/order-action")
 public class OrderActionServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 
-    private OrderDaoAdmin dao = new OrderDaoAdmin();
+    private OrderService orderService = new OrderService();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -50,10 +51,10 @@ public class OrderActionServlet extends HttpServlet {
 
             if ("confirm".equals(action)) {
                 newStatus = "Đang xử lý";
-                success = dao.updateOrderStatus(orderId, newStatus);
+                success = orderService.confirmOrder(orderId);
             } else if ("cancel".equals(action)) {
                 newStatus = "Hủy";
-                success = dao.updateOrderStatus(orderId, newStatus);
+                success = orderService.updateOrderStatus(orderId, newStatus);
             }
 
             Map<String, Object> result = new HashMap<>();

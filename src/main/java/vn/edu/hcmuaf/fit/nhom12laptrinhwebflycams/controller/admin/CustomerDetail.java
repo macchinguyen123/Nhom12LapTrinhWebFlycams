@@ -3,15 +3,16 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.admin;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
+
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.CustomerService;
 
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "CustomerDetail", value = "/admin/customer-detail")
 public class CustomerDetail extends HttpServlet {
-    private UserDAO userDAO = new UserDAO();
+    private CustomerService customerService = new CustomerService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -26,14 +27,14 @@ public class CustomerDetail extends HttpServlet {
 
         try {
             int id = Integer.parseInt(idRaw);
-            User user = userDAO.findById(id);
+            User user = customerService.getUserById(id);
 
             if (user == null) {
                 resp.sendRedirect(req.getContextPath() + "/admin/customer-manage");
                 return;
             }
 
-            List<User> users = userDAO.getAllUsers();
+            List<User> users = customerService.getAllUsers();
 
             req.setAttribute("users", users);
             req.setAttribute("detailUser", user);

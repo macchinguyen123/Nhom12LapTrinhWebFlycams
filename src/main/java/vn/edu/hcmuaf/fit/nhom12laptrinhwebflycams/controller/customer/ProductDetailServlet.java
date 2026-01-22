@@ -3,12 +3,12 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.CategoryDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ReviewsDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrdersDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.CategoryService;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.OrderService;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.ProductService;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.ReviewService;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.WishlistService;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PriceFormatter;
 
@@ -18,15 +18,15 @@ import java.util.List;
 @WebServlet(name = "ProductDetailServlet", value = "/product-detail")
 public class ProductDetailServlet extends HttpServlet {
 
-    private final ProductDAO productDAO = new ProductDAO();
-    private final CategoryDAO categoryDAO = new CategoryDAO();
-    private final ReviewsDAO reviewsDAO = new ReviewsDAO();
-    private final OrdersDAO ordersDAO = new OrdersDAO();
-    private final WishlistService wishlistService = new WishlistService();
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        ProductService productService = new ProductService();
+        CategoryService categoryService = new CategoryService();
+        ReviewService reviewService = new ReviewService();
+        OrderService orderService = new OrderService();
+        WishlistService wishlistService = new WishlistService();
 
         String idRaw = request.getParameter("id");
         if (idRaw == null) {
@@ -42,25 +42,25 @@ public class ProductDetailServlet extends HttpServlet {
             return;
         }
 
-        Product product = productDAO.getProductById(id);
+        Product product = productService.getProduct(id);
         if (product == null) {
             response.sendRedirect(request.getContextPath() + "/404.jsp");
             return;
         }
 
         // Tăng số lượt xem sản phẩm
-        productDAO.incrementViewCount(id);
+        productService.incrementViewCount(id);
 
         // LẤY TÊN DANH MỤC (KHÔNG ĐỤNG PRODUCT)
-        String categoryName = categoryDAO.getCategoryNameById(product.getCategoryId());
+        String categoryName = categoryService.getCategoryNameById(product.getCategoryId());
         // ====== TÍNH % KHUYẾN MÃI ======
         int discountPercent = calculateDiscountPercent(product.getPrice(), product.getFinalPrice());
         request.setAttribute("discountPercent", discountPercent);
         System.out.println("DEBUG: discountPercent = " + discountPercent); // ← THÊM DÒNG NÀY
 
         // ====== PHẦN THÊM: REVIEW / RATING ======
-        double avgRating = reviewsDAO.getAverageRating(id);
-        int reviewCount = reviewsDAO.countReviews(id);
+        double avgRating = reviewService.getAverageRating(id);
+        int reviewCount = reviewService.countReviews(id);
 
         int fullStars = (int) avgRating;
         boolean hasHalfStar = (avgRating - fullStars) >= 0.5;
@@ -76,9 +76,9 @@ public class ProductDetailServlet extends HttpServlet {
             if (user != null) {
                 isLoggedIn = true;
                 // Kiểm tra xem user đã mua sản phẩm này chưa
-                boolean hasPurchased = ordersDAO.hasUserPurchasedProduct(user.getId(), id);
+                boolean hasPurchased = orderService.hasUserPurchasedProduct(user.getId(), id);
                 // Kiểm tra xem user đã đánh giá sản phẩm này chưa
-                hasReviewed = reviewsDAO.hasUserReviewedProduct(user.getId(), id);
+                hasReviewed = reviewService.hasUserReviewedProduct(user.getId(), id);
 
                 // User chỉ có thể đánh giá nếu đã mua và chưa đánh giá
                 canReview = hasPurchased && !hasReviewed;
@@ -108,23 +108,23 @@ public class ProductDetailServlet extends HttpServlet {
             }
         }
 
-        int totalReviews = reviewsDAO.countReviews(id);
+        int totalReviews = reviewService.countReviews(id);
         int totalPages = (int) Math.ceil((double) totalReviews / pageSize);
 
         request.setAttribute("reviews",
-                reviewsDAO.getReviewsByProductPaging(id, page, pageSize));
+                reviewService.getReviewsByProductPaging(id, page, pageSize));
 
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
-        request.setAttribute("star5", reviewsDAO.countByStar(id, 5));
-        request.setAttribute("star4", reviewsDAO.countByStar(id, 4));
-        request.setAttribute("star3", reviewsDAO.countByStar(id, 3));
-        request.setAttribute("star2", reviewsDAO.countByStar(id, 2));
-        request.setAttribute("star1", reviewsDAO.countByStar(id, 1));
-        request.setAttribute("commentCount", reviewsDAO.countWithComment(id));
+        request.setAttribute("star5", reviewService.countByStar(id, 5));
+        request.setAttribute("star4", reviewService.countByStar(id, 4));
+        request.setAttribute("star3", reviewService.countByStar(id, 3));
+        request.setAttribute("star2", reviewService.countByStar(id, 2));
+        request.setAttribute("star1", reviewService.countByStar(id, 1));
+        request.setAttribute("commentCount", reviewService.countWithComment(id));
 
         // ===== SẢN PHẨM LIÊN QUAN =====
-        List<Product> relatedProducts = productDAO.getRelatedProducts(
+        List<Product> relatedProducts = productService.getRelatedProducts(
                 product.getCategoryId(),
                 product.getId(),
                 20);

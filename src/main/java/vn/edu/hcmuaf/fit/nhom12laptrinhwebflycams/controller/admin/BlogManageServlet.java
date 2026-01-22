@@ -3,26 +3,27 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.admin;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.PostDAO;
+
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Post;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.ArticleService;
 
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "BlogManageServlet", value = "/admin/blog-manage")
 public class BlogManageServlet extends HttpServlet {
-    private PostDAO postDAO;
+    private ArticleService articleService;
 
     @Override
     public void init() {
-        postDAO = new PostDAO();
+        articleService = new ArticleService();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        List<Post> posts = postDAO.getAllPosts();
+        List<Post> posts = articleService.getAllPosts();
         req.setAttribute("posts", posts);
 
         req.getRequestDispatcher("/page/admin/blog-manage.jsp")
@@ -38,7 +39,7 @@ public class BlogManageServlet extends HttpServlet {
         if ("delete".equals(action)) {
             int postId = Integer.parseInt(request.getParameter("id"));
 
-            boolean success = postDAO.deletePost(postId);
+            boolean success = articleService.deletePost(postId);
 
             if (success) {
                 response.sendRedirect(request.getContextPath() + "/admin/blog-manage?msg=deleted");
@@ -55,11 +56,10 @@ public class BlogManageServlet extends HttpServlet {
             int productId = Integer.parseInt(request.getParameter("productId"));
 
             Post post = new Post(id, title, content, image, null, productId);
-            postDAO.updatePost(post);
+            articleService.updatePost(post);
 
             response.sendRedirect(
-                    request.getContextPath() + "/admin/blog-manage?msg=updated"
-            );
+                    request.getContextPath() + "/admin/blog-manage?msg=updated");
         }
         if ("add".equals(action)) {
 
@@ -70,14 +70,12 @@ public class BlogManageServlet extends HttpServlet {
 
             Post post = new Post(0, title, content, image, null, productId);
 
-            boolean success = postDAO.addPost(post);
+            boolean success = articleService.addPost(post);
 
             response.sendRedirect(
                     request.getContextPath() +
-                            "/admin/blog-manage?msg=" + (success ? "added" : "add_failed")
-            );
+                            "/admin/blog-manage?msg=" + (success ? "added" : "add_failed"));
         }
     }
-
 
 }

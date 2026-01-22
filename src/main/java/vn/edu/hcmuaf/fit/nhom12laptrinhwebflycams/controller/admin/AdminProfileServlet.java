@@ -4,9 +4,8 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
-
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.AuthService;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +16,7 @@ import java.io.IOException;
 )
 public class AdminProfileServlet extends HttpServlet {
 
-    private UserDAO userDAO = new UserDAO();
+    private final AuthService authService = new AuthService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,7 +30,7 @@ public class AdminProfileServlet extends HttpServlet {
         }
 
         // Refresh thông tin admin từ DB
-        User refreshedAdmin = userDAO.getUserById(admin.getId());
+        User refreshedAdmin = authService.getUserByEmail(admin.getEmail());
         if (refreshedAdmin != null) {
             request.getSession().setAttribute("user", refreshedAdmin);
             admin = refreshedAdmin;
@@ -102,7 +101,7 @@ public class AdminProfileServlet extends HttpServlet {
         }
 
         // Lấy thông tin admin hiện tại từ DB để giữ lại các field khác
-        User currentAdmin = userDAO.getUserById(admin.getId());
+        User currentAdmin = authService.getUserByEmail(admin.getEmail());
         if (currentAdmin == null) {
             req.getSession().setAttribute("infoMsg", "Không tìm thấy thông tin admin");
             resp.sendRedirect(req.getContextPath() + "/admin/profile");
@@ -198,11 +197,11 @@ public class AdminProfileServlet extends HttpServlet {
         }
 
         // Cập nhật vào database
-        boolean success = userDAO.updateProfileAdmin(currentAdmin);
+        boolean success = authService.updateProfileAdmin(currentAdmin);
 
         if (success) {
             // Refresh lại thông tin trong session
-            User updatedAdmin = userDAO.getUserById(currentAdmin.getId());
+            User updatedAdmin = authService.getUserByEmail(currentAdmin.getEmail());
             if (updatedAdmin != null) {
                 req.getSession().setAttribute("user", updatedAdmin);
             }
@@ -259,31 +258,27 @@ public class AdminProfileServlet extends HttpServlet {
             return;
         }
 
-        // Lấy thông tin admin từ DB để kiểm tra mật khẩu
-        User currentAdmin = userDAO.getUserById(admin.getId());
-        if (currentAdmin == null) {
-            req.getSession().setAttribute("passMsg", "Không tìm thấy thông tin admin");
-            resp.sendRedirect(req.getContextPath() + "/admin/profile");
-            return;
-        }
+        // Thực hiện đổi mật khẩu qua AuthService
+        String error = authService.changePassword(
+                admin.getId(),
+                admin.getEmail(),
+                oldPass,
+                newPass,
+                confirmPass,
+                null, // Không dùng OTP
+                null // Không dùng OTP
+        );
 
-        // Kiểm tra mật khẩu cũ (plaintext)
-        if (!oldPass.equals(currentAdmin.getPassword())) {
-            req.getSession().setAttribute("passMsg", "Mật khẩu cũ không đúng");
-            resp.sendRedirect(req.getContextPath() + "/admin/profile");
-            return;
-        }
-
-        // Cập nhật mật khẩu mới (plaintext)
-        boolean success = userDAO.updatePassword(admin.getId(), newPass);
-
-        if (success) {
-            // Cập nhật password trong session
+        if (error == null) {
+            // Success
+            // Cập nhật password trong session (plaintext, chỉ để hiển thị hoặc dùng tạm,
+            // thực tế ko nên lưu plaintext pass trong session)
             admin.setPassword(newPass);
             req.getSession().setAttribute("user", admin);
             req.getSession().setAttribute("passMsg", "Đổi mật khẩu thành công");
         } else {
-            req.getSession().setAttribute("passMsg", "Đổi mật khẩu thất bại, vui lòng thử lại");
+            // Fail
+            req.getSession().setAttribute("passMsg", error);
         }
 
         resp.sendRedirect(req.getContextPath() + "/admin/profile");

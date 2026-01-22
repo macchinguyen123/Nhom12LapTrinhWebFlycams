@@ -16,11 +16,15 @@
 }
 
 .gio-hang-noi-dung {
-    width: 100%; /* lùi vào hai bên, chiếm 80% màn hình */
-    max-width: 1200px; /* không vượt quá 1200px */
-    margin: 0 auto; /* căn giữa */
+    width: 100%;
+    /* lùi vào hai bên, chiếm 80% màn hình */
+    max-width: 1200px;
+    /* không vượt quá 1200px */
+    margin: 0 auto;
+    /* căn giữa */
     box-sizing: border-box;
-    padding: 0 20px; /* tạo khoảng trống thêm nếu muốn */
+    padding: 0 20px;
+    /* tạo khoảng trống thêm nếu muốn */
 }
 
 
@@ -57,4 +61,12 @@
 .btn-outline-secondary {
     font-weight: 500;
     color: black;
+}
+
+.anh_san_pham {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #ddd;
 }

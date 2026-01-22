@@ -3,11 +3,11 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.CategoryDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Categories;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.CategoryService;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.ProductService;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.WishlistService;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PriceFormatter;
 
@@ -18,9 +18,8 @@ import java.util.List;
 @WebServlet(name = "Category", value = "/Category")
 public class CategoryController extends HttpServlet {
 
-    private ProductDAO productDAO = new ProductDAO();
-    private CategoryDAO categoryDAO = new CategoryDAO();
-
+    private final ProductService productService = new ProductService();
+    private final CategoryService categoryService = new CategoryService();
     private final WishlistService wishlistService = new WishlistService();
 
     @Override
@@ -39,7 +38,7 @@ public class CategoryController extends HttpServlet {
         int categoryId = Integer.parseInt(id_raw);
 
         // Lấy thông tin category
-        Categories category = categoryDAO.getCategoryById(categoryId);
+        Categories category = categoryService.getCategoryById(categoryId);
         if (category == null) {
             response.sendRedirect(request.getContextPath() + "/home");
             return;
@@ -110,7 +109,7 @@ public class CategoryController extends HttpServlet {
             sortBy = "high-low";
 
         // ======= 6. Lấy danh sách sản phẩm theo category + lọc =======
-        List<Product> products = productDAO.searchProductsInCategory(
+        List<Product> products = productService.searchProductsInCategory(
                 categoryId,
                 keyword,
                 minPrice,

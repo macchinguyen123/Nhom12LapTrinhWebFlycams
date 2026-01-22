@@ -1,17 +1,13 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
+
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.CategoryDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ReviewsDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PriceFormatter;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.List;
+
 @WebServlet("/ProfileServlet")
 public class ProfileServlet extends HttpServlet {
     @Override
@@ -31,4 +27,3 @@ public class ProfileServlet extends HttpServlet {
         req.getRequestDispatcher("/page/personal-page.jsp").forward(req, resp);
     }
 }
-

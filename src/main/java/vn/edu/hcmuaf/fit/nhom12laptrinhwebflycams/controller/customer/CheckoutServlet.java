@@ -3,13 +3,8 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.AddressDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrderItemsDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrdersDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Address;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.OrderItems;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Orders;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.AddressService;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -18,9 +13,11 @@ import java.time.LocalDate;
 @WebServlet(name = "CheckoutServlet", value = "/CheckoutServlet")
 public class CheckoutServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -44,32 +41,10 @@ public class CheckoutServlet extends HttpServlet {
         String ward = req.getParameter("ward");
         String note = req.getParameter("note");
 
-        int addressId;
-
         try {
-            AddressDAO addressDAO = new AddressDAO();
-
-            // 2. NẾU CHỌN ĐỊA CHỈ CÓ SẴN
-            if (savedAddressId != null && !savedAddressId.isEmpty()) {
-                addressId = Integer.parseInt(savedAddressId);
-
-            } else {
-                // 3. TẠO ĐỊA CHỈ MỚI
-                Address address = new Address();
-                address.setUserId(user.getId());
-                address.setFullName(fullName);
-                address.setPhoneNumber(phone);
-                address.setAddressLine(addressLine);
-                address.setProvince(province);
-                address.setDistrict(ward);
-                address.setDefaultAddress(false);
-
-                addressId = addressDAO.insertID(address);
-
-                if (addressId <= 0) {
-                    throw new Exception("Insert address failed");
-                }
-            }
+            AddressService addressService = new AddressService();
+            int addressId = addressService.processCheckoutAddress(user.getId(), savedAddressId, fullName, phone,
+                    addressLine, province, ward);
 
             // 4. LƯU VÀO SESSION (CHO PAYMENT)
             session.setAttribute("addressId", addressId);

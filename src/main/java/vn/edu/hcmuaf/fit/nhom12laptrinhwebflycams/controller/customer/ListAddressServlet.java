@@ -5,9 +5,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.AddressDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Address;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.AddressService;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,7 +15,6 @@ import java.util.List;
 
 @WebServlet("/ListAddressServlet")
 public class ListAddressServlet extends HttpServlet {
-    private final AddressDAO dao = new AddressDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -27,7 +26,8 @@ public class ListAddressServlet extends HttpServlet {
         }
 
         try {
-            List<Address> list = dao.findByUserId(user.getId());
+            AddressService addressService = new AddressService();
+            List<Address> list = addressService.findByUserId(user.getId());
             req.setAttribute("addresses", list);
         } catch (SQLException e) {
             e.printStackTrace();

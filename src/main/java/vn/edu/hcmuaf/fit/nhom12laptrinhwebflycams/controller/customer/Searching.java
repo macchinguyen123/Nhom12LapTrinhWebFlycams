@@ -3,9 +3,9 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.ProductService;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.WishlistService;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PriceFormatter;
 
@@ -17,6 +17,7 @@ import java.util.List;
 public class Searching extends HttpServlet {
 
     private final WishlistService wishlistService = new WishlistService();
+    private final ProductService productService = new ProductService(); // New Service
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -28,8 +29,8 @@ public class Searching extends HttpServlet {
 
         // ======= 1. Lấy từ khóa =======
         String keyword = request.getParameter("keyword");
-        if (keyword == null) keyword = "";
-
+        if (keyword == null)
+            keyword = "";
 
         // ======= 2. Lọc theo giá =======
         String giaTuStr = request.getParameter("gia-tu");
@@ -41,7 +42,8 @@ public class Searching extends HttpServlet {
         try {
             if (giaTuStr != null && !giaTuStr.trim().isEmpty()) {
                 String s = giaTuStr.trim().replaceAll("[^0-9]", "");
-                if (!s.isEmpty()) minPrice = Double.parseDouble(s);
+                if (!s.isEmpty())
+                    minPrice = Double.parseDouble(s);
             }
         } catch (NumberFormatException x) {
             minPrice = null;
@@ -50,7 +52,8 @@ public class Searching extends HttpServlet {
         try {
             if (giaDenStr != null && !giaDenStr.trim().isEmpty()) {
                 String s = giaDenStr.trim().replaceAll("[^0-9]", "");
-                if (!s.isEmpty()) maxPrice = Double.parseDouble(s);
+                if (!s.isEmpty())
+                    maxPrice = Double.parseDouble(s);
             }
         } catch (NumberFormatException x) {
             maxPrice = null;
@@ -61,47 +64,47 @@ public class Searching extends HttpServlet {
         if ((minPrice == null && maxPrice == null) && priceFilter != null) {
             switch (priceFilter) {
                 case "duoi-5000000":
-                    minPrice = null; maxPrice = 5_000_000.0; break;
+                    minPrice = null;
+                    maxPrice = 5_000_000.0;
+                    break;
                 case "5-10":
-                    minPrice = 5_000_000.0; maxPrice = 10_000_000.0; break;
+                    minPrice = 5_000_000.0;
+                    maxPrice = 10_000_000.0;
+                    break;
                 case "10-20":
-                    minPrice = 10_000_000.0; maxPrice = 20_000_000.0; break;
+                    minPrice = 10_000_000.0;
+                    maxPrice = 20_000_000.0;
+                    break;
                 case "tren-20":
-                    minPrice = 20_000_000.0; maxPrice = null; break;
+                    minPrice = 20_000_000.0;
+                    maxPrice = null;
+                    break;
                 default:
                     break;
             }
         }
 
-
         // ======= 3. Lọc theo brand =======
         String[] brandArr = request.getParameterValues("chon-thuong-hieu");
         List<String> brandList = (brandArr != null) ? Arrays.asList(brandArr) : null;
 
-
         // ======= 4. Sắp xếp =======
         String sortBy = request.getParameter("sort");
 
-
-        // ======= 5. Gọi DAO =======
-        ProductDAO dao = new ProductDAO();
-        List<Product> results = dao.searchProducts(
+        // ======= 5. Gọi Service =======
+        List<Product> results = productService.searchProducts(
                 keyword,
                 priceFilter,
                 minPrice,
                 maxPrice,
                 brandList,
-                sortBy
-        );
-
+                sortBy);
 
         // ======= 6. LOAD WISHLIST (QUAN TRỌNG) =======
         if (user != null) {
-            List<Integer> wishlistProductIds =
-                    wishlistService.getWishlistProductIds(user.getId());
+            List<Integer> wishlistProductIds = wishlistService.getWishlistProductIds(user.getId());
             request.setAttribute("wishlistProductIds", wishlistProductIds);
         }
-
 
         // ======= 7. Gửi formatter xuống JSP =======
         request.setAttribute("formatter", new PriceFormatter());
@@ -112,7 +115,6 @@ public class Searching extends HttpServlet {
 
         request.getRequestDispatcher("page/searching.jsp").forward(request, response);
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

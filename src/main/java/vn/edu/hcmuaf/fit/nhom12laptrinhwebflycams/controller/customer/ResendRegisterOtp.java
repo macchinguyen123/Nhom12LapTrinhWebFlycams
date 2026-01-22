@@ -3,15 +3,19 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.MailProperties.EmailSender;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.AuthService;
 
 import java.io.IOException;
 
 @WebServlet(name = "ResendRegisterOtp", value = "/ResendRegisterOtp")
 public class ResendRegisterOtp extends HttpServlet {
+
+    private final AuthService authService = new AuthService();
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 
@@ -27,22 +31,18 @@ public class ResendRegisterOtp extends HttpServlet {
             return;
         }
 
-        String otp = String.valueOf((int)(Math.random() * 9000) + 1000);
+        // Send OTP via AuthService
+        String title = "OTP mới - SKYDRONE";
+        String content = "Mã OTP mới của bạn";
+        String thanks = "Vui lòng sử dụng mã mới";
+
+        String otp = authService.resendOtp(user.getEmail(), user.getUsername(), title, content, thanks);
+
         long expireTime = System.currentTimeMillis() + 5 * 60 * 1000;
 
         session.setAttribute("registerOtp", otp);
         session.setAttribute("registerOtpTime", System.currentTimeMillis());
         session.setAttribute("registerOtpExpire", expireTime);
-
-        EmailSender emailSender = new EmailSender();
-        emailSender.sendVerificationEmail(
-                user.getEmail(),
-                "OTP mới - SKYDRONE",
-                user.getUsername(),
-                otp,
-                "Mã OTP mới của bạn",
-                "Vui lòng sử dụng mã mới"
-        );
 
         response.sendRedirect("page/otp.jsp");
     }

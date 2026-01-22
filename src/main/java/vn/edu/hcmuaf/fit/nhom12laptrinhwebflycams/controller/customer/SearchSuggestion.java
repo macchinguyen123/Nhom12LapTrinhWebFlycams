@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.ProductService;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 @WebServlet(name = "SearchSuggestion", value = "/search-suggestion")
 public class SearchSuggestion extends HttpServlet {
-    private final ProductDAO productDAO = new ProductDAO();
+    private final ProductService productService = new ProductService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -27,15 +27,14 @@ public class SearchSuggestion extends HttpServlet {
             return;
         }
 
-        List<Map<String, Object>> suggestions =
-                productDAO.getProductSuggestions(keyword);
+        List<Map<String, Object>> suggestions = productService.getProductSuggestions(keyword);
 
         response.getWriter().write(new Gson().toJson(suggestions));
     }
 
-
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 }

@@ -3,17 +3,16 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.AddressDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Address;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.AddressService;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 @WebServlet("/AddAddressServlet")
 public class AddAddressServlet extends HttpServlet {
-    private final AddressDAO dao = new AddressDAO();
+    private final AddressService addressService = new AddressService();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -35,36 +34,25 @@ public class AddAddressServlet extends HttpServlet {
         String district = req.getParameter("district");
         boolean isDefault = req.getParameter("isDefault") != null;
 
+        // Tạo đối tượng Address
+        Address addr = new Address();
+        addr.setUserId(user.getId());
+        addr.setFullName(fullName);
+        addr.setPhoneNumber(phoneNumber);
+        addr.setAddressLine(addressLine);
+        addr.setProvince(province);
+        addr.setDistrict(district);
+        addr.setDefaultAddress(isDefault);
+
         try {
-            // KIỂM TRA ĐỊA CHỈ TRÙNG LẶP
-            List<Address> existingAddresses = dao.findByUserId(user.getId());
+            // Gọi Service để thêm địa chỉ
+            boolean isAdded = addressService.addAddress(addr);
 
-            for (Address existing : existingAddresses) {
-                if (isDuplicateAddress(existing, addressLine, province, district)) {
-                    req.getSession().setAttribute("error",
-                            "Địa chỉ này đã tồn tại! Vui lòng kiểm tra lại.");
-                    resp.sendRedirect(req.getContextPath() + "/personal?tab=addresses");
-                    return;
-                }
+            if (isAdded) {
+                req.getSession().setAttribute("success", "Thêm địa chỉ thành công!");
+            } else {
+                req.getSession().setAttribute("error", "Địa chỉ này đã tồn tại! Vui lòng kiểm tra lại.");
             }
-
-            // Tạo địa chỉ mới
-            Address addr = new Address();
-            addr.setUserId(user.getId());
-            addr.setFullName(fullName);
-            addr.setPhoneNumber(phoneNumber);
-            addr.setAddressLine(addressLine);
-            addr.setProvince(province);
-            addr.setDistrict(district);
-            addr.setDefaultAddress(isDefault);
-
-            // Nếu đặt làm mặc định, reset địa chỉ mặc định cũ
-            if (addr.isDefaultAddress()) {
-                dao.resetDefault(user.getId());
-            }
-
-            dao.insert(addr);
-            req.getSession().setAttribute("success", "Thêm địa chỉ thành công!");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,37 +60,5 @@ public class AddAddressServlet extends HttpServlet {
         }
 
         resp.sendRedirect(req.getContextPath() + "/personal?tab=addresses");
-    }
-
-    /**
-     * Kiểm tra địa chỉ có trùng lặp không
-     * So sánh: địa chỉ chi tiết, tỉnh/thành phố, quận/huyện
-     */
-    private boolean isDuplicateAddress(Address existing, String addressLine,
-                                       String province, String district) {
-        // Chuẩn hóa chuỗi: trim, lowercase, loại bỏ khoảng trắng thừa
-        String existingAddr = normalizeString(existing.getAddressLine());
-        String newAddr = normalizeString(addressLine);
-
-        String existingProv = normalizeString(existing.getProvince());
-        String newProv = normalizeString(province);
-
-        String existingDist = normalizeString(existing.getDistrict());
-        String newDist = normalizeString(district);
-
-        // So sánh cả 3 trường
-        return existingAddr.equals(newAddr)
-                && existingProv.equals(newProv)
-                && existingDist.equals(newDist);
-    }
-
-    /**
-     * Chuẩn hóa chuỗi để so sánh
-     */
-    private String normalizeString(String str) {
-        if (str == null) return "";
-        return str.trim()
-                .toLowerCase()
-                .replaceAll("\\s+", " "); // Thay nhiều khoảng trắng = 1 khoảng trắng
     }
 }

@@ -3,26 +3,23 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.AddressDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Address;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.OrderItems;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Product;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.AddressService;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.CartService;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "BuyNowServlet", value = "/BuyNowServlet")
 public class BuyNowServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
-    private AddressDAO addressDAO = new AddressDAO();
-    private ProductDAO productDAO = new ProductDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -30,7 +27,7 @@ public class BuyNowServlet extends HttpServlet {
 
         HttpSession session = req.getSession(false);
 
-        //  Check login
+        // Check login
         if (session == null || session.getAttribute("user") == null) {
             resp.sendRedirect(req.getContextPath() + "/Login");
             return;
@@ -57,36 +54,29 @@ public class BuyNowServlet extends HttpServlet {
             return;
         }
 
-        //  Lấy product
-        Product product = productDAO.getProductById(productId);
-        if (product == null) {
+        // Lấy product
+        CartService cartService = new CartService();
+        List<OrderItems> items = cartService.prepareBuyNowSingle(productId, quantity);
+
+        if (items.isEmpty()) {
             resp.sendRedirect(req.getContextPath() + "/index.jsp");
             return;
         }
 
-        // Tạo OrderItem
-        OrderItems item = new OrderItems();
-        item.setProductId(productId);
-        item.setQuantity(quantity);
-        item.setPrice(product.getFinalPrice());
-        item.setProduct(product);
-
-        List<OrderItems> items = new ArrayList<>();
-        items.add(item);
-
         // Lưu BUY NOW vào session
         session.setAttribute("BUY_NOW_ITEM", items);
 
-        //  Lấy địa chỉ user
+        // Lấy địa chỉ user
+        AddressService addressService = new AddressService();
         List<Address> addresses = null;
         try {
-            addresses = addressDAO.findByUserId(user.getId());
+            addresses = addressService.findByUserId(user.getId());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         req.setAttribute("addresses", addresses);
 
-        //  FORWARD (không redirect)
+        // FORWARD (không redirect)
         req.getRequestDispatcher("/page/delivery-info.jsp")
                 .forward(req, resp);
     }

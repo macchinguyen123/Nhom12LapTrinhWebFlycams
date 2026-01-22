@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrderDaoAdmin;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.OrderService;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -14,9 +14,11 @@ import java.util.Map;
 @WebServlet(name = "UpdateOrderController", value = "/admin/update-order")
 public class UpdateOrderController extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
@@ -48,8 +50,8 @@ public class UpdateOrderController extends HttpServlet {
         String district = addrParts.length > 1 ? addrParts[1].trim() : "";
         String province = addrParts.length > 2 ? addrParts[2].trim() : "";
 
-        OrderDaoAdmin dao = new OrderDaoAdmin();
-        boolean success = dao.updateOrderFull(
+        OrderService orderService = new OrderService();
+        boolean success = orderService.updateOrderFull(
                 orderId,
                 userId,
                 fullName,
@@ -61,9 +63,7 @@ public class UpdateOrderController extends HttpServlet {
                 paymentMethod,
                 status,
                 note,
-                completedAt
-        );
-
+                completedAt);
 
         Map<String, Object> res = new HashMap<>();
         res.put("success", success);

@@ -3,14 +3,13 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.UserDAO;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.AuthService;
 
 import java.io.IOException;
 
 @WebServlet(name = "ResetPassword", value = "/ResetPassword")
 public class ResetPasswordController extends HttpServlet {
-    private final UserDAO userDAO = new UserDAO();
+    private final AuthService authService = new AuthService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -41,19 +40,17 @@ public class ResetPasswordController extends HttpServlet {
         }
 
         // ------------------ CẬP NHẬT ------------------
-        User user = userDAO.getUserByEmail(email);
-        if (user != null) {
-            String hashedPassword = vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util.PasswordUtil.hashPassword(password);
-            boolean updated = userDAO.updatePassword(user.getId(), hashedPassword);
+        if (email != null) {
+            boolean updated = authService.resetPassword(email, password);
             if (updated) {
-                //  Sau khi đổi mật khẩu thành công → quay về login.jsp
+                // Sau khi đổi mật khẩu thành công → quay về login.jsp
                 response.sendRedirect(request.getContextPath() + "/page/login.jsp?resetSuccess=1");
             } else {
-                request.setAttribute("error", "Có lỗi xảy ra khi cập nhật mật khẩu!");
+                request.setAttribute("error", "Có lỗi xảy ra khi cập nhật mật khẩu hoặc không tìm thấy tài khoản!");
                 request.getRequestDispatcher("/page/create-new-password.jsp").forward(request, response);
             }
         } else {
-            request.setAttribute("error", "Không tìm thấy tài khoản!");
+            request.setAttribute("error", "Session hết hạn hoặc không tìm thấy email!");
             request.getRequestDispatcher("/page/create-new-password.jsp").forward(request, response);
         }
     }

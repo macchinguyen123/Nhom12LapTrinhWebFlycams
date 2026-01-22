@@ -4,6 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.cart.Carts;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.CartService;
 
 import java.io.IOException;
 
@@ -34,7 +35,9 @@ public class RemoveFromCart extends HttpServlet {
         }
 
         int productId = Integer.parseInt(request.getParameter("productId"));
-        cart.removeItem(productId);
+
+        CartService cartService = new CartService();
+        cartService.removeFromCart(cart, productId);
 
         session.setAttribute("cart", cart);
 

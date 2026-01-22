@@ -3,9 +3,10 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.admin;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.DashboardDAO;
+
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Orders;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.DashboardService;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,10 +31,10 @@ public class StatisticsServlet extends HttpServlet {
             return;
         }
 
-        DashboardDAO dao = new DashboardDAO();
+        DashboardService dashboardService = new DashboardService();
 
-        Map<String, Double> revenue8Days = dao.getRevenueLast8Days();
-        Map<String, Double> revenueByMonth = dao.getRevenueByMonth();
+        Map<String, Double> revenue8Days = dashboardService.getRevenueLast8Days();
+        Map<String, Double> revenueByMonth = dashboardService.getRevenueByMonth();
 
         request.setAttribute("revenueDays", revenue8Days.keySet());
         request.setAttribute("revenueValues", revenue8Days.values());
@@ -42,18 +43,17 @@ public class StatisticsServlet extends HttpServlet {
         request.setAttribute("revenueMonthValues", revenueByMonth.values());
 
         // ====== THỐNG KÊ ======
-        request.setAttribute("revenueToday", dao.getRevenueToday());
-        request.setAttribute("revenueMonth", dao.getRevenueThisMonth());
-        request.setAttribute("ordersToday", dao.getOrdersToday());
-        request.setAttribute("bestProduct", dao.getBestSellingProduct());
+        request.setAttribute("revenueToday", dashboardService.getRevenueToday());
+        request.setAttribute("revenueMonth", dashboardService.getRevenueThisMonth());
+        request.setAttribute("ordersToday", dashboardService.getOrdersToday());
+        request.setAttribute("bestProduct", dashboardService.getBestSellingProduct());
 
         // ====== ĐƠN TRONG NGÀY ======
-        request.setAttribute("todayOrders", dao.getTodayOrders());
+        request.setAttribute("todayOrders", dashboardService.getTodayOrders());
 
         request.getRequestDispatcher("/page/admin/statistics.jsp")
                 .forward(request, response);
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -61,4 +61,3 @@ public class StatisticsServlet extends HttpServlet {
         doGet(request, response);
     }
 }
-

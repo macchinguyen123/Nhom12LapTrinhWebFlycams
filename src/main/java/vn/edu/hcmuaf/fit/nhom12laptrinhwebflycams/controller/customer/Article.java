@@ -3,8 +3,8 @@ package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.BlogDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Post;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.ArticleService;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
 
 import java.io.IOException;
@@ -16,22 +16,23 @@ public class Article extends HttpServlet {
             throws ServletException, IOException {
 
         int blogId = Integer.parseInt(request.getParameter("id"));
-        BlogDAO dao = new BlogDAO();
+        ArticleService articleService = new ArticleService();
 
-        Post post = dao.getPostById(blogId);
+        Post post = articleService.getPostById(blogId);
 
         User user = (User) request.getSession().getAttribute("user");
-        boolean hasReviewed = user != null && dao.hasReviewed(blogId, user.getId());
+        boolean hasReviewed = user != null && articleService.hasUserReviewed(blogId, user.getId());
 
         request.setAttribute("post", post);
-        request.setAttribute("comments", dao.getReviewsByBlog(blogId));
+        request.setAttribute("comments", articleService.getComments(blogId));
         request.setAttribute("hasReviewed", hasReviewed);
 
         request.getRequestDispatcher("/page/article.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 }

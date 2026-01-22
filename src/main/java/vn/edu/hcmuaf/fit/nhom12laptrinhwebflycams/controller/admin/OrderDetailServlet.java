@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrderDaoAdmin;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.OrderService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 @WebServlet(name = "OrderDetailServlet", value = "/admin/order-detail")
 public class OrderDetailServlet extends HttpServlet {
-    private OrderDaoAdmin dao = new OrderDaoAdmin();
+    private OrderService orderService = new OrderService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -22,7 +22,7 @@ public class OrderDetailServlet extends HttpServlet {
 
         int id = Integer.parseInt(req.getParameter("id"));
 
-        Map<String, Object> order = dao.getOrderDetail(id);
+        Map<String, Object> order = orderService.getOrderDetailAdmin(id);
 
         resp.setContentType("application/json;charset=UTF-8");
 
@@ -33,7 +33,7 @@ public class OrderDetailServlet extends HttpServlet {
         Map<String, Object> result = new HashMap<>();
         result.put("order", order);
 
-        List<Map<String, Object>> items = dao.getOrderItems(id);
+        List<Map<String, Object>> items = orderService.getOrderItemsAdmin(id);
         result.put("items", items);
 
         resp.setContentType("application/json;charset=UTF-8");
@@ -41,7 +41,8 @@ public class OrderDetailServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
     }
 }
