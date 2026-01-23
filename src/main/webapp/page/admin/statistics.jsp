@@ -4,6 +4,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Trang Thống Kê</title>
@@ -55,8 +56,7 @@
             <p>Bạn có chắc muốn đăng xuất không?</p>
             <div class="logout-actions">
                 <a href="${pageContext.request.contextPath}/Login">
-                    <button id="confirmLogout"
-                            class="confirm">Có
+                    <button id="confirmLogout" class="confirm">Có
                     </button>
                 </a>
                 <a href="${pageContext.request.contextPath}/Logout">
@@ -174,13 +174,13 @@
                     <tbody>
                     <c:forEach var="o" items="${todayOrders}">
                         <tr>
-                            <td>#DH${o.id}</td>
+                            <td>#${o.id}</td>
                             <td>${o.customerName}</td>
                             <td>
                                 <fmt:formatDate value="${o.createdAt}" pattern="dd/MM/yyyy HH:mm"/>
                             </td>
                             <td class="fw-semibold text-danger">
-                                <fmt:formatNumber value="${o.totalPrice}" type="number"/> VND
+                                <fmt:formatNumber value="${o.totalPrice}" type="number"/> ₫
                             </td>
                             <td><span class="badge ${o.statusClass}">${o.statusLabel}</span></td>
                         </tr>
@@ -198,14 +198,14 @@
                     <i class="fa fa-chart-bar fs-2 mb-2" style="color:#0d6efd;"></i>
                     <h5>Doanh thu hôm nay</h5>
                     <p>
-                        <fmt:formatNumber value="${revenueToday}" type="number"/> VND
+                        <fmt:formatNumber value="${revenueToday}" type="number"/> ₫
                     </p>
                 </div>
                 <div class="card flex-fill text-center p-3">
                     <i class="fa fa-line-chart fs-2 mb-2" style="color:#0d6efd;"></i>
                     <h5>Doanh thu tháng</h5>
                     <p>
-                        <fmt:formatNumber value="${revenueMonth}" type="number"/> VND
+                        <fmt:formatNumber value="${revenueMonth}" type="number"/> ₫
                     </p>
                 </div>
                 <div class="card flex-fill text-center p-3">
@@ -267,6 +267,35 @@
         $("#rowsPerPage").on("change", function () {
             table.page.len($(this).val()).draw();
         });
+
+        // Toggle submenu
+        document.querySelectorAll('.has-submenu .menu-item').forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+                const parent = this.parentElement;
+                const submenu = parent.querySelector('.submenu');
+                const arrow = this.querySelector('.arrow');
+
+                // Toggle active/open class
+                parent.classList.toggle('active');
+                parent.classList.toggle('open');
+
+                // Toggle arrow and submenu visibility
+                if (parent.classList.contains('active') || parent.classList.contains('open')) {
+                    if (arrow) {
+                        arrow.classList.remove('bi-chevron-right');
+                        arrow.classList.add('bi-chevron-down');
+                    }
+                    if (submenu) submenu.style.display = 'block';
+                } else {
+                    if (arrow) {
+                        arrow.classList.remove('bi-chevron-down');
+                        arrow.classList.add('bi-chevron-right');
+                    }
+                    if (submenu) submenu.style.display = 'none';
+                }
+            });
+        });
     });
 
     // ===== CHART DOANH THU 8 NGÀY =====
@@ -291,7 +320,7 @@
                 return ("0" + dt.getDate()).slice(-2) + "/" + ("0" + (dt.getMonth() + 1)).slice(-2);
             }),
             datasets: [{
-                label: 'Doanh thu (VND)',
+                label: 'Doanh thu ( ₫)',
                 data: revenueValues,
                 backgroundColor: '#0d6efd',
                 borderRadius: 5
@@ -323,7 +352,7 @@
         data: {
             labels: revenueMonths.map(m => "Tháng " + m),
             datasets: [{
-                label: 'Doanh thu (VND)',
+                label: 'Doanh thu ( ₫)',
                 data: revenueMonthValues,
                 backgroundColor: '#0d6efd',
                 borderRadius: 5
@@ -348,4 +377,5 @@
 </script>
 
 </body>
+
 </html>

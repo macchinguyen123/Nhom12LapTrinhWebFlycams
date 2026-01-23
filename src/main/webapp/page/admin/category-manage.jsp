@@ -494,24 +494,29 @@
 <script>
     // === XỬ LÝ SUBMENU ===
     document.querySelectorAll('.has-submenu .menu-item').forEach(item => {
-        item.addEventListener('click', function(e) {
+        item.addEventListener('click', function (e) {
             e.preventDefault();
             const parent = this.parentElement;
             const submenu = parent.querySelector('.submenu');
             const arrow = this.querySelector('.arrow');
 
-            // Toggle submenu
+            // Toggle active/open class
             parent.classList.toggle('active');
+            parent.classList.toggle('open');
 
-            // Toggle arrow direction
-            if (parent.classList.contains('active')) {
-                arrow.classList.remove('bi-chevron-right');
-                arrow.classList.add('bi-chevron-down');
-                submenu.style.display = 'block';
+            // Toggle arrow and submenu visibility
+            if (parent.classList.contains('active') || parent.classList.contains('open')) {
+                if (arrow) {
+                    arrow.classList.remove('bi-chevron-right');
+                    arrow.classList.add('bi-chevron-down');
+                }
+                if (submenu) submenu.style.display = 'block';
             } else {
-                arrow.classList.remove('bi-chevron-down');
-                arrow.classList.add('bi-chevron-right');
-                submenu.style.display = 'none';
+                if (arrow) {
+                    arrow.classList.remove('bi-chevron-down');
+                    arrow.classList.add('bi-chevron-right');
+                }
+                if (submenu) submenu.style.display = 'none';
             }
         });
     });

@@ -408,8 +408,30 @@
 
     // Toggle submenu
     document.querySelectorAll('.has-submenu .menu-item').forEach(item => {
-        item.addEventListener('click', () => {
-            item.parentElement.classList.toggle('open');
+        item.addEventListener('click', function (e) {
+            e.preventDefault();
+            const parent = this.parentElement;
+            const submenu = parent.querySelector('.submenu');
+            const arrow = this.querySelector('.arrow');
+
+            // Toggle active/open class
+            parent.classList.toggle('active');
+            parent.classList.toggle('open');
+
+            // Toggle arrow and submenu visibility
+            if (parent.classList.contains('active') || parent.classList.contains('open')) {
+                if (arrow) {
+                    arrow.classList.remove('bi-chevron-right');
+                    arrow.classList.add('bi-chevron-down');
+                }
+                if (submenu) submenu.style.display = 'block';
+            } else {
+                if (arrow) {
+                    arrow.classList.remove('bi-chevron-down');
+                    arrow.classList.add('bi-chevron-right');
+                }
+                if (submenu) submenu.style.display = 'none';
+            }
         });
     });
 </script>

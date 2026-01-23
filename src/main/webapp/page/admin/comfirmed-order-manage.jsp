@@ -193,10 +193,10 @@
                     <td>${o.shippingCode}</td>
 
                     <!-- Mã ĐH -->
-                    <td>HD${o.id}</td>
+                    <td>${o.id}</td>
 
                     <!-- Mã KH -->
-                    <td>KH${o.userId}</td>
+                    <td>${o.userId}</td>
 
                     <!-- Địa chỉ -->
                     <td>${o.fullAddress}</td>
@@ -259,12 +259,12 @@
 
                                 <div class="info-row">
                                     <div class="info-label">Mã Hóa Đơn:</div>
-                                    <div class="info-value" id="dh-mahd">HD001</div>
+                                    <div class="info-value" id="dh-mahd">001</div>
                                 </div>
 
                                 <div class="info-row">
                                     <div class="info-label">Mã Khách Hàng:</div>
-                                    <div class="info-value" id="dh-makh">KH001</div>
+                                    <div class="info-value" id="dh-makh">001</div>
                                 </div>
 
                                 <div class="info-row">
@@ -434,9 +434,9 @@
                 const o = data.order;
 
                 // ===== THÔNG TIN HÓA ĐƠN =====
-                document.getElementById("dh-mahd").innerText = "HD" + o.id;
+                document.getElementById("dh-mahd").innerText = o.id;
                 currentUserId = o.user_id;
-                document.getElementById("dh-makh").innerText = "KH" + o.user_id;
+                document.getElementById("dh-makh").innerText = o.user_id;
 
                 document.getElementById("dh-tenkh").value = o.customerName || "";
                 document.getElementById("dh-sdt").value = o.phoneNumber || "";

@@ -4,6 +4,7 @@ import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.cart.Carts;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrderDaoAdmin;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrderItemsDAO;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.OrdersDAO;
+import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.dao.ProductManagement;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.OrderItems;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.Orders;
 import vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model.User;
@@ -16,6 +17,7 @@ import java.util.Map;
 public class OrderService {
     private OrdersDAO ordersDAO = new OrdersDAO();
     private OrderItemsDAO orderItemsDAO = new OrderItemsDAO();
+    private ProductManagement productManagement = new ProductManagement();
 
     // Đặt hàng
     public int placeOrder(User user, int addressId, String phone, String note, String paymentMethod,
@@ -48,6 +50,9 @@ public class OrderService {
         for (OrderItems item : items) {
             item.setOrderId(orderId);
             orderItemsDAO.insert(item);
+
+            // Reduce Product stock
+            productManagement.reduceQuantity(item.getProductId(), item.getQuantity());
 
             // Update Cart
             if (cart != null) {

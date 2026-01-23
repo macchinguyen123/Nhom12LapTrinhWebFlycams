@@ -370,7 +370,7 @@
 
                 const o = data.order;
 
-                document.getElementById("md_orderCode").innerText = "HD" + o.id;
+                document.getElementById("md_orderCode").innerText = o.id;
                 document.getElementById("md_customerName").innerText = o.customerName;
                 document.getElementById("md_phone").innerText = o.phoneNumber;
                 document.getElementById("md_email").innerText = o.email || "—";

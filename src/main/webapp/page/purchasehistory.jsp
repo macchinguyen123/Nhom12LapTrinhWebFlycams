@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Lịch sử mua hàng</title>
@@ -10,12 +11,14 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+          rel="stylesheet">
 
     <!-- CSS riêng -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/purchasehistory.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/common-category.css">
 </head>
+
 <body>
 
 <!-- Include header -->
@@ -51,16 +54,12 @@
                                 <c:choose>
                                     <c:when test="${not empty item.product.mainImage}">
                                         <img src="${item.product.mainImage}"
-                                             alt="${item.product.productName}"
-                                             class="anh-san-pham"
-                                             width="80"
-                                             style="border-radius: 6px;">
+                                             alt="${item.product.productName}" class="anh-san-pham"
+                                             width="80" style="border-radius: 6px;">
                                     </c:when>
                                     <c:otherwise>
                                         <img src="${pageContext.request.contextPath}/assets/no-image.png"
-                                             alt="No Image"
-                                             class="anh-san-pham"
-                                             width="80"
+                                             alt="No Image" class="anh-san-pham" width="80"
                                              style="border-radius: 6px;">
                                     </c:otherwise>
                                 </c:choose>
@@ -70,27 +69,23 @@
                 </td>
 
                 <td class="gia">
-                    <fmt:formatNumber value="${order.totalPrice}"
-                                      type="currency"
+                    <fmt:formatNumber value="${order.totalPrice}" type="currency"
                                       currencySymbol="₫"/>
                 </td>
 
                 <!-- Ngày đặt -->
                 <td>
-                    <fmt:formatDate value="${order.createdAt}"
-                                    pattern="dd/MM/yyyy"/>
+                    <fmt:formatDate value="${order.createdAt}" pattern="dd/MM/yyyy"/>
                 </td>
 
                 <td class="trang-thai">
-                    <span class="status ${order.statusClass}">
-                            ${order.statusLabel}
-                    </span>
+                                        <span class="status ${order.statusClass}">
+                                                ${order.statusLabel}
+                                        </span>
                 </td>
 
                 <td>
-                    <button type="button"
-                            class="nut-mua-lai"
-                            onclick="muaLai(${order.id})">
+                    <button type="button" class="nut-mua-lai" onclick="muaLai(${order.id})">
                         Mua lại
                     </button>
                 </td>
