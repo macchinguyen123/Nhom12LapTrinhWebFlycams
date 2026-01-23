@@ -74,10 +74,21 @@
                                         ${item.product.productName}
                                 </h6>
 
-                                <span class="gia_hien_tai text-danger fw-bold">
-                                                        <fmt:formatNumber value="${item.product.finalPrice}"
-                                                                          type="number"/> ₫
-                                                    </span>
+                                <div class="gia_san_pham">
+                                    <c:if test="${item.product.price > item.product.finalPrice}">
+                                        <div
+                                                class="gia_goc text-muted text-decoration-line-through small">
+                                            <fmt:formatNumber value="${item.product.price}"
+                                                              type="number"/> ₫
+                                        </div>
+                                    </c:if>
+
+                                    <div class="gia_hien_tai text-danger fw-bold">
+                                        <fmt:formatNumber value="${item.product.finalPrice}"
+                                                          type="number"/> ₫
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
@@ -104,10 +115,19 @@
 
             <!-- Tổng tiền -->
             <div class="card p-3 shadow-sm">
-                <div class="d-flex justify-content-between">
-                    <span class="fw-bold">Tạm tính:</span>
-                    <span class="so_tien">0 ₫</span>
+                <div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="fw-bold">Tạm tính:</span>
+                        <span class="so_tien fw-bold">0 ₫</span>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2 text-success small mt-1 so_tien_giam"
+                         style="display:none">
+                        <span>Đã giảm:</span>
+                        <span class="tien_giam">0 ₫</span>
+                    </div>
                 </div>
+
                 <hr>
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="tong_cong text-danger m-0">Tổng cộng: 0 ₫</h5>
@@ -130,32 +150,73 @@
     const nutXoaDaChon = document.querySelector(".nut_xoa_da_chon");
     const danhSach = document.getElementById("danh_sach_san_pham");
 
-    function dinhDangTien(vnd) {
-        return vnd.toLocaleString("vi-VN") + " ₫";
+    function dinhDangTien(amount) {
+        if (isNaN(amount)) return "0 ₫";
+        return amount.toLocaleString("vi-VN") + " ₫";
     }
 
     function capNhatTongTien() {
         let tong = 0;
+        let tongGoc = 0;
+
         document.querySelectorAll(".khung_san_pham").forEach(sp => {
             const check = sp.querySelector(".chon_san_pham");
             if (check && check.checked) {
-                const giaText = sp.querySelector(".gia_hien_tai")
-                    .textContent.replace(/[^\d]/g, "");
+
+                const giaHienTai = parseInt(
+                    sp.querySelector(".gia_hien_tai").textContent.replace(/[^\d]/g, "")
+                );
+
+                const giaGocEl = sp.querySelector(".gia_goc");
+                let giaGoc = giaHienTai;
+
+                if (giaGocEl) {
+                    giaGoc = parseInt(giaGocEl.textContent.replace(/[^\d]/g, ""));
+                }
+
                 const soLuong = parseInt(sp.querySelector(".o_so_luong").value);
-                tong += parseInt(giaText) * soLuong;
+
+                tong += giaHienTai * soLuong;
+                tongGoc += giaGoc * soLuong;
             }
         });
 
-        document.querySelector(".so_tien").textContent = dinhDangTien(tong);
+        const tienGiam = tongGoc - tong;
+
+
+        document.querySelector(".so_tien").textContent = dinhDangTien(tongGoc);
+
+
         document.querySelector(".tong_cong").textContent =
             "Tổng cộng: " + dinhDangTien(tong);
+
+
+        const giamBox = document.querySelector(".so_tien_giam");
+
+        if (tienGiam > 0) {
+            giamBox.style.display = "flex";
+            document.querySelector(".tien_giam").textContent = dinhDangTien(tienGiam);
+        } else {
+            giamBox.style.display = "none";
+        }
     }
+
 
     // ✅ Chọn tất cả
     chonTatCa.addEventListener("change", () => {
         document.querySelectorAll(".chon_san_pham")
             .forEach(cb => cb.checked = chonTatCa.checked);
         capNhatTongTien();
+    });
+
+    // ✅ Listen for changes on any checkbox (selection)
+    danhSach.addEventListener("change", e => {
+        if (e.target.classList.contains("chon_san_pham")) {
+            const checkboxes = document.querySelectorAll(".chon_san_pham");
+            const checked = document.querySelectorAll(".chon_san_pham:checked");
+            chonTatCa.checked = (checkboxes.length > 0 && checkboxes.length === checked.length);
+            capNhatTongTien();
+        }
     });
 
     // ✅ Tick / tăng giảm số lượng
@@ -185,20 +246,15 @@
                     input.value = soLuong;
                     capNhatTongTien();
                 } else {
-                    alert("Cập nhật số lượng thất bại!");
+                    if (typeof showNotification === 'function') {
+                        showNotification("Cập nhật số lượng thất bại!", "error");
+                    } else {
+                        alert("Cập nhật số lượng thất bại!");
+                    }
                 }
             }).catch(err => {
                 console.error("Error updating quantity:", err);
-                alert("Có lỗi xảy ra khi cập nhật số lượng.");
             });
-        }
-
-        // tick checkbox
-        if (e.target.classList.contains("chon_san_pham")) {
-            const tong = document.querySelectorAll(".chon_san_pham").length;
-            const daChon = document.querySelectorAll(".chon_san_pham:checked").length;
-            chonTatCa.checked = (tong === daChon);
-            capNhatTongTien();
         }
     });
 
@@ -222,9 +278,13 @@
                         if (typeof updateCartBadge === 'function') {
                             updateCartBadge(data.cartSize);
                         }
-                        showNotification('Đã xóa sản phẩm', 'success');
+                        if (typeof showNotification === 'function') {
+                            showNotification('Đã xóa sản phẩm', 'success');
+                        }
                     } else {
-                        showNotification('Xóa thất bại', 'error');
+                        if (typeof showNotification === 'function') {
+                            showNotification('Xóa thất bại', 'error');
+                        }
                     }
                 });
         }
@@ -261,9 +321,13 @@
                     if (typeof updateCartBadge === 'function') {
                         updateCartBadge(data.cartSize);
                     }
-                    showNotification('Đã xóa sản phẩm đã chọn', 'success');
+                    if (typeof showNotification === 'function') {
+                        showNotification('Đã xóa sản phẩm đã chọn', 'success');
+                    }
                 } else {
-                    showNotification('Xóa thất bại', 'error');
+                    if (typeof showNotification === 'function') {
+                        showNotification('Xóa thất bại', 'error');
+                    }
                 }
             });
     });
@@ -293,7 +357,11 @@
 
         const checked = document.querySelectorAll(".chon_san_pham:checked");
         if (checked.length === 0) {
-            showNotification('Vui lòng chọn ít nhất 1 sản phẩm', 'error');
+            if (typeof showNotification === 'function') {
+                showNotification('Vui lòng chọn ít nhất 1 sản phẩm', 'error');
+            } else {
+                alert('Vui lòng chọn ít nhất 1 sản phẩm');
+            }
             return;
         }
 

@@ -5,30 +5,38 @@
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lý Banner - SkyDrone Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/stylesheets/admin/blog-manage.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        .banner-thumb, .banner-video {
+        .banner-thumb,
+        .banner-video {
             width: 150px;
             height: 80px;
             object-fit: cover;
             border-radius: 6px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         }
+
         .modal-header {
             background: linear-gradient(180deg, #0051c6, #0073ff);
             color: white;
         }
+
         .modal-header .btn-close {
             filter: brightness(0) invert(1);
         }
     </style>
 </head>
+
 <body>
 
 <!-- Header -->
@@ -131,36 +139,20 @@
             <h4 class="text-primary fw-bold"><i class="bi bi-images"></i> Quản Lý Banner</h4>
         </div>
 
-        <!-- Alert Messages -->
-        <c:if test="${param.msg == 'added'}">
-            <div id="alertMsg" class="alert alert-success">✔️ Thêm banner thành công</div>
-        </c:if>
-        <c:if test="${param.msg == 'updated'}">
-            <div id="alertMsg" class="alert alert-success">✔️ Cập nhật banner thành công</div>
-        </c:if>
-        <c:if test="${param.msg == 'deleted'}">
-            <div id="alertMsg" class="alert alert-success">✔️ Xóa banner thành công</div>
-        </c:if>
-        <c:if test="${param.msg == 'add_failed'}">
-            <div id="alertMsg" class="alert alert-danger">❌ Thêm banner thất bại</div>
-        </c:if>
-        <c:if test="${param.msg == 'update_failed'}">
-            <div id="alertMsg" class="alert alert-danger">❌ Cập nhật banner thất bại</div>
-        </c:if>
-        <c:if test="${param.error == 'delete_failed'}">
-            <div id="alertMsg" class="alert alert-danger">❌ Xóa banner thất bại</div>
-        </c:if>
+        <%-- Alerts removed here, will be handled by SweetAlert2 script at bottom --%>
 
         <!-- Search & Add Button -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="input-group" style="max-width: 350px;">
-                <span class="input-group-text bg-primary text-white">
-                    <i class="bi bi-search"></i>
-                </span>
-                <input type="search" class="form-control" id="searchBannerInput" placeholder="Tìm kiếm banner...">
+                                        <span class="input-group-text bg-primary text-white">
+                                            <i class="bi bi-search"></i>
+                                        </span>
+                <input type="search" class="form-control" id="searchBannerInput"
+                       placeholder="Tìm kiếm banner...">
             </div>
 
-            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addBannerModal">
+            <button class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#addBannerModal">
                 <i class="bi bi-plus-lg"></i> Thêm Banner
             </button>
         </div>
@@ -168,7 +160,8 @@
         <!-- Banner Table -->
         <div class="users-table mt-4">
             <section>
-                <table class="table table-striped table-bordered align-middle text-center" id="tableBanner">
+                <table class="table table-striped table-bordered align-middle text-center"
+                       id="tableBanner">
                     <thead class="table-dark">
                     <tr>
                         <th>ID</th>
@@ -196,10 +189,12 @@
                             <td>
                                 <c:choose>
                                     <c:when test="${banner.type == 'image'}">
-                                        <img src="${banner.imageUrl}" class="banner-thumb" alt="Banner">
+                                        <img src="${banner.imageUrl}" class="banner-thumb"
+                                             alt="Banner">
                                     </c:when>
                                     <c:otherwise>
-                                        <video src="${banner.videoUrl}" class="banner-video" muted></video>
+                                        <video src="${banner.videoUrl}" class="banner-video"
+                                               muted></video>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
@@ -216,8 +211,7 @@
                             </td>
                             <td>
                                 <button type="button" class="btn btn-warning btn-sm me-1"
-                                        data-id="${banner.id}"
-                                        data-type="${banner.type}"
+                                        data-id="${banner.id}" data-type="${banner.type}"
                                         data-image="${fn:escapeXml(banner.imageUrl)}"
                                         data-video="${fn:escapeXml(banner.videoUrl)}"
                                         data-link="${fn:escapeXml(banner.link)}"
@@ -227,19 +221,13 @@
                                     <i class="bi bi-pencil"></i>
                                 </button>
 
-                                <form action="${pageContext.request.contextPath}/admin/banner-manage"
-                                      method="post" style="display:inline;"
-                                      onsubmit="return confirm('Bạn có chắc muốn xóa banner này?');">
-                                    <input type="hidden" name="action" value="delete">
-                                    <input type="hidden" name="id" value="${banner.id}">
-                                    <button type="submit" class="btn btn-danger btn-sm me-1">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
+                                <button type="button" class="btn btn-danger btn-sm me-1"
+                                        data-id="${banner.id}" onclick="confirmDelete(this)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
 
                                 <button type="button" class="btn btn-info btn-sm"
-                                        data-id="${banner.id}"
-                                        data-type="${banner.type}"
+                                        data-id="${banner.id}" data-type="${banner.type}"
                                         data-image="${fn:escapeXml(banner.imageUrl)}"
                                         data-video="${fn:escapeXml(banner.videoUrl)}"
                                         data-link="${fn:escapeXml(banner.link)}"
@@ -279,7 +267,8 @@
 
                     <div class="mb-3">
                         <label class="form-label">Loại Banner</label>
-                        <select name="type" class="form-select" id="add-type" onchange="toggleMediaInput('add')" required>
+                        <select name="type" class="form-select" id="add-type"
+                                onchange="toggleMediaInput('add')" required>
                             <option value="image">Hình ảnh</option>
                             <option value="video">Video</option>
                         </select>
@@ -287,22 +276,26 @@
 
                     <div class="mb-3" id="add-image-group">
                         <label class="form-label">Link ảnh banner</label>
-                        <input type="text" name="image" class="form-control" placeholder="https://..." id="add-image-input">
+                        <input type="text" name="image" class="form-control"
+                               placeholder="https://..." id="add-image-input">
                     </div>
 
                     <div class="mb-3 d-none" id="add-video-group">
                         <label class="form-label">Link video banner</label>
-                        <input type="text" name="video" class="form-control" placeholder="https://..." id="add-video-input">
+                        <input type="text" name="video" class="form-control"
+                               placeholder="https://..." id="add-video-input">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Link điều hướng (URL)</label>
-                        <input type="text" name="link" class="form-control" placeholder="https://...">
+                        <input type="text" name="link" class="form-control"
+                               placeholder="https://...">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Thứ tự hiển thị</label>
-                        <input type="number" name="orderIndex" class="form-control" value="0" min="0">
+                        <input type="number" name="orderIndex" class="form-control" value="0"
+                               min="0">
                     </div>
 
                     <div class="mb-3">
@@ -315,7 +308,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">💾 Lưu</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Hủy
+                    </button>
                 </div>
             </form>
         </div>
@@ -337,7 +332,8 @@
 
                     <div class="mb-3">
                         <label class="form-label">Loại Banner</label>
-                        <select name="type" class="form-select" id="edit-type" onchange="toggleMediaInput('edit')" required>
+                        <select name="type" class="form-select" id="edit-type"
+                                onchange="toggleMediaInput('edit')" required>
                             <option value="image">Hình ảnh</option>
                             <option value="video">Video</option>
                         </select>
@@ -373,7 +369,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">💾 Lưu</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Hủy
+                    </button>
                 </div>
             </form>
         </div>
@@ -390,16 +388,36 @@
             </div>
             <div class="modal-body">
                 <table class="table table-bordered">
-                    <tr><th style="width: 150px;">ID</th><td id="view-id"></td></tr>
-                    <tr><th>Loại</th><td id="view-type"></td></tr>
-                    <tr><th>Preview</th><td id="view-media-container"></td></tr>
-                    <tr><th>Link điều hướng</th><td id="view-link"></td></tr>
-                    <tr><th>Thứ tự</th><td id="view-order"></td></tr>
-                    <tr><th>Trạng thái</th><td id="view-status"></td></tr>
+                    <tr>
+                        <th style="width: 150px;">ID</th>
+                        <td id="view-id"></td>
+                    </tr>
+                    <tr>
+                        <th>Loại</th>
+                        <td id="view-type"></td>
+                    </tr>
+                    <tr>
+                        <th>Preview</th>
+                        <td id="view-media-container"></td>
+                    </tr>
+                    <tr>
+                        <th>Link điều hướng</th>
+                        <td id="view-link"></td>
+                    </tr>
+                    <tr>
+                        <th>Thứ tự</th>
+                        <td id="view-order"></td>
+                    </tr>
+                    <tr>
+                        <th>Trạng thái</th>
+                        <td id="view-status"></td>
+                    </tr>
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Đóng
+                </button>
             </div>
         </div>
     </div>
@@ -411,6 +429,7 @@
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+    const baseUrl = "${pageContext.request.contextPath}";
     let bannerTable;
 
     $(document).ready(function () {
@@ -437,6 +456,55 @@
         });
         bannerTable.on('draw', updatePageInfo);
         updatePageInfo();
+
+        // Initialize SweetAlert2 notifications based on URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const msg = urlParams.get('msg');
+        const error = urlParams.get('error');
+
+        if (msg === 'added') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: 'Đã thêm banner mới thành công.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        } else if (msg === 'updated') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: 'Đã cập nhật banner thành công.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        } else if (msg === 'deleted') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Đã xóa!',
+                text: 'Banner đã được xóa khỏi hệ thống.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        } else if (msg === 'add_failed') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Thất bại!',
+                text: 'Không thể thêm banner. Vui lòng thử lại.',
+            });
+        } else if (msg === 'update_failed') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Thất bại!',
+                text: 'Không thể cập nhật banner. Vui lòng thử lại.',
+            });
+        } else if (error === 'delete_failed') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Thất bại!',
+                text: 'Không thể xóa banner. Vui lòng thử lại.',
+            });
+        }
     });
 
     // Cập nhật số trang
@@ -495,6 +563,42 @@
         modal.show();
     }
 
+    function confirmDelete(btn) {
+        const id = btn.dataset.id;
+        Swal.fire({
+            title: 'Bạn có chắc chắn?',
+            text: "Bạn sẽ không thể khôi phục lại banner này!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Có, xóa nó!',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit form indirectly
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = baseUrl + '/admin/banner-manage';
+
+                const actionInput = document.createElement('input');
+                actionInput.type = 'hidden';
+                actionInput.name = 'action';
+                actionInput.value = 'delete';
+                form.appendChild(actionInput);
+
+                const idInput = document.createElement('input');
+                idInput.type = 'hidden';
+                idInput.name = 'id';
+                idInput.value = id;
+                form.appendChild(idInput);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        })
+    }
+
     // Logout popup
     document.addEventListener("DOMContentLoaded", () => {
         const logoutBtn = document.getElementById("logoutBtn");
@@ -529,4 +633,5 @@
     }, 3000);
 </script>
 </body>
+
 </html>

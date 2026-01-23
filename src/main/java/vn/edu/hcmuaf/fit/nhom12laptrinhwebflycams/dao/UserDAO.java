@@ -17,7 +17,7 @@ public class UserDAO {
     public User login(String input, String password) {
         String sql = "SELECT * FROM users WHERE email = ? OR phoneNumber = ?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, input);
             ps.setString(2, input);
@@ -61,7 +61,7 @@ public class UserDAO {
         String sql = "INSERT INTO users (roleId, fullName, birthDate, gender, email, username, password, phoneNumber, avatar, status, createdAt, updatedAt) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, user.getRoleId());
             ps.setString(2, user.getFullName());
             // birthDate
@@ -89,7 +89,7 @@ public class UserDAO {
     public boolean isUsernameExists(String username) {
         String sql = "SELECT id FROM users WHERE username = ?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             return rs.next(); // nếu có → username đã tồn tại
@@ -102,7 +102,7 @@ public class UserDAO {
     public boolean isEmailExists(String email) {
         String sql = "SELECT id FROM users WHERE email = ?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             return rs.next(); // nếu có dòng → email đã tồn tại
@@ -115,7 +115,7 @@ public class UserDAO {
     public boolean isPhoneNumberExists(String phoneNumber) {
         String sql = "SELECT id FROM users WHERE phoneNumber = ?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, phoneNumber);
             ResultSet rs = ps.executeQuery();
             return rs.next(); // nếu có dòng → sđt đã tồn tại
@@ -129,7 +129,7 @@ public class UserDAO {
         User u = null;
         String sql = "SELECT * FROM users WHERE id = ?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -184,15 +184,23 @@ public class UserDAO {
     public User getUserByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 User user = new User();
                 user.setId(rs.getInt("id"));
+                user.setRoleId(rs.getInt("roleId"));
                 user.setFullName(rs.getString("fullName"));
-                user.setUsername(rs.getString("username"));
+                user.setBirthDate(rs.getDate("birthDate"));
+                user.setGender(rs.getString("gender"));
                 user.setEmail(rs.getString("email"));
+                user.setUsername(rs.getString("username"));
+                user.setPhoneNumber(rs.getString("phoneNumber"));
+                user.setAvatar(rs.getString("avatar"));
+                user.setStatus(rs.getBoolean("status"));
+                user.setCreatedAt(rs.getTimestamp("createdAt"));
+                user.setUpdatedAt(rs.getTimestamp("updatedAt"));
                 return user;
             }
         } catch (Exception e) {
@@ -204,7 +212,7 @@ public class UserDAO {
     public boolean updatePassword(int userId, String hashedPassword) {
         String sql = "UPDATE users SET password=?, updatedAt=NOW() WHERE id=?";
         try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, hashedPassword);
             ps.setInt(2, userId);
             return ps.executeUpdate() > 0;
@@ -217,7 +225,7 @@ public class UserDAO {
     public void update(Address addr) throws SQLException {
         String sql = "UPDATE addresses SET full_name=?, phone_number=?, address_line=?, province=?, district=?, is_default=? WHERE id=? AND user_id=?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, addr.getFullName());
             ps.setString(2, addr.getPhoneNumber());
             ps.setString(3, addr.getAddressLine());
@@ -233,7 +241,7 @@ public class UserDAO {
     public boolean updateProfileAdmin(User user) {
         String sql = "UPDATE users SET fullName=?, email=?, phoneNumber=?, avatar=?, gender=?, birthDate=?, updatedAt=NOW() WHERE id=?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, user.getFullName());
             ps.setString(2, user.getEmail());
@@ -272,7 +280,7 @@ public class UserDAO {
     public boolean updateProfile(User user) {
         String sql = "UPDATE users SET fullName=?, username=?, email=?, phoneNumber=?, avatar=?, gender=?, birthDate=?, updatedAt=NOW() WHERE id=?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, user.getFullName());
             ps.setString(2, user.getUsername());
@@ -300,7 +308,7 @@ public class UserDAO {
         List<User> list = new ArrayList<>();
         String sql = "SELECT * FROM users WHERE roleId = 2";
         try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             // 1. Fetch Users
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -311,6 +319,9 @@ public class UserDAO {
                     u.setUsername(rs.getString("username"));
                     u.setEmail(rs.getString("email"));
                     u.setPhoneNumber(rs.getString("phoneNumber"));
+                    u.setAvatar(rs.getString("avatar"));
+                    u.setGender(rs.getString("gender"));
+                    u.setBirthDate(rs.getDate("birthDate"));
                     u.setStatus(rs.getBoolean("status"));
                     u.setPassword(rs.getString("password"));
                     u.setAddress("Chưa cập nhật");
@@ -351,7 +362,7 @@ public class UserDAO {
         List<User> list = new ArrayList<>();
         String sql = "SELECT * FROM users";
         try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             // 1. Fetch Users
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -362,6 +373,9 @@ public class UserDAO {
                     u.setUsername(rs.getString("username"));
                     u.setEmail(rs.getString("email"));
                     u.setPhoneNumber(rs.getString("phoneNumber"));
+                    u.setAvatar(rs.getString("avatar"));
+                    u.setGender(rs.getString("gender"));
+                    u.setBirthDate(rs.getDate("birthDate"));
                     u.setStatus(rs.getBoolean("status"));
                     u.setPassword(rs.getString("password"));
                     u.setAddress("Chưa cập nhật");
@@ -400,7 +414,7 @@ public class UserDAO {
     public boolean updateUser(User user) {
         String sql = "UPDATE users SET roleId=?, fullName=?, birthDate=?, gender=?, email=?, username=?, password=?, phoneNumber=?, avatar=?, status=?, updatedAt=NOW() WHERE id=?";
         try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, user.getRoleId());
             ps.setString(2, user.getFullName());
             if (user.getBirthDate() != null) {
@@ -426,7 +440,7 @@ public class UserDAO {
     public boolean updateStatus(int userId, boolean status) {
         String sql = "UPDATE users SET status=? WHERE id=?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setBoolean(1, status);
             ps.setInt(2, userId);
             return ps.executeUpdate() > 0;
@@ -439,7 +453,7 @@ public class UserDAO {
     public User getUserById(int id) {
         String sql = "SELECT * FROM users WHERE id = ?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -468,16 +482,23 @@ public class UserDAO {
     public User findByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
         try (Connection con = DBConnection.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 User user = new User();
                 user.setId(rs.getInt("id"));
-                user.setEmail(rs.getString("email"));
-                user.setFullName(rs.getString("fullName"));
-                user.setUsername(rs.getString("username"));
                 user.setRoleId(rs.getInt("roleId"));
+                user.setFullName(rs.getString("fullName"));
+                user.setBirthDate(rs.getDate("birthDate"));
+                user.setGender(rs.getString("gender"));
+                user.setEmail(rs.getString("email"));
+                user.setUsername(rs.getString("username"));
+                user.setPhoneNumber(rs.getString("phoneNumber"));
+                user.setAvatar(rs.getString("avatar"));
+                user.setStatus(rs.getBoolean("status"));
+                user.setCreatedAt(rs.getTimestamp("createdAt"));
+                user.setUpdatedAt(rs.getTimestamp("updatedAt"));
                 return user;
             }
         } catch (Exception e) {
@@ -496,7 +517,7 @@ public class UserDAO {
                     VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
                 """;
         try (Connection con = DBConnection.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getFullName());
             ps.setInt(3, user.getRoleId());
@@ -519,7 +540,7 @@ public class UserDAO {
         int addressId = -1;
         String sqlCheck = "SELECT id FROM addresses WHERE user_id = ? ORDER BY isDefault DESC LIMIT 1";
         try (Connection conn = DBConnection.getConnection();
-                PreparedStatement ps = conn.prepareStatement(sqlCheck)) {
+             PreparedStatement ps = conn.prepareStatement(sqlCheck)) {
             ps.setInt(1, userId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -533,7 +554,7 @@ public class UserDAO {
             // UPDATE existing address
             String sqlUpdate = "UPDATE addresses SET addressLine = ? WHERE id = ?";
             try (Connection conn = DBConnection.getConnection();
-                    PreparedStatement ps = conn.prepareStatement(sqlUpdate)) {
+                 PreparedStatement ps = conn.prepareStatement(sqlUpdate)) {
                 ps.setString(1, address);
                 ps.setInt(2, addressId);
                 return ps.executeUpdate() > 0;
@@ -546,7 +567,7 @@ public class UserDAO {
                     +
                     "VALUES (?, ?, ?, ?, ?, ?, 1)";
             try (Connection conn = DBConnection.getConnection();
-                    PreparedStatement ps = conn.prepareStatement(sqlInsert)) {
+                 PreparedStatement ps = conn.prepareStatement(sqlInsert)) {
 
                 // Safe defaults
                 String uName = "Khách hàng";
@@ -579,7 +600,7 @@ public class UserDAO {
     public boolean updateAvatar(int userId, String avatar) {
         String sql = "UPDATE users SET avatar = ? WHERE id = ?";
         try (Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, avatar);
             ps.setInt(2, userId);
             return ps.executeUpdate() > 0;

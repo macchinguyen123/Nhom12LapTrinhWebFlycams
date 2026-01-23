@@ -291,7 +291,26 @@
         /* ===== SIDEBAR SUBMENU ===== */
         document.querySelectorAll('.has-submenu .menu-item').forEach(item => {
             item.addEventListener('click', () => {
-                item.parentElement.classList.toggle('open');
+                const parent = item.parentElement;
+                const arrow = item.querySelector('.arrow');
+                const submenu = parent.querySelector('.submenu');
+
+                parent.classList.toggle('open');
+                parent.classList.toggle('active');
+
+                if (parent.classList.contains('open')) {
+                    if (arrow) {
+                        arrow.classList.remove('bi-chevron-right');
+                        arrow.classList.add('bi-chevron-down');
+                    }
+                    if (submenu) submenu.style.display = 'block';
+                } else {
+                    if (arrow) {
+                        arrow.classList.remove('bi-chevron-down');
+                        arrow.classList.add('bi-chevron-right');
+                    }
+                    if (submenu) submenu.style.display = 'none';
+                }
             });
         });
 

@@ -4,13 +4,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Phương thức thanh toán</title>
 
     <!-- Bootstrap + Icon -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
     <!-- CSS riêng -->
     <link rel="stylesheet" href="../stylesheets/payment.css">
 </head>
@@ -31,15 +34,13 @@
         <h5 class="mb-4 fw-bold">Phương Thức Thanh Toán</h5>
 
         <!-- FORM THANH TOÁN -->
-        <form id="paymentForm"
-              action="${pageContext.request.contextPath}/PaymentServlet"
+        <form id="paymentForm" action="${pageContext.request.contextPath}/PaymentServlet"
               method="post">
 
             <input type="hidden" name="paymentMethod" id="paymentMethod">
 
             <div class="form-check mb-3">
-                <input class="form-check-input" type="radio"
-                       name="payment" value="COD" id="cod">
+                <input class="form-check-input" type="radio" name="payment" value="COD" id="cod">
                 <label class="form-check-label" for="cod">
                     <i class="bi bi-cash-coin me-2 text-success"></i>
                     Thanh toán khi giao hàng (COD)
@@ -47,16 +48,15 @@
             </div>
 
             <div class="form-check mb-4">
-                <input class="form-check-input" type="radio"
-                       name="payment" value="VNPAY" id="vnpay">
+                <input class="form-check-input" type="radio" name="payment" value="VNPAY"
+                       id="vnpay">
                 <label class="form-check-label" for="vnpay">
                     <i class="bi bi-credit-card-2-front me-2 text-primary"></i>
                     Thanh toán qua VNPAY
                 </label>
             </div>
 
-            <button type="button" id="btnHoanTat"
-                    class="btn btn-primary w-100">
+            <button type="button" id="btnHoanTat" class="btn btn-primary w-100">
                 Hoàn tất đơn hàng
             </button>
         </form>
@@ -67,7 +67,7 @@
     <div class="right">
         <h5 class="fw-bold mb-4">Đơn hàng của bạn</h5>
 
-        <c:set var="items" value="${sessionScope.BUY_NOW_ITEM}" />
+        <c:set var="items" value="${sessionScope.BUY_NOW_ITEM}"/>
 
         <c:if test="${not empty items}">
 
@@ -77,8 +77,7 @@
 
                     <img src="${not empty item.product.images
                     ? item.product.images[0].imageUrl
-                    : pageContext.request.contextPath.concat('/image/no-image.png')}"
-                         width="60" class="me-3 prod-img">
+                    : pageContext.request.contextPath.concat('/image/no-image.png')}" width="60" class="me-3 prod-img">
 
                     <div>
                         <p class="mb-0 fw-semibold">
@@ -90,25 +89,22 @@
                     </div>
 
                     <span class="ms-auto fw-semibold">
-                    <fmt:formatNumber
-                            value="${item.price * item.quantity}"
-                            type="number"/> ₫
-                </span>
+                                            <fmt:formatNumber value="${item.price * item.quantity}" type="number"/> ₫
+                                        </span>
                 </div>
             </c:forEach>
 
             <!-- TÍNH TỔNG -->
             <c:set var="total" value="0"/>
             <c:forEach var="item" items="${items}">
-                <c:set var="total"
-                       value="${total + (item.price * item.quantity)}"/>
+                <c:set var="total" value="${total + (item.price * item.quantity)}"/>
             </c:forEach>
 
             <div class="d-flex justify-content-between">
                 <span>Tạm tính</span>
                 <span>
-                <fmt:formatNumber value="${total}" type="number"/> ₫
-            </span>
+                                        <fmt:formatNumber value="${total}" type="number"/> ₫
+                                    </span>
             </div>
 
             <div class="d-flex justify-content-between mb-2">
@@ -121,8 +117,8 @@
             <div class="d-flex justify-content-between fw-bold total">
                 <span>Tổng cộng</span>
                 <span>
-                <fmt:formatNumber value="${total}" type="number"/> ₫
-            </span>
+                                        <fmt:formatNumber value="${total}" type="number"/> ₫
+                                    </span>
             </div>
 
         </c:if>
@@ -219,4 +215,5 @@
     });
 </script>
 </body>
+
 </html>

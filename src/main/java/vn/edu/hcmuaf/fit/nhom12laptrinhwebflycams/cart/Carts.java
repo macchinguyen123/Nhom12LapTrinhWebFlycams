@@ -14,20 +14,21 @@ public class Carts implements Serializable {
     Map<Integer, CartItems> data;
     private User user;
 
-    public Carts(Map<Integer, CartItems> data) {
-        this.data = data != null ? data : new HashMap<>();
+    public Carts() {
+        this.data = new LinkedHashMap<>();
     }
 
-    public Carts() {
-        this.data = new HashMap<>();
+    public Carts(Map<Integer, CartItems> data) {
+        this.data = data != null ? new LinkedHashMap<>(data) : new LinkedHashMap<>();
     }
+
 
     public void addItem(Product product, int quantity) {
         if (quantity <= 0) quantity = 1;
 
         CartItems item = data.get(product.getId());
         if (item != null) {
-            // thêm trùng → cộng số lượng
+            // thêm trùng , cộng số lượng
             item.updateQuantity(quantity);
         } else {
             data.put(product.getId(), new CartItems(product, quantity));
@@ -35,7 +36,7 @@ public class Carts implements Serializable {
     }
 
 
-    public boolean updateItem(int productId, int quantity){
+    public boolean updateItem(int productId, int quantity) {
         if (!data.containsKey(productId)) return false;
 
         if (quantity <= 0) {
@@ -46,33 +47,37 @@ public class Carts implements Serializable {
         return true;
     }
 
-    public void clear(){
+    public void clear() {
         data.clear();
     }
 
 
-    public CartItems removeItem(int productId){
+    public CartItems removeItem(int productId) {
         if (get(productId) == null) return null;
         return data.remove(productId);
     }
 
 
-    public List<CartItems> removeAllItem(){
+    public List<CartItems> removeAllItem() {
         ArrayList<CartItems> cartItems = new ArrayList<>();
         data.clear();
         return cartItems;
     }
 
-    public List<CartItems> getItems(){
-        return new ArrayList<>(data.values());
+    public List<CartItems> getItems() {
+        List<CartItems> items = new ArrayList<>(data.values());
+        Collections.reverse(items); //  đảo ngược: mới nhất lên đầu
+        return items;
     }
-    private CartItems get(int id){
+    private CartItems get(int id) {
         return data.get(id);
     }
 
-    public int totalQuantity(){
+    public int totalQuantity() {
         AtomicInteger total = new AtomicInteger();
-        getItems().forEach(item->{total.addAndGet(item.getQuantity());});
+        getItems().forEach(item -> {
+            total.addAndGet(item.getQuantity());
+        });
         return total.get();
     }
 
@@ -87,7 +92,7 @@ public class Carts implements Serializable {
     }
 
 
-    public  void updateCustomer(User user){
+    public void updateCustomer(User user) {
         this.user = user;
     }
 

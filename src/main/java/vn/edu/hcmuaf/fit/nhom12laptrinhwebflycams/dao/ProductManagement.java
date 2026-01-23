@@ -8,11 +8,11 @@ import java.sql.*;
 public class ProductManagement {
     public int insertProduct(Product p) throws SQLException {
         String sql = """
-    INSERT INTO products
-    (productName, brandName, category_id, price, finalPrice,
-     quantity, status, description, parameter, warranty)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)
-""";
+                    INSERT INTO products
+                    (productName, brandName, category_id, price, finalPrice,
+                     quantity, status, description, parameter, warranty)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)
+                """;
 
         try (Connection c = DBConnection.getConnection();
              PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -55,19 +55,19 @@ public class ProductManagement {
 
     public void updateProduct(Product p) throws SQLException {
         String sql = """
-        UPDATE products SET
-            productName = ?, 
-            brandName = ?, 
-            category_id = ?,
-            price = ?, 
-            finalPrice = ?, 
-            quantity = ?, 
-            status = ?,
-            description = ?, 
-            parameter = ?, 
-            warranty = ?
-        WHERE id = ?
-    """;
+                    UPDATE products SET
+                        productName = ?,
+                        brandName = ?,
+                        category_id = ?,
+                        price = ?,
+                        finalPrice = ?,
+                        quantity = ?,
+                        status = ?,
+                        description = ?,
+                        parameter = ?,
+                        warranty = ?
+                    WHERE id = ?
+                """;
 
         try (Connection c = DBConnection.getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
@@ -87,6 +87,7 @@ public class ProductManagement {
             ps.executeUpdate();
         }
     }
+
     public boolean deleteProduct(int productId) {
         String sqlDeleteImages = "DELETE FROM images WHERE product_id = ?";
         String sqlDeletePosts = "DELETE FROM posts WHERE product_id = ?";
@@ -126,6 +127,7 @@ public class ProductManagement {
             return false;
         }
     }
+
     public boolean updateProductStatus(int id, String status) throws SQLException {
         String sql = "UPDATE products SET status = ? WHERE id = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -136,6 +138,15 @@ public class ProductManagement {
         }
     }
 
-
+    public boolean reduceQuantity(int productId, int quantity) throws SQLException {
+        String sql = "UPDATE products SET quantity = quantity - ? WHERE id = ? AND quantity >= ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, quantity);
+            ps.setInt(2, productId);
+            ps.setInt(3, quantity);
+            return ps.executeUpdate() > 0;
+        }
+    }
 
 }

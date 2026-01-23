@@ -27,7 +27,8 @@
             <img src="${pageContext.request.contextPath}/image/dronefooter.png" alt="Logo"
                  height="100">
             <nav class="breadcrumb mt-2">
-                <a href="shoppingcart.jsp">Giỏ hàng</a> &nbsp;>&nbsp;
+                <a href="http://localhost:8080/Nhom12LapTrinhWebFlycams/page/shoppingcart.jsp">Giỏ
+                    hàng</a> &nbsp;>&nbsp;
                 <span class="current">Thông tin giao hàng</span> &nbsp;>&nbsp;
                 <a href="#">Phương thức thanh toán</a>
             </nav>
