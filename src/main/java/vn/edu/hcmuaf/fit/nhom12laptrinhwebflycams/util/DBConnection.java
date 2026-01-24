@@ -1,15 +1,16 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class DBConnection {
 
-    private static String url;
-    private static String user;
-    private static String pass;
+    private static HikariDataSource dataSource;
 
     static {
         try {
@@ -27,25 +28,49 @@ public class DBConnection {
             String host = props.getProperty("db.host");
             String port = props.getProperty("db.port");
             String name = props.getProperty("db.name");
-            user = props.getProperty("db.user");
-            pass = props.getProperty("db.password");
+            String user = props.getProperty("db.user");
+            String pass = props.getProperty("db.password");
 
-            url = "jdbc:mysql://" + host + ":" + port + "/" + name +
-                    "?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC";
+            // Khởi tạo cấu hình HikariCP
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + name +
+                    "?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC");
+            config.setUsername(user);
+            config.setPassword(pass);
+            config.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Cấu hình Pool
+            config.setMinimumIdle(5); // Số lượng kết nối nhàn rỗi tối thiểu
+            config.setMaximumPoolSize(20); // Số lượng kết nối tối đa trong pool
+            config.setConnectionTimeout(30000); // Thời gian chờ kết nối (30 giây)
+            config.setIdleTimeout(600000); // 10 phút : thời gian tối đa để 1 kết nối nhàn rỗi tồn tại
+
+            // Tùy chọn: Tối ưu hiệu năng
+            config.addDataSourceProperty("cachePrepStmts", "true");
+            config.addDataSourceProperty("prepStmtCacheSize", "250");
+            config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+
+            dataSource = new HikariDataSource(config);
 
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("Error initializing HikariCP Connection Pool", e);
         }
     }
 
     public static Connection getConnection() {
         try {
-            return DriverManager.getConnection(url, user, pass);
-        } catch (Exception e) {
+            return dataSource.getConnection();
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    // Tùy chọn: Đóng pool khi ứng dụng dừng
+    public static void closePool() {
+        if (dataSource != null && !dataSource.isClosed()) {
+            dataSource.close();
         }
     }
 }

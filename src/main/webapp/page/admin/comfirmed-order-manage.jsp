@@ -532,6 +532,7 @@
             "searching": true,
             "ordering": true,
             "info": true,
+            order: [[1, "desc"]],
 
             // ẨN THANH SEARCH MẶC ĐỊNH
             dom: "tr", // t = table, r = info (ẩn search & paginate mặc định)

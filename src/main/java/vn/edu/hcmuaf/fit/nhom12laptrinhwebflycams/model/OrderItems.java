@@ -1,6 +1,8 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model;
 
-public class OrderItems {
+import java.io.Serializable;
+
+public class OrderItems implements Serializable {
     private int id;
     private int productId;
     private int orderId;

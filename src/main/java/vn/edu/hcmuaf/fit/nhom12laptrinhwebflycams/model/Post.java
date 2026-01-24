@@ -1,9 +1,10 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Post {
+public class Post implements Serializable {
     private int id;
     private String title;
     private String content;

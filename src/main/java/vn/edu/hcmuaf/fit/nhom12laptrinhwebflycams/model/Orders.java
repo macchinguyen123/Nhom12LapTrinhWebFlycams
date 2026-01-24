@@ -1,9 +1,10 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class Orders {
+public class Orders implements Serializable {
     private int id;
     private int userId;
     private String shippingCode;

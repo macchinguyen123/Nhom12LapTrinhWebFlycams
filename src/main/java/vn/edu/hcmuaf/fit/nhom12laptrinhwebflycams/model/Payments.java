@@ -1,8 +1,9 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Payments {
+public class Payments implements Serializable {
     private int id;
     private int orderId;
     private boolean status;

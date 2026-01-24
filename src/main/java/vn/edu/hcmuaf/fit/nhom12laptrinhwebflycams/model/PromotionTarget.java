@@ -1,6 +1,8 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model;
 
-public class PromotionTarget {
+import java.io.Serializable;
+
+public class PromotionTarget implements Serializable {
     private int id;
     private int promotionId;
     private String targetType; // "sản phẩm" | "danh mục" | "tất cả"
