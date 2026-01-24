@@ -11,15 +11,14 @@ import java.util.List;
 
 public class PromotionDAO {
 
-
     // ================== GET ALL ==================
     public List<Promotion> getAllPromotions() {
         List<Promotion> list = new ArrayList<>();
         String sql = "SELECT id, name, discountValue, discountType, startDate, endDate FROM promotion ORDER BY startDate DESC";
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Promotion p = new Promotion();
@@ -40,7 +39,7 @@ public class PromotionDAO {
 
     // ================== INSERT ==================
     public void insertPromotion(Promotion p, String scope,
-                                List<String> productIds, List<String> categoryIds) {
+            List<String> productIds, List<String> categoryIds) {
 
         String sqlPromotion = "INSERT INTO promotion (name, discountValue, discountType, startDate, endDate) VALUES (?, ?, ?, ?, ?)";
         String sqlTarget = "INSERT INTO promotion_target (promotion_id, targetType, product_id, category_id) VALUES (?, ?, ?, ?)";
@@ -100,43 +99,41 @@ public class PromotionDAO {
         }
     }
 
+    public List<Promotion> getActivePromotions() {
+        List<Promotion> list = new ArrayList<>();
 
+        String sql = """
+                    SELECT id, name, discountValue, discountType, startDate, endDate
+                    FROM promotion
+                    WHERE NOW() BETWEEN startDate AND endDate
+                    ORDER BY startDate DESC
+                """;
 
-        public List<Promotion> getActivePromotions() {
-            List<Promotion> list = new ArrayList<>();
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
-            String sql = """
-            SELECT id, name, discountValue, discountType, startDate, endDate
-            FROM promotion
-            WHERE NOW() BETWEEN startDate AND endDate
-            ORDER BY startDate DESC
-        """;
-
-            try (Connection conn = DBConnection.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(sql);
-                 ResultSet rs = ps.executeQuery()) {
-
-                while (rs.next()) {
-                    Promotion p = new Promotion();
-                    p.setId(rs.getInt("id"));
-                    p.setName(rs.getString("name"));
-                    p.setDiscountValue(rs.getDouble("discountValue"));
-                    p.setDiscountType(rs.getString("discountType"));
-                    p.setStartDate(rs.getDate("startDate"));
-                    p.setEndDate(rs.getDate("endDate"));
-                    list.add(p);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            while (rs.next()) {
+                Promotion p = new Promotion();
+                p.setId(rs.getInt("id"));
+                p.setName(rs.getString("name"));
+                p.setDiscountValue(rs.getDouble("discountValue"));
+                p.setDiscountType(rs.getString("discountType"));
+                p.setStartDate(rs.getDate("startDate"));
+                p.setEndDate(rs.getDate("endDate"));
+                list.add(p);
             }
 
-            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        return list;
+    }
 
     // ================== UPDATE ==================
     public void updatePromotionWithScope(Promotion p, String scope,
-                                         List<String> productIds, List<String> categoryIds) {
+            List<String> productIds, List<String> categoryIds) {
 
         String sqlUpdate = "UPDATE promotion SET name=?, discountValue=?, discountType=?, startDate=?, endDate=? WHERE id=?";
 
@@ -202,9 +199,10 @@ public class PromotionDAO {
 
     // ================== APPLY PROMOTION ==================
     private void applyPromotionToProducts(Promotion p, String scope,
-                                          List<String> productIds, List<String> categoryIds) {
+            List<String> productIds, List<String> categoryIds) {
 
-        if (p == null) return;
+        if (p == null)
+            return;
 
         try (Connection conn = DBConnection.getConnection()) {
 
@@ -235,7 +233,8 @@ public class PromotionDAO {
                 }
 
                 // Apply promotion
-                String sql = "UPDATE products SET finalPrice = CASE WHEN ? = '%' THEN price * (1 - ? / 100) ELSE GREATEST(price - ?, 0) END WHERE id IN (" + placeholders + ")";
+                String sql = "UPDATE products SET finalPrice = CASE WHEN ? = '%' THEN price * (1 - ? / 100) ELSE GREATEST(price - ?, 0) END WHERE id IN ("
+                        + placeholders + ")";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
                     ps.setString(1, p.getDiscountType());
                     ps.setDouble(2, p.getDiscountValue());
@@ -253,7 +252,8 @@ public class PromotionDAO {
                 }
 
                 // Apply promotion
-                String sql = "UPDATE products SET finalPrice = CASE WHEN ? = '%' THEN price * (1 - ? / 100) ELSE GREATEST(price - ?, 0) END WHERE category_id IN (" + placeholders + ")";
+                String sql = "UPDATE products SET finalPrice = CASE WHEN ? = '%' THEN price * (1 - ? / 100) ELSE GREATEST(price - ?, 0) END WHERE category_id IN ("
+                        + placeholders + ")";
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
                     ps.setString(1, p.getDiscountType());
                     ps.setDouble(2, p.getDiscountValue());
@@ -268,13 +268,14 @@ public class PromotionDAO {
             e.printStackTrace();
         }
     }
+
     // ================== DELETE ==================
     public void deleteById(int promotionId) {
         resetFinalPrice(promotionId);
         try (Connection conn = DBConnection.getConnection()) {
             conn.setAutoCommit(false);
             try (PreparedStatement ps1 = conn.prepareStatement("DELETE FROM promotion_target WHERE promotion_id=?");
-                 PreparedStatement ps2 = conn.prepareStatement("DELETE FROM promotion WHERE id=?")) {
+                    PreparedStatement ps2 = conn.prepareStatement("DELETE FROM promotion WHERE id=?")) {
                 ps1.setInt(1, promotionId);
                 ps1.executeUpdate();
                 ps2.setInt(1, promotionId);
@@ -289,24 +290,24 @@ public class PromotionDAO {
     // ================== RESET GIÁ ==================
     private void resetFinalPrice(int promotionId) {
         String sql = """
-            UPDATE products
-            SET finalPrice = price
-            WHERE id IN (
-                SELECT product_id
-                FROM promotion_target
-                WHERE promotion_id = ?
-                  AND product_id IS NOT NULL
-            )
-            OR category_id IN (
-                SELECT category_id
-                FROM promotion_target
-                WHERE promotion_id = ?
-                  AND category_id IS NOT NULL
-            )
-        """;
+                    UPDATE products
+                    SET finalPrice = price
+                    WHERE id IN (
+                        SELECT product_id
+                        FROM promotion_target
+                        WHERE promotion_id = ?
+                          AND product_id IS NOT NULL
+                    )
+                    OR category_id IN (
+                        SELECT category_id
+                        FROM promotion_target
+                        WHERE promotion_id = ?
+                          AND category_id IS NOT NULL
+                    )
+                """;
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, promotionId);
             ps.setInt(2, promotionId);
             ps.executeUpdate();
@@ -320,41 +321,47 @@ public class PromotionDAO {
         String sql = "SELECT DISTINCT targetType FROM promotion_target WHERE promotion_id = ?";
         List<String> types = new ArrayList<>();
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, promotionId);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) types.add(rs.getString("targetType"));
+            while (rs.next())
+                types.add(rs.getString("targetType"));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if (types.contains("tất cả")) return "Toàn bộ sản phẩm";
-        if (types.size() >= 2) return "Sản phẩm + Danh mục";
-        if (types.contains("sản phẩm")) return "Sản phẩm";
-        if (types.contains("danh mục")) return "Danh mục";
+        if (types.contains("tất cả"))
+            return "Toàn bộ sản phẩm";
+        if (types.size() >= 2)
+            return "Sản phẩm + Danh mục";
+        if (types.contains("sản phẩm"))
+            return "Sản phẩm";
+        if (types.contains("danh mục"))
+            return "Danh mục";
         return "—";
     }
+
     // ================== GET ALL PRODUCTS ==================
     public List<Product> getAllProducts() {
         List<Product> list = new ArrayList<>();
 
         String sql = """
-        SELECT 
-            p.id,
-            p.productName,
-            p.price,
-            p.finalPrice,
-            i.imageUrl AS mainImage
-        FROM products p
-        LEFT JOIN images i 
-            ON p.id = i.product_id 
-            AND i.imageType = 'Chính'
-        ORDER BY p.productName ASC
-    """;
+                    SELECT
+                        p.id,
+                        p.productName,
+                        p.price,
+                        p.finalPrice,
+                        i.imageUrl AS mainImage
+                    FROM products p
+                    LEFT JOIN images i
+                        ON p.id = i.product_id
+                        AND i.imageType = 'Chính'
+                    ORDER BY p.productName ASC
+                """;
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Product product = new Product();
@@ -383,7 +390,7 @@ public class PromotionDAO {
         String sql = "SELECT product_id FROM promotion_target WHERE promotion_id = ? AND product_id IS NOT NULL";
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, promotionId);
             ResultSet rs = ps.executeQuery();
@@ -397,7 +404,7 @@ public class PromotionDAO {
         }
         return productIds;
     }
-// Thêm các phương thức này vào PromotionDAO.java
+    // Thêm các phương thức này vào PromotionDAO.java
 
     // ================== GET ALL CATEGORIES ==================
     public List<Categories> getAllCategories() {
@@ -405,8 +412,8 @@ public class PromotionDAO {
         String sql = "SELECT id, categoryName, image, status FROM categories ORDER BY categoryName ASC";
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Categories category = new Categories();
@@ -429,7 +436,7 @@ public class PromotionDAO {
         String sql = "SELECT category_id FROM promotion_target WHERE promotion_id = ? AND category_id IS NOT NULL";
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, promotionId);
             ResultSet rs = ps.executeQuery();
@@ -443,8 +450,5 @@ public class PromotionDAO {
         }
         return categoryIds;
     }
-
-
-
 
 }

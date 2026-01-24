@@ -516,6 +516,7 @@
             lengthChange: false,
             searching: true,
             pageLength: 10,
+            order: [[0, "desc"]],
             language: {
                 zeroRecords: "Không tìm thấy kết quả",
                 paginate: {previous: "Trước", next: "Sau"}

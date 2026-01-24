@@ -1,8 +1,9 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Banner {
+public class Banner implements Serializable {
     private int id;
     private String type;         // "image" hoặc "video"
     private String imageUrl;

@@ -1,6 +1,8 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model;
 
-public class Address {
+import java.io.Serializable;
+
+public class Address implements Serializable {
     private int id;
     private int userId;
     private String fullName;

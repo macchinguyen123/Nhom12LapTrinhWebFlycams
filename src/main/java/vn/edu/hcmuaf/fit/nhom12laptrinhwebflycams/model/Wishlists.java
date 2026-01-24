@@ -1,6 +1,8 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.model;
 
-public class Wishlists {
+import java.io.Serializable;
+
+public class Wishlists implements Serializable {
     private int id;
     private int userId;
     private int productId;
