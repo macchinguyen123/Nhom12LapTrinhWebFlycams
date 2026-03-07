@@ -17,7 +17,7 @@
 </head>
 
 <body>
-<jsp:include page="/page/header.jsp"/>
+<jsp:include page="/page/header-common.jsp"/>
 
 <header class="khung-tieu-de">
     <h1 id="ten-chuong-trinh" style="color: #dc3545;">KHUYẾN MÃI FLYCAM THÁNG NÀY</h1>

@@ -169,9 +169,11 @@
                         <fmt:formatDate value="${o.createdAt}" pattern="dd/MM/yyyy HH:mm"/>
                     </td>
 
+                    <fmt:setLocale value="vi_VN"/>
                     <td>
                         <fmt:formatNumber value="${o.totalPrice}" type="currency"/>
                     </td>
+
 
                     <td>
                                             <span class="badge ${o.statusClass}">

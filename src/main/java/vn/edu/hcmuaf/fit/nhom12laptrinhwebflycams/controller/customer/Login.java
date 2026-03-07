@@ -43,10 +43,6 @@ public class Login extends HttpServlet {
         System.out.println("LOGIN SESSION ID = " + session.getId());
 
         // chuyển hướng theo role
-        if (user.getRoleId() == 1) {
-            response.sendRedirect(request.getContextPath() + "/admin/dashboard");
-        } else {
-            response.sendRedirect(request.getContextPath() + "/home");
-        }
+        response.sendRedirect(request.getContextPath() + "/home");
     }
 }

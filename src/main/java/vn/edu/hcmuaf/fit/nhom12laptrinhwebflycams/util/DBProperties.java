@@ -1,6 +1,5 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.util;
 
-
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Properties;
@@ -26,7 +25,4 @@ public class DBProperties {
     public static final String initialPoolSize = properties.getProperty("db.initialPoolSize");
     public static final String maxConnections = properties.getProperty("db.maxConnections");
 
-
-
 }
-

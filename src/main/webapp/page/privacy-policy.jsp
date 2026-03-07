@@ -125,7 +125,7 @@
     </style>
 </head>
 <body>
-<jsp:include page="/page/header.jsp"/>
+<jsp:include page="/page/header-common.jsp"/>
 
 <!-- Hero Section -->
 <div class="page-header">

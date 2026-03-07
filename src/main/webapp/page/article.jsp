@@ -19,7 +19,7 @@
 
 </head>
 <body>
-<jsp:include page="/page/header.jsp"/>
+<jsp:include page="/page/header-common.jsp"/>
 
 <article class="article-container">
     <header class="article-header">

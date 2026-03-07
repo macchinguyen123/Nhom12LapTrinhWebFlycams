@@ -55,11 +55,11 @@
         <div class="logout-modal-content">
             <p>Bạn có chắc muốn đăng xuất không?</p>
             <div class="logout-actions">
-                <a href="${pageContext.request.contextPath}/Login">
+                <a href="${pageContext.request.contextPath}/home">
                     <button id="confirmLogout" class="confirm">Có
                     </button>
                 </a>
-                <a href="${pageContext.request.contextPath}/Logout">
+                <a href="${pageContext.request.contextPath}/home">
                     <button id="confirmLogout" class="confirm">Có</button>
                 </a>
             </div>
