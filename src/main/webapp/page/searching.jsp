@@ -27,7 +27,7 @@
 
 <body>
 
-<jsp:include page="/page/header.jsp"/>
+<jsp:include page="/page/header-common.jsp"/>
 
 <!-- Sản phẩm nổi bật -->
 <section class="phan-san-pham">

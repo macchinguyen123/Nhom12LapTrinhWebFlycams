@@ -95,7 +95,7 @@
         <div class="logout-modal-content">
             <p>Bạn có chắc muốn đăng xuất không?</p>
             <div class="logout-actions">
-                <a href="${pageContext.request.contextPath}/Logout">
+                <a href="${pageContext.request.contextPath}/home">
                     <button id="confirmLogout" class="confirm">Có</button>
                 </a>
                 <button id="cancelLogout" class="cancel">Không</button>

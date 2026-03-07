@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<jsp:include page="/page/header.jsp"/>
+<jsp:include page="/page/header-common.jsp"/>
 <section class="warranty">
     <div class="container">
         <h1>I. ĐIỀU KIỆN NHẬN BẢO HÀNH</h1>

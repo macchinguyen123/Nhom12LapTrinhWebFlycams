@@ -23,7 +23,7 @@
 
 <body>
 
-<jsp:include page="/page/header.jsp"/>
+<jsp:include page="/page/header-common.jsp"/>
 
 <!-- Khung chính -->
 <div class="main-wrapper">

@@ -22,7 +22,7 @@
 
 <body>
 
-<jsp:include page="/page/header.jsp"/>
+<jsp:include page="/page/header-common.jsp"/>
 
 
 <!-- ==== DANH MỤC + SLIDER ==== -->
@@ -331,7 +331,7 @@
     </div>
 </section>
 
-<a href="product-details.jsp">
+<a href="http://localhost:8080/Nhom12LapTrinhWebFlycams/page/payment-policy.jsp">
     <div class="banner">
         <img src="${pageContext.request.contextPath}/image/banner/hinh4.png" alt="Banner ưu đãi">
     </div>

@@ -22,7 +22,7 @@
 <body>
 
 <!-- Include header -->
-<jsp:include page="/page/header.jsp"/>
+<jsp:include page="/page/header-common.jsp"/>
 
 <div id="lich-su-mua-hang">
     <h2>Đơn hàng đã mua gần đây</h2>

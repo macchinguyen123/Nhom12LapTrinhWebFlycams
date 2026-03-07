@@ -20,7 +20,7 @@
 </head>
 
 <body>
-<jsp:include page="/page/header.jsp"/>
+<jsp:include page="/page/header-common.jsp"/>
 
 <section class="phan-san-pham">
     <h2 class="tieu-de-muc">${category.categoryName}</h2>
