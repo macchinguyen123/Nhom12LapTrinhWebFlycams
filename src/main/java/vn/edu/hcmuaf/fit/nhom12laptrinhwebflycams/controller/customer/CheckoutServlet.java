@@ -38,18 +38,30 @@ public class CheckoutServlet extends HttpServlet {
         String phone = req.getParameter("phone");
         String addressLine = req.getParameter("address");
         String province = req.getParameter("province");
+        String district = req.getParameter("district");
         String ward = req.getParameter("ward");
         String note = req.getParameter("note");
 
+        String districtId = req.getParameter("districtId");
+        String wardCode = req.getParameter("wardCode");
+
         try {
             AddressService addressService = new AddressService();
+
+            String combinedDistrictWard = ward;
+            if (district != null && !district.isEmpty()) {
+                combinedDistrictWard = district + ", " + ward;
+            }
+
             int addressId = addressService.processCheckoutAddress(user.getId(), savedAddressId, fullName, phone,
-                    addressLine, province, ward);
+                    addressLine, province, combinedDistrictWard);
 
             // 4. LƯU VÀO SESSION (CHO PAYMENT)
             session.setAttribute("addressId", addressId);
             session.setAttribute("phone", phone);
             session.setAttribute("note", note);
+            session.setAttribute("districtId", districtId);
+            session.setAttribute("wardCode", wardCode);
 
             // 5. CHUYỂN SANG TRANG THANH TOÁN
             resp.sendRedirect(req.getContextPath() + "/page/payment.jsp");
