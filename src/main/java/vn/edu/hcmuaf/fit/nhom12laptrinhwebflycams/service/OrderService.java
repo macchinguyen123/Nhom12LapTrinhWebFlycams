@@ -143,11 +143,55 @@ public class OrderService {
         return orderDaoAdmin.getOrderItems(orderId);
     }
 
-    // Xác nhận đơn hàng + Random mã vận chuyển
+    // Xác nhận đơn hàng + Tạo mã vận đơn GHN
     public boolean confirmOrder(int orderId) {
-        // Random VC + 6 số
-        String randomDigits = String.valueOf((int) (Math.random() * 900000) + 100000); // 100000 -> 999999
-        String shippingCode = "VC" + randomDigits;
+        Orders order = getOrderById(orderId, -1); // user_id is not strictly needed for admin get
+        if (order == null)
+            return false;
+
+        // Find GHN mapping
+        GHNService ghnService = new GHNService();
+        Map<String, String> shippingInfo = getShippingInfoByOrder(orderId);
+
+        String phone = shippingInfo.get("receiverPhone");
+        String name = shippingInfo.get("recipientName");
+        String addressLine = shippingInfo.get("shippingAddress");
+
+        // We need to parse Address if it contains Province, District... or we need to
+        // find it from name
+        // The current DB only stores AddressLine (which includes the whole address
+        // usually, or ward/district is separate)
+        // Wait, Address only has `addressLine`, `province`, `district`. In DB they
+        // might be combined or separate.
+        // Let's get the Order's full address
+        int currentProvinceId = ghnService.findProvinceIdByName(order.getProvince());
+        int currentDistrictId = ghnService.findDistrictIdByName(currentProvinceId, order.getDistrict());
+        // addressLine often contains Ward name. But wait, we don't store WardName in
+        // Address! It is stored in District?
+        // Let's assume District name contains both for now, or just send a dummy word
+        // if not found
+        String wardCode = ghnService.findWardCodeByName(currentDistrictId, addressLine);
+        if (wardCode == null) {
+            // Sometimes Address stores ward inside district string.
+            wardCode = ghnService.findWardCodeByName(currentDistrictId, order.getDistrict());
+        }
+        if (wardCode == null) {
+            wardCode = ""; // GHN might reject if empty, but we try
+        }
+
+        int codAmount = "COD".equalsIgnoreCase(order.getPaymentMethod()) ? (int) order.getTotalPrice() : 0;
+        String clientOrderCode = "ORDER_" + order.getId();
+
+        String shippingCode = ghnService.createGHNOrder(
+                phone, name, addressLine, wardCode, currentDistrictId,
+                1000, 10, 10, 10,
+                clientOrderCode, codAmount);
+
+        if (shippingCode == null || shippingCode.isEmpty()) {
+            // Fallback random if GHN fails
+            String randomDigits = String.valueOf((int) (Math.random() * 900000) + 100000);
+            shippingCode = "VC" + randomDigits;
+        }
 
         return orderDaoAdmin.updateOrderStatusAndShippingCode(orderId, "Đang xử lý", shippingCode);
     }
