@@ -1,4 +1,5 @@
 package vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.controller.customer;
+
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -14,6 +15,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 @WebServlet(name = "PaymentServlet", value = "/PaymentServlet")
 public class PaymentServlet extends HttpServlet {
     @Override
@@ -28,10 +30,11 @@ public class PaymentServlet extends HttpServlet {
             return;
         }
         Integer addressId = (Integer) session.getAttribute("addressId");
-        String phone    = (String) session.getAttribute("phone");
-        String note     = (String) session.getAttribute("note");
+        String phone = (String) session.getAttribute("phone");
+        String note = (String) session.getAttribute("note");
         String paymentMethod = req.getParameter("paymentMethod");
-        if (paymentMethod == null) paymentMethod = "COD";
+        if (paymentMethod == null)
+            paymentMethod = "COD";
         if (items == null || items.isEmpty()) {
             resp.sendRedirect(req.getContextPath() + "/shopping-cart.jsp");
             return;
@@ -41,33 +44,46 @@ public class PaymentServlet extends HttpServlet {
             for (OrderItems item : items) {
                 total += (long) item.getPrice() * item.getQuantity();
             }
+
+            // Tính phí vận chuyển từ GHN
+            String districtIdStr = (String) session.getAttribute("districtId");
+            String wardCode = (String) session.getAttribute("wardCode");
+
+            long shippingFee = 30000; // default
+            if (districtIdStr != null && !districtIdStr.isEmpty() && wardCode != null && !wardCode.isEmpty()) {
+                vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.GHNService ghnService = new vn.edu.hcmuaf.fit.nhom12laptrinhwebflycams.service.GHNService();
+                shippingFee = ghnService.calculateShippingFee(Integer.parseInt(districtIdStr), wardCode, 1000); // 1kg
+            }
+            total += shippingFee;
+
             if ("VNPAY".equals(paymentMethod)) {
-                String vnp_TxnRef   = String.valueOf(System.currentTimeMillis());
-                String vnp_IpAddr   = getClientIp(req);
+                String vnp_TxnRef = String.valueOf(System.currentTimeMillis());
+                String vnp_IpAddr = getClientIp(req);
                 Map<String, String> vnp_Params = new TreeMap<>();
-                vnp_Params.put("vnp_Version",   "2.1.0");
-                vnp_Params.put("vnp_Command",    "pay");
-                vnp_Params.put("vnp_TmnCode",    VnpayConfig.vnp_TmnCode);
-                vnp_Params.put("vnp_Amount",     String.valueOf(total * 100));
-                vnp_Params.put("vnp_CurrCode",   "VND");
-                vnp_Params.put("vnp_TxnRef",     vnp_TxnRef);
-                vnp_Params.put("vnp_OrderInfo",  "Thanh toan don hang " + vnp_TxnRef);
-                vnp_Params.put("vnp_OrderType",  "other");
-                vnp_Params.put("vnp_Locale",     "vn");
-                vnp_Params.put("vnp_ReturnUrl",  VnpayConfig.vnp_ReturnUrl);
-                vnp_Params.put("vnp_IpAddr",     vnp_IpAddr);
+                vnp_Params.put("vnp_Version", "2.1.0");
+                vnp_Params.put("vnp_Command", "pay");
+                vnp_Params.put("vnp_TmnCode", VnpayConfig.vnp_TmnCode);
+                vnp_Params.put("vnp_Amount", String.valueOf(total * 100));
+                vnp_Params.put("vnp_CurrCode", "VND");
+                vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
+                vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang " + vnp_TxnRef);
+                vnp_Params.put("vnp_OrderType", "other");
+                vnp_Params.put("vnp_Locale", "vn");
+                vnp_Params.put("vnp_ReturnUrl", VnpayConfig.vnp_ReturnUrl);
+                vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
                 Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
                 SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmmss");
                 vnp_Params.put("vnp_CreateDate", fmt.format(cld.getTime()));
                 cld.add(Calendar.MINUTE, 15);
                 vnp_Params.put("vnp_ExpireDate", fmt.format(cld.getTime()));
-                StringBuilder hashData    = new StringBuilder();
+                StringBuilder hashData = new StringBuilder();
                 StringBuilder queryString = new StringBuilder();
                 boolean first = true;
                 for (Map.Entry<String, String> entry : vnp_Params.entrySet()) {
-                    String key   = entry.getKey();
+                    String key = entry.getKey();
                     String value = entry.getValue();
-                    if (value == null || value.isEmpty()) continue;
+                    if (value == null || value.isEmpty())
+                        continue;
                     if (!first) {
                         hashData.append('&');
                         queryString.append('&');
@@ -80,8 +96,7 @@ public class PaymentServlet extends HttpServlet {
                 }
                 String vnp_SecureHash = VnpayUtil.hmacSHA512(
                         VnpayConfig.vnp_HashSecret,
-                        hashData.toString()
-                );
+                        hashData.toString());
                 String paymentUrl = VnpayConfig.vnp_PayUrl
                         + "?" + queryString
                         + "&vnp_SecureHash=" + vnp_SecureHash;
@@ -91,7 +106,8 @@ public class PaymentServlet extends HttpServlet {
             Carts cart = (Carts) session.getAttribute("cart");
             OrderService orderService = new OrderService();
             orderService.placeOrder(user, addressId, phone, note, paymentMethod, items, cart);
-            if (cart != null) session.setAttribute("cart", cart);
+            if (cart != null)
+                session.setAttribute("cart", cart);
             session.removeAttribute("BUY_NOW_ITEM");
             session.removeAttribute("note");
             resp.sendRedirect(req.getContextPath() + "/personal?tab=orders");
@@ -100,6 +116,7 @@ public class PaymentServlet extends HttpServlet {
             throw new ServletException("Payment failed", e);
         }
     }
+
     private String getClientIp(HttpServletRequest req) {
         String ip = req.getHeader("X-Forwarded-For");
         if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
